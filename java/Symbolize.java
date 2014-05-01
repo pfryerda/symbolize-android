@@ -17,11 +17,13 @@ public class Symbolize {
 		soln.addLast(new Line(new Posn(50, 50), new Posn(90, 90)));
 		solns.addLast(soln);
 
-		Level level = new Level(puzzle, solns, 1, 0);
+		Level level = new Level(1, 1, puzzle, solns, 2, 0);
 
-		// Load level 1
+		// Load level 1-1
 		game.setLevel(level);
 		game.drawLine(new Line(new Posn(50, 50), new Posn(90, 90), Owner.User));	// Draw line
+		game.drawLine(new Line(new Posn(60, 50), new Posn(90, 90), Owner.User));	// Draw line
+		game.undo();
 		System.out.println(game.checkSolution());									// Check solution
 	}
 }

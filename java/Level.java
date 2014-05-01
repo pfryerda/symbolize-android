@@ -2,27 +2,35 @@ import java.util.LinkedList;
 
 public class Level {
 	// Fields
-	private final LinkedList<Line> graph;
+	private final int levelNum;
+	private final int worldNum;
+	private final LinkedList<Line> board;
 	private final LinkedList<LinkedList<Line>> solutions;
 	private final int drawRestirction;
 	private final int eraseRestirction;
 
 	// Constructors
 	public Level() {
-		graph = new LinkedList<Line>();
+		levelNum = 0;
+		worldNum = 0;
+		board = new LinkedList<Line>();
 		solutions = new LinkedList<LinkedList<Line>>();
 		drawRestirction = 0;
 		eraseRestirction = 0;
 	}
-	public Level(LinkedList<Line> g, LinkedList<LinkedList<Line>> s, int dr, int er) {
-		graph = g;
+	public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er) {
+		levelNum = ln;
+		worldNum = wn;
+		board = b;
 		solutions = s;
 		drawRestirction = dr;
 		eraseRestirction = er;
 	}
 
 	// Methods
-	public LinkedList<Line> getGraph() { return graph; }
+	public int getLevelNum()		   { return levelNum; }
+	public int getWorldNum()		   { return worldNum; }
+	public LinkedList<Line> getBoard() { return board; }
 	public int getDrawRestirction()    { return drawRestirction; }
 	public int getEraseRestirction()   { return eraseRestirction; }
 	public boolean checkCorrectness(LinkedList<Line> g) {

@@ -1,6 +1,6 @@
 public class Posn {
 	// Fields
-	private int first,second;
+	private int first, second;
 
 	// Constructors
 	public Posn() {
@@ -17,7 +17,7 @@ public class Posn {
 	public int y() { return second; }
 	public void setX(int x) { first = x;  }
 	public void setY(int y) { second = y; }
-	public boolean lt(Posn p) {						// Less than
+	public boolean lt(Posn p) {						// Less than lexigraphical
 		if (first != p.x()) return first < p.x();
 		else		 		return second < p.y();
 	}

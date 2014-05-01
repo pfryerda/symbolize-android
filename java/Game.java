@@ -13,7 +13,7 @@ public class Game {
 	// Methods
 	public void setLevel(Level l) {
 		currLevel = l;
-		player.setGraph(l.getGraph());
+		player.setGraph(l.getBoard());
 	}
 	public boolean checkSolution() {
 		return currLevel.checkCorrectness(player.getGraph());

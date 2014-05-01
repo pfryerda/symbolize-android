@@ -1,5 +1,5 @@
 public class Line {
-	// Constant
+	// Constants
 	public static final int SCALING = 100;
 	public static final int DRAWINGWIGGLEROOM = 14;
 
@@ -39,7 +39,7 @@ public class Line {
 	public Posn getP2()      { return p2; }
 	public Owner getOwner()  { return owner; }
 	public int score(Line l) { return p1.distSqr(l.getP1()) + p2.distSqr(l.getP2()); }
-	public Line clone() { return new Line(getP1(), getP2(), getOwner()); }
+	public Line clone()      { return new Line(getP1(), getP2(), getOwner()); }
 	public void rotateRight() {
 		int x0 = p1.x();
 		int y0 = p1.y();
