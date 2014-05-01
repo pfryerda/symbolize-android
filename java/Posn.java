@@ -13,8 +13,10 @@ public class Posn {
 	}
 
 	// Methods
-	public int x() { return first; }
-	public int y() { return second;}
+	public int x() { return first;  }
+	public int y() { return second; }
+	public void setX(int x) { first = x;  }
+	public void setY(int y) { second = y; }
 	public boolean lt(Posn p) {						// Less than
 		if (first != p.x()) return first < p.x();
 		else		 		return second < p.y();

@@ -2,10 +2,10 @@ import java.util.LinkedList;
 
 public class Level {
 	// Fields
-	private LinkedList<Line> graph;
-	private LinkedList<LinkedList<Line>> solutions;
-	private int drawRestirction;
-	private int eraseRestirction;
+	private final LinkedList<Line> graph;
+	private final LinkedList<LinkedList<Line>> solutions;
+	private final int drawRestirction;
+	private final int eraseRestirction;
 
 	// Constructors
 	public Level() {
@@ -25,7 +25,7 @@ public class Level {
 	public LinkedList<Line> getGraph() { return graph; }
 	public int getDrawRestirction()    { return drawRestirction; }
 	public int getEraseRestirction()   { return eraseRestirction; }
-	public boolean checkSolution(LinkedList<Line> g) {
+	public boolean checkCorrectness(LinkedList<Line> g) {
 		for(LinkedList<Line> s : solutions) {
 			if (s.size() == g.size()) {
 				LinkedList<Line> soln = (LinkedList<Line>) s.clone();
