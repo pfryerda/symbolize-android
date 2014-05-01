@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class Line {
 	// Constants
 	public static final int SCALING = 100;
@@ -40,6 +42,15 @@ public class Line {
 	public Owner getOwner()  { return owner; }
 	public int score(Line l) { return p1.distSqr(l.getP1()) + p2.distSqr(l.getP2()); }
 	public Line clone()      { return new Line(getP1(), getP2(), getOwner()); }
+	public boolean intersect(Posn p) {
+		int x0 = p.x();
+		int y0 = p.y();
+		int x1 = getP1().x();
+		int y1 = getP1().y();
+		int x2 = getP2().x();
+		int y2 = getP2().y();
+		return ((y0-y1)*(x2-x2) == (x0-x1)*(y2-y1)) && (Math.min(x1, x2) <= x0) && (x0 <= Math.max(x1, x2)) && (Math.min(y1, y2) <= y0) && (y0 <= Math.max(y1, y2));
+	}
 	public void rotateRight() {
 		int x0 = p1.x();
 		int y0 = p1.y();

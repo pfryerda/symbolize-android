@@ -8,6 +8,10 @@ public class Level {
 	private final LinkedList<LinkedList<Line>> solutions;
 	private final int drawRestirction;
 	private final int eraseRestirction;
+	private final boolean rotateEnabled;
+	private final boolean flipEnabled;
+	private final boolean colourEnabled;
+	private LinkedList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
 
 	// Constructors
 	public Level() {
@@ -17,14 +21,22 @@ public class Level {
 		solutions = new LinkedList<LinkedList<Line>>();
 		drawRestirction = 0;
 		eraseRestirction = 0;
+		rotateEnabled = true;
+		flipEnabled = true;
+		colourEnabled = false;
+		shiftGraphs = null;
 	}
-	public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er) {
+	public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er, boolean r, boolean f, boolean c, LinkedList<LinkedList<Line>> sg) {
 		levelNum = ln;
 		worldNum = wn;
 		board = b;
 		solutions = s;
 		drawRestirction = dr;
 		eraseRestirction = er;
+		rotateEnabled = r;
+		flipEnabled = f;
+		colourEnabled = c;
+		shiftGraphs = sg;
 	}
 
 	// Methods
@@ -33,6 +45,11 @@ public class Level {
 	public LinkedList<Line> getBoard() { return board; }
 	public int getDrawRestirction()    { return drawRestirction; }
 	public int getEraseRestirction()   { return eraseRestirction; }
+	public boolean canRotate()		   { return rotateEnabled; }
+	public boolean canFlip()		   { return flipEnabled; }
+	public boolean canChangeColur()    { return colourEnabled; }
+	public boolean shiftEnabled()	   { return (shiftGraphs == null); }
+	public LinkedList<LinkedList<Line>> getShiftGraphs() { return shiftGraphs; }
 	public boolean checkCorrectness(LinkedList<Line> g) {
 		for(LinkedList<Line> s : solutions) {
 			if (s.size() == g.size()) {

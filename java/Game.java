@@ -37,23 +37,36 @@ public class Game {
 		}
 	}
 	public void undo() {
-		player.goBack(); // player.goBack(canvas)
+		if (player.getPastState() == null) {
+			// Displayer error box
+		} else {
+			player = player.getPastState();
+			// redraw canvas
+		}	
 	}
 	public void rotateRight() {
-		// Canvas rotate 90 degree animation
-		player.rotateGraphR();
+		if (currLevel.canRotate()) {
+			// Canvas rotate 90 degree animation
+			player.rotateGraphR();
+		}
 	}
 	public void rotateLeft() {
-		// Canvas rotate -90 degree animation
-		player.rotateGraphL();
+		if (currLevel.canRotate()) {
+			// Canvas rotate -90 degree animation
+			player.rotateGraphL();
+		}
 	}
 	public void flipHorizontally() {
-		// Canvas scale negative animation
-		player.flipGraphH();
+		if (currLevel.canFlip()) {
+			// Canvas scale negative animation
+			player.flipGraphH();
+		}
 	}
 	public void flipVertically() {
-		// Canvas scale negative animation
-		player.flipGraphV();
+		if (currLevel.canFlip()) {
+			// Canvas scale negative animation
+			player.flipGraphV();
+		}
 	}
 
 }
