@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public class Level {
 	// Fields
@@ -11,21 +12,10 @@ public class Level {
 	private final boolean rotateEnabled;
 	private final boolean flipEnabled;
 	private final boolean colourEnabled;
-	private LinkedList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
+	private final LinkedList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
+	private Iterator<LinkedList<Line>> shiftIterator;
 
 	// Constructors
-	public Level() {
-		levelNum = 0;
-		worldNum = 0;
-		board = new LinkedList<Line>();
-		solutions = new LinkedList<LinkedList<Line>>();
-		drawRestirction = 0;
-		eraseRestirction = 0;
-		rotateEnabled = true;
-		flipEnabled = true;
-		colourEnabled = false;
-		shiftGraphs = null;
-	}
 	public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er, boolean r, boolean f, boolean c, LinkedList<LinkedList<Line>> sg) {
 		levelNum = ln;
 		worldNum = wn;
@@ -37,23 +27,37 @@ public class Level {
 		flipEnabled = f;
 		colourEnabled = c;
 		shiftGraphs = sg;
+		if (shiftGraphs == null) shiftIterator = null;
+		else {
+			shiftIterator = sg.iterator();
+			shiftIterator.next();
+		}
 	}
 
 	// Methods
-	public int getLevelNum()		   { return levelNum; }
-	public int getWorldNum()		   { return worldNum; }
-	public LinkedList<Line> getBoard() { return board; }
-	public int getDrawRestirction()    { return drawRestirction; }
-	public int getEraseRestirction()   { return eraseRestirction; }
-	public boolean canRotate()		   { return rotateEnabled; }
-	public boolean canFlip()		   { return flipEnabled; }
-	public boolean canChangeColur()    { return colourEnabled; }
-	public boolean shiftEnabled()	   { return (shiftGraphs == null); }
-	public LinkedList<LinkedList<Line>> getShiftGraphs() { return shiftGraphs; }
+	public int getLevelNum()						 		   { return levelNum; }
+	public int getWorldNum()		   						   { return worldNum; }
+	public LinkedList<Line> getBoard() 						   { return board; }
+	public int getDrawRestirction()    						   { return drawRestirction; }
+	public int getEraseRestirction()   				 		   { return eraseRestirction; }
+	public boolean canRotate()		 			    		   { return rotateEnabled; }
+	public boolean canFlip()		  				 		   { return flipEnabled; }
+	public boolean canChangeColur()   						   { return colourEnabled; }
+	public boolean canShift()		   						   { return (shiftGraphs == null); }
+	public LinkedList<LinkedList<Line>> getShiftGraphs()	   { return shiftGraphs; }
+	public LinkedList<Line> incIt() { 
+		if (shiftIterator.hasNext()) return shiftIterator.next(); 
+		else {
+			shiftIterator = shiftGraphs.iterator();
+			return shiftIterator.next();
+		}
+	}
 	public boolean checkCorrectness(LinkedList<Line> g) {
 		for(LinkedList<Line> s : solutions) {
 			if (s.size() == g.size()) {
+				@SuppressWarnings("unchecked")
 				LinkedList<Line> soln = (LinkedList<Line>) s.clone();
+				@SuppressWarnings("unchecked")
 				LinkedList<Line> guess = (LinkedList<Line>) g.clone();
 				while(!soln.isEmpty()) {
 					Line match = null;

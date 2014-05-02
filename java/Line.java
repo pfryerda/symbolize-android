@@ -4,17 +4,14 @@ public class Line {
 	// Constants
 	public static final int SCALING = 100;
 	public static final int DRAWINGWIGGLEROOM = 14;
+	public static final int ERASERWIGGLEROOM = 1;
 
 	// Fields
 	private Posn p1, p2;
+	private Color color;
 	private final Owner owner;
 
 	// Constructors
-	public Line() {
-		p1 = new Posn();
-		p2 = new Posn();
-		owner = Owner.App;
-	}
 	public Line(Posn pt1, Posn pt2) {
 		if (pt1.lt(pt2)) {
 			p1 = pt1;
@@ -23,6 +20,18 @@ public class Line {
 			p1 = pt2;
 			p2 = pt1;
 		}
+		color = Color.BLACK;
+		owner = Owner.App;
+	}
+	public Line(Posn pt1, Posn pt2, Color hue) {
+		if (pt1.lt(pt2)) {
+			p1 = pt1;
+			p2 = pt2;
+		} else {
+			p1 = pt2;
+			p2 = pt1;
+		}
+		color = hue;
 		owner = Owner.App;
 	}
 	public Line(Posn pt1, Posn pt2, Owner creator) {
@@ -33,15 +42,27 @@ public class Line {
 			p1 = pt2;
 			p2 = pt1;
 		}
+		color = Color.BLACK;
+		owner = creator;
+	}
+	public Line(Posn pt1, Posn pt2, Color hue, Owner creator) {
+		if (pt1.lt(pt2)) {
+			p1 = pt1;
+			p2 = pt2;
+		} else {
+			p1 = pt2;
+			p2 = pt1;
+		}
+		color = hue;
 		owner = creator;
 	}
 
 	// Methods
-	public Posn getP1()      { return p1; }
-	public Posn getP2()      { return p2; }
-	public Owner getOwner()  { return owner; }
-	public int score(Line l) { return p1.distSqr(l.getP1()) + p2.distSqr(l.getP2()); }
-	public Line clone()      { return new Line(getP1(), getP2(), getOwner()); }
+	public Posn getP1()       { return p1; }
+	public Posn getP2()       { return p2; }
+	public Color getColor() { return color; }
+	public Owner getOwner()   { return owner; }
+	public Line clone()       { return new Line(p1, p2, color, owner); }
 	public boolean intersect(Posn p) {
 		int x0 = p.x();
 		int y0 = p.y();
@@ -49,7 +70,8 @@ public class Line {
 		int y1 = getP1().y();
 		int x2 = getP2().x();
 		int y2 = getP2().y();
-		return ((y0-y1)*(x2-x2) == (x0-x1)*(y2-y1)) && (Math.min(x1, x2) <= x0) && (x0 <= Math.max(x1, x2)) && (Math.min(y1, y2) <= y0) && (y0 <= Math.max(y1, y2));
+		return ((y0-y1)*(x2-x2) <= (x0-x1)*(y2-y1) + ERASERWIGGLEROOM) && ((x0-x1)*(y2-y1) - ERASERWIGGLEROOM <= (y0-y1)*(x2-x2)) &&
+			(Math.min(x1, x2) <= x0) && (x0 <= Math.max(x1, x2)) && (Math.min(y1, y2) <= y0) && (y0 <= Math.max(y1, y2));
 	}
 	public void rotateRight() {
 		int x0 = p1.x();
@@ -87,6 +109,7 @@ public class Line {
 		y0 = p2.y();
 		p2.setY(SCALING - y0);
 	}
+	public int score(Line l) { return Math.min(p1.distSqr(l.getP1()) + p2.distSqr(l.getP2()), p2.distSqr(l.getP1()) + p1.distSqr(l.getP2())); }
 	public boolean eq(Line soln) {		// Approximatly Equals
 		return (
 			(((p1.x() - DRAWINGWIGGLEROOM) <= soln.getP1().x()) && (soln.getP1().x() <= (p1.x() + DRAWINGWIGGLEROOM))  &&
@@ -96,7 +119,7 @@ public class Line {
 			(((p2.x() - DRAWINGWIGGLEROOM) <= soln.getP1().x()) && (soln.getP1().x() <= (p2.x() + DRAWINGWIGGLEROOM))  &&
 			 ((p2.y() - DRAWINGWIGGLEROOM) <= soln.getP1().y()) && (soln.getP1().y() <= (p2.y() + DRAWINGWIGGLEROOM))  &&
 			 ((p1.x() - DRAWINGWIGGLEROOM) <= soln.getP2().x()) && (soln.getP2().x() <= (p1.x() + DRAWINGWIGGLEROOM))  &&
-			 ((p1.y() - DRAWINGWIGGLEROOM) <= soln.getP2().y()) && (soln.getP2().y() <= (p1.y() + DRAWINGWIGGLEROOM)))
-			);
+			 ((p1.y() - DRAWINGWIGGLEROOM) <= soln.getP2().y()) && (soln.getP2().y() <= (p1.y() + DRAWINGWIGGLEROOM))) &&
+			(color == soln.getColor()));
 	} 
 }

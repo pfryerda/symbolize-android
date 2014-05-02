@@ -19,20 +19,21 @@ public class Player {
 		linesErased = le;
 		pastState = ps;
 	}
+
 	// Methods
 	public LinkedList<Line> getGraph() { return graph; }
-	public int getLinesDrawn() { return linesDrawn; }
-	public int getLinesErased() { return linesErased; }
-	public Player getPastState() { return pastState; }
+	public int getLinesDrawn() 		   { return linesDrawn; }
+	public int getLinesErased() 	   { return linesErased; }
+	public Player getPastState() 	   { return pastState; }
+	public void pushState() 		   { pastState = clone(); }
 	public Player clone() {
 		LinkedList<Line> clonedGraph = new LinkedList<Line>();
 		for (Line l : graph) { clonedGraph.addLast(l.clone()); }
-		return new Player(clonedGraph, getLinesDrawn(), getLinesErased(), getPastState());
+		return new Player(clonedGraph, linesDrawn, linesErased, pastState);
 	}
-	public void pushState() { pastState = clone(); }
 	public void setGraph(LinkedList<Line> g) {
 		graph.clear();
-		for (Line l : g) { graph.addLast(l.clone()); }
+		for (Line l : g) graph.addLast(l.clone());
 		linesDrawn = 0;
 		linesErased = 0;
 		pastState = null;
@@ -63,5 +64,11 @@ public class Player {
 	public void flipGraphV() {
 		pushState();
 		for (Line l : graph) l.flipV();
+	}
+	public void shiftGraph(LinkedList<Line> g) {
+		pushState();
+		for (Line l : g) graph.addLast(l.clone());
+		linesDrawn = 0;
+		linesErased = 0;
 	}
 }

@@ -2,22 +2,18 @@ public class Posn {
 	// Fields
 	private int first, second;
 
-	// Constructors
-	public Posn() {
-		first = 0;
-		second = 0;
-	}
+	// Constructor
 	public Posn(int x0, int y0) {
 		first = x0;
 		second = y0;
 	}
 
 	// Methods
-	public int x() { return first;  }
-	public int y() { return second; }
+	public int x()          { return first;  }
+	public int y()          { return second; }
 	public void setX(int x) { first = x;  }
 	public void setY(int y) { second = y; }
-	public boolean lt(Posn p) {						// Less than lexigraphical
+	public boolean lt(Posn p) {						// Less than (lexigraphical)
 		if (first != p.x()) return first < p.x();
 		else		 		return second < p.y();
 	}
