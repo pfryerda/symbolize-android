@@ -1,5 +1,0 @@
-#!/bin/bash
-
-javac -Xlint:unchecked Symbolize.java
-java Symbolize
-rm *.class
