@@ -21,7 +21,12 @@ public class Game {
         currLevel = null;
         canvas = new Canvas(bitmap);
         paint = new Paint();
-        // <set up paint i.e. stroke and such>
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(10);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     // Methods
