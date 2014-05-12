@@ -4,11 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.util.Log;
+import android.view.Display;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import static symbolize.app.Constants.*;
 
 public class Game {
-    // Constant
-    public static final int BACKGROUND_COLOR = Color.WHITE;
-
     // Fields
     private Player player;
     private Level currLevel;
@@ -23,20 +28,28 @@ public class Game {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(LINESIZE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     // Methods
-    public void clearCanvas() { canvas.drawColor(BACKGROUND_COLOR); }
+    public Canvas getCanvas() { return  canvas; }
+    public void clearCanvas() {
+        canvas.drawColor(BACKGROUND_COLOR);
+        drawGraph(BORDER);
+        // Draw grid
+    }
     public void setLevel(Level l) {
         currLevel = l;
         player.setGraph(l.getBoard());
         clearCanvas();
         drawGraph();
     }
+    public boolean isInDrawMode() {  return  player.canDraw(); }
+    public boolean isInEraseMode() {  return player.canErase(); }
+    public void toogleModes()      { player.changeModes(); }
     public void reset() {
         setLevel(currLevel);
     }
@@ -51,6 +64,12 @@ public class Game {
             canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
         }
     }
+    public void drawGraph(LinkedList<Line> g) {
+        for (Line l : g) {
+            paint.setColor(l.getColor());
+            canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
+        }
+    }
     public void drawLine(Line l) {
         if (player.getLinesDrawn() < currLevel.getDrawRestirction()) {
             player.addLine(l);
@@ -60,10 +79,20 @@ public class Game {
             // [Display error box]
         }
     }
+    public void tryToErase(Posn p) {
+        Iterator<Line> it = player.getGraph().iterator();
+        Line l;
+        while (it.hasNext()) {
+            l = it.next();
+            if (l.intersect(p)) {
+                eraseLine(l);
+            }
+        }
+    }
     public void eraseLine(Line l) {
         if ((player.getLinesErased() < currLevel.getEraseRestirction()) || (l.getOwner() == Owner.User)) {
             player.removeLine(l);
-            clearCanvas();
+            paint.setColor(BACKGROUND_COLOR);
             canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
         } else {
             // [Display error box]

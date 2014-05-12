@@ -3,18 +3,21 @@ package symbolize.app;
 import java.lang.Math;
 import android.graphics.Color;
 
-public class Line {
-    // Constants
-    public static final int SCALING = 100;
-    public static final int DRAWINGWIGGLEROOM = 14;
-    public static final int ERASERWIGGLEROOM = 1;
+import static symbolize.app.Constants.*;
 
+public class Line {
     // Fields
     private Posn p1, p2;
     private int color;
     private final Owner owner;
 
     // Constructors
+    public Line() {
+        p1 = null;
+        p2 = null;
+        color = Integer.parseInt(null);
+        owner = null;
+    }
     public Line(Posn pt1, Posn pt2) {
         if (pt1.lt(pt2)) {
             p1 = pt1;
