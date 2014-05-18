@@ -2,22 +2,22 @@ package symbolize.app;
 
 import java.util.LinkedList;
 
-public class Player {
+public class GameModel {
     // Fields
     private LinkedList<Line> graph;
     private int linesDrawn, linesErased;
     private boolean drawnEnabled;
-    private Player pastState;
+    private GameModel pastState;
 
     // Constructors
-    public Player() {
+    public GameModel() {
         graph = new LinkedList<Line>();
         linesDrawn = 0;
         linesErased = 0;
         drawnEnabled = true;
         pastState = null;
     }
-    public Player(LinkedList<Line> g, int ld, int le, boolean dm, Player ps) {
+    public GameModel(LinkedList<Line> g, int ld, int le, boolean dm, GameModel ps) {
         graph = g;
         linesDrawn = ld;
         linesErased = le;
@@ -31,13 +31,13 @@ public class Player {
     public int getLinesErased() 	   { return linesErased; }
     public boolean canDraw()           { return drawnEnabled; }
     public boolean canErase()          { return !drawnEnabled; }
-    public Player getPastState() 	   { return pastState; }
+    public GameModel getPastState()    { return pastState; }
     public void changeModes()          { drawnEnabled = !drawnEnabled; }
     public void pushState() 		   { pastState = clone(); }
-    public Player clone() {
+    public GameModel clone() {
         LinkedList<Line> clonedGraph = new LinkedList<Line>();
         for (Line l : graph) { clonedGraph.addLast(l.clone()); }
-        return new Player(clonedGraph, linesDrawn, linesErased, drawnEnabled, pastState);
+        return new GameModel(clonedGraph, linesDrawn, linesErased, drawnEnabled, pastState);
     }
     public void setGraph(LinkedList<Line> g) {
         graph.clear();
