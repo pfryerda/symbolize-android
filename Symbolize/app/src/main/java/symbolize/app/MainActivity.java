@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import static symbolize.app.Constants.*;
 import java.util.LinkedList;
@@ -26,22 +29,26 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set up Screen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set up linerlayout and bitamp
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
         final Point SCREENSIZE = new Point();
         DISPLAY.getSize(SCREENSIZE);
         Log.d("ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y);
-        Bitmap bitMap = Bitmap.createScaledBitmap(Bitmap.createBitmap(SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888), SCALING, SCALING, true);
-        ll = (LinearLayout) findViewById(R.id.canvas);
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            ll.setBackgroundDrawable(new BitmapDrawable(bitMap));
-        } else {
-            ll.setBackground(new BitmapDrawable(getResources(), bitMap));
-        }
 
-        gameController = new GameController(ll, bitMap);
+        ll = (LinearLayout) findViewById(R.id.canvas);
+        ll.getLayoutParams().height = SCREENSIZE.x;
+        ll.getLayoutParams().width = SCREENSIZE.x;
+        findViewById(R.id.buttons).getLayoutParams().height = (SCREENSIZE.y-SCREENSIZE.x)/2;
+        findViewById(R.id.adspace).getLayoutParams().height = (SCREENSIZE.y-SCREENSIZE.x)/2;
+
+        Bitmap bitMap = Bitmap.createScaledBitmap(Bitmap.createBitmap(SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888), SCALING, SCALING, true);
+
+        // Set up Game
+        gameController = new GameController(this, ll, bitMap);
         // Build level 1
         LinkedList<Line> puzzle = new LinkedList<Line>();
         puzzle.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
@@ -56,9 +63,9 @@ public class MainActivity extends Activity {
 
         Level level = new Level(1, 1, puzzle, solns, 30000, 30000, true, true, true, null);
 
-        // Load level 1-1
-        gameController.setLevel(level);
+        gameController.setLevel(level);  // Load level 1-1
 
+        // Set up event listeners
         ll.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -104,13 +111,18 @@ public class MainActivity extends Activity {
 
     public void onToggleButtonClicked(View view) { gameController.toogleModes(); }
     public void onCheckButtonClicked(View view) {
+        gameController.rotateRight();
+
         if (gameController.checkSolution()) {
             // Display correct box here
         } else {
             // Display wrong box here
         }
     }
-    public void onHintButtonClicked(View view) { /*Display hint box here;*/ }
+    public void onHintButtonClicked(View view) {
+    gameController.flipHorizontally();
+    /*Display hint box here;*/
+    }
     public void onResetButtonClicked(View view) {
         gameController.reset();
         ll.invalidate();
