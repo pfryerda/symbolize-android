@@ -15,6 +15,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import static symbolize.app.Constants.*;
 import java.util.LinkedList;
 
@@ -111,17 +113,18 @@ public class MainActivity extends Activity {
 
     public void onToggleButtonClicked(View view) { gameController.toogleModes(); }
     public void onCheckButtonClicked(View view) {
-        gameController.rotateRight();
-
         if (gameController.checkSolution()) {
-            // Display correct box here
+            Toast.makeText(this, "You are correct!", Toast.LENGTH_SHORT).show();
         } else {
-            // Display wrong box here
+            Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT).show();
         }
     }
     public void onHintButtonClicked(View view) {
-    gameController.flipHorizontally();
-    /*Display hint box here;*/
+        gameController.rotateRight();
+        //gameController.rotateLeft();
+        //gameController.flipHorizontally();
+        //gameController.flipVertically();
+        /*Display hint box here;*/
     }
     public void onResetButtonClicked(View view) {
         gameController.reset();

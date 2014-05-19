@@ -25,14 +25,14 @@ public class GameController {
     public GameController(Context ctx, LinearLayout linearlayout, Bitmap bitmap) {
         gameModel = new GameModel();
         currLevel = null;
-        gameView = new GameView(ctx, linearlayout, bitmap, gameModel.getGraph());
+        gameView = new GameView(ctx, linearlayout, bitmap, gameModel);
     }
 
     // Methods
     public void setLevel(Level l) {
         currLevel = l;
         gameModel.setGraph(l.getBoard());
-        gameView.renderGraph(gameModel.getGraph());
+        gameView.renderGraph();
     }
     public boolean isInDrawMode()  {  return  gameModel.canDraw(); }
     public boolean isInEraseMode() {  return gameModel.canErase(); }
@@ -48,7 +48,7 @@ public class GameController {
             gameModel.addLine(l);
             gameView.renderLine(l);
         } else {
-            // [Display error box]
+            gameView.renderToast("Cannot draw any more lines ");
         }
     }
     public void tryToErase(Posn p) {
@@ -66,45 +66,46 @@ public class GameController {
             gameModel.removeLine(l);
             gameView.renderErase(l);
         } else {
-            // [Display error box]
+            gameView.renderToast("Cannot erase any more lines ");
         }
     }
     public void undo() {
         if (gameModel.getPastState() == null) {
-            // [Display error box]
+            gameView.renderToast("There is nothing to undo");
         } else {
+            gameView.renderToast("There is things to undo");
             gameModel = gameModel.getPastState();
-            gameView.renderGraph(gameModel.getGraph());
+            gameView.renderUndo();
         }
     }
     public void rotateRight() {
         if (currLevel.canRotate()) {
-            gameView.renderRotateR(gameModel.getGraph());
             gameModel.rotateGraphR();
+            gameView.renderRotateR(gameModel.getGraph());
         }
     }
     public void rotateLeft() {
         if (currLevel.canRotate()) {
-            gameView.renderRotateL();
             gameModel.rotateGraphL();
+            gameView.renderRotateL();
         }
     }
     public void flipHorizontally() {
         if (currLevel.canFlip()) {
-            gameView.renderFlipH();
             gameModel.flipGraphH();
+            gameView.renderFlipH();
         }
     }
     public void flipVertically() {
         if (currLevel.canFlip()) {
-            gameView.renderFlipV();
             gameModel.flipGraphV();
+            gameView.renderFlipV();
         }
     }
     public void shift() {
         if (currLevel.canShift()) {
             gameModel.shiftGraph(currLevel.incIt());
-            gameView.renderGraph(gameModel.getGraph());
+            gameView.renderGraph();
         }
     }
 }

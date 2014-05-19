@@ -19,6 +19,7 @@ public class Posn {
         if (first != p.x()) return first < p.x();
         else		 		return second < p.y();
     }
+    public Posn clone(){ return  new Posn(first, second); }
     public int distSqr(Posn p) {
         return (first-p.x())*(first-p.x()) + (second-p.y())*(second-p.y());
     }

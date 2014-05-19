@@ -68,7 +68,7 @@ public class Line {
     public Posn getP2()       { return p2; }
     public int getColor()     { return color; }
     public Owner getOwner()   { return owner; }
-    public Line clone()       { return new Line(p1, p2, color, owner); }
+    public Line clone()       { return new Line(p1.clone(), p2.clone(), color, owner); }
     public boolean intersect(Posn p) {
         int x0 = p.x();
         int y0 = p.y();
