@@ -75,6 +75,7 @@ public class GameModel {
     }
     public void shiftGraph(LinkedList<Line> g) {
         pushState();
+        graph.clear();
         for (Line l : g) graph.addLast(l.clone());
         linesDrawn = 0;
         linesErased = 0;

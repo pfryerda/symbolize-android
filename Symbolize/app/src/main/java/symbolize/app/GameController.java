@@ -52,19 +52,17 @@ public class GameController {
         }
     }
     public void tryToErase(Posn p) {
-        Iterator<Line> it = gameModel.getGraph().iterator();
-        Line l;
-        while (it.hasNext()) {
-            l = it.next();
+        for (Line l : gameModel.getGraph()) {
             if (l.intersect(p)) {
                 eraseLine(l);
+                break;
             }
         }
     }
     public void eraseLine(Line l) {
         if ((gameModel.getLinesErased() < currLevel.getEraseRestirction()) || (l.getOwner() == Owner.User)) {
             gameModel.removeLine(l);
-            gameView.renderErase(l);
+            gameView.renderGraph();
         } else {
             gameView.renderToast("Cannot erase any more lines ");
         }
@@ -73,7 +71,6 @@ public class GameController {
         if (gameModel.getPastState() == null) {
             gameView.renderToast("There is nothing to undo");
         } else {
-            gameView.renderToast("There is things to undo");
             gameModel = gameModel.getPastState();
             gameView.renderUndo();
         }
@@ -105,7 +102,7 @@ public class GameController {
     public void shift() {
         if (currLevel.canShift()) {
             gameModel.shiftGraph(currLevel.incIt());
-            gameView.renderGraph();
+            gameView.renderShift();
         }
     }
 }

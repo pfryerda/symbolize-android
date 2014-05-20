@@ -76,8 +76,9 @@ public class Line {
         int y1 = getP1().y();
         int x2 = getP2().x();
         int y2 = getP2().y();
-        return ((y0-y1)*(x2-x1) <= (x0-x1)*(y2-y1) + ERASERWIGGLEROOM) && ((x0-x1)*(y2-y1) - ERASERWIGGLEROOM <= (y0-y1)*(x2-x1)) &&
-                (Math.min(x1, x2) <= x0) && (x0 <= Math.max(x1, x2)) && (Math.min(y1, y2) <= y0) && (y0 <= Math.max(y1, y2));
+        int result = Math.abs((y0-y1)*(x2-x1) -(x0-x1)*(y2-y1) );
+        return (result <= ERASERWIGGLEROOM) && (Math.min(x1, x2) <= x0) &&
+                (x0 <= Math.max(x1, x2)) && (Math.min(y1, y2) <= y0) && (y0 <= Math.max(y1, y2));
     }
     public void rotateRight() {
         int x0 = p1.x();

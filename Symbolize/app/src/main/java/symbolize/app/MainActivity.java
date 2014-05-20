@@ -3,7 +3,6 @@ package symbolize.app;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -11,9 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -52,9 +48,9 @@ public class MainActivity extends Activity {
         // Set up Game
         gameController = new GameController(this, ll, bitMap);
         // Build level 1
-        LinkedList<Line> puzzle = new LinkedList<Line>();
-        puzzle.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
-        puzzle.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
+        LinkedList<Line> puzzle1 = new LinkedList<Line>();
+        puzzle1.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
+        puzzle1.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
 
         LinkedList<LinkedList<Line>> solns = new LinkedList<LinkedList<Line>>();
         LinkedList<Line> soln = new LinkedList<Line>();
@@ -63,49 +59,67 @@ public class MainActivity extends Activity {
         soln.addLast(new Line(new Posn(500, 500), new Posn(900, 500)));
         solns.addLast(soln);
 
-        Level level = new Level(1, 1, puzzle, solns, 30000, 30000, true, true, true, null);
+        LinkedList<Line> puzzle2 = new LinkedList<Line>();
+        for(Line l : soln) puzzle2.addLast(l.clone());
+
+        LinkedList<LinkedList<Line>> sg = new LinkedList<LinkedList<Line>>();
+        sg.addLast(puzzle1);
+        sg.addLast(puzzle2);
+
+        Level level = new Level(1, 1, puzzle1, solns, 30000, 30000, true, true, true, sg);
 
         gameController.setLevel(level);  // Load level 1-1
 
         // Set up event listeners
+        startPoint = null;
+        endPoint = null;
         ll.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 final GameController controller = gameController;
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    int touchX = Math.round(event.getX());
-                    int touchY = Math.round(event.getY());
-                    startPoint = new Posn(touchX, touchY);
-                    Log.d("ACTION_DOWN", "("+startPoint.x()+","+startPoint.y()+")");
-                    if (controller.isInEraseMode()) {
-                        controller.tryToErase(startPoint);
+                int touchX;
+                int touchY;
+                if (event.getPointerCount() > 1) {
+                    // Multitouch events
+                    return false;
+                } else {
+                    // Singletouch events
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            touchX = Math.round(event.getX());
+                            touchY = Math.round(event.getY());
+                            startPoint = new Posn(touchX, touchY);
+                            Log.d("ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")");
+                            if (controller.isInEraseMode()) {
+                                controller.tryToErase(startPoint);
+                            }
+                            return true;
+                        case MotionEvent.ACTION_UP:
+                            touchX = Math.round(event.getX());
+                            touchY = Math.round(event.getY());
+                            endPoint = new Posn(touchX, touchY);
+                            Log.d("ACTION_UP", "(" + endPoint.x() + "," + endPoint.y() + ")");
+                            if (controller.isInDrawMode()) {
+                                controller.drawLine(new Line(startPoint, endPoint, Owner.User));
+                            } else if (controller.isInEraseMode()) {
+                                controller.tryToErase(endPoint);
+                            }
+                            startPoint = null;
+                            endPoint = null;
+                            return true;
+                        case MotionEvent.ACTION_MOVE:
+                            if (controller.isInEraseMode()) {
+                                touchX = Math.round(event.getX());
+                                touchY = Math.round(event.getY());
+                                startPoint = new Posn(touchX, touchY);
+                                //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
+                                controller.tryToErase(startPoint);
+                            }
+                            return true;
+                        default:
+                            return false;
                     }
-                    return true;
                 }
-                else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    int touchX = Math.round(event.getX());
-                    int touchY = Math.round(event.getY());
-                    endPoint = new Posn(touchX, touchY);
-                    Log.d("ACTION_UP", "("+endPoint.x()+","+endPoint.y()+")");
-                    if (controller.isInDrawMode()) {
-                        controller.drawLine(new Line(startPoint, endPoint, Owner.User));
-                    }
-                    else if (controller.isInEraseMode()) {
-                        controller.tryToErase(endPoint);
-                    }
-                    return true;
-                }
-                else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    if (controller.isInEraseMode()) {
-                        int touchX = Math.round(event.getX());
-                        int touchY = Math.round(event.getY());
-                        startPoint = new Posn(touchX, touchY);
-                        //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
-                        controller.tryToErase(startPoint);
-                    }
-                    return  true;
-                }
-                return false;
             }
         });
 
@@ -120,10 +134,11 @@ public class MainActivity extends Activity {
         }
     }
     public void onHintButtonClicked(View view) {
-        gameController.rotateRight();
+        //gameController.rotateRight();
         //gameController.rotateLeft();
         //gameController.flipHorizontally();
         //gameController.flipVertically();
+        gameController.shift();
         /*Display hint box here;*/
     }
     public void onResetButtonClicked(View view) {

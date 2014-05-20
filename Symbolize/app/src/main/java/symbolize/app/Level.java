@@ -1,5 +1,7 @@
 package symbolize.app;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.Iterator;
 
@@ -45,7 +47,7 @@ public class Level {
     public boolean canRotate()		 			    		   { return rotateEnabled; }
     public boolean canFlip()		  				 		   { return flipEnabled; }
     public boolean canChangeColur()   						   { return colourEnabled; }
-    public boolean canShift()		   						   { return (shiftGraphs == null); }
+    public boolean canShift()		   						   { return (shiftGraphs != null); }
     public LinkedList<LinkedList<Line>> getShiftGraphs()	   { return shiftGraphs; }
     public LinkedList<Line> incIt() {
         if (shiftIterator.hasNext()) return shiftIterator.next();

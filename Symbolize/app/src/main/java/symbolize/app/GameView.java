@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.Log;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
@@ -33,6 +34,8 @@ public class GameView {
     private Animation rotateLeftAnimation;
     private Animation flipHAnimation;
     private Animation flipVAnimation;
+    private Animation fadeOutAndInAnimation;
+    private Animation fadeInAnimation;
 
     // Constructor
     public GameView(Context ctx, LinearLayout ll, Bitmap bm, GameModel gm) {
@@ -60,13 +63,37 @@ public class GameView {
 
         // Set up animations
         rotateRightAnimation = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        addListener(rotateRightAnimation);
+        rotateRightAnimation.setDuration(ROTATEDURATION);
+        setUpAnimation(rotateRightAnimation);
         rotateLeftAnimation = new RotateAnimation(0, -90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        addListener(rotateLeftAnimation);
+        rotateLeftAnimation.setDuration(ROTATEDURATION);
+
+        setUpAnimation(rotateLeftAnimation);
         flipHAnimation = new ScaleAnimation(1, -1, 1, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        addListener(flipHAnimation);
+        flipHAnimation.setDuration(FLIPDURATION);
+        setUpAnimation(flipHAnimation);
         flipVAnimation = new ScaleAnimation(1, 1, 1, -1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        addListener(flipVAnimation);
+        flipVAnimation.setDuration(FLIPDURATION);
+        setUpAnimation(flipVAnimation);
+
+        fadeOutAndInAnimation = new AlphaAnimation(1, 0);
+        fadeOutAndInAnimation.setDuration(FADEDURATION);
+        fadeOutAndInAnimation.setFillAfter(true);
+        fadeOutAndInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                linearlayout.clearAnimation();
+                renderGraph();
+                linearlayout.startAnimation(fadeInAnimation);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        fadeInAnimation = new AlphaAnimation(0, 1);
+        fadeInAnimation.setDuration(FADEDURATION);
+        fadeInAnimation.setFillAfter(true);
     }
 
     // Methods
@@ -91,11 +118,6 @@ public class GameView {
         canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
         linearlayout.invalidate();
     }
-    public void renderErase(Line l) {
-        paint.setColor(BACKGROUND_COLOR);
-        canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
-        linearlayout.invalidate();
-    }
     public void renderRotateR(final LinkedList<Line> graph) {
         linearlayout.startAnimation(rotateRightAnimation);
     }
@@ -112,12 +134,12 @@ public class GameView {
         gameModel = gameModel.getPastState();
         renderGraph();
     }
+    public void renderShift() { linearlayout.startAnimation(fadeOutAndInAnimation); }
     public void renderToast(String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void addListener(Animation a) {
-        a.setDuration(ANIMATIONDURATION);
+    private void setUpAnimation(Animation a) {
         a.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
@@ -130,5 +152,4 @@ public class GameView {
             public void onAnimationRepeat(Animation animation) {}
         });
     }
-
 }
