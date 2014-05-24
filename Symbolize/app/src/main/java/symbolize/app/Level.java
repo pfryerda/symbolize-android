@@ -2,6 +2,7 @@ package symbolize.app;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
 
@@ -16,11 +17,10 @@ public class Level {
     private final boolean rotateEnabled;
     private final boolean flipEnabled;
     private final boolean colourEnabled;
-    private final LinkedList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
-    private Iterator<LinkedList<Line>> shiftIterator;
+    private final ArrayList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
 
     // Constructors
-    public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er, boolean r, boolean f, boolean c, LinkedList<LinkedList<Line>> sg) {
+    public Level(int ln, int wn, LinkedList<Line> b, LinkedList<LinkedList<Line>> s, int dr, int er, boolean r, boolean f, boolean c, ArrayList<LinkedList<Line>> sg) {
         levelNum = ln;
         worldNum = wn;
         board = b;
@@ -31,11 +31,6 @@ public class Level {
         flipEnabled = f;
         colourEnabled = c;
         shiftGraphs = sg;
-        if (shiftGraphs == null) shiftIterator = null;
-        else {
-            shiftIterator = sg.iterator();
-            shiftIterator.next();
-        }
     }
 
     // Methods
@@ -48,14 +43,7 @@ public class Level {
     public boolean canFlip()		  				 		   { return flipEnabled; }
     public boolean canChangeColur()   						   { return colourEnabled; }
     public boolean canShift()		   						   { return (shiftGraphs != null); }
-    public LinkedList<LinkedList<Line>> getShiftGraphs()	   { return shiftGraphs; }
-    public LinkedList<Line> incIt() {
-        if (shiftIterator.hasNext()) return shiftIterator.next();
-        else {
-            shiftIterator = shiftGraphs.iterator();
-            return shiftIterator.next();
-        }
-    }
+    public ArrayList<LinkedList<Line>> getShiftGraphs()	       { return shiftGraphs; }
     public boolean checkCorrectness(LinkedList<Line> g) {
         for(LinkedList<Line> s : solutions) {
             if (s.size() == g.size()) {

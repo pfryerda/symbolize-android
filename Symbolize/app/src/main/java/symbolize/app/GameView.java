@@ -118,9 +118,7 @@ public class GameView {
         canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
         linearlayout.invalidate();
     }
-    public void renderRotateR(final LinkedList<Line> graph) {
-        linearlayout.startAnimation(rotateRightAnimation);
-    }
+    public void renderRotateR() { linearlayout.startAnimation(rotateRightAnimation); }
     public void renderRotateL() {
         linearlayout.startAnimation(rotateLeftAnimation);
     }

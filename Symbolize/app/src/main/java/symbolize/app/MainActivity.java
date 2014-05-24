@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import static symbolize.app.Constants.*;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -62,9 +64,9 @@ public class MainActivity extends Activity {
         LinkedList<Line> puzzle2 = new LinkedList<Line>();
         for(Line l : soln) puzzle2.addLast(l.clone());
 
-        LinkedList<LinkedList<Line>> sg = new LinkedList<LinkedList<Line>>();
-        sg.addLast(puzzle1);
-        sg.addLast(puzzle2);
+        ArrayList<LinkedList<Line>> sg = new ArrayList<LinkedList<Line>>();
+        sg.add(puzzle1);
+        sg.add(puzzle2);
 
         Level level = new Level(1, 1, puzzle1, solns, 30000, 30000, true, true, true, sg);
 

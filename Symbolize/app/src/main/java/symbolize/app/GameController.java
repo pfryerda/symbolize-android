@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Display;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -78,7 +79,7 @@ public class GameController {
     public void rotateRight() {
         if (currLevel.canRotate()) {
             gameModel.rotateGraphR();
-            gameView.renderRotateR(gameModel.getGraph());
+            gameView.renderRotateR();
         }
     }
     public void rotateLeft() {
@@ -99,9 +100,20 @@ public class GameController {
             gameView.renderFlipV();
         }
     }
+    public void tryToChangeColor(Posn p) {
+        if (currLevel.canChangeColur()) {
+            for (Line l : gameModel.getGraph()) {
+                if (l.intersect(p)) {
+                    l.changeColor();
+                    gameView.renderLine(l);
+                    break;
+                }
+            }
+        }
+    }
     public void shift() {
         if (currLevel.canShift()) {
-            gameModel.shiftGraph(currLevel.incIt());
+            gameModel.shiftGraph(currLevel.getShiftGraphs());
             gameView.renderShift();
         }
     }

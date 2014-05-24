@@ -116,6 +116,7 @@ public class Line {
         y0 = p2.y();
         p2.setY(SCALING - y0);
     }
+    public void changeColor() { color = COLORARRAY.get((COLORMAP.get(color)+ 1) % COLORARRAY.size()); }
     public int score(Line l) { return Math.min(p1.distSqr(l.getP1()) + p2.distSqr(l.getP2()), p2.distSqr(l.getP1()) + p1.distSqr(l.getP2())); }
     public boolean eq(Line soln) {		// Approximatly Equals
         return (

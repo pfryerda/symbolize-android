@@ -1,5 +1,6 @@
 package symbolize.app;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GameModel {
@@ -7,6 +8,7 @@ public class GameModel {
     private LinkedList<Line> graph;
     private int linesDrawn, linesErased;
     private boolean drawnEnabled;
+    private int shiftNumber;
     private GameModel pastState;
 
     // Constructors
@@ -15,13 +17,15 @@ public class GameModel {
         linesDrawn = 0;
         linesErased = 0;
         drawnEnabled = true;
+        shiftNumber = 0;
         pastState = null;
     }
-    public GameModel(LinkedList<Line> g, int ld, int le, boolean dm, GameModel ps) {
+    public GameModel(LinkedList<Line> g, int ld, int le, boolean dm, int sn, GameModel ps) {
         graph = g;
         linesDrawn = ld;
         linesErased = le;
         drawnEnabled = dm;
+        shiftNumber = sn;
         pastState = ps;
     }
 
@@ -37,7 +41,7 @@ public class GameModel {
     public GameModel clone() {
         LinkedList<Line> clonedGraph = new LinkedList<Line>();
         for (Line l : graph) { clonedGraph.addLast(l.clone()); }
-        return new GameModel(clonedGraph, linesDrawn, linesErased, drawnEnabled, pastState);
+        return new GameModel(clonedGraph, linesDrawn, linesErased, drawnEnabled, shiftNumber, pastState);
     }
     public void setGraph(LinkedList<Line> g) {
         graph.clear();
@@ -73,10 +77,11 @@ public class GameModel {
         pushState();
         for (Line l : graph) l.flipV();
     }
-    public void shiftGraph(LinkedList<Line> g) {
+    public void shiftGraph(ArrayList<LinkedList<Line>> sg) {
         pushState();
+        shiftNumber = (shiftNumber + 1) % sg.size();
         graph.clear();
-        for (Line l : g) graph.addLast(l.clone());
+        for (Line l : sg.get(shiftNumber)) graph.addLast(l.clone());
         linesDrawn = 0;
         linesErased = 0;
     }
