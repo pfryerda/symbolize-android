@@ -16,104 +16,160 @@ import java.util.LinkedList;
 
 import static symbolize.app.Constants.*;
 
+/*
+ * Class in charge of given a command from the user, manipulate the
+ * main model (GameModel) and update the the display/view (GameView)
+ */
 public class GameController {
     // Fields
+    //--------
+
     private GameModel gameModel;
-    private Level currLevel;
     private GameView gameView;
+    private Level currLevel;
+
 
     // Consturctor
-    public GameController(Context ctx, LinearLayout foreground, LinearLayout background, Bitmap bitmpa_fg, Bitmap bitmap_bg) {
-        gameModel = new GameModel();
-        currLevel = null;
-        gameView = new GameView(ctx, foreground, background, bitmpa_fg, bitmap_bg, gameModel);
+    //--------------
+
+    public GameController( Context context, LinearLayout foreground, LinearLayout background, Bitmap foreground_bitmpa, Bitmap backbroud_bitmap ) {
+        this.gameModel = new GameModel();
+        this.gameView = new GameView( context, foreground, background, foreground_bitmpa, backbroud_bitmap, gameModel );
+        this.currLevel = null;
     }
 
     // Methods
-    public void setLevel(Level l) {
-        currLevel = l;
-        gameModel.setGraph(l.getBoard());
+    //---------
+
+    /*
+     * Method used for loading new levels, called once on game startup and again for any later
+     * new level changes. Sets up GameModel, removes old data, and renders board to the screen
+     *
+     * @param Level level: The level that needs to be loaded
+     */
+    public void loadLevel( Level level ) {
+        currLevel = level;
+        gameModel.setLevel( level );
         gameView.renderGraph();
     }
-    public boolean isInDrawMode()  {  return  gameModel.canDraw(); }
-    public boolean isInEraseMode() {  return gameModel.canErase(); }
-    public void toogleModes()      {  gameModel.changeModes(); }
-    public void reset()            {  setLevel(currLevel); }
+
+    // Geter methods
+    //--------------
+
+
+    public boolean isInDrawMode()  {
+        return gameModel.canDraw();
+    }
+
+    public boolean isInEraseMode() {
+        return gameModel.canErase();
+    }
+
+
+    // Button methods
+    //---------------
+
+    public void toogleModes() {
+        gameModel.changeModes();
+    }
+
     public boolean checkSolution() {
-        return currLevel.checkCorrectness(gameModel.getGraph());
+        return currLevel.checkCorrectness( gameModel.getGraph() );
 		/* Check last level      */
 		/* setLevel(next level!) */
     }
-    public void drawLine(Line l) {
-        if (gameModel.getLinesDrawn() < currLevel.getDrawRestirction()) {
-            gameModel.addLine(l);
-            gameView.renderLine(l);
-        } else {
-            gameView.renderToast("Cannot draw any more lines ");
-        }
+
+    public void reset() {
+        loadLevel( currLevel );
     }
-    public void tryToErase(Posn p) {
-        for (Line l : gameModel.getGraph()) {
-            if (l.intersect(p)) {
-                eraseLine(l);
-                break;
-            }
-        }
-    }
-    public void eraseLine(Line l) {
-        if ((gameModel.getLinesErased() < currLevel.getEraseRestirction()) || (l.getOwner() == Owner.User)) {
-            gameModel.removeLine(l);
-            gameView.renderGraph();
-        } else {
-            gameView.renderToast("Cannot erase any more lines ");
-        }
-    }
+
     public void undo() {
-        if (gameModel.getPastState() == null) {
-            gameView.renderToast("There is nothing to undo");
+        if ( gameModel.getPastState() == null ) {
+            gameView.renderToast( "There is nothing to undo" );
         } else {
             gameModel = gameModel.getPastState();
             gameView.renderUndo();
         }
     }
+
+
+    // Action methods
+    //----------------
+
+    public void drawLine( Line line ) {
+        if ( gameModel.getLinesDrawn() < currLevel.getDrawRestirction() ) {
+            gameModel.addLine( line );
+            gameView.renderLine( line );
+        } else {
+            gameView.renderToast( "Cannot draw any more lines " );
+        }
+    }
+
+    public void tryToErase( Posn point ) {
+        for ( Line l : gameModel.getGraph() ) {
+            if ( l.intersect( point ) ) {
+                eraseLine(l);
+                break;
+            }
+        }
+    }
+
+    private void eraseLine( Line line ) {
+        if ( ( gameModel.getLinesErased() < currLevel.getEraseRestirction() ) || ( line.getOwner() == Owner.User ) ) {
+            gameModel.removeLine( line );
+            gameView.renderGraph();
+        } else {
+            gameView.renderToast( "Cannot erase any more lines" );
+        }
+    }
+
     public void rotateRight() {
-        if (currLevel.canRotate()) {
+        if ( currLevel.canRotate() ) {
             gameModel.rotateGraphR();
             gameView.renderRotateR();
         }
     }
+
     public void rotateLeft() {
-        if (currLevel.canRotate()) {
+        if ( currLevel.canRotate() ) {
             gameModel.rotateGraphL();
             gameView.renderRotateL();
         }
     }
+
     public void flipHorizontally() {
-        if (currLevel.canFlip()) {
+        if ( currLevel.canFlip() ) {
             gameModel.flipGraphH();
             gameView.renderFlipH();
         }
     }
+
     public void flipVertically() {
-        if (currLevel.canFlip()) {
+        if ( currLevel.canFlip() ) {
             gameModel.flipGraphV();
             gameView.renderFlipV();
         }
     }
-    public void tryToChangeColor(Posn p) {
-        if (currLevel.canChangeColur()) {
-            for (Line l : gameModel.getGraph()) {
-                if (l.intersect(p)) {
-                    l.changeColor();
-                    gameView.renderLine(l);
+
+    public void tryToChangeColor(Posn point) {
+        if ( currLevel.canChangeColur() ) {
+            for ( Line line : gameModel.getGraph( )) {
+                if ( line.intersect( point ) ) {
+                    changeColor( line );
                     break;
                 }
             }
         }
     }
+
+    private void changeColor( Line line ) {
+        line.editColor();
+        gameView.renderLine( line );
+    }
+
     public void shift() {
-        if (currLevel.canShift()) {
-            gameModel.shiftGraph(currLevel.getShiftGraphs());
+        if ( currLevel.canShift() ) {
+            gameModel.shiftGraph( currLevel.getShiftGraphs() );
             gameView.renderShift();
         }
     }

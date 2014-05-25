@@ -21,24 +21,41 @@ import java.util.LinkedList;
 
 public class MainActivity extends Activity {
 
-    private Posn startPoint;
-    private Posn endPoint;
-    private GameController gameController;
+    // Main fields
+    //--------------
+
     private LinearLayout foreground;
     private LinearLayout background;
+    private GameController gameController;
 
 
+    // Fields used during event listening
+    //------------------------------------
+
+    private Posn startPoint;
+    private Posn currPoint;
+    private Posn endPoint;
+
+
+    /*
+     * Main method called once app is ready
+     *
+     * @parama Bundle savedInstanceState: A mapping from String values to various Parcelable types
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState ) {
         // Set up Screen
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set up linerlayout and bitamp
+
+        // Set up linerlayouts and bitamps
+
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
         final Point SCREENSIZE = new Point();
-        DISPLAY.getSize(SCREENSIZE);
-        Log.d("ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y);
+        DISPLAY.getSize( SCREENSIZE );
+        Log.d( "ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y );
 
         foreground = (LinearLayout) findViewById(R.id.canvas);
         foreground.getLayoutParams().height = SCREENSIZE.x;
@@ -48,14 +65,18 @@ public class MainActivity extends Activity {
         background.getLayoutParams().height = SCREENSIZE.x;
         background.getLayoutParams().width = SCREENSIZE.x;
 
-        findViewById(R.id.buttons).getLayoutParams().height = (SCREENSIZE.y-SCREENSIZE.x)/2;
-        findViewById(R.id.adspace).getLayoutParams().height = (SCREENSIZE.y-SCREENSIZE.x)/2;
+        findViewById( R.id.buttons ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 2;
+        findViewById( R.id.adspace ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 2;
 
-        Bitmap bitMap_fg = Bitmap.createScaledBitmap(Bitmap.createBitmap(SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888), SCALING, SCALING, true);
-        Bitmap bitMap_bg = Bitmap.createScaledBitmap(Bitmap.createBitmap(SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888), SCALING, SCALING, true);
+        Bitmap bitMap_fg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
+                SCALING, SCALING, true );
+        Bitmap bitMap_bg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
+                SCALING, SCALING, true );
+
 
         // Set up Game
-        gameController = new GameController(this, foreground, background, bitMap_fg, bitMap_bg);
+
+        gameController = new GameController( this, foreground, background, bitMap_fg, bitMap_bg );
         // Build level 1
         LinkedList<Line> puzzle1 = new LinkedList<Line>();
         puzzle1.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
@@ -75,54 +96,58 @@ public class MainActivity extends Activity {
         sg.add(puzzle1);
         sg.add(puzzle2);
 
-        Level level = new Level(1, 1, puzzle1, solns, 30000, 30000, true, true, true, sg);
+        Level level = new Level(1, 1, "Place hint here", puzzle1, solns, 30000, 30000, true, true, true, sg);
 
-        gameController.setLevel(level);  // Load level 1-1
+        gameController.loadLevel( level );  // Load level 1-1
 
-        // Set up event listeners
+        setUpListeners();
+    }
+
+    /*
+     * Method called to set up event/gesture listeners for game
+     */
+    public void setUpListeners(){
         startPoint = null;
+        currPoint = null;
         endPoint = null;
         foreground.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final GameController controller = gameController;
                 int touchX;
                 int touchY;
-                if (event.getPointerCount() > 1) {
+                if( event.getPointerCount() > 1 ) {
                     // Multitouch events
+
                     return false;
                 } else {
                     // Singletouch events
-                    switch (event.getAction()) {
+
+                    switch ( event.getAction() ) {
                         case MotionEvent.ACTION_DOWN:
-                            touchX = Math.round(event.getX());
-                            touchY = Math.round(event.getY());
-                            startPoint = new Posn(touchX, touchY);
-                            Log.d("ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")");
-                            if (controller.isInEraseMode()) {
-                                controller.tryToErase(startPoint);
-                            }
+                            touchX = Math.round( event.getX() );
+                            touchY = Math.round( event.getY() );
+                            startPoint = new Posn( touchX, touchY );
+                            Log.d( "ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")" );
                             return true;
                         case MotionEvent.ACTION_UP:
-                            touchX = Math.round(event.getX());
-                            touchY = Math.round(event.getY());
-                            endPoint = new Posn(touchX, touchY);
-                            Log.d("ACTION_UP", "(" + endPoint.x() + "," + endPoint.y() + ")");
-                            if (controller.isInDrawMode()) {
-                                controller.drawLine(new Line(startPoint, endPoint, Owner.User));
-                            } else if (controller.isInEraseMode()) {
-                                controller.tryToErase(endPoint);
+                            touchX = Math.round( event.getX() );
+                            touchY = Math.round( event.getY() );
+                            endPoint = new Posn( touchX, touchY );
+                            Log.d( "ACTION_UP", "(" + endPoint.x() + "," + endPoint.y() + ")" );
+                            if ( gameController.isInDrawMode() ) {
+                                gameController.drawLine( new Line( startPoint, endPoint, Owner.User ) );
                             }
                             startPoint = null;
+                            currPoint = null;
                             endPoint = null;
                             return true;
                         case MotionEvent.ACTION_MOVE:
-                            if (controller.isInEraseMode()) {
-                                touchX = Math.round(event.getX());
-                                touchY = Math.round(event.getY());
-                                startPoint = new Posn(touchX, touchY);
+                            if (gameController.isInEraseMode()) {
+                                touchX = Math.round( event.getX() );
+                                touchY = Math.round( event.getY() );
+                                currPoint = new Posn( touchX, touchY );
                                 //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
-                                controller.tryToErase(startPoint);
+                                gameController.tryToErase( currPoint );
                             }
                             return true;
                         default:
@@ -131,18 +156,52 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
     }
 
-    public void onToggleButtonClicked(View view) { gameController.toogleModes(); }
+    /*
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param Menu menu: The desired menu to inflate
+     */
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.main, menu );
+        return true;
+    }
+
+    /*
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param Menuitem item: Interface for direct access to a previously created menu item.
+     */
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item ) {
+        int id = item.getItemId();
+        if ( id == R.id.action_settings ) {
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
+    }
+
+
+    // Button methods
+    // ---------------
+
+    public void onToggleButtonClicked( View view ) {
+        gameController.toogleModes();
+    }
+
     public void onCheckButtonClicked(View view) {
-        if (gameController.checkSolution()) {
-            Toast.makeText(this, "You are correct!", Toast.LENGTH_SHORT).show();
+        if ( gameController.checkSolution() ) {
+            Toast.makeText( this, "You are correct!", Toast.LENGTH_SHORT ).show();
         } else {
-            Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT).show();
+            Toast.makeText( this, "You are incorrect", Toast.LENGTH_SHORT ).show();
         }
     }
-    public void onHintButtonClicked(View view) {
+
+    public void onHintButtonClicked( View view ) {
         //gameController.rotateRight();
         gameController.rotateLeft();
         //gameController.flipHorizontally();
@@ -150,32 +209,12 @@ public class MainActivity extends Activity {
         //gameController.shift();
         /*Display hint box here;*/
     }
-    public void onResetButtonClicked(View view) {
+
+    public void onResetButtonClicked( View view ) {
         gameController.reset();
     }
-    public void onUndoButtonClicked(View view) {
+
+    public void onUndoButtonClicked( View view ) {
         gameController.undo();
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

@@ -3,15 +3,24 @@ package symbolize.app;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/*
+ * The main game method contains information about whats on the board, what mode you are in,
+ * how lines have you drawn/erased and a tracker of your past state for undo.
+ */
 public class GameModel {
     // Fields
+    //--------
+
     private LinkedList<Line> graph;
     private int linesDrawn, linesErased;
     private boolean drawnEnabled;
     private int shiftNumber;
     private GameModel pastState;
 
+
     // Constructors
+    //--------------
+
     public GameModel() {
         graph = new LinkedList<Line>();
         linesDrawn = 0;
@@ -20,68 +29,137 @@ public class GameModel {
         shiftNumber = 0;
         pastState = null;
     }
-    public GameModel(LinkedList<Line> g, int ld, int le, boolean dm, int sn, GameModel ps) {
-        graph = g;
-        linesDrawn = ld;
-        linesErased = le;
-        drawnEnabled = dm;
-        shiftNumber = sn;
-        pastState = ps;
+
+    public GameModel( LinkedList<Line> graph, int linesDrawn, int linesErased, boolean drawnEnabled, int shiftNumber, GameModel pastState ) {
+        this.graph = graph;
+        this.linesDrawn = linesDrawn;
+        this.linesErased = linesErased;
+        this.drawnEnabled = drawnEnabled;
+        this.shiftNumber = shiftNumber;
+        this.pastState = pastState;
     }
 
-    // Methods
-    public LinkedList<Line> getGraph() { return graph; }
-    public int getLinesDrawn() 		   { return linesDrawn; }
-    public int getLinesErased() 	   { return linesErased; }
-    public boolean canDraw()           { return drawnEnabled; }
-    public boolean canErase()          { return !drawnEnabled; }
-    public GameModel getPastState()    { return pastState; }
-    public void changeModes()          { drawnEnabled = !drawnEnabled; }
-    public void pushState() 		   { pastState = clone(); }
+
+    // Copy Constructor
+    //-----------------
+
     public GameModel clone() {
         LinkedList<Line> clonedGraph = new LinkedList<Line>();
-        for (Line l : graph) { clonedGraph.addLast(l.clone()); }
-        return new GameModel(clonedGraph, linesDrawn, linesErased, drawnEnabled, shiftNumber, pastState);
+        for ( Line line : graph ) {
+            clonedGraph.addLast( line.clone() );
+        }
+        return new GameModel( clonedGraph, linesDrawn, linesErased, drawnEnabled, shiftNumber, pastState );
     }
-    public void setGraph(LinkedList<Line> g) {
+
+
+    // Methods
+    //---------
+
+    public void setLevel(Level level) {
         graph.clear();
-        for (Line l : g) graph.addLast(l.clone());
+        for ( Line line : level.getBoard() ) {
+            graph.addLast( line.clone() );
+        }
         linesDrawn = 0;
         linesErased = 0;
         pastState = null;
     }
-    public void addLine(Line l) {
+
+    public void pushState() {
+        pastState = clone();
+    }
+
+
+    // Geter methods
+    //---------------
+
+    public LinkedList<Line> getGraph() {
+        return graph;
+    }
+
+    public int getLinesDrawn() {
+        return linesDrawn;
+    }
+
+    public int getLinesErased() {
+        return linesErased;
+    }
+
+    public boolean canDraw() {
+        return drawnEnabled;
+    }
+
+    public boolean canErase() {
+        return !drawnEnabled;
+    }
+
+    public GameModel getPastState() {
+        return pastState;
+    }
+
+
+    // Button methods
+    //----------------
+
+    public void changeModes() {
+        drawnEnabled = !drawnEnabled;
+    }
+
+
+    // Action methods
+    //----------------
+
+    public void addLine(Line line) {
         pushState();
-        graph.addLast(l);
+        graph.addLast( line );
         ++linesDrawn;
     }
-    public void removeLine(Line l) {
+
+    public void removeLine( Line line ) {
         pushState();
-        graph.remove(l);
-        if (l.getOwner() == Owner.App) ++linesErased;
-        else						   --linesDrawn;
+        graph.remove( line );
+        if ( line.getOwner() == Owner.App ) {
+            ++linesErased;
+        } else{
+            --linesDrawn;
+        }
     }
+
     public void rotateGraphR() {
         pushState();
-        for (Line l : graph) l.rotateRight();
+        for ( Line line : graph ) {
+            line.rotateRight();
+        }
     }
+
     public void rotateGraphL() {
         pushState();
-        for (Line l : graph) l.rotateLeft();
+        for ( Line line : graph ) {
+            line.rotateLeft();
+        }
     }
+
     public void flipGraphH() {
         pushState();
-        for (Line l : graph) l.flipH();
+        for ( Line line : graph ) {
+            line.flipH();
+        }
     }
+
     public void flipGraphV() {
         pushState();
-        for (Line l : graph) l.flipV();
+        for ( Line line : graph ) {
+            line.flipV();
+        }
     }
-    public void shiftGraph(ArrayList<LinkedList<Line>> sg) {
+
+    public void shiftGraph( ArrayList<LinkedList<Line>> sg ) {
         pushState();
         shiftNumber = (shiftNumber + 1) % sg.size();
         graph.clear();
-        for (Line l : sg.get(shiftNumber)) graph.addLast(l.clone());
+        for ( Line line : sg.get( shiftNumber ) ) {
+            graph.addLast( line.clone() );
+        }
         linesDrawn = 0;
         linesErased = 0;
     }
