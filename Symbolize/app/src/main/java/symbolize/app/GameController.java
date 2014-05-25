@@ -23,10 +23,10 @@ public class GameController {
     private GameView gameView;
 
     // Consturctor
-    public GameController(Context ctx, LinearLayout linearlayout, Bitmap bitmap) {
+    public GameController(Context ctx, LinearLayout foreground, LinearLayout background, Bitmap bitmpa_fg, Bitmap bitmap_bg) {
         gameModel = new GameModel();
         currLevel = null;
-        gameView = new GameView(ctx, linearlayout, bitmap, gameModel);
+        gameView = new GameView(ctx, foreground, background, bitmpa_fg, bitmap_bg, gameModel);
     }
 
     // Methods

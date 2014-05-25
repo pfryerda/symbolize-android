@@ -7,12 +7,20 @@
     android:id="@+id/mainWidnow">
 
     <LinearLayout
-        android:id="@+id/canvas"
+        android:id="@+id/background"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="#FFFFFFFF" >
+        android:background="#FFFFFFFF">
+        <LinearLayout
+            android:id="@+id/canvas"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="#80000000" >
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

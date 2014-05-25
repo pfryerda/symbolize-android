@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.Log;
@@ -24,9 +25,12 @@ import static symbolize.app.Constants.*;
 public class GameView {
     // Fields
     private Context context;
-    private LinearLayout linearlayout;
-    private Bitmap bitmap;
-    private Canvas canvas;
+    private LinearLayout foregound;
+    private LinearLayout background;
+    private Bitmap bitmap_fg;
+    private Bitmap bitmap_bg;
+    private Canvas canvas_fg;
+    private Canvas canvas_bg;
     private GameModel gameModel;
     private Paint paint;
 
@@ -38,19 +42,25 @@ public class GameView {
     private Animation fadeInAnimation;
 
     // Constructor
-    public GameView(Context ctx, LinearLayout ll, Bitmap bm, GameModel gm) {
+    public GameView(Context ctx, LinearLayout fg, LinearLayout bg, Bitmap bm_fg, Bitmap bm_bg, GameModel gm) {
         // Set up main view fields
         context = ctx;
-        linearlayout = ll;
-        bitmap = bm;
-        canvas = new Canvas(bm);
+        foregound = fg;
+        background = bg;
+        bitmap_fg = bm_fg;
+        bitmap_bg = bm_bg;
+        canvas_fg = new Canvas(bitmap_fg);
+        canvas_bg = new Canvas(bitmap_bg);
         gameModel = gm;
 
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            linearlayout.setBackgroundDrawable(new BitmapDrawable(bitmap));
+            foregound.setBackgroundDrawable(new BitmapDrawable(bitmap_fg));
+            background.setBackgroundDrawable(new BitmapDrawable(bitmap_bg));
         } else {
-            linearlayout.setBackground(new BitmapDrawable(context.getResources(), bitmap));
+            foregound.setBackground(new BitmapDrawable(context.getResources(), bitmap_fg));
+            background.setBackground(new BitmapDrawable(context.getResources(), bitmap_bg));
         }
+
 
         // Set up paint
         paint = new Paint();
@@ -84,9 +94,9 @@ public class GameView {
             public void onAnimationStart(Animation animation) {}
             @Override
             public void onAnimationEnd(Animation animation) {
-                linearlayout.clearAnimation();
+                foregound.clearAnimation();
                 renderGraph();
-                linearlayout.startAnimation(fadeInAnimation);
+                foregound.startAnimation(fadeInAnimation);
             }
             @Override
             public void onAnimationRepeat(Animation animation) {}
@@ -94,12 +104,16 @@ public class GameView {
         fadeInAnimation = new AlphaAnimation(0, 1);
         fadeInAnimation.setDuration(FADEDURATION);
         fadeInAnimation.setFillAfter(true);
+
+        paint.setStrokeWidth(LINESIZE/10);
+        drawBackgroundImage(GRID);
+        paint.setStrokeWidth(LINESIZE);
+        drawBackgroundImage(BORDER);
     }
 
     // Methods
     public void clearCanvas() {
-        canvas.drawColor(BACKGROUND_COLOR);
-        drawBorder();
+        canvas_fg.drawColor(0, PorterDuff.Mode.CLEAR);
         // Draw grid
     }
     public void renderGraph() {
@@ -107,32 +121,35 @@ public class GameView {
         for (Line l : gameModel.getGraph()) {
             renderLine(l);
         }
+        foregound.invalidate();
     }
-    public void drawBorder() {
-        for (Line l : BORDER) {
-            renderLine(l);
+    public void drawBackgroundImage(LinkedList<Line> g) {
+        for (Line l : g) {
+            paint.setColor(l.getColor());
+            canvas_bg.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
+            background.invalidate();
         }
     }
     public void renderLine(Line l) {
         paint.setColor(l.getColor());
-        canvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
-        linearlayout.invalidate();
+        canvas_fg.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
+        foregound.invalidate();
     }
-    public void renderRotateR() { linearlayout.startAnimation(rotateRightAnimation); }
+    public void renderRotateR() { foregound.startAnimation(rotateRightAnimation); }
     public void renderRotateL() {
-        linearlayout.startAnimation(rotateLeftAnimation);
+        foregound.startAnimation(rotateLeftAnimation);
     }
     public void renderFlipH() {
-        linearlayout.startAnimation(flipHAnimation);
+        foregound.startAnimation(flipHAnimation);
     }
     public void renderFlipV() {
-                   linearlayout.startAnimation(flipVAnimation);
+        foregound.startAnimation(flipVAnimation);
     }
     public void renderUndo() {
         gameModel = gameModel.getPastState();
         renderGraph();
     }
-    public void renderShift() { linearlayout.startAnimation(fadeOutAndInAnimation); }
+    public void renderShift() { foregound.startAnimation(fadeOutAndInAnimation); }
     public void renderToast(String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
@@ -143,7 +160,7 @@ public class GameView {
             public void onAnimationStart(Animation animation) {}
             @Override
             public void onAnimationEnd(Animation animation) {
-                linearlayout.clearAnimation();
+                foregound.clearAnimation();
                 renderGraph();
             }
             @Override
