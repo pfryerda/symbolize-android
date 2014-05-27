@@ -27,6 +27,7 @@ public class GameController {
     private GameModel gameModel;
     private GameView gameView;
     private Level currLevel;
+    private boolean drawnEnabled;
 
 
     // Consturctor
@@ -36,6 +37,7 @@ public class GameController {
         this.gameModel = new GameModel();
         this.gameView = new GameView( context, foreground, background, foreground_bitmpa, backbroud_bitmap, gameModel );
         this.currLevel = null;
+        this.drawnEnabled = true;
     }
 
     // Methods
@@ -58,11 +60,11 @@ public class GameController {
 
 
     public boolean isInDrawMode()  {
-        return gameModel.canDraw();
+        return drawnEnabled;
     }
 
     public boolean isInEraseMode() {
-        return gameModel.canErase();
+        return !drawnEnabled;
     }
 
 
@@ -70,7 +72,7 @@ public class GameController {
     //---------------
 
     public void toogleModes() {
-        gameModel.changeModes();
+        drawnEnabled = !drawnEnabled;
     }
 
     public boolean checkSolution() {

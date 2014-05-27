@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onToggleButtonClicked"
-            android:text="Toggle" />
+            android:text="Erase" />
         <Button
             android:id="@+id/Check"
             android:layout_width="wrap_content"

@@ -90,15 +90,15 @@ public class Line {
      */
     public boolean eq( Line soln ) {
         return ( (
-                ( ( p1.x() - DRAWINGWIGGLEROOM ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p1.x() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p1.y() - DRAWINGWIGGLEROOM ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p1.y() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p2.x() - DRAWINGWIGGLEROOM ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p2.x() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p2.y() - DRAWINGWIGGLEROOM ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p2.y() + DRAWINGWIGGLEROOM ) ) ) ||
+                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p1.y() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p2.y() + DRAWINGTHRESHOLD ) ) ) ||
                 (
-                ( ( p2.x() - DRAWINGWIGGLEROOM ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p2.x() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p2.y() - DRAWINGWIGGLEROOM ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p2.y() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p1.x() - DRAWINGWIGGLEROOM ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p1.x() + DRAWINGWIGGLEROOM ) )   &&
-                ( ( p1.y() - DRAWINGWIGGLEROOM ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p1.y() + DRAWINGWIGGLEROOM ) ) ) &&
+                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p2.y() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )   &&
+                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p1.y() + DRAWINGTHRESHOLD ) ) ) &&
                 ( color == soln.getColor() ) );
     }
 
@@ -108,7 +108,7 @@ public class Line {
      *
      * @param Posn point: point of interest
      */
-    public boolean intersect( Posn point ) {
+    /*public boolean intersect( Posn point ) {
         int x0 = point.x();
         int y0 = point.y();
         int x1 = getP1().x();
@@ -118,6 +118,32 @@ public class Line {
         int result = Math.abs( ( y0 - y1 )*( x2 - x1 ) - ( x0 - x1 ) * ( y2 - y1 ) );
         return ( result <= ERASERWIGGLEROOM ) && ( Math.min( x1, x2 ) <= x0 ) &&
                 ( x0 <= Math.max( x1, x2 ) ) && ( Math.min( y1, y2 ) <= y0 ) && ( y0 <= Math.max( y1, y2 ) );
+    }*/
+    public boolean intersect( Posn point ) {
+        int dx = p2.x() - p1.x();
+        if ( ( ( dx - ERASINGTHRESHOLD ) <= 0 ) && ( 0 <= ( dx + ERASINGTHRESHOLD ) ) ) { // if approx vertical line
+            return ( ( ( p1.x() - ERASINGTHRESHOLD ) <= point.x() ) &&
+                   ( point.x() <= ( p1.x() + ERASINGTHRESHOLD ) ) ) &&
+                   ( Math.min( p1.y(), p2.y() ) <= point.y() ) &&
+                   ( point.y() <= Math.max( p1.y(), p2.y() ) );
+        }
+        int dy = p2.y() - p1.y();
+        if ( ( ( dy - ERASINGTHRESHOLD ) <= 0 ) && ( 0 <= ( dy + ERASINGTHRESHOLD ) ) ) { // if approx horizontal line
+            return ( ( ( p1.y() - ERASINGTHRESHOLD ) <= point.y() ) &&
+                    ( point.y() <= ( p1.y() + ERASINGTHRESHOLD ) ) ) &&
+                    ( Math.min( p1.x(), p2.x() ) <= point.x() ) &&
+                    ( point.x() <= Math.max( p1.x(), p2.x() ) );
+        }
+
+        int slope = Math.round( dy / dx );                  // m
+        int y_intercept = p1.y() - ( slope * p1.x() );      // b
+        int result = ( slope * point.x() ) + y_intercept;   // mx + b
+        return ( ( point.y() - ERASINGTHRESHOLD ) <= result ) &&
+               ( result <= ( point.y() + ERASINGTHRESHOLD ) ) &&
+               ( Math.min( p1.y(), p2.y() ) <= point.y() ) &&
+               ( point.y() <= Math.max( p1.y(), p2.y() ) ) &&
+               ( Math.min( p1.x(), p2.x() ) <= point.x() ) &&
+               ( point.x() <= Math.max( p1.x(), p2.x() ) );
     }
 
     /*

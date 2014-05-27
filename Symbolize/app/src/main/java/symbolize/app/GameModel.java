@@ -13,7 +13,6 @@ public class GameModel {
 
     private LinkedList<Line> graph;
     private int linesDrawn, linesErased;
-    private boolean drawnEnabled;
     private int shiftNumber;
     private GameModel pastState;
 
@@ -25,16 +24,14 @@ public class GameModel {
         graph = new LinkedList<Line>();
         linesDrawn = 0;
         linesErased = 0;
-        drawnEnabled = true;
         shiftNumber = 0;
         pastState = null;
     }
 
-    public GameModel( LinkedList<Line> graph, int linesDrawn, int linesErased, boolean drawnEnabled, int shiftNumber, GameModel pastState ) {
+    public GameModel( LinkedList<Line> graph, int linesDrawn, int linesErased, int shiftNumber, GameModel pastState ) {
         this.graph = graph;
         this.linesDrawn = linesDrawn;
         this.linesErased = linesErased;
-        this.drawnEnabled = drawnEnabled;
         this.shiftNumber = shiftNumber;
         this.pastState = pastState;
     }
@@ -48,7 +45,7 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, linesDrawn, linesErased, drawnEnabled, shiftNumber, pastState );
+        return new GameModel( clonedGraph, linesDrawn, linesErased, shiftNumber, pastState );
     }
 
 
@@ -85,24 +82,8 @@ public class GameModel {
         return linesErased;
     }
 
-    public boolean canDraw() {
-        return drawnEnabled;
-    }
-
-    public boolean canErase() {
-        return !drawnEnabled;
-    }
-
     public GameModel getPastState() {
         return pastState;
-    }
-
-
-    // Button methods
-    //----------------
-
-    public void changeModes() {
-        drawnEnabled = !drawnEnabled;
     }
 
 

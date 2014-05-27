@@ -2,6 +2,7 @@ package symbolize.app;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class MainActivity extends Activity {
     private LinearLayout foreground;
     private LinearLayout background;
     private GameController gameController;
+    private Point SCREENSIZE;
 
 
     // Fields used during event listening
@@ -35,6 +38,7 @@ public class MainActivity extends Activity {
     private Posn startPoint;
     private Posn currPoint;
     private Posn endPoint;
+    private boolean inMultitouch;
 
 
     /*
@@ -53,7 +57,7 @@ public class MainActivity extends Activity {
         // Set up linerlayouts and bitamps
 
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
-        final Point SCREENSIZE = new Point();
+        SCREENSIZE = new Point();
         DISPLAY.getSize( SCREENSIZE );
         Log.d( "ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y );
 
@@ -110,6 +114,8 @@ public class MainActivity extends Activity {
         startPoint = null;
         currPoint = null;
         endPoint = null;
+        inMultitouch = false;
+
         foreground.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -117,6 +123,10 @@ public class MainActivity extends Activity {
                 int touchY;
                 if( event.getPointerCount() > 1 ) {
                     // Multitouch events
+                    startPoint = null;
+                    currPoint = null;
+                    endPoint = null;
+                    inMultitouch = true;
 
                     return false;
                 } else {
@@ -124,27 +134,30 @@ public class MainActivity extends Activity {
 
                     switch ( event.getAction() ) {
                         case MotionEvent.ACTION_DOWN:
-                            touchX = Math.round( event.getX() );
-                            touchY = Math.round( event.getY() );
-                            startPoint = new Posn( touchX, touchY );
-                            Log.d( "ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")" );
+                            if ( gameController.isInDrawMode() ) {
+                                touchX = scaleNum( event.getX() );
+                                touchY = scaleNum( event.getY() );
+                                startPoint = new Posn(touchX, touchY);
+                                Log.d("ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")");
+                            }
                             return true;
                         case MotionEvent.ACTION_UP:
-                            touchX = Math.round( event.getX() );
-                            touchY = Math.round( event.getY() );
+                            touchX = scaleNum( event.getX() );
+                            touchY = scaleNum( event.getY() );
                             endPoint = new Posn( touchX, touchY );
                             Log.d( "ACTION_UP", "(" + endPoint.x() + "," + endPoint.y() + ")" );
-                            if ( gameController.isInDrawMode() ) {
+                            if ( gameController.isInDrawMode() && !inMultitouch && startPoint !=  null ) {
                                 gameController.drawLine( new Line( startPoint, endPoint, Owner.User ) );
                             }
                             startPoint = null;
                             currPoint = null;
                             endPoint = null;
+                            inMultitouch = false;
                             return true;
                         case MotionEvent.ACTION_MOVE:
-                            if (gameController.isInEraseMode()) {
-                                touchX = Math.round( event.getX() );
-                                touchY = Math.round( event.getY() );
+                            if ( gameController.isInEraseMode() && !inMultitouch ) {
+                                touchX = scaleNum( event.getX() );
+                                touchY = scaleNum( event.getY() );
                                 currPoint = new Posn( touchX, touchY );
                                 //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
                                 gameController.tryToErase( currPoint );
@@ -156,6 +169,10 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+    int scaleNum(float f) {
+        return Math.round( f * SCALING / SCREENSIZE.x );
     }
 
     /*
@@ -190,6 +207,12 @@ public class MainActivity extends Activity {
     // ---------------
 
     public void onToggleButtonClicked( View view ) {
+        Button toggleButton = (Button) findViewById(R.id.Toggle);
+        if(toggleButton.getText() == "Draw") {
+            toggleButton.setText("Erase");
+        } else {
+            toggleButton.setText("Draw");
+        }
         gameController.toogleModes();
     }
 
