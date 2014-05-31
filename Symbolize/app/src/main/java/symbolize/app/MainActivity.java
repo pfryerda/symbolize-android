@@ -29,16 +29,6 @@ public class MainActivity extends Activity {
     private LinearLayout foreground;
     private LinearLayout background;
     private GameController gameController;
-    private Point SCREENSIZE;
-
-
-    // Fields used during event listening
-    //------------------------------------
-
-    private Posn startPoint;
-    private Posn currPoint;
-    private Posn endPoint;
-    private boolean inMultitouch;
 
 
     /*
@@ -57,7 +47,7 @@ public class MainActivity extends Activity {
         // Set up linerlayouts and bitamps
 
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
-        SCREENSIZE = new Point();
+        Point SCREENSIZE = new Point();
         DISPLAY.getSize( SCREENSIZE );
         Log.d( "ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y );
 
@@ -104,75 +94,7 @@ public class MainActivity extends Activity {
 
         gameController.loadLevel( level );  // Load level 1-1
 
-        setUpListeners();
-    }
-
-    /*
-     * Method called to set up event/gesture listeners for game
-     */
-    public void setUpListeners(){
-        startPoint = null;
-        currPoint = null;
-        endPoint = null;
-        inMultitouch = false;
-
-        foreground.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int touchX;
-                int touchY;
-                if( event.getPointerCount() > 1 ) {
-                    // Multitouch events
-                    startPoint = null;
-                    currPoint = null;
-                    endPoint = null;
-                    inMultitouch = true;
-
-                    return false;
-                } else {
-                    // Singletouch events
-
-                    switch ( event.getAction() ) {
-                        case MotionEvent.ACTION_DOWN:
-                            if ( gameController.isInDrawMode() ) {
-                                touchX = scaleNum( event.getX() );
-                                touchY = scaleNum( event.getY() );
-                                startPoint = new Posn(touchX, touchY);
-                                Log.d("ACTION_DOWN", "(" + startPoint.x() + "," + startPoint.y() + ")");
-                            }
-                            return true;
-                        case MotionEvent.ACTION_UP:
-                            touchX = scaleNum( event.getX() );
-                            touchY = scaleNum( event.getY() );
-                            endPoint = new Posn( touchX, touchY );
-                            Log.d( "ACTION_UP", "(" + endPoint.x() + "," + endPoint.y() + ")" );
-                            if ( gameController.isInDrawMode() && !inMultitouch && startPoint !=  null ) {
-                                gameController.drawLine( new Line( startPoint, endPoint, Owner.User ) );
-                            }
-                            startPoint = null;
-                            currPoint = null;
-                            endPoint = null;
-                            inMultitouch = false;
-                            return true;
-                        case MotionEvent.ACTION_MOVE:
-                            if ( gameController.isInEraseMode() && !inMultitouch ) {
-                                touchX = scaleNum( event.getX() );
-                                touchY = scaleNum( event.getY() );
-                                currPoint = new Posn( touchX, touchY );
-                                //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
-                                gameController.tryToErase( currPoint );
-                            }
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-            }
-        });
-    }
-
-    int scaleNum(float f) {
-        return Math.round( f * SCALING / SCREENSIZE.x );
+        foreground.setOnTouchListener( new GameTouchListener( gameController, SCREENSIZE.x ) {} );
     }
 
     /*
