@@ -21,7 +21,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+    implements ShakeListener.Callback {
+
+    @Override
+    public void shakingStarted() {}
+
+    @Override
+    public void shakingStopped() {
+        gameController.shift();
+    }
 
     // Main fields
     //--------------

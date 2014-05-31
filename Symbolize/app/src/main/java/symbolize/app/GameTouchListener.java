@@ -35,18 +35,18 @@ public class GameTouchListener implements View.OnTouchListener {
         int touchY;
 
         switch ( event.getActionMasked() ) {
-            case MotionEvent.ACTION_DOWN:
-                touchX = scaleNum( event.getX() );
-                touchY = scaleNum( event.getY() );
+            case MotionEvent.ACTION_DOWN: // First figner down
+                touchX = scaleNum( event.getX( event.getActionIndex() ) );
+                touchY = scaleNum( event.getY( event.getActionIndex() ) );
                 pointOne = new Posn(touchX, touchY);
                 isPointOneDown = true;
                 Log.d("ACTION_DOWN", "(" + pointOne.x() + "," + pointOne.y() + ")");
 
                 return true;
 
-            case MotionEvent.ACTION_POINTER_DOWN:
-                touchX = scaleNum( event.getX() );
-                touchY = scaleNum( event.getY() );
+            case MotionEvent.ACTION_POINTER_DOWN: // Second figner down
+                touchX = scaleNum( event.getX( event.getActionIndex() ) );
+                touchY = scaleNum( event.getY( event.getActionIndex() ) );
                 pointTwo = new Posn(touchX, touchY);
                 isPointTwoDown = true;
                 Log.d("ACTION_POINTER_DOWN", "(" + pointTwo.x() + "," + pointTwo.y() + ")");
@@ -54,40 +54,35 @@ public class GameTouchListener implements View.OnTouchListener {
                 inDoubleTouch = true;
                 return true;
 
-            case MotionEvent.ACTION_UP:
-                touchX = scaleNum( event.getX() );
-                touchY = scaleNum( event.getY() );
-                pointOneEnd = new Posn( touchX, touchY );
-                isPointOneDown = false;
-                Log.d( "ACTION_UP", "(" + pointOneEnd.x() + "," + pointOneEnd.y() + ")" );
+            case MotionEvent.ACTION_UP:         // First figner up
+            case MotionEvent.ACTION_POINTER_UP: // Second figner up
+                if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) {
+                    touchX = scaleNum( event.getX( event.getActionIndex() ) );
+                    touchY = scaleNum( event.getY( event.getActionIndex() ) );
+                    pointTwoEnd = new Posn( touchX, touchY );
+                    isPointTwoDown = false;
+                    Log.d( "ACTION_POINTER_UP", "(" + pointTwoEnd.x() + "," + pointTwoEnd.y() + ")" );
+                } else {
+                    touchX = scaleNum(event.getX(event.getActionIndex()));
+                    touchY = scaleNum(event.getY(event.getActionIndex()));
+                    pointOneEnd = new Posn(touchX, touchY);
+                    isPointOneDown = false;
+                    Log.d("ACTION_UP", "(" + pointOneEnd.x() + "," + pointOneEnd.y() + ")");
 
-                if ( gameController.isInDrawMode() && !inDoubleTouch ) {
-                    gameController.drawLine( new Line( pointOne, pointOneEnd, Owner.User ) );
-                    resetVars();
+                    if (gameController.isInDrawMode() && !inDoubleTouch) {
+                        gameController.drawLine(new Line(pointOne, pointOneEnd, Owner.User));
+                        resetVars();
+                    }
                 }
 
-                if (inDoubleTouch && !isPointTwoDown ) {
-                    //rotate check
-                    resetVars();
-                }
-
-                return true;
-
-            case MotionEvent.ACTION_POINTER_UP:
-                touchX = scaleNum( event.getX() );
-                touchY = scaleNum( event.getY() );
-                pointTwoEnd = new Posn( touchX, touchY );
-                Log.d( "ACTION_UP", "(" + pointTwoEnd.x() + "," + pointTwoEnd.y() + ")" );
-                isPointTwoDown = false;
-
-                if (inDoubleTouch && !isPointOneDown ) {
-                    //rotate check
+                if (inDoubleTouch && !isPointOneDown && !isPointTwoDown) {
+                    attemptToRotate();
                     resetVars();
                 }
 
                 return true;
 
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE: // Finger moves
                 if ( gameController.isInEraseMode() && !inDoubleTouch ) {
                     touchX = scaleNum( event.getX() );
                     touchY = scaleNum( event.getY() );
@@ -117,5 +112,33 @@ public class GameTouchListener implements View.OnTouchListener {
         pointTwoEnd = null;
 
         inDoubleTouch = false;
+    }
+
+    void attemptToRotate() {
+        Log.d( "pointOne", pointOne.x() + " " + pointOne.y() );
+        Log.d( "pointOneEnd", pointOneEnd.x() + " " + pointOneEnd.y() );
+
+        Log.d( "pointTwo", pointTwo.x() + " " + pointTwo.y() );
+        Log.d( "pointTwoEnd", pointTwoEnd.x() + " " + pointTwoEnd.y() );
+
+        if ( pointOne.y() >= pointTwo.y() ) {
+            if ( ( pointOne.y() >= pointOneEnd.y() || pointOne.x() >= pointOneEnd.x() ) &&
+                 ( pointTwo.y() <= pointTwoEnd.y() || pointTwo.x() <= pointTwoEnd.x() ) ) {
+                gameController.rotateRight();
+            }
+            else if ( ( pointOne.y() <= pointOneEnd.y() || pointOne.x() <= pointOneEnd.x() ) &&
+                      ( pointTwo.y() >= pointTwoEnd.y() || pointTwo.x() >= pointTwoEnd.x() ) ) {
+                gameController.rotateLeft();
+            }
+        } else {
+            if ( ( pointOne.y() <= pointOneEnd.y() || pointOne.x() <= pointOneEnd.x() ) &&
+                 ( pointTwo.y() >= pointTwoEnd.y() || pointTwo.x() >= pointTwoEnd.x() ) ) {
+                gameController.rotateRight();
+            }
+            else if ( ( pointOne.y() >= pointOneEnd.y() || pointOne.x() >= pointOneEnd.x() ) &&
+                      ( pointTwo.y() <= pointTwoEnd.y() || pointTwo.x() <= pointTwoEnd.x() ) ) {
+                gameController.rotateLeft();
+            }
+        }
     }
 }
