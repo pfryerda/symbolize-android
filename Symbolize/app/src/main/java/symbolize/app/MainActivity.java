@@ -56,7 +56,7 @@ public class MainActivity extends Activity
         // Set up linerlayouts and bitamps
 
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
-        Point SCREENSIZE = new Point();
+        SCREENSIZE = new Point();
         DISPLAY.getSize( SCREENSIZE );
         Log.d( "ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y );
 
@@ -103,8 +103,50 @@ public class MainActivity extends Activity
 
         gameController.loadLevel( level );  // Load level 1-1
 
-        foreground.setOnTouchListener( new GameTouchListener( gameController, SCREENSIZE.x ) {} );
+        setUpListeners();
     }
+
+    /*
+     * Method called to set up event/gesture listeners for game
+     */
+    public void setUpListeners(){
+        foreground.setOnTouchListener( new GameTouchListener() {
+            @Override
+            public void onDraw( Line line ) {
+                if ( gameController.isInDrawMode() ) {
+                    gameController.drawLine( line );
+                }
+            }
+
+            @Override
+            public void onErase( Posn point ) {
+                if( gameController.isInEraseMode() ) {
+                    gameController.tryToErase( point );
+                }
+            }
+
+            @Override
+            public void onRotateRight() {
+                gameController.rotateRight();
+            }
+
+            @Override
+            public void onRotateLeft() {
+                gameController.rotateLeft();
+            }
+
+            @Override
+            public void onFlipHorizontally() {
+                gameController.flipHorizontally();
+            }
+
+            @Override
+            public void onFlipVertically() {
+                gameController.flipVertically();
+            }
+        } );
+    }
+
 
     /*
      * Inflate the menu; this adds items to the action bar if it is present.

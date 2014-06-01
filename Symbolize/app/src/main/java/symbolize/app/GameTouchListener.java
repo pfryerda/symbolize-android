@@ -7,13 +7,18 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static symbolize.app.Constants.*;
 import static symbolize.app.Constants.SCALING;
 
 public class GameTouchListener implements View.OnTouchListener {
+    // Fields
+    //-------
 
-    private GameController gameController;
-    private int SCREENSIZE;
+    boolean isEraseDelayDone;
+    Timer timer;
 
     private Posn pointOne;
     private boolean isPointOneDown;
@@ -25,86 +30,113 @@ public class GameTouchListener implements View.OnTouchListener {
 
     private boolean inDoubleTouch;
 
-    public GameTouchListener( GameController gameController, int SCREENSIZE ) {
-        this.gameController = gameController;
-        this.SCREENSIZE = SCREENSIZE;
+
+    // Constructor
+    //--------------
+
+    public GameTouchListener(  ) {
+        timer = new Timer();
         resetVars();
     }
 
-    public boolean onTouch(View v, MotionEvent event) {
-        int touchX;
-        int touchY;
 
+    // Primary method
+    //----------------
+
+    public boolean onTouch(View v, MotionEvent event) {
         switch ( event.getActionMasked() ) {
-            case MotionEvent.ACTION_DOWN: // First figner down
-                touchX = scaleNum( event.getX( event.getActionIndex() ) );
-                touchY = scaleNum( event.getY( event.getActionIndex() ) );
-                pointOne = new Posn(touchX, touchY);
+
+            case MotionEvent.ACTION_DOWN: {                                 // First finger down
+                pointOne = getPoint(event);
                 isPointOneDown = true;
-                Log.d("ACTION_DOWN", "(" + pointOne.x() + "," + pointOne.y() + ")");
+
+                timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        isEraseDelayDone = true;
+                        timer.cancel();
+                    }
+                }, 0, ERASEDELAY);
 
                 return true;
+            }
 
-            case MotionEvent.ACTION_POINTER_DOWN: // Second figner down
-                touchX = scaleNum( event.getX( event.getActionIndex() ) );
-                touchY = scaleNum( event.getY( event.getActionIndex() ) );
-                pointTwo = new Posn(touchX, touchY);
+            case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
+                pointTwo = getPoint( event );
                 isPointTwoDown = true;
-                Log.d("ACTION_POINTER_DOWN", "(" + pointTwo.x() + "," + pointTwo.y() + ")");
-
                 inDoubleTouch = true;
                 return true;
+            }
 
-            case MotionEvent.ACTION_UP:         // First figner up
-            case MotionEvent.ACTION_POINTER_UP: // Second figner up
-                if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) {
-                    touchX = scaleNum( event.getX( event.getActionIndex() ) );
-                    touchY = scaleNum( event.getY( event.getActionIndex() ) );
-                    pointTwoEnd = new Posn( touchX, touchY );
+            case MotionEvent.ACTION_UP:                                     // First finger up
+            case MotionEvent.ACTION_POINTER_UP: {                           // Second finger up
+                if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) { // Original second finger up
+                    pointTwoEnd = getPoint( event );
                     isPointTwoDown = false;
-                    Log.d( "ACTION_POINTER_UP", "(" + pointTwoEnd.x() + "," + pointTwoEnd.y() + ")" );
-                } else {
-                    touchX = scaleNum(event.getX(event.getActionIndex()));
-                    touchY = scaleNum(event.getY(event.getActionIndex()));
-                    pointOneEnd = new Posn(touchX, touchY);
+                } else {                                                    // Original first finger up
+                    pointOneEnd = getPoint(event);
                     isPointOneDown = false;
-                    Log.d("ACTION_UP", "(" + pointOneEnd.x() + "," + pointOneEnd.y() + ")");
 
-                    if (gameController.isInDrawMode() && !inDoubleTouch) {
-                        gameController.drawLine(new Line(pointOne, pointOneEnd, Owner.User));
+                    if ( !inDoubleTouch ) {
+                        onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
                         resetVars();
                     }
                 }
 
                 if (inDoubleTouch && !isPointOneDown && !isPointTwoDown) {
-                    boolean fliped = attemptToFlip();
-                    if ( !fliped ) attemptToRotate();
+                    boolean flipped = attemptToFlip();
+                    if ( !flipped ) attemptToRotate();
                     resetVars();
                 }
 
+                isEraseDelayDone = false;
                 return true;
+            }
 
-            case MotionEvent.ACTION_MOVE: // Finger moves
-                if ( gameController.isInEraseMode() && !inDoubleTouch ) {
-                    touchX = scaleNum( event.getX() );
-                    touchY = scaleNum( event.getY() );
-                    pointOne = new Posn( touchX, touchY );
-                    //Log.d("ACTION_MOVE", "("+startPoint.x()+","+startPoint.y()+")");
-                    gameController.tryToErase( pointOne );
+            case MotionEvent.ACTION_MOVE: {                                 // Finger moves
+                if ( !inDoubleTouch && isEraseDelayDone ) {
+                    onErase( getPoint( event ) );
                 }
-
                 return true;
+            }
 
-            default:
+            case MotionEvent.ACTION_CANCEL: {
+                return true;
+            }
+
+            default: {
                 return false;
+            }
         }
     }
 
-    int scaleNum(float f) {
-        return Math.round( f * SCALING / SCREENSIZE );
+
+    // Methods
+    //---------
+
+    /*
+     * Gets the point from the motion event and then scales the point accoridnly.
+     * Note: Also treats points off the canvas as though the user stop at the edge.
+     *
+     * @param: MotionEvent event: The motionevent that contains information about where the user touched
+     */
+    Posn getPoint( MotionEvent event ) {
+        float touchX = event.getX( event.getActionIndex() );
+        int scaledX = Math.min( SCALING, Math.max( 0, Math.round( touchX * SCALING / SCREENSIZE.x ) ) );
+        float touchY = event.getY( event.getActionIndex() );
+        int scaledY = Math.min( SCALING, Math.max( 0, Math.round( touchY * SCALING / SCREENSIZE.x ) ) );
+        return new Posn( scaledX, scaledY );
     }
 
+    /*
+     * Reverts all the class's fields to their default values.
+     * This is usually done at the end of a gesture so that every gesture
+     * has the same values at their start.
+     */
     void resetVars() {
+        isEraseDelayDone = false;
+
         pointOne = null;
         isPointOneDown = false;
         pointOneEnd = null;
@@ -116,48 +148,80 @@ public class GameTouchListener implements View.OnTouchListener {
         inDoubleTouch = false;
     }
 
+    /*
+     * This method is called after a two-finger gesture and checks to see if the
+     * given gesture resembles a flipping gesture.
+     */
     boolean attemptToFlip() {
         if ( ( ( pointOne.x() < SCALING/2 && pointTwo.x() < SCALING/2 && pointTwoEnd.x() > SCALING/2 && pointTwoEnd.x() > SCALING/2 ) ||
                ( pointOne.x() > SCALING/2 && pointTwo.x() > SCALING/2 && pointTwoEnd.x() < SCALING/2 && pointTwoEnd.x() < SCALING/2 ) ) &&
-               ( pointOneEnd.y() - DRAWINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + DRAWINGTHRESHOLD &&
-                 pointTwoEnd.y() - DRAWINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + DRAWINGTHRESHOLD ) ) {
-            gameController.flipHorizontally();
+               ( pointOneEnd.y() - FLIPPINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + FLIPPINGTHRESHOLD &&
+                 pointTwoEnd.y() - FLIPPINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + FLIPPINGTHRESHOLD ) ) {
+            onFlipHorizontally();
             return true;
         }
         else if ( ( ( pointOne.y() < SCALING/2 && pointTwo.y() < SCALING/2 && pointTwoEnd.y() > SCALING/2 && pointTwoEnd.y() > SCALING/2 ) ||
-                   ( pointOne.y() > SCALING/2 && pointTwo.y() > SCALING/2 && pointTwoEnd.y() < SCALING/2 && pointTwoEnd.y() < SCALING/2 ) ) &&
-                   ( pointOneEnd.x() - DRAWINGTHRESHOLD <= pointOne.x() && pointOne.x() <= pointOneEnd.x() + DRAWINGTHRESHOLD &&
-                     pointTwoEnd.x() - DRAWINGTHRESHOLD <= pointTwo.x() && pointTwo.x() <= pointTwoEnd.x() + DRAWINGTHRESHOLD ) ) {
-            gameController.flipVertically();
+                    ( pointOne.y() > SCALING/2 && pointTwo.y() > SCALING/2 && pointTwoEnd.y() < SCALING/2 && pointTwoEnd.y() < SCALING/2 ) ) &&
+                    ( pointOneEnd.x() - FLIPPINGTHRESHOLD <= pointOne.x() && pointOne.x() <= pointOneEnd.x() + FLIPPINGTHRESHOLD &&
+                      pointTwoEnd.x() - FLIPPINGTHRESHOLD <= pointTwo.x() && pointTwo.x() <= pointTwoEnd.x() + FLIPPINGTHRESHOLD ) ) {
+            onFlipVertically();
             return true;
         }
         return false;
     }
 
+    /*
+     * This method is called if attemptToFlip fails and checks to see if the
+      * given gesture resembles a rotating gesture.
+     */
     boolean attemptToRotate() {
         if ( pointOne.y() >= pointTwo.y() ) {
-            if ( ( /*pointOne.y() >= pointOneEnd.y() &&*/ pointOne.x() >= pointOneEnd.x() ) &&
-                 ( /*pointTwo.y() <= pointTwoEnd.y() &&*/ pointTwo.x() <= pointTwoEnd.x() ) ) {
-                gameController.rotateRight();
+            if ( ( pointOne.x() >= pointOneEnd.x() ) && ( pointTwo.x() <= pointTwoEnd.x() ) ) {
+                onRotateRight();
                 return true;
             }
-            else if ( ( /*pointOne.y() <= pointOneEnd.y() &&*/ pointOne.x() <= pointOneEnd.x() ) &&
-                      ( /*pointTwo.y() >= pointTwoEnd.y() &&*/ pointTwo.x() >= pointTwoEnd.x() ) ) {
-                gameController.rotateLeft();
+            else if ( (  pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+                onRotateLeft();
                 return true;
             }
         } else {
-            if ( ( /*pointOne.y() <= pointOneEnd.y() &&*/ pointOne.x() <= pointOneEnd.x() ) &&
-                 ( /*pointTwo.y() >= pointTwoEnd.y() &&*/ pointTwo.x() >= pointTwoEnd.x() ) ) {
-                gameController.rotateRight();
+            if ( (  pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+                onRotateRight();
                 return true;
             }
-            else if ( ( /*pointOne.y() >= pointOneEnd.y() &&*/ pointOne.x() >= pointOneEnd.x() ) &&
-                      ( /*pointTwo.y() <= pointTwoEnd.y() &&*/ pointTwo.x() <= pointTwoEnd.x() ) ) {
-                gameController.rotateLeft();
+            else if ( (  pointOne.x() >= pointOneEnd.x() ) && (  pointTwo.x() <= pointTwoEnd.x() ) ) {
+                onRotateLeft();
                 return true;
             }
         }
         return false;
+    }
+
+
+    // Methods to be overridden in MainActivity
+    //------------------------------------------
+
+    public void onDraw( Line line ) {
+
+    }
+
+    public void onErase( Posn point ) {
+
+    }
+
+    public void onRotateRight() {
+
+    }
+
+    public void onRotateLeft() {
+
+    }
+
+    public void onFlipHorizontally() {
+
+    }
+
+    public void onFlipVertically() {
+
     }
 }

@@ -1,6 +1,7 @@
 package symbolize.app;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.SparseIntArray;
 
 import java.util.ArrayList;
@@ -9,24 +10,28 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Constants {
+    // Constants
+    //-----------
+
     public static final int SCALING = 1000;
     public static final int DRAWINGTHRESHOLD = 140;
     public static final int ERASINGTHRESHOLD = 50;
+    public static final int FLIPPINGTHRESHOLD = 140;
     public static final int LINESIZE = 60;
     public static final int ROTATEDURATION = 500;
     public static final int FLIPDURATION = 500;
     public static final int FADEDURATION = 100;
-    public static final ArrayList<Integer> COLORARRAY =
-            new ArrayList( Arrays.asList( Color.BLACK, Color.RED, Color.YELLOW,
-                    Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA ) );
+    public static final int ERASEDELAY = 2000; // In milisceonds
+    public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList( Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA ) );
     public static final SparseIntArray COLORMAP = makeColorMap();
     public static final LinkedList<Line> GRID = makeGrid();
-    public static final LinkedList<Line> BORDER =
-            new LinkedList<Line>( Arrays.asList( new Line( new Posn( 0, 0 ), new Posn( SCALING, 0 ) ),
-                    new Line( new Posn( 0, 0 ), new Posn( 0, SCALING ) ),
-                        new Line( new Posn( SCALING, 0 ), new Posn( SCALING, SCALING ) ),
-                            new Line( new Posn( 0, SCALING ), new Posn( SCALING, SCALING ) ) ) );
+    public static final LinkedList<Line> BORDER = new LinkedList<Line>( Arrays.asList( new Line( new Posn( 0, 0 ), new Posn( SCALING, 0 ) ), new Line( new Posn( 0, 0 ), new Posn( 0, SCALING ) ), new Line( new Posn( SCALING, 0 ), new Posn( SCALING, SCALING ) ), new Line( new Posn( 0, SCALING ), new Posn( SCALING, SCALING ) ) ) );
     public static final String LUKE = "Awesome";
+    public static Point SCREENSIZE;
+
+
+    // Methods used to construct constants
+    //-------------------------------------
 
     public final static SparseIntArray makeColorMap() {
         SparseIntArray colormap = new SparseIntArray();
