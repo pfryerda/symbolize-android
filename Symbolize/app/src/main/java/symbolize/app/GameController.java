@@ -165,6 +165,7 @@ public class GameController {
     }
 
     private void changeColor( Line line ) {
+        gameModel.pushState();
         line.editColor();
         gameView.renderLine( line );
     }

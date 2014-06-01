@@ -17,8 +17,8 @@ public class GameTouchListener implements View.OnTouchListener {
     // Fields
     //-------
 
-    boolean isEraseDelayDone;
-    Timer timer;
+    private boolean isEraseDelayDone;
+    private Timer timer;
 
     private Posn pointOne;
     private boolean isPointOneDown;
@@ -34,7 +34,7 @@ public class GameTouchListener implements View.OnTouchListener {
     // Constructor
     //--------------
 
-    public GameTouchListener(  ) {
+    public GameTouchListener() {
         timer = new Timer();
         resetVars();
     }
@@ -43,21 +43,22 @@ public class GameTouchListener implements View.OnTouchListener {
     // Primary method
     //----------------
 
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch( View v, MotionEvent event ) {
         switch ( event.getActionMasked() ) {
 
             case MotionEvent.ACTION_DOWN: {                                 // First finger down
-                pointOne = getPoint(event);
+                pointOne = getPoint( event );
                 isPointOneDown = true;
 
+                timer.cancel();
                 timer = new Timer();
-                timer.scheduleAtFixedRate(new TimerTask() {
+                timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         isEraseDelayDone = true;
                         timer.cancel();
                     }
-                }, 0, ERASEDELAY);
+                }, ERASEDELAY );
 
                 return true;
             }
@@ -79,18 +80,24 @@ public class GameTouchListener implements View.OnTouchListener {
                     isPointOneDown = false;
 
                     if ( !inDoubleTouch ) {
-                        onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
+                        Line line = new Line( pointOne, pointOneEnd, Owner.User );
+                        if ( line.distSqr() >= MINLINESIZESQR ) {
+                            onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
+                        } else {
+                            onTap( pointOneEnd );
+                        }
                         resetVars();
                     }
                 }
 
-                if (inDoubleTouch && !isPointOneDown && !isPointTwoDown) {
+                if ( inDoubleTouch && !isPointOneDown && !isPointTwoDown ) {
                     boolean flipped = attemptToFlip();
                     if ( !flipped ) attemptToRotate();
                     resetVars();
                 }
 
                 isEraseDelayDone = false;
+                timer.cancel();
                 return true;
             }
 
@@ -116,16 +123,18 @@ public class GameTouchListener implements View.OnTouchListener {
     //---------
 
     /*
-     * Gets the point from the motion event and then scales the point accoridnly.
+     * Gets the point from the motion event and then scales the point accordingly.
      * Note: Also treats points off the canvas as though the user stop at the edge.
      *
-     * @param: MotionEvent event: The motionevent that contains information about where the user touched
+     * @param: MotionEvent event: The motion event that contains information about where the user touched
      */
     Posn getPoint( MotionEvent event ) {
         float touchX = event.getX( event.getActionIndex() );
-        int scaledX = Math.min( SCALING, Math.max( 0, Math.round( touchX * SCALING / SCREENSIZE.x ) ) );
         float touchY = event.getY( event.getActionIndex() );
+
+        int scaledX = Math.min( SCALING, Math.max( 0, Math.round( touchX * SCALING / SCREENSIZE.x ) ) );
         int scaledY = Math.min( SCALING, Math.max( 0, Math.round( touchY * SCALING / SCREENSIZE.x ) ) );
+
         return new Posn( scaledX, scaledY );
     }
 
@@ -180,16 +189,16 @@ public class GameTouchListener implements View.OnTouchListener {
                 onRotateRight();
                 return true;
             }
-            else if ( (  pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+            else if ( ( pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
                 onRotateLeft();
                 return true;
             }
         } else {
-            if ( (  pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+            if ( ( pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
                 onRotateRight();
                 return true;
             }
-            else if ( (  pointOne.x() >= pointOneEnd.x() ) && (  pointTwo.x() <= pointTwoEnd.x() ) ) {
+            else if ( ( pointOne.x() >= pointOneEnd.x() ) && (  pointTwo.x() <= pointTwoEnd.x() ) ) {
                 onRotateLeft();
                 return true;
             }
@@ -206,6 +215,10 @@ public class GameTouchListener implements View.OnTouchListener {
     }
 
     public void onErase( Posn point ) {
+
+    }
+
+    public void onTap( Posn point ) {
 
     }
 

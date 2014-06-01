@@ -74,7 +74,7 @@ public class GameView {
         paint = new Paint();
         paint.setColor( Color.BLACK );
         paint.setAntiAlias( true );
-        paint.setStrokeWidth( LINESIZE );
+        paint.setStrokeWidth( LINEWIDTH );
         paint.setStyle( Paint.Style.STROKE );
         paint.setStrokeJoin( Paint.Join.ROUND );
         paint.setStrokeCap( Paint.Cap.ROUND );
@@ -113,9 +113,9 @@ public class GameView {
         fadeInAnimation.setDuration( FADEDURATION );
         fadeInAnimation.setFillAfter( true );
 
-        paint.setStrokeWidth( LINESIZE/10 );
+        paint.setStrokeWidth( LINEWIDTH/10 );
         drawBackgroundImage( GRID );
-        paint.setStrokeWidth( LINESIZE );
+        paint.setStrokeWidth( LINEWIDTH );
         drawBackgroundImage( BORDER );
     }
 

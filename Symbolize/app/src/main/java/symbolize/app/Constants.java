@@ -15,13 +15,14 @@ public class Constants {
 
     public static final int SCALING = 1000;
     public static final int DRAWINGTHRESHOLD = 140;
-    public static final int ERASINGTHRESHOLD = 50;
+    public static final int ERASINGTHRESHOLD = 75;
     public static final int FLIPPINGTHRESHOLD = 140;
-    public static final int LINESIZE = 60;
+    public static final int LINEWIDTH = 60;
+    public static final int MINLINESIZESQR = 10000;
     public static final int ROTATEDURATION = 500;
     public static final int FLIPDURATION = 500;
     public static final int FADEDURATION = 100;
-    public static final int ERASEDELAY = 2000; // In milisceonds
+    public static final int ERASEDELAY = 250; // In milisceonds ?
     public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList( Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA ) );
     public static final SparseIntArray COLORMAP = makeColorMap();
     public static final LinkedList<Line> GRID = makeGrid();

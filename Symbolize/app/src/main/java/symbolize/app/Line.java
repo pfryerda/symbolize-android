@@ -2,6 +2,7 @@ package symbolize.app;
 
 import java.lang.Math;
 import android.graphics.Color;
+import android.util.Log;
 
 import static symbolize.app.Constants.*;
 
@@ -85,8 +86,15 @@ public class Line {
     //----------
 
     /*
+     * Method that calculates euclidean distance squared
+     */
+    public int distSqr() {
+        return p1.distSqr( p2 );
+    }
+
+    /*
      * Method that sees if the given line is approximately equal to this line (used during soluntion check)
-     *  @param Line soln: Line from the solution that we are checking against
+     * @param Line soln: Line from the solution that we are checking against
      */
     public boolean eq( Line soln ) {
         return ( (
@@ -108,17 +116,6 @@ public class Line {
      *
      * @param Posn point: point of interest
      */
-    /*public boolean intersect( Posn point ) {
-        int x0 = point.x();
-        int y0 = point.y();
-        int x1 = getP1().x();
-        int y1 = getP1().y();
-        int x2 = getP2().x();
-        int y2 = getP2().y();
-        int result = Math.abs( ( y0 - y1 )*( x2 - x1 ) - ( x0 - x1 ) * ( y2 - y1 ) );
-        return ( result <= ERASERWIGGLEROOM ) && ( Math.min( x1, x2 ) <= x0 ) &&
-                ( x0 <= Math.max( x1, x2 ) ) && ( Math.min( y1, y2 ) <= y0 ) && ( y0 <= Math.max( y1, y2 ) );
-    }*/
     public boolean intersect( Posn point ) {
         int dx = p2.x() - p1.x();
         if ( ( ( dx - ERASINGTHRESHOLD ) <= 0 ) && ( 0 <= ( dx + ERASINGTHRESHOLD ) ) ) { // if approx vertical line

@@ -126,6 +126,11 @@ public class MainActivity extends Activity
             }
 
             @Override
+            public void onTap( Posn point ) {
+                gameController.tryToChangeColor( point );
+            }
+
+            @Override
             public void onRotateRight() {
                 gameController.rotateRight();
             }
@@ -199,10 +204,10 @@ public class MainActivity extends Activity
 
     public void onHintButtonClicked( View view ) {
         //gameController.rotateRight();
-        gameController.rotateLeft();
+        //gameController.rotateLeft();
         //gameController.flipHorizontally();
         //gameController.flipVertically();
-        //gameController.shift();
+        gameController.shift();
         /*Display hint box here;*/
     }
 
