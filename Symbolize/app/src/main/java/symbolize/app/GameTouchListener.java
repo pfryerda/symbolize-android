@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import static symbolize.app.Constants.*;
 import static symbolize.app.Constants.SCALING;
 
 public class GameTouchListener implements View.OnTouchListener {
@@ -76,7 +77,8 @@ public class GameTouchListener implements View.OnTouchListener {
                 }
 
                 if (inDoubleTouch && !isPointOneDown && !isPointTwoDown) {
-                    attemptToRotate();
+                    boolean fliped = attemptToFlip();
+                    if ( !fliped ) attemptToRotate();
                     resetVars();
                 }
 
@@ -114,31 +116,48 @@ public class GameTouchListener implements View.OnTouchListener {
         inDoubleTouch = false;
     }
 
-    void attemptToRotate() {
-        Log.d( "pointOne", pointOne.x() + " " + pointOne.y() );
-        Log.d( "pointOneEnd", pointOneEnd.x() + " " + pointOneEnd.y() );
+    boolean attemptToFlip() {
+        if ( ( ( pointOne.x() < SCALING/2 && pointTwo.x() < SCALING/2 && pointTwoEnd.x() > SCALING/2 && pointTwoEnd.x() > SCALING/2 ) ||
+               ( pointOne.x() > SCALING/2 && pointTwo.x() > SCALING/2 && pointTwoEnd.x() < SCALING/2 && pointTwoEnd.x() < SCALING/2 ) ) &&
+               ( pointOneEnd.y() - DRAWINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + DRAWINGTHRESHOLD &&
+                 pointTwoEnd.y() - DRAWINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + DRAWINGTHRESHOLD ) ) {
+            gameController.flipHorizontally();
+            return true;
+        }
+        else if ( ( ( pointOne.y() < SCALING/2 && pointTwo.y() < SCALING/2 && pointTwoEnd.y() > SCALING/2 && pointTwoEnd.y() > SCALING/2 ) ||
+                   ( pointOne.y() > SCALING/2 && pointTwo.y() > SCALING/2 && pointTwoEnd.y() < SCALING/2 && pointTwoEnd.y() < SCALING/2 ) ) &&
+                   ( pointOneEnd.x() - DRAWINGTHRESHOLD <= pointOne.x() && pointOne.x() <= pointOneEnd.x() + DRAWINGTHRESHOLD &&
+                     pointTwoEnd.x() - DRAWINGTHRESHOLD <= pointTwo.x() && pointTwo.x() <= pointTwoEnd.x() + DRAWINGTHRESHOLD ) ) {
+            gameController.flipVertically();
+            return true;
+        }
+        return false;
+    }
 
-        Log.d( "pointTwo", pointTwo.x() + " " + pointTwo.y() );
-        Log.d( "pointTwoEnd", pointTwoEnd.x() + " " + pointTwoEnd.y() );
-
+    boolean attemptToRotate() {
         if ( pointOne.y() >= pointTwo.y() ) {
-            if ( ( pointOne.y() >= pointOneEnd.y() || pointOne.x() >= pointOneEnd.x() ) &&
-                 ( pointTwo.y() <= pointTwoEnd.y() || pointTwo.x() <= pointTwoEnd.x() ) ) {
+            if ( ( /*pointOne.y() >= pointOneEnd.y() &&*/ pointOne.x() >= pointOneEnd.x() ) &&
+                 ( /*pointTwo.y() <= pointTwoEnd.y() &&*/ pointTwo.x() <= pointTwoEnd.x() ) ) {
                 gameController.rotateRight();
+                return true;
             }
-            else if ( ( pointOne.y() <= pointOneEnd.y() || pointOne.x() <= pointOneEnd.x() ) &&
-                      ( pointTwo.y() >= pointTwoEnd.y() || pointTwo.x() >= pointTwoEnd.x() ) ) {
+            else if ( ( /*pointOne.y() <= pointOneEnd.y() &&*/ pointOne.x() <= pointOneEnd.x() ) &&
+                      ( /*pointTwo.y() >= pointTwoEnd.y() &&*/ pointTwo.x() >= pointTwoEnd.x() ) ) {
                 gameController.rotateLeft();
+                return true;
             }
         } else {
-            if ( ( pointOne.y() <= pointOneEnd.y() || pointOne.x() <= pointOneEnd.x() ) &&
-                 ( pointTwo.y() >= pointTwoEnd.y() || pointTwo.x() >= pointTwoEnd.x() ) ) {
+            if ( ( /*pointOne.y() <= pointOneEnd.y() &&*/ pointOne.x() <= pointOneEnd.x() ) &&
+                 ( /*pointTwo.y() >= pointTwoEnd.y() &&*/ pointTwo.x() >= pointTwoEnd.x() ) ) {
                 gameController.rotateRight();
+                return true;
             }
-            else if ( ( pointOne.y() >= pointOneEnd.y() || pointOne.x() >= pointOneEnd.x() ) &&
-                      ( pointTwo.y() <= pointTwoEnd.y() || pointTwo.x() <= pointTwoEnd.x() ) ) {
+            else if ( ( /*pointOne.y() >= pointOneEnd.y() &&*/ pointOne.x() >= pointOneEnd.x() ) &&
+                      ( /*pointTwo.y() <= pointTwoEnd.y() &&*/ pointTwo.x() <= pointTwoEnd.x() ) ) {
                 gameController.rotateLeft();
+                return true;
             }
         }
+        return false;
     }
 }
