@@ -116,7 +116,7 @@ public class GameView {
         paint.setStrokeWidth( LINEWIDTH/10 );
         drawBackgroundImage( GRID );
         paint.setStrokeWidth( LINEWIDTH );
-        drawBackgroundImage( BORDER );
+        //drawBackgroundImage( BORDER );
     }
 
 
