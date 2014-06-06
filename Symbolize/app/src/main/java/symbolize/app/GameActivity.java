@@ -2,16 +2,11 @@ package symbolize.app;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,7 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class MainActivity extends Activity
+public class GameActivity extends Activity
     implements ShakeListener.Callback {
 
     @Override
@@ -51,8 +46,7 @@ public class MainActivity extends Activity
         // Set up Screen
 
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
 
         // Set up linerlayouts and bitamps
@@ -70,8 +64,9 @@ public class MainActivity extends Activity
         background.getLayoutParams().height = SCREENSIZE.x;
         background.getLayoutParams().width = SCREENSIZE.x;
 
-        findViewById( R.id.buttons ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 2;
-        findViewById( R.id.adspace ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 2;
+        findViewById( R.id.topbar ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
+        findViewById( R.id.buttons ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
+        findViewById( R.id.adspace ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
 
         Bitmap bitMap_fg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
                 SCALING, SCALING, true );
@@ -153,35 +148,6 @@ public class MainActivity extends Activity
             }
         } );
     }
-
-
-    /*
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param Menu menu: The desired menu to inflate
-     */
-    @Override
-    public boolean onCreateOptionsMenu( Menu menu ) {
-        getMenuInflater().inflate( R.menu.main, menu );
-        return true;
-    }
-
-    /*
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param Menuitem item: Interface for direct access to a previously created menu item.
-     */
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        int id = item.getItemId();
-        if ( id == R.id.action_settings ) {
-            return true;
-        }
-        return super.onOptionsItemSelected( item );
-    }
-
 
     // Button methods
     // ---------------
