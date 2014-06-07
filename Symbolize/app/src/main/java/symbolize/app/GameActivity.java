@@ -1,9 +1,11 @@
 package symbolize.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -17,23 +19,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class GameActivity extends Activity
-    implements ShakeListener.Callback {
-
-    @Override
-    public void shakingStarted() {}
-
-    @Override
-    public void shakingStopped() {
-        gameController.shift();
-    }
-
+public class GameActivity extends Activity {
     // Main fields
     //--------------
 
     private LinearLayout foreground;
     private LinearLayout background;
     private GameController gameController;
+    //private ShakeListener mShaker;
 
 
     /*
@@ -103,6 +96,20 @@ public class GameActivity extends Activity
         setUpListeners();
     }
 
+    /*@Override
+    public void onResume()
+    {
+        mShaker.resume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        mShaker.pause();
+        super.onPause();
+    }*/
+
     /*
      * Method called to set up event/gesture listeners for game
      */
@@ -147,6 +154,13 @@ public class GameActivity extends Activity
                 gameController.flipVertically();
             }
         } );
+
+        /*mShaker = new ShakeListener(this);
+        mShaker.setOnShakeListener(new ShakeListener.OnShakeListener () {
+            public void onShake() {
+                gameController.shift();
+            }
+        });*/
     }
 
     // Button methods
@@ -186,4 +200,6 @@ public class GameActivity extends Activity
     public void onUndoButtonClicked( View view ) {
         gameController.undo();
     }
+
+
 }
