@@ -11,6 +11,8 @@ public class Line {
     //--------
 
     private Posn p1, p2;
+    private final float slope;
+    private final float y_intercept;
     private int color;
     private final Owner owner;
 
@@ -21,6 +23,8 @@ public class Line {
     public Line() {
         p1 = null;
         p2 = null;
+        slope = Float.POSITIVE_INFINITY;
+        y_intercept = Float.POSITIVE_INFINITY;
         color = Integer.parseInt(null);
         owner = null;
     }
@@ -33,6 +37,17 @@ public class Line {
             p1 = pt2;
             p2 = pt1;
         }
+
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = Math.round( dy / dx );
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
+
         color = Color.BLACK;
         owner = Owner.App;
     }
@@ -45,6 +60,17 @@ public class Line {
             p1 = pt2;
             p2 = pt1;
         }
+
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = Math.round( dy / dx );
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
+
         color = hue;
         owner = Owner.App;
     }
@@ -57,6 +83,17 @@ public class Line {
             p1 = pt2;
             p2 = pt1;
         }
+
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = Math.round( dy / dx );
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
+
         color = Color.BLACK;
         owner = creator;
     }
@@ -69,6 +106,17 @@ public class Line {
             p1 = pt2;
             p2 = pt1;
         }
+
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = Math.round( dy / dx );
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
+
         color = hue;
         owner = creator;
     }
@@ -117,30 +165,21 @@ public class Line {
      * @param Posn point: point of interest
      */
     public boolean intersect( Posn point ) {
-        int dx = p2.x() - p1.x();
-        if ( ( ( dx - ERASINGTHRESHOLD ) <= 0 ) && ( 0 <= ( dx + ERASINGTHRESHOLD ) ) ) { // if approx vertical line
-            return ( ( ( p1.x() - ERASINGTHRESHOLD ) <= point.x() ) &&
-                   ( point.x() <= ( p1.x() + ERASINGTHRESHOLD ) ) ) &&
-                   ( Math.min( p1.y(), p2.y() ) <= point.y() ) &&
-                   ( point.y() <= Math.max( p1.y(), p2.y() ) );
+        if ( slope == Float.POSITIVE_INFINITY ) {
+            Log.d( "P1", p1.x() + " " + p1.y() );
+            Log.d( "P2", p2.x() + " " + p2.y() );
+            Log.d( "Point", point.x() + " " + point.y() );
         }
-        int dy = p2.y() - p1.y();
-        if ( ( ( dy - ERASINGTHRESHOLD ) <= 0 ) && ( 0 <= ( dy + ERASINGTHRESHOLD ) ) ) { // if approx horizontal line
-            return ( ( ( p1.y() - ERASINGTHRESHOLD ) <= point.y() ) &&
-                    ( point.y() <= ( p1.y() + ERASINGTHRESHOLD ) ) ) &&
-                    ( Math.min( p1.x(), p2.x() ) <= point.x() ) &&
-                    ( point.x() <= Math.max( p1.x(), p2.x() ) );
+        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() && point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
+            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() && point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
+            if ( ( slope != Float.POSITIVE_INFINITY ) && ( slope != 0 ) ) {
+                int x  = Math.round( ( point.y() - y_intercept ) /slope );
+                int y = Math.round( slope * point.x() + y_intercept );
+                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
+            }
+            return true;
         }
-
-        int slope = Math.round( dy / dx );                  // m
-        int y_intercept = p1.y() - ( slope * p1.x() );      // b
-        int result = ( slope * point.x() ) + y_intercept;   // mx + b
-        return ( ( point.y() - ERASINGTHRESHOLD ) <= result ) &&
-               ( result <= ( point.y() + ERASINGTHRESHOLD ) ) &&
-               ( Math.min( p1.y(), p2.y() ) <= point.y() ) &&
-               ( point.y() <= Math.max( p1.y(), p2.y() ) ) &&
-               ( Math.min( p1.x(), p2.x() ) <= point.x() ) &&
-               ( point.x() <= Math.max( p1.x(), p2.x() ) );
+        return false;
     }
 
     /*
