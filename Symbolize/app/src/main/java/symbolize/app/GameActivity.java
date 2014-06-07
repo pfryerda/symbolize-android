@@ -3,7 +3,12 @@ package symbolize.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -19,14 +24,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements SensorEventListener {
     // Main fields
     //--------------
 
     private LinearLayout foreground;
     private LinearLayout background;
     private GameController gameController;
-    //private ShakeListener mShaker;
+
+    private SensorManager sensorManager;
+    private boolean shaking;
+    private long lastUpdate;
 
 
     /*
@@ -36,10 +44,11 @@ public class GameActivity extends Activity {
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        // Set up Screen
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        shaking = false;
+        lastUpdate = System.currentTimeMillis();
 
 
         // Set up linerlayouts and bitamps
@@ -96,20 +105,6 @@ public class GameActivity extends Activity {
         setUpListeners();
     }
 
-    /*@Override
-    public void onResume()
-    {
-        mShaker.resume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause()
-    {
-        mShaker.pause();
-        super.onPause();
-    }*/
-
     /*
      * Method called to set up event/gesture listeners for game
      */
@@ -154,14 +149,62 @@ public class GameActivity extends Activity {
                 gameController.flipVertically();
             }
         } );
-
-        /*mShaker = new ShakeListener(this);
-        mShaker.setOnShakeListener(new ShakeListener.OnShakeListener () {
-            public void onShake() {
-                gameController.shift();
-            }
-        });*/
     }
+
+
+
+    // Sensor methods
+    //----------------
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // register this class as a listener for the orientation and
+        // accelerometer sensors
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        // unregister listener
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            getAccelerometer(event);
+        }
+    }
+
+    private void getAccelerometer(SensorEvent event) {
+        // Movement
+        float[] values = event.values;
+        float x = values[0];
+        float y = values[1];
+        float z = values[2];
+
+        float accelationSquareRoot = (x * x + y * y + z * z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+        long actualTime = event.timestamp;
+
+        if ( ( accelationSquareRoot >= SHAKETHRESHOLD ) && !shaking ) {
+            if ( actualTime - lastUpdate < SHAKESEPARATIONTIME ) {
+                return;
+            }
+            shaking = true;
+            lastUpdate = actualTime;
+        } else if ( ( accelationSquareRoot <= SHAKEIDLETHRESHOLD ) && shaking )  {
+            shaking = false;
+            gameController.shift();
+        }
+    }
+
 
     // Button methods
     // ---------------
