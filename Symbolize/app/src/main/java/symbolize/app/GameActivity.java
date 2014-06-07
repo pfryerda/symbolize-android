@@ -18,13 +18,20 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import static symbolize.app.Constants.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 
 public class GameActivity extends Activity  {
+    // Static fields
+    //---------------
+
+    public static final int SCALING = 1000;
+    public static Point SCREENSIZE;
+    public static final String LUKE = "Awesome";
+
+
     // Main fields
     //--------------
 

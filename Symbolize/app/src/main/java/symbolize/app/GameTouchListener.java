@@ -1,19 +1,21 @@
 package symbolize.app;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static symbolize.app.Constants.*;
-import static symbolize.app.Constants.SCALING;
 
 public class GameTouchListener implements View.OnTouchListener {
+    // Satic Fields
+    //--------------
+
+    public static final int FLIPPINGTHRESHOLD = 140;
+    public static final int MINLINESIZESQR = 10000;
+    public static final int ERASEDELAY = 250;
+
+
     // Fields
     //-------
 
@@ -132,8 +134,10 @@ public class GameTouchListener implements View.OnTouchListener {
         float touchX = event.getX( event.getActionIndex() );
         float touchY = event.getY( event.getActionIndex() );
 
-        int scaledX = Math.min( SCALING, Math.max( 0, Math.round( touchX * SCALING / SCREENSIZE.x ) ) );
-        int scaledY = Math.min( SCALING, Math.max( 0, Math.round( touchY * SCALING / SCREENSIZE.x ) ) );
+        int scaledX = Math.min( GameActivity.SCALING,
+                Math.max( 0, Math.round( touchX * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
+        int scaledY = Math.min( GameActivity.SCALING,
+                Math.max( 0, Math.round( touchY * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
 
         return new Posn( scaledX, scaledY );
     }
@@ -162,15 +166,15 @@ public class GameTouchListener implements View.OnTouchListener {
      * given gesture resembles a flipping gesture.
      */
     boolean attemptToFlip() {
-        if ( ( ( pointOne.x() < SCALING/2 && pointTwo.x() < SCALING/2 && pointTwoEnd.x() > SCALING/2 && pointTwoEnd.x() > SCALING/2 ) ||
-               ( pointOne.x() > SCALING/2 && pointTwo.x() > SCALING/2 && pointTwoEnd.x() < SCALING/2 && pointTwoEnd.x() < SCALING/2 ) ) &&
+        if ( ( ( pointOne.x() < GameActivity.SCALING/2 && pointTwo.x() < GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 ) ||
+               ( pointOne.x() > GameActivity.SCALING/2 && pointTwo.x() > GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 ) ) &&
                ( pointOneEnd.y() - FLIPPINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + FLIPPINGTHRESHOLD &&
                  pointTwoEnd.y() - FLIPPINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + FLIPPINGTHRESHOLD ) ) {
             onFlipHorizontally();
             return true;
         }
-        else if ( ( ( pointOne.y() < SCALING/2 && pointTwo.y() < SCALING/2 && pointTwoEnd.y() > SCALING/2 && pointTwoEnd.y() > SCALING/2 ) ||
-                    ( pointOne.y() > SCALING/2 && pointTwo.y() > SCALING/2 && pointTwoEnd.y() < SCALING/2 && pointTwoEnd.y() < SCALING/2 ) ) &&
+        else if ( ( ( pointOne.y() < GameActivity.SCALING/2 && pointTwo.y() < GameActivity.SCALING/2 && pointTwoEnd.y() > GameActivity.SCALING/2 && pointTwoEnd.y() > GameActivity.SCALING/2 ) ||
+                    ( pointOne.y() > GameActivity.SCALING/2 && pointTwo.y() > GameActivity.SCALING/2 && pointTwoEnd.y() < GameActivity.SCALING/2 && pointTwoEnd.y() < GameActivity.SCALING/2 ) ) &&
                     ( pointOneEnd.x() - FLIPPINGTHRESHOLD <= pointOne.x() && pointOne.x() <= pointOneEnd.x() + FLIPPINGTHRESHOLD &&
                       pointTwoEnd.x() - FLIPPINGTHRESHOLD <= pointTwo.x() && pointTwo.x() <= pointTwoEnd.x() + FLIPPINGTHRESHOLD ) ) {
             onFlipVertically();

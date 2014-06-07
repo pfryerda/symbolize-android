@@ -1,12 +1,24 @@
 package symbolize.app;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.graphics.Color;
 import android.util.Log;
+import android.util.SparseIntArray;
 
-import static symbolize.app.Constants.*;
 
 public class Line {
+    // Static Fields
+    //---------------
+
+    public static final int DRAWINGTHRESHOLD = 140;
+    public static final int ERASINGTHRESHOLD = 75;
+    public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
+    public static final SparseIntArray COLORMAP = makeColorMap();
+
+
     // Fields
     //--------
 
@@ -218,12 +230,12 @@ public class Line {
     public void rotateRight() {
         int x0 = p1.x();
         int y0 = p1.y();
-        p1.setX( SCALING - y0 );
+        p1.setX( GameActivity.SCALING - y0 );
         p1.setY(x0);
 
         x0 = p2.x();
         y0 = p2.y();
-        p2.setX( SCALING - y0 );
+        p2.setX( GameActivity.SCALING - y0 );
         p2.setY(x0);
     }
 
@@ -231,31 +243,43 @@ public class Line {
         int x0 = p1.x();
         int y0 = p1.y();
         p1.setX( y0 );
-        p1.setY( SCALING - x0 );
+        p1.setY( GameActivity.SCALING - x0 );
 
         x0 = p2.x();
         y0 = p2.y();
         p2.setX( y0 );
-        p2.setY( SCALING - x0 );
+        p2.setY( GameActivity.SCALING - x0 );
     }
 
     public void flipH() {
         int x0 = p1.x();
-        p1.setX( SCALING - x0 );
+        p1.setX( GameActivity.SCALING - x0 );
 
         x0 = p2.x();
-        p2.setX( SCALING - x0 );
+        p2.setX( GameActivity.SCALING - x0 );
     }
 
     public void flipV() {
         int y0 = p1.y();
-        p1.setY( SCALING - y0 );
+        p1.setY( GameActivity.SCALING - y0 );
 
         y0 = p2.y();
-        p2.setY( SCALING - y0 );
+        p2.setY( GameActivity.SCALING - y0 );
     }
 
     public void editColor() {
         color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
+    }
+
+
+    // Static methods
+    //---------------
+
+    public final static SparseIntArray makeColorMap() {
+        SparseIntArray colormap = new SparseIntArray();
+        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
+            colormap.put( COLORARRAY.get(i), i );
+        }
+        return colormap;
     }
 }
