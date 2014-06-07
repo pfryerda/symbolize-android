@@ -2,19 +2,9 @@ package symbolize.app;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.util.Log;
-import android.view.Display;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 
-import static symbolize.app.Constants.*;
 
 /*
  * Class in charge of given a command from the user, manipulate the

@@ -4,15 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
@@ -20,12 +16,21 @@ import android.widget.Toast;
 
 import java.util.LinkedList;
 
-import static symbolize.app.Constants.*;
 
 /*
  * Class in charge of updating the display/view with new alterations to the GameModel
  */
 public class GameView {
+    // Satic Fields
+    //-------------
+
+    public static final int LINEWIDTH = 60;
+    public static final int ROTATEDURATION = 450;
+    public static final int FLIPDURATION = 450;
+    public static final int FADEDURATION = 450;
+    public static final LinkedList<Line> GRID = makeGrid();
+
+
     // Fields
     //--------
 
@@ -220,5 +225,22 @@ public class GameView {
 
     public void renderShift() {
         foregound.startAnimation(fadeOutAndInAnimation);
+    }
+
+
+    // Static methods
+    //----------------
+
+    public final static LinkedList<Line> makeGrid() {
+        LinkedList<Line> grid = new LinkedList<Line>();
+        for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
+            grid.addLast( new Line( new Posn( x, 0 ), new Posn( x, GameActivity.SCALING ), Color.LTGRAY ) );
+        }
+
+        for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
+            grid.addLast( new Line( new Posn( 0, y ), new Posn( GameActivity.SCALING, y ), Color.LTGRAY ) );
+        }
+
+        return grid;
     }
 }
