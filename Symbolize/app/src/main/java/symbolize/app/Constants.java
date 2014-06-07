@@ -21,7 +21,10 @@ public class Constants {
     public static final int MINLINESIZESQR = 10000;
     public static final int ROTATEDURATION = 450;
     public static final int FLIPDURATION = 450;
-    public static final int FADEDURATION = 500;
+    public static final int FADEDURATION = 450;
+    public static final int SHAKETHRESHOLD = 8;
+    public static final double SHAKEIDLETHRESHOLD = 1.15;
+    public static final int SHAKESEPARATIONTIME = 500;
     public static final int ERASEDELAY = 250; // In milisceonds ?
     public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList( Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA ) );
     public static final SparseIntArray COLORMAP = makeColorMap();
