@@ -1,113 +1,97 @@
 package symbolize.app;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+/* The following code was written by Matthew Wiggins
+ * and is released under the APACHE 2.0 license
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+import android.hardware.SensorListener;
 import android.hardware.SensorManager;
-import android.os.SystemClock;
+import android.content.Context;
+import java.lang.UnsupportedOperationException;
 
-/*
+public class ShakeListener implements SensorListener
+{
+    private static final int FORCE_THRESHOLD = 700;
+    private static final int TIME_THRESHOLD = 200;
+    private static final int SHAKE_TIMEOUT = 1000;
+    private static final int SHAKE_DURATION = 2000;
+    private static final int SHAKE_COUNT = 4;
 
-Usage:
+    private SensorManager mSensorMgr;
+    private float mLastX=-1.0f, mLastY=-1.0f, mLastZ=-1.0f;
+    private long mLastTime;
+    private OnShakeListener mShakeListener;
+    private Context mContext;
+    private int mShakeCount = 0;
+    private long mLastShake;
+    private long mLastForce;
 
-  public class MainActivity extends Activity
-       implements ShakeListener.Callback {
-
-    @Override
-    public void shakingStarted() {
-      // Code on started here
+    public interface OnShakeListener
+    {
+        public void onShake();
     }
 
-    @Override
-    public void shakingStopped() {
-      // Code on stopped here
-    }
-  }
-
-*/
-public class ShakeListener {
-    private SensorManager mgr = null;
-    private long lastShakeTimestamp = 0;
-    private double threshold = 1.0d;
-    private long gap = 0;
-    private ShakeListener.Callback cb = null;
-
-    public ShakeListener(Context ctxt, double threshold, long gap, ShakeListener.Callback cb) {
-        this.threshold = threshold * threshold;
-        this.threshold = this.threshold * SensorManager.GRAVITY_EARTH
-                * SensorManager.GRAVITY_EARTH;
-        this.gap = gap;
-        this.cb = cb;
-
-        mgr = (SensorManager) ctxt.getSystemService(Context.SENSOR_SERVICE);
-        mgr.registerListener(listener,
-                mgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_UI);
+    public ShakeListener(Context context)
+    {
+        mContext = context;
+        resume();
     }
 
-    public void close() {
-        mgr.unregisterListener(listener);
+    public void setOnShakeListener(OnShakeListener listener)
+    {
+        mShakeListener = listener;
     }
 
-    private void isShaking() {
-        long now = SystemClock.uptimeMillis();
-        try {
-            if (lastShakeTimestamp == 0) {
-                lastShakeTimestamp = now;
+    public void resume() {
+        mSensorMgr = (SensorManager)mContext.getSystemService(Context.SENSOR_SERVICE);
+        if (mSensorMgr == null) {
+            throw new UnsupportedOperationException("Sensors not supported");
+        }
+        boolean supported = mSensorMgr.registerListener(this, SensorManager.SENSOR_ACCELEROMETER, SensorManager.SENSOR_DELAY_GAME);
+        if (!supported) {
+            mSensorMgr.unregisterListener(this, SensorManager.SENSOR_ACCELEROMETER);
+            throw new UnsupportedOperationException("Accelerometer not supported");
+        }
+    }
 
-                if (cb != null) {
-                    cb.shakingStarted();
+    public void pause() {
+        if (mSensorMgr != null) {
+            mSensorMgr.unregisterListener(this, SensorManager.SENSOR_ACCELEROMETER);
+            mSensorMgr = null;
+        }
+    }
+
+    public void onAccuracyChanged(int sensor, int accuracy) { }
+
+    public void onSensorChanged(int sensor, float[] values)
+    {
+        if (sensor != SensorManager.SENSOR_ACCELEROMETER) return;
+        long now = System.currentTimeMillis();
+
+        if ((now - mLastForce) > SHAKE_TIMEOUT) {
+            mShakeCount = 0;
+        }
+
+        if ((now - mLastTime) > TIME_THRESHOLD) {
+            long diff = now - mLastTime;
+            float speed = Math.abs(values[SensorManager.DATA_X] + values[SensorManager.DATA_Y] + values[SensorManager.DATA_Z] - mLastX - mLastY - mLastZ) / diff * 10000;
+            if (speed > FORCE_THRESHOLD) {
+                if ((++mShakeCount >= SHAKE_COUNT) && (now - mLastShake > SHAKE_DURATION)) {
+                    mLastShake = now;
+                    mShakeCount = 0;
+                    if (mShakeListener != null) {
+                        mShakeListener.onShake();
+                    }
                 }
-            } else {
-                lastShakeTimestamp = now;
+                mLastForce = now;
             }
-        } catch (NullPointerException e) {
-
+            mLastTime = now;
+            mLastX = values[SensorManager.DATA_X];
+            mLastY = values[SensorManager.DATA_Y];
+            mLastZ = values[SensorManager.DATA_Z];
         }
     }
-
-    private void isNotShaking() {
-        long now = SystemClock.uptimeMillis();
-
-        if (lastShakeTimestamp > 0) {
-            if (now - lastShakeTimestamp > gap) {
-                lastShakeTimestamp = 0;
-
-                if (cb != null) {
-                    cb.shakingStopped();
-                }
-            }
-        }
-    }
-
-    public interface Callback {
-        void shakingStarted();
-
-        void shakingStopped();
-    }
-
-    private final SensorEventListener listener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent e) {
-            if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                double netForce = e.values[0] * e.values[0];
-
-                netForce += e.values[1] * e.values[1];
-                netForce += e.values[2] * e.values[2];
-
-                if (threshold < netForce) {
-                    isShaking();
-                } else {
-                    isNotShaking();
-                }
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            // unused
-        }
-    };
 
 }
