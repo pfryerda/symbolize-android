@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class GameActivity extends Activity implements SensorEventListener {
+public class GameActivity extends Activity  {
     // Main fields
     //--------------
 
@@ -33,8 +33,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private GameController gameController;
 
     private SensorManager sensorManager;
-    private boolean shaking;
-    private long lastUpdate;
+    private ShakeDetector shakeDetector;
 
 
     /*
@@ -47,8 +46,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        shaking = false;
-        lastUpdate = System.currentTimeMillis();
+        shakeDetector =  new ShakeDetector();
 
 
         // Set up linerlayouts and bitamps
@@ -149,60 +147,13 @@ public class GameActivity extends Activity implements SensorEventListener {
                 gameController.flipVertically();
             }
         } );
-    }
 
-
-
-    // Sensor methods
-    //----------------
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // register this class as a listener for the orientation and
-        // accelerometer sensors
-        sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause() {
-        // unregister listener
-        super.onPause();
-        sensorManager.unregisterListener(this);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getAccelerometer(event);
-        }
-    }
-
-    private void getAccelerometer(SensorEvent event) {
-        // Movement
-        float[] values = event.values;
-        float x = values[0];
-        float y = values[1];
-        float z = values[2];
-
-        float accelationSquareRoot = (x * x + y * y + z * z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-        long actualTime = event.timestamp;
-
-        if ( ( accelationSquareRoot >= SHAKETHRESHOLD ) && !shaking ) {
-            if ( actualTime - lastUpdate < SHAKESEPARATIONTIME ) {
-                return;
+        shakeDetector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake() {
+                gameController.shift();
             }
-            shaking = true;
-            lastUpdate = actualTime;
-        } else if ( ( accelationSquareRoot <= SHAKEIDLETHRESHOLD ) && shaking )  {
-            shaking = false;
-            gameController.shift();
-        }
+        } );
     }
 
 
@@ -245,4 +196,20 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
 
+    // Methods used to stop sensors on pause ( save resources )
+    //---------------------------------------------------------
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener( shakeDetector,
+                sensorManager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
+                SensorManager.SENSOR_DELAY_NORMAL );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener( shakeDetector );
+    }
 }
