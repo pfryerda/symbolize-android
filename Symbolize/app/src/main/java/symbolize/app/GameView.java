@@ -25,6 +25,7 @@ public class GameView {
     //-------------
 
     public static final int LINEWIDTH = 60;
+    public static final int SHADOW = 80;
     public static final int ROTATEDURATION = 450;
     public static final int FLIPDURATION = 450;
     public static final int FADEDURATION = 450;
@@ -121,7 +122,6 @@ public class GameView {
         paint.setStrokeWidth( LINEWIDTH/10 );
         drawBackgroundImage( GRID );
         paint.setStrokeWidth( LINEWIDTH );
-        //drawBackgroundImage( BORDER );
     }
 
 
@@ -201,10 +201,28 @@ public class GameView {
     // Action methods
     //----------------
 
-    public void renderLine(Line l) {
+    public void renderLine( Line l ) {
         paint.setColor(l.getColor());
         foregoundCanvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
         foregound.invalidate();
+    }
+
+    public void renderShadowLine( Line l ) {
+        renderGraph();
+        paint.setColor( Color.BLACK );
+        paint.setAlpha( SHADOW );
+        foregoundCanvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
+        foregound.invalidate();
+    }
+
+    public void renderShadowPoint( Posn point ) {
+        renderGraph();
+        paint.setColor( Color.BLACK );
+        paint.setAlpha( SHADOW );
+        paint.setStrokeWidth( LINEWIDTH * 2);
+        foregoundCanvas.drawPoint( point.x(), point.y(), paint );
+        foregound.invalidate();
+        paint.setStrokeWidth( LINEWIDTH );
     }
 
     public void renderRotateR() {
