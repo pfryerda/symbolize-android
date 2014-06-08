@@ -68,10 +68,6 @@ public class GameController {
     // Button methods
     //---------------
 
-    public void toogleModes() {
-        drawnEnabled = !drawnEnabled;
-    }
-
     public boolean checkSolution() {
         return currLevel.checkCorrectness( gameModel.getGraph() );
 		/* Check last level      */
@@ -89,6 +85,14 @@ public class GameController {
             gameModel = gameModel.getPastState();
             gameView.renderUndo();
         }
+    }
+
+    public void enterDrawMode() {
+        drawnEnabled = true;
+    }
+
+    public void enterEraseMode() {
+        drawnEnabled = false;
     }
 
 
