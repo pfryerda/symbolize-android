@@ -184,14 +184,16 @@ public class GameActivity extends Activity  {
     // Button methods
     // ---------------
 
-    public void onToggleButtonClicked( View view ) {
-        Button toggleButton = (Button) findViewById(R.id.Toggle);
-        if(toggleButton.getText() == "Draw") {
-            toggleButton.setText("Erase");
-        } else {
-            toggleButton.setText("Draw");
-        }
-        gameController.toogleModes();
+    public void onLevelsButtonClicked( View view ) {
+        Toast.makeText( this, "Levels!", Toast.LENGTH_SHORT ).show();
+    }
+
+    public void onSettingsButtonClicked( View view ) {
+        Toast.makeText( this, "Settings!", Toast.LENGTH_SHORT ).show();
+    }
+
+    public void onResetButtonClicked( View view ) {
+        gameController.reset();
     }
 
     public void onCheckButtonClicked(View view) {
@@ -203,20 +205,19 @@ public class GameActivity extends Activity  {
     }
 
     public void onHintButtonClicked( View view ) {
-        //gameController.rotateRight();
-        //gameController.rotateLeft();
-        //gameController.flipHorizontally();
-        //gameController.flipVertically();
-        gameController.shift();
-        /*Display hint box here;*/
-    }
-
-    public void onResetButtonClicked( View view ) {
-        gameController.reset();
+        Toast.makeText( this, "Hint!", Toast.LENGTH_SHORT ).show();
     }
 
     public void onUndoButtonClicked( View view ) {
         gameController.undo();
+    }
+
+    public void onDrawButtonClicked( View view ) {
+        gameController.enterDrawMode();
+    }
+
+    public void onEraseButtonClicked( View view ) {
+        gameController.enterEraseMode();
     }
 
 
