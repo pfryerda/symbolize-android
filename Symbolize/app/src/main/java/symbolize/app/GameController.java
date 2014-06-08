@@ -45,6 +45,13 @@ public class GameController {
         gameView.renderGraph();
     }
 
+    /*
+     * Method that simply redraws the graph removing all shadows currently drawn on screen
+     */
+    public void removeShadows() {
+        gameView.renderGraph();
+    }
+
     // Geter methods
     //--------------
 
@@ -97,6 +104,10 @@ public class GameController {
         }
     }
 
+    public void drawShadowLine( Line line ) {
+        gameView.renderShadowLine( line );
+    }
+
     public void tryToErase( Posn point ) {
         for ( Line l : gameModel.getGraph() ) {
             if ( l.intersect( point ) ) {
@@ -104,6 +115,10 @@ public class GameController {
                 break;
             }
         }
+    }
+
+    public void drawShadowPoint( Posn point ) {
+        gameView.renderShadowPoint( point );
     }
 
     private void eraseLine( Line line ) {

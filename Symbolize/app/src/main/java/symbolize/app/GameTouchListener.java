@@ -66,6 +66,7 @@ public class GameTouchListener implements View.OnTouchListener {
             }
 
             case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
+                onEnterDobuleTouch();
                 pointTwo = getPoint( event );
                 isPointTwoDown = true;
                 inDoubleTouch = true;
@@ -94,7 +95,9 @@ public class GameTouchListener implements View.OnTouchListener {
 
                 if ( inDoubleTouch && !isPointOneDown && !isPointTwoDown ) {
                     boolean flipped = attemptToFlip();
-                    if ( !flipped ) attemptToRotate();
+                    if ( !flipped ) {
+                        attemptToRotate();
+                    }
                     resetVars();
                 }
 
@@ -104,8 +107,12 @@ public class GameTouchListener implements View.OnTouchListener {
             }
 
             case MotionEvent.ACTION_MOVE: {                                 // Finger moves
-                if ( !inDoubleTouch && isEraseDelayDone ) {
-                    onErase( getPoint( event ) );
+                if ( !inDoubleTouch ) {
+                    Posn pointTemp = getPoint( event );
+                    onMove( new Line( pointOne, pointTemp ), pointTemp );
+                    if ( isEraseDelayDone ) {
+                        onErase( pointTemp );
+                    }
                 }
                 return true;
             }
@@ -222,7 +229,15 @@ public class GameTouchListener implements View.OnTouchListener {
 
     }
 
+    public void onMove( Line line, Posn point ) {
+
+    }
+
     public void onTap( Posn point ) {
+
+    }
+
+    public void onEnterDobuleTouch() {
 
     }
 

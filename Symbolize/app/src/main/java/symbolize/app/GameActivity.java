@@ -117,6 +117,7 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
+                gameController.removeShadows();
                 if ( gameController.isInDrawMode() ) {
                     gameController.drawLine( line );
                 }
@@ -125,13 +126,29 @@ public class GameActivity extends Activity  {
             @Override
             public void onErase( Posn point ) {
                 if( gameController.isInEraseMode() ) {
+                    gameController.drawShadowPoint( point );
                     gameController.tryToErase( point );
                 }
             }
 
             @Override
+            public void onMove( Line line, Posn point ) {
+                if ( gameController.isInDrawMode() ) {
+                    gameController.drawShadowLine( line );
+                } else {
+                    gameController.drawShadowPoint( point );
+                }
+            }
+
+            @Override
             public void onTap( Posn point ) {
+                gameController.removeShadows();
                 gameController.tryToChangeColor( point );
+            }
+
+            @Override
+            public void onEnterDobuleTouch() {
+                gameController.removeShadows();
             }
 
             @Override

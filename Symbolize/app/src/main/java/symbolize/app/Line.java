@@ -23,8 +23,8 @@ public class Line {
     //--------
 
     private Posn p1, p2;
-    private final float slope;
-    private final float y_intercept;
+    private float slope;
+    private float y_intercept;
     private int color;
     private final Owner owner;
 
@@ -50,16 +50,7 @@ public class Line {
             p2 = pt1;
         }
 
-        int dx = p2.x() - p1.x();
-        int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = Math.round( dy / dx );
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
-
+        updateSlopeAndYIntercept();
         color = Color.BLACK;
         owner = Owner.App;
     }
@@ -73,16 +64,7 @@ public class Line {
             p2 = pt1;
         }
 
-        int dx = p2.x() - p1.x();
-        int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = Math.round( dy / dx );
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
-
+        updateSlopeAndYIntercept();
         color = hue;
         owner = Owner.App;
     }
@@ -96,16 +78,7 @@ public class Line {
             p2 = pt1;
         }
 
-        int dx = p2.x() - p1.x();
-        int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = Math.round( dy / dx );
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
-
+        updateSlopeAndYIntercept();
         color = Color.BLACK;
         owner = creator;
     }
@@ -119,16 +92,7 @@ public class Line {
             p2 = pt1;
         }
 
-        int dx = p2.x() - p1.x();
-        int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = Math.round( dy / dx );
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
-
+        updateSlopeAndYIntercept();
         color = hue;
         owner = creator;
     }
@@ -144,6 +108,22 @@ public class Line {
 
     // Methods
     //----------
+
+
+    /*
+     * Method used to caluclate the slope and y intercept
+     */
+    public void updateSlopeAndYIntercept() {
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = Math.round( dy / dx );
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
+    }
 
     /*
      * Method that calculates euclidean distance squared
@@ -237,6 +217,8 @@ public class Line {
         y0 = p2.y();
         p2.setX( GameActivity.SCALING - y0 );
         p2.setY(x0);
+
+        updateSlopeAndYIntercept();
     }
 
     public void rotateLeft() {
@@ -249,6 +231,8 @@ public class Line {
         y0 = p2.y();
         p2.setX( y0 );
         p2.setY( GameActivity.SCALING - x0 );
+
+        updateSlopeAndYIntercept();
     }
 
     public void flipH() {
@@ -257,6 +241,8 @@ public class Line {
 
         x0 = p2.x();
         p2.setX( GameActivity.SCALING - x0 );
+
+        updateSlopeAndYIntercept();
     }
 
     public void flipV() {
@@ -265,6 +251,8 @@ public class Line {
 
         y0 = p2.y();
         p2.setY( GameActivity.SCALING - y0 );
+
+        updateSlopeAndYIntercept();
     }
 
     public void editColor() {
