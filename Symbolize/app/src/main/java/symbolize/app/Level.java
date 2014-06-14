@@ -17,33 +17,31 @@ public class Level {
     private final int levelNum;
     private final int worldNum;
     private final String hint;
-    private final LinkedList<Line> board;
-    private final LinkedList<LinkedList<Line>> solutions;
     private final int drawRestirction;
     private final int eraseRestirction;
     private final boolean rotateEnabled;
     private final boolean flipEnabled;
     private final boolean colourEnabled;
-    private final ArrayList<LinkedList<Line>> shiftGraphs; // shiftEnabled == (shiftGraph == null)
+    private final ArrayList<LinkedList<Line>> boards;
+    private final LinkedList<LinkedList<Line>> solutions;
 
 
     // Constructor
     //-------------
-    public Level( int levelNum, int worldNum, String hint, LinkedList<Line> board,
-                 LinkedList<LinkedList<Line>> solutions, int drawRestirction, int eraseRestirction,
-                    boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
-                        ArrayList<LinkedList<Line>> shiftGraphs ) {
+    public Level( int levelNum, int worldNum, String hint, int drawRestirction, int eraseRestirction,
+                  boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
+                  ArrayList<LinkedList<Line>> boards, LinkedList<LinkedList<Line>> solutions )
+    {
         this.levelNum = levelNum;
         this.worldNum = worldNum;
         this.hint = hint;
-        this.board = board;
+        this.boards = boards;
         this.solutions = solutions;
         this.drawRestirction = drawRestirction;
         this.eraseRestirction = eraseRestirction;
         this.rotateEnabled = rotateEnabled;
         this.flipEnabled = flipEnabled;
         this.colourEnabled = colourEnabled;
-        this.shiftGraphs = shiftGraphs;
     }
 
     // Methods
@@ -62,7 +60,7 @@ public class Level {
     }
 
     public LinkedList<Line> getBoard() {
-        return board;
+        return boards.get( 0 );
     }
 
     public int getDrawRestirction() {
@@ -86,11 +84,11 @@ public class Level {
     }
 
     public boolean canShift() {
-        return (shiftGraphs != null);
+        return ( boards.size() > 1 );
     }
 
-    public ArrayList<LinkedList<Line>> getShiftGraphs()  {
-        return shiftGraphs;
+    public ArrayList<LinkedList<Line>> getBoards()  {
+        return boards;
     }
 
     public boolean checkCorrectness(LinkedList<Line> g) {
