@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -29,7 +31,6 @@ public class GameView {
     public static final int ROTATEDURATION = 450;
     public static final int FLIPDURATION = 450;
     public static final int FADEDURATION = 450;
-    public static final LinkedList<Line> GRID = makeGrid();
 
 
     // Fields
@@ -120,7 +121,7 @@ public class GameView {
         fadeInAnimation.setFillAfter( true );
 
         paint.setStrokeWidth( LINEWIDTH/10 );
-        drawBackgroundImage( GRID );
+        drawGrid();
         paint.setStrokeWidth( LINEWIDTH );
     }
 
@@ -148,15 +149,18 @@ public class GameView {
     }
 
     /*
-     * Simple method used to draw background elements in the backgroud i.e. border/grid
+     * Simple method used to draw a grid in the background
      *
      *  @param: LinkedList<Line> element: The target element we wish to draw
      */
-    private void drawBackgroundImage(LinkedList<Line> element) {
-        for (Line line : element) {
-            paint.setColor( line.getColor() );
-            backgroundCanvas.drawLine( line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint );
-            background.invalidate();
+    private void drawGrid() {
+        paint.setColor( Color.LTGRAY );
+        for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
+            backgroundCanvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
+        }
+
+        for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
+            backgroundCanvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
         }
     }
 
@@ -243,22 +247,5 @@ public class GameView {
 
     public void renderShift() {
         foregound.startAnimation(fadeOutAndInAnimation);
-    }
-
-
-    // Static methods
-    //----------------
-
-    public final static LinkedList<Line> makeGrid() {
-        LinkedList<Line> grid = new LinkedList<Line>();
-        for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
-            grid.addLast( new Line( new Posn( x, 0 ), new Posn( x, GameActivity.SCALING ), Color.LTGRAY ) );
-        }
-
-        for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
-            grid.addLast( new Line( new Posn( 0, y ), new Posn( GameActivity.SCALING, y ), Color.LTGRAY ) );
-        }
-
-        return grid;
     }
 }

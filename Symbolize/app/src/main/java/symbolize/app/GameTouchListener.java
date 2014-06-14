@@ -11,6 +11,7 @@ public class GameTouchListener implements View.OnTouchListener {
     // Satic Fields
     //--------------
 
+    public static final int TAPTHRESHOLD = 250;
     public static final int FLIPPINGTHRESHOLD = 140;
     public static final int MINLINESIZESQR = 10000;
     public static final int ERASEDELAY = 250;
@@ -30,6 +31,7 @@ public class GameTouchListener implements View.OnTouchListener {
     private boolean isPointTwoDown;
     private Posn pointTwoEnd;
 
+    private long startTime;
     private boolean inDoubleTouch;
 
 
@@ -62,6 +64,7 @@ public class GameTouchListener implements View.OnTouchListener {
                     }
                 }, ERASEDELAY );
 
+                startTime = System.currentTimeMillis();
                 return true;
             }
 
@@ -83,12 +86,15 @@ public class GameTouchListener implements View.OnTouchListener {
                     isPointOneDown = false;
 
                     if ( !inDoubleTouch ) {
+                        onFingerUp();
+                        long endtime = System.currentTimeMillis();
                         Line line = new Line( pointOne, pointOneEnd, Owner.User );
                         if ( line.distSqr() >= MINLINESIZESQR ) {
                             onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
-                        } else {
+                        } else if( ( endtime - startTime ) <= TAPTHRESHOLD  ) {
                             onTap( pointOneEnd );
                         }
+                        startTime = endtime;
                         resetVars();
                     }
                 }
@@ -109,7 +115,7 @@ public class GameTouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_MOVE: {                                 // Finger moves
                 if ( !inDoubleTouch ) {
                     Posn pointTemp = getPoint( event );
-                    onMove( new Line( pointOne, pointTemp ), pointTemp );
+                    onFingerMove( new Line( pointOne, pointTemp ), pointTemp );
                     if ( isEraseDelayDone ) {
                         onErase( pointTemp );
                     }
@@ -229,7 +235,11 @@ public class GameTouchListener implements View.OnTouchListener {
 
     }
 
-    public void onMove( Line line, Posn point ) {
+    public void onFingerUp() {
+
+    }
+
+    public void onFingerMove( Line line, Posn point ) {
 
     }
 

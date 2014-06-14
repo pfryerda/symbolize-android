@@ -70,7 +70,7 @@ public class Line {
     }
 
     public Line( Posn pt1, Posn pt2, Owner creator ) {
-        if (pt1.lt(pt2)) {
+        if ( pt1.lt( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
         } else {
@@ -84,7 +84,7 @@ public class Line {
     }
 
     public Line( Posn pt1, Posn pt2, int hue, Owner creator ) {
-        if (pt1.lt(pt2)) {
+        if ( pt1.lt( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
         } else {
@@ -120,8 +120,13 @@ public class Line {
             slope = Float.POSITIVE_INFINITY;
             y_intercept = Float.POSITIVE_INFINITY;
         } else {
-            slope = Math.round( dy / dx );
+            slope = (float) dy / dx;
             y_intercept = p1.y() - ( slope * p1.x() );
+        }
+
+        if( slope == 0 ) {
+            Log.d( "dy:",dy + "" );
+            Log.d( "dx:",dx + "" );
         }
     }
 
@@ -169,6 +174,7 @@ public class Line {
                 int y = Math.round( slope * point.x() + y_intercept );
                 return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
             }
+            Log.d( "test", "" + slope );
             return true;
         }
         return false;
