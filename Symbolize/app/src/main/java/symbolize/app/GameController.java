@@ -181,7 +181,7 @@ public class GameController {
 
     public void shift() {
         if ( currLevel.canShift() ) {
-            gameModel.shiftGraph( currLevel.getShiftGraphs() );
+            gameModel.shiftGraph( currLevel.getBoards() );
             gameView.renderShift();
         }
     }

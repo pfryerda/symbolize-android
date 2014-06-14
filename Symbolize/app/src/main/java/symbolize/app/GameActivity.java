@@ -101,11 +101,11 @@ public class GameActivity extends Activity  {
         LinkedList<Line> puzzle2 = new LinkedList<Line>();
         for(Line l : soln) puzzle2.addLast(l.clone());
 
-        ArrayList<LinkedList<Line>> sg = new ArrayList<LinkedList<Line>>();
-        sg.add(puzzle1);
-        sg.add(puzzle2);
+        ArrayList<LinkedList<Line>> boards = new ArrayList<LinkedList<Line>>();
+        boards.add(puzzle1);
+        boards.add(puzzle2);
 
-        Level level = new Level(1, 1, "Place hint here", puzzle1, solns, 30000, 30000, true, true, true, sg);
+        Level level = new Level(1, 1, "Place hint here", 30000, 30000, true, true, true, boards, solns );
 
         gameController.loadLevel( level );  // Load level 1-1
 
