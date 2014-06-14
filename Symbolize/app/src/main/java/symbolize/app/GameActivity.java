@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.Display;
@@ -19,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -106,6 +111,13 @@ public class GameActivity extends Activity  {
         boards.add(puzzle2);
 
         Level level = new Level(1, 1, "Place hint here", 30000, 30000, true, true, true, boards, solns );
+        //Serializer serializer = new Persister();
+        //File result = new File(  "C:\\Users\\Luke\\Desktop\\example.xml" );
+        /*try {
+            serializer.write( level, result );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
 
         gameController.loadLevel( level );  // Load level 1-1
 
