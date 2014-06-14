@@ -2,6 +2,9 @@ package symbolize.app;
 
 import android.util.Log;
 
+import org.simpleframework.xml.Default;
+import org.simpleframework.xml.Root;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
@@ -10,6 +13,8 @@ import java.util.Iterator;
  * Class used to store all the information about a given puzzle
  * and a method to check to see if your guess is correct.
  */
+@Root
+@Default
 public class Level {
     // Fields
     //--------

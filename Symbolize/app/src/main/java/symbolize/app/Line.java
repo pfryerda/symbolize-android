@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+import org.simpleframework.xml.Default;
 
+@Default
 public class Line {
     // Static Fields
     //---------------
@@ -122,11 +124,6 @@ public class Line {
         } else {
             slope = (float) dy / dx;
             y_intercept = p1.y() - ( slope * p1.x() );
-        }
-
-        if( slope == 0 ) {
-            Log.d( "dy:",dy + "" );
-            Log.d( "dx:",dx + "" );
         }
     }
 

@@ -1,5 +1,8 @@
 package symbolize.app;
 
+import org.simpleframework.xml.Default;
+
+@Default
 public class Posn {
     // Fields
     //-------
