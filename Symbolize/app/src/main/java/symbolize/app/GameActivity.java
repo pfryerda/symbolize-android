@@ -29,6 +29,7 @@ public class GameActivity extends Activity  {
 
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
+    public static int BARHEIGHT;
     public static final String LUKE = "Awesome";
 
 
@@ -71,9 +72,10 @@ public class GameActivity extends Activity  {
         background.getLayoutParams().height = SCREENSIZE.x;
         background.getLayoutParams().width = SCREENSIZE.x;
 
-        findViewById( R.id.topbar ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
-        findViewById( R.id.buttons ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
-        findViewById( R.id.adspace ).getLayoutParams().height = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
+        BARHEIGHT = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
+        findViewById( R.id.topbar ).getLayoutParams().height = BARHEIGHT;
+        findViewById( R.id.buttons ).getLayoutParams().height = BARHEIGHT;
+        findViewById( R.id.adspace ).getLayoutParams().height = BARHEIGHT;
 
         Bitmap bitMap_fg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
                 SCALING, SCALING, true );
@@ -117,7 +119,6 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                gameController.removeShadows();
                 if ( gameController.isInDrawMode() ) {
                     gameController.drawLine( line );
                 }
@@ -132,7 +133,12 @@ public class GameActivity extends Activity  {
             }
 
             @Override
-            public void onMove( Line line, Posn point ) {
+            public void onFingerUp() {
+                gameController.removeShadows();
+            }
+
+            @Override
+            public void onFingerMove( Line line, Posn point ) {
                 if ( gameController.isInDrawMode() ) {
                     gameController.drawShadowLine( line );
                 } else {
@@ -142,7 +148,6 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onTap( Posn point ) {
-                gameController.removeShadows();
                 gameController.tryToChangeColor( point );
             }
 
