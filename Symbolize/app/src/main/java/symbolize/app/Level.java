@@ -4,10 +4,12 @@ import android.util.Log;
 
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Iterator;
 
 /*
  * Class used to store all the information about a given puzzle
@@ -16,11 +18,15 @@ import java.util.Iterator;
 @Root
 @Default
 public class Level {
+    // Static field
+    //-------------
+    private static final Serializer serializer = new Persister();
+
     // Fields
     //--------
 
-    private final int levelNum;
     private final int worldNum;
+    private final int levelNum;
     private final String hint;
     private final int drawRestirction;
     private final int eraseRestirction;
@@ -33,20 +39,20 @@ public class Level {
 
     // Constructor
     //-------------
-    public Level( int levelNum, int worldNum, String hint, int drawRestirction, int eraseRestirction,
+    public Level( int worldNum, int levelNum, String hint, int drawRestirction, int eraseRestirction,
                   boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
                   ArrayList<LinkedList<Line>> boards, LinkedList<LinkedList<Line>> solutions )
     {
         this.levelNum = levelNum;
         this.worldNum = worldNum;
         this.hint = hint;
-        this.boards = boards;
-        this.solutions = solutions;
         this.drawRestirction = drawRestirction;
         this.eraseRestirction = eraseRestirction;
         this.rotateEnabled = rotateEnabled;
         this.flipEnabled = flipEnabled;
         this.colourEnabled = colourEnabled;
+        this.boards = boards;
+        this.solutions = solutions;
     }
 
     // Methods
@@ -120,5 +126,31 @@ public class Level {
             }
         }
         return false;
+    }
+
+    /*
+     * Method used to store it's self in the proper xml file given its world/level num
+     */
+    public void StoreLevelInXml() {
+        try {
+            serializer.write( this,
+                    //new File(  "/res/xml/World_" + worldNum + "/level_" + levelNum ) );
+                    new File( "../Symbolize/app/src/main/res/xml/World_ " + worldNum + "/level_" + levelNum ) );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
+    // Static method
+    //--------------
+
+    public static Level fetch_level(int worldNum, int levelNum) {
+        try {
+            return serializer.read(Level.class,
+                new File(  "/res/xml/World_" + worldNum + "/level_" + levelNum ) );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        return null; // Should never happen!
     }
 }

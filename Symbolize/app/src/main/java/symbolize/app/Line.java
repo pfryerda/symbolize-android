@@ -263,6 +263,17 @@ public class Line {
     }
 
 
+    // Developer method
+    //-----------------
+
+    /*
+     * Method used to print the code to consturct a line
+     */
+    public String printLine() {
+        return "new Line( " + p1.printPosn() + ", " + p2.printPosn() + ", " + color + " )";
+    }
+
+
     // Static methods
     //---------------
 

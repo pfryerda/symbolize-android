@@ -1,5 +1,7 @@
 package symbolize.app;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -75,11 +77,19 @@ public class GameModel {
     }
 
     public int getLinesDrawn() {
-        return linesDrawn;
+        if ( GameActivity.DEVMODE ) {
+            return -1;
+        } else {
+            return linesDrawn;
+        }
     }
 
     public int getLinesErased() {
-        return linesErased;
+        if ( GameActivity.DEVMODE ) {
+            return -1;
+        } else {
+            return linesErased;
+        }
     }
 
     public GameModel getPastState() {
@@ -143,5 +153,22 @@ public class GameModel {
         }
         linesDrawn = 0;
         linesErased = 0;
+    }
+
+
+    // Developer methods
+    //------------------
+
+    public void LogGraph() {
+        String graph_string =  "new LinkedList<Line>( Arrays.asList( ";
+        for ( int i = 0; i < graph.size(); ++i ) {
+            if (i == graph.size() - 1) {
+                graph_string += graph.get(i).printLine();
+            } else {
+                graph_string += graph.get(i).printLine() + ", ";
+            }
+        }
+        graph_string += " ) )";
+        Log.i("Graph Log:", graph_string);
     }
 }

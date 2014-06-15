@@ -32,6 +32,7 @@ public class GameActivity extends Activity  {
     // Static fields
     //---------------
 
+    public static final boolean DEVMODE = true;
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static int BARHEIGHT;
@@ -214,10 +215,14 @@ public class GameActivity extends Activity  {
     }
 
     public void onCheckButtonClicked(View view) {
-        if ( gameController.checkSolution() ) {
-            Toast.makeText( this, "You are correct!", Toast.LENGTH_SHORT ).show();
+        if ( DEVMODE ) {
+            gameController.LogModel();
         } else {
-            Toast.makeText( this, "You are incorrect", Toast.LENGTH_SHORT ).show();
+            if (gameController.checkSolution()) {
+                Toast.makeText(this, "You are correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
