@@ -1,4 +1,4 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

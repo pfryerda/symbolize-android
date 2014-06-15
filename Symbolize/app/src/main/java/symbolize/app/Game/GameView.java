@@ -1,13 +1,11 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -16,7 +14,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.LinkedList;
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
 
 
 /*

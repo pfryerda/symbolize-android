@@ -1,9 +1,13 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Common.Level;
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Owner;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,

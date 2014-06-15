@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level>
+    <hint>Test hint</hint>
+    <drawRestirction>3000</drawRestirction>
+    <eraseRestirction>3000</eraseRestirction>
+    <rotateEnabled>true</rotateEnabled>
+    <flipEnabled>true</flipEnabled>
+    <colourEnabled>true</colourEnabled>
+    <boards>
+        <graph>
+            <line>
+                <p1>
+                    <first>0</first>
+                    <second>0</second>
+                </p1>
+                <p2>
+                    <first>1000</first>
+                    <second>1000</second>
+                </p2>
+            </line>
+        </graph>
+    </boards>
+    <solutions>
+        <graph>
+            <line>
+                <p1>
+                    <first>0</first>
+                    <second>0</second>
+                </p1>
+                <p2>
+                    <first>1000</first>
+                    <second>1000</second>
+                </p2>
+            </line>
+        </graph>
+    </solutions>
+</Level>

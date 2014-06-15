@@ -1,13 +1,5 @@
-package symbolize.app;
+package symbolize.app.Common;
 
-import android.util.Log;
-
-import org.simpleframework.xml.Default;
-import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -15,13 +7,7 @@ import java.util.LinkedList;
  * Class used to store all the information about a given puzzle
  * and a method to check to see if your guess is correct.
  */
-@Root
-@Default
 public class Level {
-    // Static field
-    //-------------
-    private static final Serializer serializer = new Persister();
-
     // Fields
     //--------
 
@@ -34,14 +20,28 @@ public class Level {
     private final boolean flipEnabled;
     private final boolean colourEnabled;
     private final ArrayList<LinkedList<Line>> boards;
-    private final LinkedList<LinkedList<Line>> solutions;
+    private final ArrayList<LinkedList<Line>> solutions;
 
 
-    // Constructor
+    // Constructors
     //-------------
+
+    public Level() {
+        this.levelNum = 0;
+        this.worldNum = 0;
+        this.hint = "";
+        this.drawRestirction = 0;
+        this.eraseRestirction = 0;
+        this.rotateEnabled = false;
+        this.flipEnabled = false;
+        this.colourEnabled = false;
+        this.boards = new ArrayList<LinkedList<Line>>();
+        this.solutions = new ArrayList<LinkedList<Line>>();
+    }
+
     public Level( int worldNum, int levelNum, String hint, int drawRestirction, int eraseRestirction,
                   boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
-                  ArrayList<LinkedList<Line>> boards, LinkedList<LinkedList<Line>> solutions )
+                  ArrayList<LinkedList<Line>> boards, ArrayList<LinkedList<Line>> solutions )
     {
         this.levelNum = levelNum;
         this.worldNum = worldNum;
@@ -71,7 +71,11 @@ public class Level {
     }
 
     public LinkedList<Line> getBoard() {
-        return boards.get( 0 );
+        if ( boards.size() > 0 ) {
+            return boards.get(0);
+        } else {
+            return new LinkedList<Line>();
+        }
     }
 
     public int getDrawRestirction() {
@@ -106,9 +110,9 @@ public class Level {
         for( LinkedList<Line> s : solutions ) {
             if ( s.size() == g.size() ) {
                 @SuppressWarnings("unchecked")
-                LinkedList<Line> soln = (LinkedList<Line>) s.clone();
+                LinkedList<Line> soln = ( LinkedList<Line> ) s.clone();
                 @SuppressWarnings("unchecked")
-                LinkedList<Line> guess = (LinkedList<Line>) g.clone();
+                LinkedList<Line> guess = ( LinkedList<Line> ) g.clone();
                 while( !soln.isEmpty() ) {
                     Line match = null;
                     for ( Line line : guess ) {
@@ -126,31 +130,5 @@ public class Level {
             }
         }
         return false;
-    }
-
-    /*
-     * Method used to store it's self in the proper xml file given its world/level num
-     */
-    public void StoreLevelInXml() {
-        try {
-            serializer.write( this,
-                    //new File(  "/res/xml/World_" + worldNum + "/level_" + levelNum ) );
-                    new File( "../Symbolize/app/src/main/res/xml/World_ " + worldNum + "/level_" + levelNum ) );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-    }
-
-    // Static method
-    //--------------
-
-    public static Level fetch_level(int worldNum, int levelNum) {
-        try {
-            return serializer.read(Level.class,
-                new File(  "/res/xml/World_" + worldNum + "/level_" + levelNum ) );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-        return null; // Should never happen!
     }
 }

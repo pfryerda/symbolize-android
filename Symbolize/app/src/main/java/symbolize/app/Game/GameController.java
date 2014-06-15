@@ -1,9 +1,13 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.LinearLayout;
 
+import symbolize.app.Common.Level;
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Owner;
+import symbolize.app.Common.Posn;
 
 
 /*
