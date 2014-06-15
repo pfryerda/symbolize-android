@@ -72,4 +72,15 @@ public class Posn {
     public void setY(int y) {
         second = y;
     }
+
+
+    // Developer Method
+    //------------------
+
+    /*
+     * Method used to print the code to construct this Posn
+     */
+    public String printPosn() {
+        return "new Posn( " + first + ", " + second + ")";
+    }
 }

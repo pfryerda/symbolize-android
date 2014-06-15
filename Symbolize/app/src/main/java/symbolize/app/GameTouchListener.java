@@ -144,13 +144,21 @@ public class GameTouchListener implements View.OnTouchListener {
      * @param: MotionEvent event: The motion event that contains information about where the user touched
      */
     Posn getPoint( MotionEvent event ) {
+        // Get point off of screen
         float touchX = event.getX( event.getActionIndex() );
         float touchY = event.getY( event.getActionIndex() );
 
+        // Scaled point accordingly and don't allow points off canvas
         int scaledX = Math.min( GameActivity.SCALING,
                 Math.max( 0, Math.round( touchX * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
         int scaledY = Math.min( GameActivity.SCALING,
                 Math.max( 0, Math.round( touchY * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
+
+        // If in DEVMODE snap points to grid
+        if ( GameActivity.DEVMODE ) {
+            scaledX = scaledX - ( scaledX % ( GameActivity.SCALING / 10 ) );
+            scaledY = scaledY - ( scaledY % ( GameActivity.SCALING / 10 ) );
+        }
 
         return new Posn( scaledX, scaledY );
     }

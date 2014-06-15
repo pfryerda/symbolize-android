@@ -185,4 +185,12 @@ public class GameController {
             gameView.renderShift();
         }
     }
+
+
+    // Developer method
+    //-----------------
+
+    public void LogModel() {
+        gameModel.LogGraph();
+    }
 }

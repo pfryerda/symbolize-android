@@ -134,7 +134,6 @@ public class GameView {
      */
     public void clearCanvas() {
         foregoundCanvas.drawColor( 0, PorterDuff.Mode.CLEAR );
-        // Draw grid
     }
 
     /*
