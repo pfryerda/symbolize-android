@@ -1,4 +1,4 @@
-package symbolize.app;
+package symbolize.app.Common;
 
 import java.lang.Math;
 import java.util.ArrayList;
@@ -8,9 +8,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseIntArray;
 
-import org.simpleframework.xml.Default;
+import symbolize.app.Game.GameActivity;
 
-@Default
 public class Line {
     // Static Fields
     //---------------
@@ -25,10 +24,10 @@ public class Line {
     //--------
 
     private Posn p1, p2;
-    private float slope;
-    private float y_intercept;
     private int color;
     private final Owner owner;
+    private float slope;
+    private float y_intercept;
 
 
     // Constructors

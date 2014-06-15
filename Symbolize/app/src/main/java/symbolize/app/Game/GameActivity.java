@@ -1,38 +1,35 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Common.Level;
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
+import symbolize.app.Common.PuzzleDB;
+import symbolize.app.R;
 
 
 public class GameActivity extends Activity  {
     // Static fields
     //---------------
 
-    public static final boolean DEVMODE = true;
+    public static final boolean DEVMODE = false;
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static int BARHEIGHT;
@@ -41,6 +38,8 @@ public class GameActivity extends Activity  {
 
     // Main fields
     //--------------
+
+    private PuzzleDB puzzleDB;
 
     private LinearLayout foreground;
     private LinearLayout background;
@@ -59,6 +58,9 @@ public class GameActivity extends Activity  {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        puzzleDB = new PuzzleDB( getResources() );
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector =  new ShakeDetector();
 
@@ -93,16 +95,16 @@ public class GameActivity extends Activity  {
 
         gameController = new GameController( this, foreground, background, bitMap_fg, bitMap_bg );
         // Build level 1
-        LinkedList<Line> puzzle1 = new LinkedList<Line>();
+        /*LinkedList<Line> puzzle1 = new LinkedList<Line>();
         puzzle1.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
         puzzle1.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
 
-        LinkedList<LinkedList<Line>> solns = new LinkedList<LinkedList<Line>>();
+        ArrayList<LinkedList<Line>> solns = new ArrayList<LinkedList<Line>>();
         LinkedList<Line> soln = new LinkedList<Line>();
         soln.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
         soln.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
         soln.addLast(new Line(new Posn(500, 500), new Posn(900, 500)));
-        solns.addLast(soln);
+        solns.add(soln);
 
         LinkedList<Line> puzzle2 = new LinkedList<Line>();
         for(Line l : soln) puzzle2.addLast(l.clone());
@@ -111,14 +113,8 @@ public class GameActivity extends Activity  {
         boards.add(puzzle1);
         boards.add(puzzle2);
 
-        Level level = new Level(1, 1, "Place hint here", 30000, 30000, true, true, true, boards, solns );
-        //Serializer serializer = new Persister();
-        //File result = new File(  "C:\\Users\\Luke\\Desktop\\example.xml" );
-        /*try {
-            serializer.write( level, result );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        Level level = new Level(1, 1, "Place hint here", 30000, 30000, true, true, true, boards, solns );*/
+        Level level = puzzleDB.fetch_level( 1, 1 );
 
         gameController.loadLevel( level );  // Load level 1-1
 

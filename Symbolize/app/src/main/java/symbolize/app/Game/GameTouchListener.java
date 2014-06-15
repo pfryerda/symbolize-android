@@ -1,10 +1,14 @@
-package symbolize.app;
+package symbolize.app.Game;
 
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Owner;
+import symbolize.app.Common.Posn;
 
 
 public class GameTouchListener implements View.OnTouchListener {
