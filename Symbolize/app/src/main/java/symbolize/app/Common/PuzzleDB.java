@@ -21,15 +21,15 @@ public class PuzzleDB {
 
     // Field
     private Resources res;
-    private final int id_offset = 2130968576;
+    private int id_offset;
 
 
     // Constrcutor
     //-------------
 
     public PuzzleDB( Resources res ) {
-
         this.res = res;
+        id_offset = R.xml.puzzle_1_1;
     }
 
     // Methods
@@ -51,7 +51,6 @@ public class PuzzleDB {
 
         try {
             int puzzle_id = id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( worldNum - 1 ) + ( levelNum - 1 );
-            //XmlResourceParser xpp = res.getXml( R.xml.puzzle_1_1 );
             XmlResourceParser xpp = res.getXml( puzzle_id );
             xpp.next();
             ArrayList<LinkedList<Line>> tmpArray =  null;
@@ -71,11 +70,11 @@ public class PuzzleDB {
                             eventType = xpp.next();
                         } else if ( xpp.getName().equals( "drawRestirction" ) ) {
                             eventType = xpp.next();
-                            drawRestirction = Integer.parseInt( xpp.getText() );
+                            drawRestirction = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                         } else if ( xpp.getName().equals( "eraseRestirction" ) ) {
                             eventType = xpp.next();
-                            eraseRestirction = Integer.parseInt( xpp.getText() );
+                            eraseRestirction = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                         } else if ( xpp.getName().equals( "rotateEnabled" ) ) {
                             eventType = xpp.next();
@@ -98,22 +97,22 @@ public class PuzzleDB {
                         } else if ( xpp.getName().equals( "p1" ) ) {
                             eventType = xpp.next();
                             eventType = xpp.next();
-                            int first = Integer.parseInt( xpp.getText() );
+                            int first = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                             eventType = xpp.next();
                             eventType = xpp.next();
-                            int second = Integer.parseInt( xpp.getText() );
+                            int second = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                             eventType = xpp.next();
                             tmpP1 = new Posn( first, second );
                         } else if ( xpp.getName().equals( "p2" ) ) {
                             eventType = xpp.next();
                             eventType = xpp.next();
-                            int first = Integer.parseInt( xpp.getText() );
+                            int first = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                             eventType = xpp.next();
                             eventType = xpp.next();
-                            int second = Integer.parseInt( xpp.getText() );
+                            int second = Integer.parseInt( xpp.getText().trim() );
                             eventType = xpp.next();
                             eventType = xpp.next();
                             tmpP2 = new Posn( first, second );

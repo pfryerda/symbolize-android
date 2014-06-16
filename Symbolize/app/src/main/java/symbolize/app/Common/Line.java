@@ -158,11 +158,6 @@ public class Line {
      * @param Posn point: point of interest
      */
     public boolean intersect( Posn point ) {
-        if ( slope == Float.POSITIVE_INFINITY ) {
-            Log.d( "P1", p1.x() + " " + p1.y() );
-            Log.d( "P2", p2.x() + " " + p2.y() );
-            Log.d( "Point", point.x() + " " + point.y() );
-        }
         if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() && point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
             Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() && point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
             if ( ( slope != Float.POSITIVE_INFINITY ) && ( slope != 0 ) ) {
@@ -170,7 +165,6 @@ public class Line {
                 int y = Math.round( slope * point.x() + y_intercept );
                 return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
             }
-            Log.d( "test", "" + slope );
             return true;
         }
         return false;
@@ -266,10 +260,11 @@ public class Line {
     //-----------------
 
     /*
-     * Method used to print the code to consturct a line
+     * Method used to print the xml code to consturct a line
      */
     public String printLine() {
-        return "new Line( " + p1.printPosn() + ", " + p2.printPosn() + ", " + color + " )";
+        return "<line>" + p1.printPosn( "p1" ) + p2.printPosn( "p2" ) +
+               "<color>" + String.format( "%1$9s", color ) + "</color>" + "</line>";
     }
 
 

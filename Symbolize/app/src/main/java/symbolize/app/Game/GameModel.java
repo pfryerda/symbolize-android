@@ -164,15 +164,12 @@ public class GameModel {
     //------------------
 
     public void LogGraph() {
-        String graph_string =  "new LinkedList<Line>( Arrays.asList( ";
-        for ( int i = 0; i < graph.size(); ++i ) {
-            if (i == graph.size() - 1) {
-                graph_string += graph.get(i).printLine();
-            } else {
-                graph_string += graph.get(i).printLine() + ", ";
-            }
+        String graph_string = "Xml for current graph";
+        graph_string += "\n<graph>";
+        for ( Line line : graph ) {
+            graph_string += "\n" + line.printLine();
         }
-        graph_string += " ) )";
+        graph_string += "\n</graph>";
         Log.i("Graph Log:", graph_string);
     }
 }
