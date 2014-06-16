@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <hint>Test hint</hint>
+    <hint>The 11th letter of the alphabet</hint>
     <drawRestirction>3000</drawRestirction>
     <eraseRestirction>3000</eraseRestirction>
     <rotateEnabled>true</rotateEnabled>
@@ -9,30 +9,20 @@
     <colourEnabled>true</colourEnabled>
     <boards>
         <graph>
-            <line>
-                <p1>
-                    <first>0</first>
-                    <second>0</second>
-                </p1>
-                <p2>
-                    <first>1000</first>
-                    <second>1000</second>
-                </p2>
-            </line>
+            <line><p1><x> 100</x><y> 100</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+            <line><p1><x> 100</x><y> 900</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+        </graph>
+        <graph>
+            <line><p1><x> 900</x><y> 900</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+            <line><p1><x> 900</x><y> 100</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+            <line><p1><x> 500</x><y> 100</y></p1><p2><x> 500</x><y> 900</y></p2><color>-16777216</color></line>
         </graph>
     </boards>
     <solutions>
         <graph>
-            <line>
-                <p1>
-                    <first>0</first>
-                    <second>0</second>
-                </p1>
-                <p2>
-                    <first>1000</first>
-                    <second>1000</second>
-                </p2>
-            </line>
+            <line><p1><x> 900</x><y> 900</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+            <line><p1><x> 900</x><y> 100</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></line>
+            <line><p1><x> 500</x><y> 100</y></p1><p2><x> 500</x><y> 900</y></p2><color>-16777216</color></line>
         </graph>
     </solutions>
 </Level>

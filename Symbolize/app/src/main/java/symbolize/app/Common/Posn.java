@@ -1,5 +1,7 @@
 package symbolize.app.Common;
 
+import symbolize.app.Game.GameActivity;
+
 public class Posn {
     // Fields
     //-------
@@ -75,9 +77,10 @@ public class Posn {
     //------------------
 
     /*
-     * Method used to print the code to construct this Posn
+     * Method used to print the xml code to construct this Posn
      */
-    public String printPosn() {
-        return "new Posn( " + first + ", " + second + ")";
+    public String printPosn( String tag ) {
+        int stringLength = ( GameActivity.SCALING + "" ).length();
+        return "<" + tag + ">" + "<x>" +  String.format( "%1$" + stringLength + "s", first ) + "</x>" + "<y>" + String.format( "%1$" + stringLength + "s", second ) + "</y>" + "</" + tag + ">";
     }
 }

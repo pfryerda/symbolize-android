@@ -223,7 +223,7 @@ public class GameActivity extends Activity  {
     }
 
     public void onHintButtonClicked( View view ) {
-        Toast.makeText( this, "Hint!", Toast.LENGTH_SHORT ).show();
+        Toast.makeText( this, "Hint", Toast.LENGTH_SHORT ).show();
     }
 
     public void onUndoButtonClicked( View view ) {
