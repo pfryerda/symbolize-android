@@ -9,8 +9,13 @@ public class Posn {
     private int first, second;
 
 
-    // Constructor
-    //-------------
+    // Constructors
+    //--------------
+
+    public Posn() {
+        first = -1;
+        second = -1;
+    }
 
     public Posn(int x0, int y0) {
         first = x0;
