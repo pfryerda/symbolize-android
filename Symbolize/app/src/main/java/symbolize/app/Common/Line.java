@@ -14,8 +14,8 @@ public class Line {
     // Static Fields
     //---------------
 
-    public static final int DRAWINGTHRESHOLD = 140;
-    public static final int ERASINGTHRESHOLD = 75;
+    public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 7;
+    public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
     public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
     public static final SparseIntArray COLORMAP = makeColorMap();
 
@@ -38,7 +38,7 @@ public class Line {
         p2 = null;
         slope = Float.POSITIVE_INFINITY;
         y_intercept = Float.POSITIVE_INFINITY;
-        color = Integer.parseInt(null);
+        color = 0;
         owner = null;
     }
 
@@ -263,8 +263,8 @@ public class Line {
      * Method used to print the xml code to consturct a line
      */
     public String printLine() {
-        return "<line>" + p1.printPosn( "p1" ) + p2.printPosn( "p2" ) +
-               "<color>" + String.format( "%1$9s", color ) + "</color>" + "</line>";
+        return "<Line>" + p1.printPosn( "p1" ) + p2.printPosn( "p2" ) +
+               "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
     }
 
 
