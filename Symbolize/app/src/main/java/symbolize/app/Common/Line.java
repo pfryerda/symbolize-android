@@ -180,6 +180,15 @@ public class Line {
                 p2.distSqr( line.getP1() ) + p1.distSqr( line.getP2() ) );
     }
 
+    /*
+     * Method used to snap line to level dot
+     */
+    public void snapToLevels( ArrayList<Posn> levels ) {
+        p1.snapToLevels( levels );
+        p2.snapToLevels( levels );
+    }
+
+
     // Geter methods
     //---------------
 
@@ -204,49 +213,29 @@ public class Line {
     //------------------
 
     public void rotateRight() {
-        int x0 = p1.x();
-        int y0 = p1.y();
-        p1.setX( GameActivity.SCALING - y0 );
-        p1.setY(x0);
-
-        x0 = p2.x();
-        y0 = p2.y();
-        p2.setX( GameActivity.SCALING - y0 );
-        p2.setY(x0);
+        p1.roateRight();
+        p2.roateRight();
 
         updateSlopeAndYIntercept();
     }
 
     public void rotateLeft() {
-        int x0 = p1.x();
-        int y0 = p1.y();
-        p1.setX( y0 );
-        p1.setY( GameActivity.SCALING - x0 );
-
-        x0 = p2.x();
-        y0 = p2.y();
-        p2.setX( y0 );
-        p2.setY( GameActivity.SCALING - x0 );
+        p1.roateLeft();
+        p2.roateLeft();
 
         updateSlopeAndYIntercept();
     }
 
     public void flipH() {
-        int x0 = p1.x();
-        p1.setX( GameActivity.SCALING - x0 );
-
-        x0 = p2.x();
-        p2.setX( GameActivity.SCALING - x0 );
+        p1.flipH();
+        p2.flipH();
 
         updateSlopeAndYIntercept();
     }
 
     public void flipV() {
-        int y0 = p1.y();
-        p1.setY( GameActivity.SCALING - y0 );
-
-        y0 = p2.y();
-        p2.setY( GameActivity.SCALING - y0 );
+        p1.flipV();
+        p2.flipV();
 
         updateSlopeAndYIntercept();
     }

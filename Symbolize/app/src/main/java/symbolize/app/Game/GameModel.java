@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Owner;
+import symbolize.app.Common.Posn;
+import symbolize.app.Common.Puzzle;
+import symbolize.app.Common.World;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -18,6 +21,7 @@ public class GameModel {
     //--------
 
     private LinkedList<Line> graph;
+    private ArrayList<Posn> levels;
     private int linesDrawn, linesErased;
     private int shiftNumber;
     private GameModel pastState;
@@ -28,14 +32,16 @@ public class GameModel {
 
     public GameModel() {
         graph = new LinkedList<Line>();
+        levels = new ArrayList<Posn>();
         linesDrawn = 0;
         linesErased = 0;
         shiftNumber = 0;
         pastState = null;
     }
 
-    public GameModel( LinkedList<Line> graph, int linesDrawn, int linesErased, int shiftNumber, GameModel pastState ) {
+    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int linesDrawn, int linesErased, int shiftNumber, GameModel pastState ) {
         this.graph = graph;
+        this.levels = levels;
         this.linesDrawn = linesDrawn;
         this.linesErased = linesErased;
         this.shiftNumber = shiftNumber;
@@ -51,17 +57,21 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, linesDrawn, linesErased, shiftNumber, pastState );
+        return new GameModel( clonedGraph, levels, linesDrawn, linesErased, shiftNumber, pastState );
     }
 
 
     // Methods
     //---------
 
-    public void setLevel(Level level) {
+    public void setPuzzle( Puzzle puzzle ) {
         graph.clear();
-        for ( Line line : level.getBoard() ) {
+        levels.clear();
+        for ( Line line : puzzle.getBoard() ) {
             graph.addLast( line.clone() );
+        }
+        for ( Posn point : puzzle.getLevels() ) {
+            levels.add(point.clone());
         }
         linesDrawn = 0;
         linesErased = 0;
@@ -79,6 +89,8 @@ public class GameModel {
     public LinkedList<Line> getGraph() {
         return graph;
     }
+
+    public ArrayList<Posn> getLevels() { return levels; }
 
     public int getLinesDrawn() {
         if ( GameActivity.DEVMODE ) {
@@ -125,12 +137,18 @@ public class GameModel {
         for ( Line line : graph ) {
             line.rotateRight();
         }
+        for ( Posn point : levels ) {
+            point.roateRight();
+        }
     }
 
     public void rotateGraphL() {
         pushState();
         for ( Line line : graph ) {
             line.rotateLeft();
+        }
+        for ( Posn point : levels ) {
+            point.roateLeft();
         }
     }
 
@@ -139,12 +157,18 @@ public class GameModel {
         for ( Line line : graph ) {
             line.flipH();
         }
+        for ( Posn point : levels ) {
+            point.flipH();
+        }
     }
 
     public void flipGraphV() {
         pushState();
         for ( Line line : graph ) {
             line.flipV();
+        }
+        for ( Posn point : levels ) {
+            point.flipV();
         }
     }
 

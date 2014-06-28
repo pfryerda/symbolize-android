@@ -195,10 +195,13 @@ public class GameTouchListener implements View.OnTouchListener {
      * given gesture resembles a flipping gesture.
      */
     boolean attemptToFlip() {
-        if ( ( ( pointOne.x() < GameActivity.SCALING/2 && pointTwo.x() < GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 ) ||
-               ( pointOne.x() > GameActivity.SCALING/2 && pointTwo.x() > GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 ) ) &&
-               ( pointOneEnd.y() - FLIPPINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + FLIPPINGTHRESHOLD &&
-                 pointTwoEnd.y() - FLIPPINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + FLIPPINGTHRESHOLD ) ) {
+        if ( pointOne == null || pointOneEnd == null || pointTwo == null || pointTwoEnd == null ) {
+            return false;
+        }
+        else if ( ( ( pointOne.x() < GameActivity.SCALING/2 && pointTwo.x() < GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 ) ||
+                    ( pointOne.x() > GameActivity.SCALING/2 && pointTwo.x() > GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 ) ) &&
+                    ( pointOneEnd.y() - FLIPPINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + FLIPPINGTHRESHOLD &&
+                      pointTwoEnd.y() - FLIPPINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + FLIPPINGTHRESHOLD ) ) {
             onFlipHorizontally();
             return true;
         }
@@ -217,6 +220,9 @@ public class GameTouchListener implements View.OnTouchListener {
       * given gesture resembles a rotating gesture.
      */
     boolean attemptToRotate() {
+        if ( pointOne == null || pointOneEnd == null || pointTwo == null || pointTwoEnd == null ) {
+            return false;
+        }
         if ( pointOne.y() >= pointTwo.y() ) {
             if ( ( pointOne.x() >= pointOneEnd.x() ) && ( pointTwo.x() <= pointTwoEnd.x() ) ) {
                 onRotateRight();

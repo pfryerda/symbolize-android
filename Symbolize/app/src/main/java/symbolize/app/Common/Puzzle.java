@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * Class used to store all the information about a given puzzle
  * and a method to check to see if your guess is correct.
  */
-public class Puzzle {
+abstract public class Puzzle {
     // Fields
     //--------
 
@@ -38,6 +38,7 @@ public class Puzzle {
         this.colourEnabled = colourEnabled;
         this.solutions = solutions;
     }
+
 
     // Methods
     //---------
@@ -83,4 +84,20 @@ public class Puzzle {
         }
         return false;
     }
+
+
+    // Abstract methods
+    //------------------
+
+    abstract public ArrayList<Posn> getLevels();
+
+    abstract public ArrayList<LinkedList<Line>> getBoards();
+
+    abstract public LinkedList<Line> getBoard();
+
+    abstract public int getDrawRestirction();
+
+    abstract public int getEraseRestirction();
+
+    abstract public boolean canShift();
 }

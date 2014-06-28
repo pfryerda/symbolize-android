@@ -4,10 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Owner;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Puzzle;
 
 
 /*
@@ -20,7 +23,7 @@ public class GameController {
 
     private GameModel gameModel;
     private GameView gameView;
-    private Level currLevel;
+    private Puzzle currPuzzle;
     private boolean drawnEnabled;
 
 
@@ -30,7 +33,7 @@ public class GameController {
     public GameController( Context context, LinearLayout foreground, LinearLayout background, Bitmap foreground_bitmpa, Bitmap backbroud_bitmap ) {
         this.gameModel = new GameModel();
         this.gameView = new GameView( context, foreground, background, foreground_bitmpa, backbroud_bitmap, gameModel );
-        this.currLevel = null;
+        this.currPuzzle = null;
         this.drawnEnabled = true;
     }
 
@@ -43,9 +46,9 @@ public class GameController {
      *
      * @param Level level: The level that needs to be loaded
      */
-    public void loadLevel( Level level ) {
-        currLevel = level;
-        gameModel.setLevel( level );
+    public void loadPuzzle( Puzzle puzzle ) {
+        currPuzzle = puzzle;
+        gameModel.setPuzzle( puzzle );
         gameView.renderGraph();
     }
 
@@ -54,6 +57,17 @@ public class GameController {
      */
     public void removeShadows() {
         gameView.renderGraph();
+    }
+
+    /*
+     * Method that snaps a point or line to the level dots
+     */
+    public void snapToLevels( Line line ) {
+        line.snapToLevels( gameModel.getLevels() );
+    }
+
+    public void snapToLevels( Posn point ) {
+        point.snapToLevels( gameModel.getLevels() );
     }
 
     // Geter methods
@@ -73,13 +87,13 @@ public class GameController {
     //---------------
 
     public boolean checkSolution() {
-        return currLevel.checkCorrectness( gameModel.getGraph() );
+        return currPuzzle.checkCorrectness( gameModel.getGraph() );
 		/* Check last level      */
 		/* setLevel(next level!) */
     }
 
     public void reset() {
-        loadLevel( currLevel );
+        loadPuzzle(currPuzzle);
     }
 
     public void undo() {
@@ -104,9 +118,9 @@ public class GameController {
     //----------------
 
     public void drawLine( Line line ) {
-        if ( gameModel.getLinesDrawn() < currLevel.getDrawRestirction() ) {
+        if ( gameModel.getLinesDrawn() < currPuzzle.getDrawRestirction() ) {
             gameModel.addLine( line );
-            gameView.renderLine( line );
+            gameView.renderGraph();
         } else {
             gameView.renderToast( "Cannot draw any more lines " );
         }
@@ -130,7 +144,7 @@ public class GameController {
     }
 
     private void eraseLine( Line line ) {
-        if ( ( gameModel.getLinesErased() < currLevel.getEraseRestirction() ) || ( line.getOwner() == Owner.User ) ) {
+        if ( ( gameModel.getLinesErased() < currPuzzle.getEraseRestirction() ) || ( line.getOwner() == Owner.User ) ) {
             gameModel.removeLine( line );
             gameView.renderGraph();
         } else {
@@ -139,35 +153,35 @@ public class GameController {
     }
 
     public void rotateRight() {
-        if ( currLevel.canRotate() ) {
+        if ( currPuzzle.canRotate() ) {
             gameModel.rotateGraphR();
             gameView.renderRotateR();
         }
     }
 
     public void rotateLeft() {
-        if ( currLevel.canRotate() ) {
+        if ( currPuzzle.canRotate() ) {
             gameModel.rotateGraphL();
             gameView.renderRotateL();
         }
     }
 
     public void flipHorizontally() {
-        if ( currLevel.canFlip() ) {
+        if ( currPuzzle.canFlip() ) {
             gameModel.flipGraphH();
             gameView.renderFlipH();
         }
     }
 
     public void flipVertically() {
-        if ( currLevel.canFlip() ) {
+        if ( currPuzzle.canFlip() ) {
             gameModel.flipGraphV();
             gameView.renderFlipV();
         }
     }
 
-    public void tryToChangeColor(Posn point) {
-        if ( currLevel.canChangeColur() ) {
+    public void tryToChangeColor( Posn point ) {
+        if ( currPuzzle.canChangeColur() ) {
             for ( Line line : gameModel.getGraph( )) {
                 if ( line.intersect( point ) ) {
                     changeColor( line );
@@ -184,10 +198,20 @@ public class GameController {
     }
 
     public void shift() {
-        if ( currLevel.canShift() ) {
-            gameModel.shiftGraph( currLevel.getBoards() );
+        if ( currPuzzle.canShift() ) {
+            gameModel.shiftGraph( currPuzzle.getBoards() );
             gameView.renderShift();
         }
+    }
+
+    public int tryToMatchLevel( Posn point ) {
+        ArrayList<Posn> levels = gameModel.getLevels();
+        for ( int i = 0; i < levels.size(); ++i ) {
+            if ( point.eq( levels.get( i ) ) ) {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 
 

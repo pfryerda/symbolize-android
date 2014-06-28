@@ -22,6 +22,7 @@ import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.PuzzleDB;
+import symbolize.app.Common.World;
 import symbolize.app.R;
 
 
@@ -39,6 +40,7 @@ public class GameActivity extends Activity  {
     // Main fields
     //--------------
 
+    private int currWorld = 1;
     private PuzzleDB puzzleDB;
 
     private LinearLayout foreground;
@@ -94,30 +96,13 @@ public class GameActivity extends Activity  {
         // Set up Game
 
         gameController = new GameController( this, foreground, background, bitMap_fg, bitMap_bg );
-        // Build level 1
-        /*LinkedList<Line> puzzle1 = new LinkedList<Line>();
-        puzzle1.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
-        puzzle1.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
-
-        ArrayList<LinkedList<Line>> solns = new ArrayList<LinkedList<Line>>();
-        LinkedList<Line> soln = new LinkedList<Line>();
-        soln.addLast(new Line(new Posn(100, 100), new Posn(500, 500)));
-        soln.addLast(new Line(new Posn(500, 500), new Posn(100, 900)));
-        soln.addLast(new Line(new Posn(500, 500), new Posn(900, 500)));
-        solns.add(soln);
-
-        LinkedList<Line> puzzle2 = new LinkedList<Line>();
-        for(Line l : soln) puzzle2.addLast(l.clone());
-
-        ArrayList<LinkedList<Line>> boards = new ArrayList<LinkedList<Line>>();
-        boards.add(puzzle1);
-        boards.add(puzzle2);
-
-        Level level = new Level(1, 1, "Place hint here", 30000, 30000, true, true, true, boards, solns );*/
-        Level level = puzzleDB.fetch_level( 1, 1 );
-
-        gameController.loadLevel( level );  // Load level 1-1
-
+        Level level = puzzleDB.fetch_level( currWorld, 1 );
+        ArrayList<Posn> levels = new ArrayList<Posn>();
+        levels.add( new Posn( 500, 500 ) );
+        levels.add( new Posn( 500, 750 ) );
+        levels.add( new Posn( 750, 500 ) );
+        World world = new World( "hint", true, true, true, levels, null );
+        gameController.loadPuzzle( world );  // Load level 1-1
         setUpListeners();
     }
 
@@ -128,6 +113,7 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
+                gameController.snapToLevels( line );
                 if ( gameController.isInDrawMode() ) {
                     gameController.drawLine( line );
                 }
@@ -149,15 +135,22 @@ public class GameActivity extends Activity  {
             @Override
             public void onFingerMove( Line line, Posn point ) {
                 if ( gameController.isInDrawMode() ) {
+                    gameController.snapToLevels( line );
                     gameController.drawShadowLine( line );
                 } else {
+                    gameController.snapToLevels( point );
                     gameController.drawShadowPoint( point );
                 }
             }
 
             @Override
             public void onTap( Posn point ) {
-                gameController.tryToChangeColor( point );
+                int level_found = gameController.tryToMatchLevel( point );
+                if ( level_found > 0 ) {
+                    gameController.loadPuzzle( puzzleDB.fetch_level( currWorld, level_found ) );
+                } else {
+                    gameController.tryToChangeColor( point );
+                }
             }
 
             @Override

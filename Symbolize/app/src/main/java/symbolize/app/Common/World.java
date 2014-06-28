@@ -37,4 +37,17 @@ public class World extends Puzzle {
     public ArrayList<Posn> getLevels() {
         return levels;
     }
+
+    public ArrayList<LinkedList<Line>> getBoards() { return new ArrayList<LinkedList<Line>>(); }
+
+    public LinkedList<Line> getBoard() { return new LinkedList<Line>(); }
+
+    public int getDrawRestirction() {
+        int number_of_vertcies = PuzzleDB.NUMBEROFLEVELSPERWORLD;
+        return ( number_of_vertcies * ( number_of_vertcies - 1 ) ) / 2;
+    }
+
+    public int getEraseRestirction() { return 0; }
+
+    public boolean canShift() { return false; }
 }
