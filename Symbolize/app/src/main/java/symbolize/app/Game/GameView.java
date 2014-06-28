@@ -25,6 +25,7 @@ public class GameView {
     // Satic Fields
     //-------------
 
+    public static boolean InAnimation = false;
     public static final int LINEWIDTH = 60;
     public static final int SHADOW = 80;
     public static final int ROTATEDURATION = 450;
@@ -105,7 +106,9 @@ public class GameView {
         fadeOutAndInAnimation.setFillAfter( true );
         fadeOutAndInAnimation.setAnimationListener( new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart( Animation animation ) {}
+            public void onAnimationStart( Animation animation ) {
+                InAnimation = true;
+            }
             @Override
             public void onAnimationEnd( Animation animation ) {
                 foregound.clearAnimation();
@@ -179,11 +182,14 @@ public class GameView {
     private void setUpAnimation( Animation a ) {
         a.setAnimationListener( new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart( Animation animation ) {}
+            public void onAnimationStart( Animation animation ) {
+                InAnimation = true;
+            }
             @Override
             public void onAnimationEnd( Animation animation ) {
                 foregound.clearAnimation();
                 renderGraph();
+                InAnimation = false;
             }
             @Override
             public void onAnimationRepeat( Animation animation ) {}

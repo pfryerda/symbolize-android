@@ -52,88 +52,92 @@ public class GameTouchListener implements View.OnTouchListener {
     //----------------
 
     public boolean onTouch( View v, MotionEvent event ) {
-        switch ( event.getActionMasked() ) {
+        if ( !GameView.InAnimation ) {
+            switch ( event.getActionMasked() ) {
 
-            case MotionEvent.ACTION_DOWN: {                                 // First finger down
-                pointOne = getPoint( event );
-                isPointOneDown = true;
+                case MotionEvent.ACTION_DOWN: {                                 // First finger down
+                    pointOne = getPoint( event );
+                    isPointOneDown = true;
 
-                timer.cancel();
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        isEraseDelayDone = true;
-                        timer.cancel();
-                    }
-                }, ERASEDELAY );
-
-                startTime = System.currentTimeMillis();
-                return true;
-            }
-
-            case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
-                onEnterDobuleTouch();
-                pointTwo = getPoint( event );
-                isPointTwoDown = true;
-                inDoubleTouch = true;
-                return true;
-            }
-
-            case MotionEvent.ACTION_UP:                                     // First finger up
-            case MotionEvent.ACTION_POINTER_UP: {                           // Second finger up
-                if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) { // Original second finger up
-                    pointTwoEnd = getPoint( event );
-                    isPointTwoDown = false;
-                } else {                                                    // Original first finger up
-                    pointOneEnd = getPoint(event);
-                    isPointOneDown = false;
-
-                    if ( !inDoubleTouch ) {
-                        onFingerUp();
-                        long endtime = System.currentTimeMillis();
-                        Line line = new Line( pointOne, pointOneEnd, Owner.User );
-                        if ( line.distSqr() >= MINLINESIZESQR ) {
-                            onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
-                        } else if( ( endtime - startTime ) <= TAPTHRESHOLD  ) {
-                            onTap( pointOneEnd );
+                    timer.cancel();
+                    timer = new Timer();
+                    timer.schedule( new TimerTask() {
+                        @Override
+                        public void run() {
+                            isEraseDelayDone = true;
+                            timer.cancel();
                         }
-                        startTime = endtime;
+                    }, ERASEDELAY );
+
+                    startTime = System.currentTimeMillis();
+                    return true;
+                }
+
+                case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
+                    onEnterDobuleTouch();
+                    pointTwo = getPoint( event );
+                    isPointTwoDown = true;
+                    inDoubleTouch = true;
+                    return true;
+                }
+
+                case MotionEvent.ACTION_UP:                                     // First finger up
+                case MotionEvent.ACTION_POINTER_UP: {                           // Second finger up
+                    if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) { // Original second finger up
+                        pointTwoEnd = getPoint(event);
+                        isPointTwoDown = false;
+                    } else {                                                    // Original first finger up
+                        pointOneEnd = getPoint(event);
+                        isPointOneDown = false;
+
+                        if ( !inDoubleTouch ) {
+                            onFingerUp();
+                            long endtime = System.currentTimeMillis();
+                            Line line = new Line( pointOne, pointOneEnd, Owner.User );
+                            if ( line.distSqr() >= MINLINESIZESQR ) {
+                                onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
+                            } else if ( ( endtime - startTime) <= TAPTHRESHOLD ) {
+                                onTap( pointOneEnd );
+                            }
+                            startTime = endtime;
+                            resetVars();
+                        }
+                    }
+
+                    if ( inDoubleTouch && !isPointOneDown && !isPointTwoDown ) {
+                        boolean flipped = attemptToFlip();
+                        if ( !flipped ) {
+                            attemptToRotate();
+                        }
                         resetVars();
                     }
+
+                    isEraseDelayDone = false;
+                    timer.cancel();
+                    return true;
                 }
 
-                if ( inDoubleTouch && !isPointOneDown && !isPointTwoDown ) {
-                    boolean flipped = attemptToFlip();
-                    if ( !flipped ) {
-                        attemptToRotate();
+                case MotionEvent.ACTION_MOVE: {                                 // Finger moves
+                    if ( !inDoubleTouch && pointOne != null ) {
+                        Posn pointTemp = getPoint( event );
+                        onFingerMove( new Line( pointOne, pointTemp ), pointTemp );
+                        if ( isEraseDelayDone ) {
+                            onErase( pointTemp );
+                        }
                     }
-                    resetVars();
+                    return true;
                 }
 
-                isEraseDelayDone = false;
-                timer.cancel();
-                return true;
-            }
-
-            case MotionEvent.ACTION_MOVE: {                                 // Finger moves
-                if ( !inDoubleTouch ) {
-                    Posn pointTemp = getPoint( event );
-                    onFingerMove( new Line( pointOne, pointTemp ), pointTemp );
-                    if ( isEraseDelayDone ) {
-                        onErase( pointTemp );
-                    }
+                case MotionEvent.ACTION_CANCEL: {
+                    return true;
                 }
-                return true;
-            }
 
-            case MotionEvent.ACTION_CANCEL: {
-                return true;
+                default: {
+                    return false;
+                }
             }
-
-            default: {
-                return false;
-            }
+        } else {
+            return true;
         }
     }
 

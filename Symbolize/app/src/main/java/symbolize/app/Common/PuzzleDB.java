@@ -231,7 +231,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( worldNum, levelNum, hint, drawRestirction, eraseRestirction, rotateEnabled, flipEnabled, colourEnabled, boards, solutions );
+        return new Level( hint, drawRestirction, eraseRestirction, rotateEnabled, flipEnabled, colourEnabled, boards, solutions );
     }
 
 
