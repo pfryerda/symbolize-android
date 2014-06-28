@@ -49,12 +49,14 @@ public class Level extends Puzzle {
     // Methods
     //---------
 
+    public ArrayList<Posn> getLevels() { return new ArrayList<Posn>(); }
+
+    public ArrayList<LinkedList<Line>> getBoards()  {
+        return boards;
+    }
+    
     public LinkedList<Line> getBoard() {
-        if ( boards.size() > 0 ) {
-            return boards.get(0);
-        } else {
-            return new LinkedList<Line>();
-        }
+        return boards.get(0);
     }
 
     public int getDrawRestirction() {
@@ -67,10 +69,6 @@ public class Level extends Puzzle {
 
     public boolean canShift() {
         return ( boards.size() > 1 );
-    }
-
-    public ArrayList<LinkedList<Line>> getBoards()  {
-        return boards;
     }
 
 }

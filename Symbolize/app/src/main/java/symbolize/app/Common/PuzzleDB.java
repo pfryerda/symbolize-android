@@ -37,7 +37,7 @@ class InvalidXmlException extends Exception {
 public class PuzzleDB {
     // Static fields
     //---------------
-    private static final int NUMBEROFLEVELSPERWORLD = 15;
+    public static final int NUMBEROFLEVELSPERWORLD = 15;
 
     // Fields
     //--------

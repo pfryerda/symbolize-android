@@ -14,6 +14,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
@@ -26,7 +28,9 @@ public class GameView {
     //-------------
 
     public static boolean InAnimation = false;
-    public static final int LINEWIDTH = 60;
+    public static final int LINEWIDTH = GameActivity.SCALING / 17;
+    public static final int POINTWIDTH = LINEWIDTH * 2;
+    public static final int TEXTWIDTH = LINEWIDTH;
     public static final int SHADOW = 80;
     public static final int ROTATEDURATION = 450;
     public static final int FLIPDURATION = 450;
@@ -57,7 +61,7 @@ public class GameView {
     // Constructor
     //-------------
 
-    public GameView(Context context, LinearLayout fg, LinearLayout bg, Bitmap foregoundBitmap, Bitmap backgroundBitmap, GameModel gameModel) {
+    public GameView(Context context, LinearLayout fg, LinearLayout bg, Bitmap foregoundBitmap, Bitmap backgroundBitmap, GameModel gameModel ) {
         // Set up main view fields
         this.context = context;
         this.foregound = fg;
@@ -85,6 +89,7 @@ public class GameView {
         paint.setStyle( Paint.Style.STROKE );
         paint.setStrokeJoin( Paint.Join.ROUND );
         paint.setStrokeCap( Paint.Cap.ROUND );
+        paint.setTextSize( TEXTWIDTH );
 
         // Set up animations
         rotateRightAnimation = new RotateAnimation( 0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
@@ -114,6 +119,7 @@ public class GameView {
                 foregound.clearAnimation();
                 renderGraph();
                 foregound.startAnimation( fadeInAnimation );
+                InAnimation = false;
             }
             @Override
             public void onAnimationRepeat( Animation animation ) {}
@@ -123,7 +129,7 @@ public class GameView {
         fadeInAnimation.setFillAfter( true );
 
         paint.setStrokeWidth( LINEWIDTH/10 );
-        drawGrid();
+        renderGrid();
         paint.setStrokeWidth( LINEWIDTH );
     }
 
@@ -146,15 +152,26 @@ public class GameView {
         for ( Line line : gameModel.getGraph() ) {
             renderLine( line );
         }
+
+        paint.setStrokeWidth( POINTWIDTH );
+        for ( int i = 0; i < gameModel.getLevels().size(); ++i ) {
+            Posn point = gameModel.getLevels().get(i);
+            paint.setColor( Color.BLACK );
+            paint.setStyle( Paint.Style.STROKE );
+            foregoundCanvas.drawPoint(point.x(), point.y(), paint);
+            paint.setStyle( Paint.Style.FILL );
+            paint.setColor( Color.WHITE );
+            foregoundCanvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ), point.y() + ( TEXTWIDTH / 2 ), paint );
+        }
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setStrokeWidth( LINEWIDTH );
         foregound.invalidate();
     }
 
     /*
      * Simple method used to draw a grid in the background
-     *
-     *  @param: LinkedList<Line> element: The target element we wish to draw
      */
-    private void drawGrid() {
+    private void renderGrid() {
         paint.setColor( Color.LTGRAY );
         for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
             backgroundCanvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
@@ -163,6 +180,7 @@ public class GameView {
         for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
             backgroundCanvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
         }
+        background.invalidate();
     }
 
     /*
@@ -225,9 +243,9 @@ public class GameView {
 
     public void renderShadowPoint( Posn point ) {
         renderGraph();
-        paint.setColor( Color.BLACK );
-        paint.setAlpha( SHADOW );
-        paint.setStrokeWidth( LINEWIDTH * 2);
+        paint.setColor(Color.BLACK);
+        paint.setAlpha(SHADOW);
+        paint.setStrokeWidth(POINTWIDTH);
         foregoundCanvas.drawPoint( point.x(), point.y(), paint );
         foregound.invalidate();
         paint.setStrokeWidth( LINEWIDTH );
