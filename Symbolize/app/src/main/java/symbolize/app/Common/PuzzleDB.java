@@ -2,8 +2,6 @@ package symbolize.app.Common;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.graphics.Color;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -22,11 +20,11 @@ class InvalidXmlException extends Exception {
     //--------------
 
     public InvalidXmlException( int linenum, int worldNum, int levelNum, String expected, String actual ) {
-        super( "Error in xml for puzzle_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
+        super( "Error in xml for level_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
     }
 
     public InvalidXmlException( int linenum, int worldNum, int levelNum, String invalid_text, boolean isTag ) {
-        super( "Error in xml for puzzle_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
+        super( "Error in xml for level_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
     }
 }
 
@@ -42,7 +40,8 @@ public class PuzzleDB {
     // Fields
     //--------
     private Resources res;
-    private int id_offset;
+    private int level_id_offset;
+    private int world_id_offset;
     private int worldNum;
     private int levelNum;
     private XmlResourceParser xpp;
@@ -54,7 +53,8 @@ public class PuzzleDB {
 
     public PuzzleDB( Resources res ) {
         this.res = res;
-        id_offset = R.xml.puzzle_1_1;
+        level_id_offset = R.xml.level_1_1;
+        world_id_offset = R.xml.world_1;
     }
 
     // Methods
@@ -67,7 +67,7 @@ public class PuzzleDB {
         // Set up temp fields
         this.worldNum = worldNum;
         this.levelNum = levelNum;
-        this.xpp = res.getXml( id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( worldNum - 1 ) + ( levelNum - 1 ) );
+        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( worldNum - 1 ) + ( levelNum - 1 ) );
 
         // Set up level variables
         String hint = "";

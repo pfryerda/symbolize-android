@@ -18,9 +18,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import symbolize.app.Common.Action;
 import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
+import symbolize.app.Common.Owner;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Puzzle;
 import symbolize.app.Common.PuzzleDB;
 import symbolize.app.Common.World;
 import symbolize.app.R;
@@ -37,18 +40,20 @@ public class GameActivity extends Activity  {
     public static final String LUKE = "Awesome";
 
 
-    // Main fields
-    //--------------
+    // Fields
+    //---------
 
     private int currWorld = 1;
+    private Puzzle currPuzzle;
     private PuzzleDB puzzleDB;
 
-    private LinearLayout foreground;
-    private LinearLayout background;
-    private GameController gameController;
+    private GameModel gameModel;
+    private GameView gameView;
 
     private SensorManager sensorManager;
     private ShakeDetector shakeDetector;
+
+    private boolean drawnEnabled;
 
 
     /*
@@ -68,17 +73,15 @@ public class GameActivity extends Activity  {
 
 
         // Set up linerlayouts and bitamps
-
         final Display DISPLAY = getWindowManager().getDefaultDisplay();
         SCREENSIZE = new Point();
         DISPLAY.getSize( SCREENSIZE );
-        Log.d( "ScreenSize", "X:" + SCREENSIZE.x + " Y:" + SCREENSIZE.y );
 
-        foreground = (LinearLayout) findViewById(R.id.canvas);
+        LinearLayout foreground = (LinearLayout) findViewById(R.id.canvas);
         foreground.getLayoutParams().height = SCREENSIZE.x;
         foreground.getLayoutParams().width = SCREENSIZE.x;
 
-        background = (LinearLayout) findViewById(R.id.background);
+        LinearLayout background = (LinearLayout) findViewById(R.id.background);
         background.getLayoutParams().height = SCREENSIZE.x;
         background.getLayoutParams().width = SCREENSIZE.x;
 
@@ -94,141 +97,207 @@ public class GameActivity extends Activity  {
 
 
         // Set up Game
-
-        gameController = new GameController( this, foreground, background, bitMap_fg, bitMap_bg );
+        gameModel = new GameModel();
+        gameView = new GameView( this, foreground, background, bitMap_fg, bitMap_bg, gameModel );
+        currPuzzle = null;
+        drawnEnabled = true;
         Level level = puzzleDB.fetch_level( currWorld, 1 );
         ArrayList<Posn> levels = new ArrayList<Posn>();
         levels.add( new Posn( 500, 500 ) );
         levels.add( new Posn( 500, 750 ) );
         levels.add( new Posn( 750, 500 ) );
         World world = new World( "hint", true, true, true, levels, null );
-        gameController.loadPuzzle( world );  // Load level 1-1
-        setUpListeners();
+        loadPuzzle( world );  // Load level 1-1
+        setUpListeners( foreground );
+    }
+
+    /*
+     * Method used for loading new levels, called once on game startup and again for any later
+     * new level changes. Sets up GameModel, removes old data, and renders board to the screen
+     *
+     * @param Level level: The level that needs to be loaded
+     */
+    public void loadPuzzle( Puzzle puzzle ) {
+        currPuzzle = puzzle;
+        gameModel.setPuzzle( puzzle );
+        gameView.renderGraph();
     }
 
     /*
      * Method called to set up event/gesture listeners for game
+     *
+     * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
      */
-    public void setUpListeners(){
+    public void setUpListeners( LinearLayout foreground ){
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                gameController.snapToLevels( line );
-                if ( gameController.isInDrawMode() ) {
-                    gameController.drawLine( line );
+                line.snapToLevels( gameModel.getLevels() );
+                if ( drawnEnabled ) {
+                    if ( gameModel.getLinesDrawn() < currPuzzle.getDrawRestirction() ) {
+                        gameModel.action_basic(Action.Draw, line);
+                        gameView.renderGraph();
+                    } else {
+                        gameView.renderToast( "Cannot draw any more lines " );
+                    }
                 }
             }
 
             @Override
             public void onErase( Posn point ) {
-                if( gameController.isInEraseMode() ) {
-                    gameController.drawShadowPoint( point );
-                    gameController.tryToErase( point );
+                if( !drawnEnabled ) {
+                    gameView.renderShadow( point );
+                    for ( Line line : gameModel.getGraph() ) {
+                        if ( line.intersect( point ) ) {
+                            if ( ( gameModel.getLinesErased() < currPuzzle.getEraseRestirction() ) || ( line.getOwner() == Owner.User ) ) {
+                                gameModel.action_basic( Action.Erase, line );
+                                gameView.renderGraph();
+                            } else {
+                                gameView.renderToast( "Cannot erase any more lines" );
+                            }
+                            break;
+                        }
+                    }
                 }
             }
 
             @Override
             public void onFingerUp() {
-                gameController.removeShadows();
+                gameView.renderGraph();
             }
 
             @Override
             public void onFingerMove( Line line, Posn point ) {
-                if ( gameController.isInDrawMode() ) {
-                    gameController.snapToLevels( line );
-                    gameController.drawShadowLine( line );
+                if ( drawnEnabled ) {
+                    line.snapToLevels( gameModel.getLevels() );
+                    gameView.renderShadow( line );
                 } else {
-                    gameController.snapToLevels( point );
-                    gameController.drawShadowPoint( point );
+                    gameView.renderShadow( point );
                 }
             }
 
             @Override
             public void onTap( Posn point ) {
-                int level_found = gameController.tryToMatchLevel( point );
+                ArrayList<Posn> levels = gameModel.getLevels();
+                int level_found = 0;
+                for ( int i = 0; i < levels.size(); ++i ) {
+                    if ( point.eq( levels.get( i ) ) ) {
+                        level_found =  i + 1;
+                    }
+                }
                 if ( level_found > 0 ) {
-                    gameController.loadPuzzle( puzzleDB.fetch_level( currWorld, level_found ) );
+                    loadPuzzle( puzzleDB.fetch_level( currWorld, level_found ) );
                 } else {
-                    gameController.tryToChangeColor( point );
+                    if ( currPuzzle.canChangeColur() ) {
+                        for ( Line line : gameModel.getGraph( )) {
+                            if ( line.intersect( point ) ) {
+                                gameModel.action_basic( Action.Change_color, line );
+                                gameView.renderLine( line );
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
             @Override
             public void onEnterDobuleTouch() {
-                gameController.removeShadows();
+                gameView.renderGraph();
             }
 
             @Override
             public void onRotateRight() {
-                gameController.rotateRight();
+                if ( currPuzzle.canRotate() ) {
+                    gameModel.action_motion( Action.Rotate_right );
+                    gameView.renderRotateR();
+                }
             }
 
             @Override
             public void onRotateLeft() {
-                gameController.rotateLeft();
+                if ( currPuzzle.canRotate() ) {
+                    gameModel.action_motion( Action.Rotate_left );
+                    gameView.renderRotateL();
+                }
             }
 
             @Override
             public void onFlipHorizontally() {
-                gameController.flipHorizontally();
+                if ( currPuzzle.canFlip() ) {
+                    gameModel.action_motion( Action.Flip_horizontally );
+                    gameView.renderFlipH();
+                }
             }
 
             @Override
             public void onFlipVertically() {
-                gameController.flipVertically();
+                if ( currPuzzle.canFlip() ) {
+                    gameModel.action_motion( Action.Flip_vertically );
+                    gameView.renderFlipV();
+                }
             }
         } );
 
         shakeDetector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
-                gameController.shift();
+                if ( currPuzzle.canShift() ) {
+                    gameModel.action_sensor( Action.Shift, currPuzzle.getBoards() );
+                    gameView.renderShift();
+                }
             }
         } );
     }
+
+
 
 
     // Button methods
     // ---------------
 
     public void onLevelsButtonClicked( View view ) {
-        Toast.makeText( this, "Levels!", Toast.LENGTH_SHORT ).show();
+        gameView.renderToast( "Levels!" );
     }
 
     public void onSettingsButtonClicked( View view ) {
-        Toast.makeText( this, "Settings!", Toast.LENGTH_SHORT ).show();
+        gameView.renderToast("Settings!");
     }
 
     public void onResetButtonClicked( View view ) {
-        gameController.reset();
+        loadPuzzle( currPuzzle );
     }
 
     public void onCheckButtonClicked(View view) {
         if ( DEVMODE ) {
-            gameController.LogModel();
+            gameModel.LogGraph();
         } else {
-            if (gameController.checkSolution()) {
-                Toast.makeText(this, "You are correct!", Toast.LENGTH_SHORT).show();
+            if ( currPuzzle.checkCorrectness( gameModel.getGraph() ) ) {
+                gameView.renderToast("You are correct!");
             } else {
-                Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT).show();
+                gameView.renderToast("You are incorrect");
             }
         }
     }
 
     public void onHintButtonClicked( View view ) {
-        Toast.makeText( this, "Hint", Toast.LENGTH_SHORT ).show();
+        gameView.renderToast("Hint");
     }
 
     public void onUndoButtonClicked( View view ) {
-        gameController.undo();
+        if ( gameModel.getPastState() == null ) {
+            gameView.renderToast( "There is nothing to undo" );
+        } else {
+            gameModel = gameModel.getPastState();
+            gameView.renderUndo();
+        }
     }
 
     public void onDrawButtonClicked( View view ) {
-        gameController.enterDrawMode();
+        drawnEnabled = true;
     }
 
     public void onEraseButtonClicked( View view ) {
-        gameController.enterEraseMode();
+        drawnEnabled = false;
     }
 
 
