@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import symbolize.app.Common.Action;
 import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Owner;
@@ -116,71 +117,83 @@ public class GameModel {
     // Action methods
     //----------------
 
-    public void addLine(Line line) {
+    public void action_basic( Action action, Line line ) {
         pushState();
-        graph.addLast( line );
-        ++linesDrawn;
-    }
+        switch ( action ) {
+            case Draw:
+                graph.addLast(line);
+                ++linesDrawn;
+                break;
 
-    public void removeLine( Line line ) {
-        pushState();
-        graph.remove( line );
-        if ( line.getOwner() == Owner.App ) {
-            ++linesErased;
-        } else{
-            --linesDrawn;
-        }
-    }
+            case Erase:
+                graph.remove(line);
+                if (line.getOwner() == Owner.App) {
+                    ++linesErased;
+                } else {
+                    --linesDrawn;
+                }
+                break;
 
-    public void rotateGraphR() {
-        pushState();
-        for ( Line line : graph ) {
-            line.rotateRight();
-        }
-        for ( Posn point : levels ) {
-            point.roateRight();
+            case Change_color:
+                line.editColor();
+                break;
         }
     }
 
-    public void rotateGraphL() {
+    public void action_motion( Action action ) {
         pushState();
-        for ( Line line : graph ) {
-            line.rotateLeft();
-        }
-        for ( Posn point : levels ) {
-            point.roateLeft();
+        switch ( action ) {
+            case Rotate_right:
+                for ( Line line : graph ) {
+                    line.rotateRight();
+                }
+                for ( Posn posn : levels ) {
+                    posn.roateRight();
+                }
+                break;
+
+            case Rotate_left:
+                for ( Line line : graph ) {
+                    line.rotateLeft();
+                }
+                for ( Posn posn : levels ) {
+                    posn.roateLeft();
+                }
+                break;
+
+            case Flip_horizontally:
+                for ( Line line : graph ) {
+                    line.flipH();
+                }
+                for ( Posn posn : levels ) {
+                    posn.flipH();
+                }
+                break;
+
+            case Flip_vertically:
+                for ( Line line : graph ) {
+                    line.flipV();
+                }
+                for ( Posn posn : levels ) {
+                    posn.flipV();
+                }
+                break;
         }
     }
 
-    public void flipGraphH() {
+    public void action_sensor( Action action, ArrayList<LinkedList<Line>> board) {
         pushState();
-        for ( Line line : graph ) {
-            line.flipH();
+        switch ( action ) {
+            case Shift:
+                shiftNumber = (shiftNumber + 1) % board.size();
+                graph.clear();
+                for ( Line line : board.get( shiftNumber ) ) {
+                    graph.addLast( line.clone() );
+                }
+                linesDrawn = 0;
+                linesErased = 0;
+                break;
         }
-        for ( Posn point : levels ) {
-            point.flipH();
-        }
-    }
-
-    public void flipGraphV() {
-        pushState();
-        for ( Line line : graph ) {
-            line.flipV();
-        }
-        for ( Posn point : levels ) {
-            point.flipV();
-        }
-    }
-
-    public void shiftGraph( ArrayList<LinkedList<Line>> sg ) {
-        pushState();
-        shiftNumber = (shiftNumber + 1) % sg.size();
-        graph.clear();
-        for ( Line line : sg.get( shiftNumber ) ) {
-            graph.addLast( line.clone() );
-        }
-        linesDrawn = 0;
-        linesErased = 0;
     }
 
 

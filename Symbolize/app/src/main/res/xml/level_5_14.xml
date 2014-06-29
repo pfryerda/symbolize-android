@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level>
+    <hint></hint>
+    <drawRestirction>0</drawRestirction>
+    <eraseRestirction>0</eraseRestirction>
+    <rotateEnabled>false</rotateEnabled>
+    <flipEnabled>false</flipEnabled>
+    <colourEnabled>false</colourEnabled>
+    <boards>
+    </boards>
+    <solutions>
+    </solutions>
+</Level>

@@ -233,15 +233,15 @@ public class GameView {
         foregound.invalidate();
     }
 
-    public void renderShadowLine( Line l ) {
+    public void renderShadow( Line line ) {
         renderGraph();
         paint.setColor( Color.BLACK );
         paint.setAlpha( SHADOW );
-        foregoundCanvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
+        foregoundCanvas.drawLine(line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint);
         foregound.invalidate();
     }
 
-    public void renderShadowPoint( Posn point ) {
+    public void renderShadow( Posn point ) {
         renderGraph();
         paint.setColor(Color.BLACK);
         paint.setAlpha(SHADOW);
