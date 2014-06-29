@@ -70,9 +70,9 @@ abstract public class Puzzle {
                     Line match = null;
                     for ( Line line : guess ) {
                         if ( match == null ) {
-                            if( line.eq( soln.getFirst() ) ) match = line;
+                            if( line.Approximately_equals( soln.getFirst() ) ) match = line;
                         } else {
-                            if( line.eq( soln.getFirst() ) && ( soln.getFirst().score( line ) < soln.getFirst().score( match ) ) ) match = line;
+                            if( line.Approximately_equals( soln.getFirst() ) && ( soln.getFirst().Score( line ) < soln.getFirst().Score( match ) ) ) match = line;
                         }
                     }
                     if ( match == null ) break;
@@ -89,15 +89,15 @@ abstract public class Puzzle {
     // Abstract methods
     //------------------
 
-    abstract public ArrayList<Posn> getLevels();
+    abstract public ArrayList<Posn> Get_levels();
 
-    abstract public ArrayList<LinkedList<Line>> getBoards();
+    abstract public ArrayList<LinkedList<Line>> Get_boards();
 
-    abstract public LinkedList<Line> getBoard();
+    abstract public LinkedList<Line> Get_board();
 
-    abstract public int getDrawRestirction();
+    abstract public int Get_draw_restriction();
 
-    abstract public int getEraseRestirction();
+    abstract public int Get_erase_restriction();
 
-    abstract public boolean canShift();
+    abstract public boolean Can_shift();
 }

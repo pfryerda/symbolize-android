@@ -21,8 +21,8 @@ public class Level extends Puzzle {
     // Fields
     //--------
 
-    private final int drawRestirction;
-    private final int eraseRestirction;
+    private final int draw_restriction;
+    private final int erase_restriction;
     protected final ArrayList<LinkedList<Line>> boards;
 
 
@@ -31,44 +31,50 @@ public class Level extends Puzzle {
 
     public Level() {
         super();
-        this.drawRestirction = 0;
-        this.eraseRestirction = 0;
+        this.draw_restriction = 0;
+        this.erase_restriction = 0;
         this.boards = new ArrayList<LinkedList<Line>>();
     }
 
-    public Level( String hint, int drawRestirction, int eraseRestirction,
+    public Level( String hint, int draw_restriction, int erase_restriction,
                   boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
                   ArrayList<LinkedList<Line>> boards, ArrayList<LinkedList<Line>> solutions )
     {
         super( hint, rotateEnabled, flipEnabled, colourEnabled, solutions );
-        this.drawRestirction = drawRestirction;
-        this.eraseRestirction = eraseRestirction;
+        this.draw_restriction = draw_restriction;
+        this.erase_restriction = erase_restriction;
         this.boards = boards;
     }
 
-    // Methods
-    //---------
+    // Public method
+    //---------------
 
-    public ArrayList<Posn> getLevels() { return new ArrayList<Posn>(); }
+    public boolean Can_shift() {
+        return ( boards.size() > 1 );
+    }
 
-    public ArrayList<LinkedList<Line>> getBoards()  {
+
+    // Geter methods
+    //----------------
+
+    public ArrayList<Posn> Get_levels() {
+        return new ArrayList<Posn>();
+    }
+
+    public ArrayList<LinkedList<Line>> Get_boards()  {
         return boards;
     }
-    
-    public LinkedList<Line> getBoard() {
+
+    public LinkedList<Line> Get_board() {
         return boards.get(0);
     }
 
-    public int getDrawRestirction() {
-        return drawRestirction;
+    public int Get_draw_restriction() {
+        return draw_restriction;
     }
 
-    public int getEraseRestirction() {
-        return eraseRestirction;
-    }
-
-    public boolean canShift() {
-        return ( boards.size() > 1 );
+    public int Get_erase_restriction() {
+        return erase_restriction;
     }
 
 }

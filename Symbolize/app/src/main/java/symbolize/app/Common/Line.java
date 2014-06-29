@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.util.SparseIntArray;
 
+import symbolize.app.Common.Enum.Action;
+import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Game.GameActivity;
 
 public class Line {
@@ -17,7 +18,7 @@ public class Line {
     public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 7;
     public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
     public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
-    public static final SparseIntArray COLORMAP = makeColorMap();
+    public static final SparseIntArray COLORMAP = make_color_map();
 
 
     // Fields
@@ -42,34 +43,6 @@ public class Line {
         owner = null;
     }
 
-    public Line( Posn pt1, Posn pt2 ) {
-        if ( pt1.lt( pt2 ) ) {
-            p1 = pt1;
-            p2 = pt2;
-        } else {
-            p1 = pt2;
-            p2 = pt1;
-        }
-
-        updateSlopeAndYIntercept();
-        color = Color.BLACK;
-        owner = Owner.App;
-    }
-
-    public Line( Posn pt1, Posn pt2, int hue ) {
-        if ( pt1.lt( pt2 ) ) {
-            p1 = pt1;
-            p2 = pt2;
-        } else {
-            p1 = pt2;
-            p2 = pt1;
-        }
-
-        updateSlopeAndYIntercept();
-        color = hue;
-        owner = Owner.App;
-    }
-
     public Line( Posn pt1, Posn pt2, Owner creator ) {
         if ( pt1.lt( pt2 ) ) {
             p1 = pt1;
@@ -79,7 +52,7 @@ public class Line {
             p2 = pt1;
         }
 
-        updateSlopeAndYIntercept();
+        update_attributes();
         color = Color.BLACK;
         owner = creator;
     }
@@ -93,7 +66,7 @@ public class Line {
             p2 = pt1;
         }
 
-        updateSlopeAndYIntercept();
+        update_attributes();
         color = hue;
         owner = creator;
     }
@@ -107,48 +80,33 @@ public class Line {
     }
 
 
-    // Methods
-    //----------
-
-
-    /*
-     * Method used to caluclate the slope and y intercept
-     */
-    public void updateSlopeAndYIntercept() {
-        int dx = p2.x() - p1.x();
-        int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = (float) dy / dx;
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
-    }
+    // Public methods
+    //-----------------
 
     /*
      * Method that calculates euclidean distance squared
      */
-    public int distSqr() {
-        return p1.distSqr( p2 );
+    public int distance_squared() {
+        return p1.distance_squared( p2 );
     }
 
     /*
-     * Method that sees if the given line is approximately equal to this line (used during soluntion check)
+     * Method that sees if the given line is approximately equal to this line (used during solution check)
+     *
      * @param Line soln: Line from the solution that we are checking against
      */
-    public boolean eq( Line soln ) {
+    public boolean Approximately_equals( Line soln ) {
         return ( ( (
-                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p1.y() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p2.y() + DRAWINGTHRESHOLD ) ) )   ||
+                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.Get_p1().x() ) && ( soln.Get_p1().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.Get_p1().y() ) && ( soln.Get_p1().y() <= ( p1.y() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.Get_p2().x() ) && ( soln.Get_p2().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.Get_p2().y() ) && ( soln.Get_p2().y() <= ( p2.y() + DRAWINGTHRESHOLD ) ) )   ||
                 (
-                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.getP1().x() ) && ( soln.getP1().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.getP1().y() ) && ( soln.getP1().y() <= ( p2.y() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.getP2().x() ) && ( soln.getP2().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.getP2().y() ) && ( soln.getP2().y() <= ( p1.y() + DRAWINGTHRESHOLD ) ) ) ) &&
-                ( color == soln.getColor() ) );
+                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.Get_p1().x() ) && ( soln.Get_p1().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.Get_p1().y() ) && ( soln.Get_p1().y() <= ( p2.y() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.Get_p2().x() ) && ( soln.Get_p2().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
+                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.Get_p2().y() ) && ( soln.Get_p2().y() <= ( p1.y() + DRAWINGTHRESHOLD ) ) ) ) &&
+                ( color == soln.Get_color() ) );
     }
 
     /*
@@ -157,7 +115,7 @@ public class Line {
      *
      * @param Posn point: point of interest
      */
-    public boolean intersect( Posn point ) {
+    public boolean Intersects( Posn point ) {
         if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() && point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
             Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() && point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
             if ( ( slope != Float.POSITIVE_INFINITY ) && ( slope != 0 ) ) {
@@ -173,75 +131,87 @@ public class Line {
     /*
      * Method used to calculate how close two lines are. This method is used during soluntion
      * checking when there is multiple matching lines. This is used to decide which to use.
+     *
      * @param Line line: The Line you are checking against.
      */
-    public int score(Line line) {
-        return Math.min( p1.distSqr( line.getP1() ) + p2.distSqr( line.getP2() ),
-                p2.distSqr( line.getP1() ) + p1.distSqr( line.getP2() ) );
+    public int Score( Line line ) {
+        return Math.min( p1.distance_squared( line.Get_p1() ) + p2.distance_squared( line.Get_p2() ),
+                p2.distance_squared( line.Get_p1() ) + p1.distance_squared( line.Get_p2() ) );
     }
 
     /*
      * Method used to snap line to level dot
+     *
+     * @param ArrayList<Posn> levels: Array of lines wanting to snap to
      */
-    public void snapToLevels( ArrayList<Posn> levels ) {
-        p1.snapToLevels( levels );
-        p2.snapToLevels( levels );
+    public void Snap_to_levels( ArrayList<Posn> levels ) {
+        p1.Snap_to_levels( levels );
+        p2.Snap_to_levels( levels );
     }
 
 
     // Geter methods
     //---------------
 
-    public Posn getP1() {
+    public Posn Get_p1() {
         return p1;
     }
 
-    public Posn getP2() {
+    public Posn Get_p2() {
         return p2;
     }
 
-    public int getColor() {
+    public int Get_color() {
         return color;
     }
 
-    public Owner getOwner() {
+    public Owner Get_owner() {
         return owner;
     }
 
 
-    // Action Methods
-    //------------------
+    // Action Method
+    //----------------
 
-    public void rotateRight() {
-        p1.roateRight();
-        p2.roateRight();
-
-        updateSlopeAndYIntercept();
+    public void Edit( Action action ) {
+        if ( action == Action.Change_color ) {
+            color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
+        } else {
+            p1.Edit( action );
+            p2.Edit( action );
+        }
+        update_attributes();
     }
 
-    public void rotateLeft() {
-        p1.roateLeft();
-        p2.roateLeft();
 
-        updateSlopeAndYIntercept();
+    // Private method
+    //----------------
+
+    /*
+     * Method used to calculate the slope and y intercept
+     */
+    private void update_attributes() {
+        int dx = p2.x() - p1.x();
+        int dy = p2.y() - p1.y();
+        if( dx == 0 ) {
+            slope = Float.POSITIVE_INFINITY;
+            y_intercept = Float.POSITIVE_INFINITY;
+        } else {
+            slope = (float) dy / dx;
+            y_intercept = p1.y() - ( slope * p1.x() );
+        }
     }
 
-    public void flipH() {
-        p1.flipH();
-        p2.flipH();
 
-        updateSlopeAndYIntercept();
-    }
+    // Static methods
+    //---------------
 
-    public void flipV() {
-        p1.flipV();
-        p2.flipV();
-
-        updateSlopeAndYIntercept();
-    }
-
-    public void editColor() {
-        color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
+    private static SparseIntArray make_color_map() {
+        SparseIntArray color_map = new SparseIntArray();
+        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
+            color_map.put( COLORARRAY.get(i), i );
+        }
+        return color_map;
     }
 
 
@@ -249,22 +219,10 @@ public class Line {
     //-----------------
 
     /*
-     * Method used to print the xml code to consturct a line
+     * Method used to print the xml code to construct a line
      */
-    public String printLine() {
+    public String Print_line() {
         return "<Line>" + p1.printPosn( "p1" ) + p2.printPosn( "p2" ) +
                "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
-    }
-
-
-    // Static methods
-    //---------------
-
-    public final static SparseIntArray makeColorMap() {
-        SparseIntArray colormap = new SparseIntArray();
-        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
-            colormap.put( COLORARRAY.get(i), i );
-        }
-        return colormap;
     }
 }

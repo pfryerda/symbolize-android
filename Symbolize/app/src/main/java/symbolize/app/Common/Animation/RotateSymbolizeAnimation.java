@@ -8,6 +8,18 @@ import android.widget.LinearLayout;
 import symbolize.app.Game.GameView;
 
 public class RotateSymbolizeAnimation extends SymbolizeAnimation {
+    // Inherited fields
+    //------------------
+
+    /*
+    protected Animation animation;
+    protected LinearLayout linearLayout;
+
+    protected LinkedList<Line> graph;
+    protected ArrayList<Posn> levels;
+    */
+
+
     // Constructor
     //------------
 

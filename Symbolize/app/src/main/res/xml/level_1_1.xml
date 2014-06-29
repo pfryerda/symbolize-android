@@ -2,8 +2,8 @@
 
 <Level>
     <hint>The 11th letter of the alphabet</hint>
-    <drawRestirction>3000</drawRestirction>
-    <eraseRestirction>3000</eraseRestirction>
+    <draw_restriction>3000</draw_restriction>
+    <erase_restriction>3000</erase_restriction>
     <rotateEnabled>true</rotateEnabled>
     <flipEnabled>true</flipEnabled>
     <colourEnabled>true</colourEnabled>
