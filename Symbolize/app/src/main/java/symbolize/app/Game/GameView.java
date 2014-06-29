@@ -7,15 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
+import symbolize.app.Common.Action;
+import symbolize.app.Common.Animation.FadeOutAndInSymbolizeAnimation;
+import symbolize.app.Common.Animation.FlipSymbolizeAnimation;
+import symbolize.app.Common.Animation.RotateSymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
@@ -32,8 +30,6 @@ public class GameView {
     public static final int POINTWIDTH = LINEWIDTH * 2;
     public static final int TEXTWIDTH = LINEWIDTH;
     public static final int SHADOW = 80;
-    public static final int ROTATEDURATION = 450;
-    public static final int FLIPDURATION = 450;
     public static final int FADEDURATION = 450;
 
 
@@ -50,22 +46,21 @@ public class GameView {
     private GameModel gameModel;
     private Paint paint;
 
-    private Animation rotateRightAnimation;
-    private Animation rotateLeftAnimation;
-    private Animation flipHAnimation;
-    private Animation flipVAnimation;
-    private Animation fadeOutAndInAnimation;
-    private Animation fadeInAnimation;
+    private RotateSymbolizeAnimation rotateRightAnimation;
+    private RotateSymbolizeAnimation rotateLeftAnimation;
+    private FlipSymbolizeAnimation flipHAnimation;
+    private FlipSymbolizeAnimation flipVAnimation;
+    private FadeOutAndInSymbolizeAnimation fadeOutAndInAnimation;
 
 
     // Constructor
     //-------------
 
-    public GameView(Context context, LinearLayout fg, LinearLayout bg, Bitmap foregoundBitmap, Bitmap backgroundBitmap, GameModel gameModel ) {
+    public GameView( Context context, LinearLayout foregound, LinearLayout background, Bitmap foregoundBitmap, Bitmap backgroundBitmap, GameModel gameModel ) {
         // Set up main view fields
         this.context = context;
-        this.foregound = fg;
-        this.background = bg;
+        this.foregound = foregound;
+        this.background = background;
         this.foregoundBitmap = foregoundBitmap;
         this.backgroundBitmap = backgroundBitmap;
         this.foregoundCanvas = new Canvas( foregoundBitmap );
@@ -92,45 +87,13 @@ public class GameView {
         paint.setTextSize( TEXTWIDTH );
 
         // Set up animations
-        rotateRightAnimation = new RotateAnimation( 0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
-        rotateRightAnimation.setDuration( ROTATEDURATION );
-        setUpAnimation(rotateRightAnimation);
-        rotateLeftAnimation = new RotateAnimation( 0, -90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
-        rotateLeftAnimation.setDuration( ROTATEDURATION );
+        rotateRightAnimation = new RotateSymbolizeAnimation( foregound, this, 90 );
+        rotateLeftAnimation = new RotateSymbolizeAnimation( foregound, this, -90 );
+        flipHAnimation = new FlipSymbolizeAnimation( foregound, this, -1, 1);
+        flipVAnimation = new FlipSymbolizeAnimation( foregound, this, 1, -1 );
+        fadeOutAndInAnimation = new FadeOutAndInSymbolizeAnimation( foregound, this );
 
-        setUpAnimation(rotateLeftAnimation);
-        flipHAnimation = new ScaleAnimation( 1, -1, 1, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
-        flipHAnimation.setDuration( FLIPDURATION );
-        setUpAnimation( flipHAnimation );
-        flipVAnimation = new ScaleAnimation( 1, 1, 1, -1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
-        flipVAnimation.setDuration( FLIPDURATION );
-        setUpAnimation( flipVAnimation );
-
-        fadeOutAndInAnimation = new AlphaAnimation( 1, 0 );
-        fadeOutAndInAnimation.setDuration( FADEDURATION );
-        fadeOutAndInAnimation.setFillAfter( true );
-        fadeOutAndInAnimation.setAnimationListener( new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart( Animation animation ) {
-                InAnimation = true;
-            }
-            @Override
-            public void onAnimationEnd( Animation animation ) {
-                foregound.clearAnimation();
-                renderGraph();
-                foregound.startAnimation( fadeInAnimation );
-                InAnimation = false;
-            }
-            @Override
-            public void onAnimationRepeat( Animation animation ) {}
-        });
-        fadeInAnimation = new AlphaAnimation( 0, 1 );
-        fadeInAnimation.setDuration( FADEDURATION );
-        fadeInAnimation.setFillAfter( true );
-
-        paint.setStrokeWidth( LINEWIDTH/10 );
-        renderGrid();
-        paint.setStrokeWidth( LINEWIDTH );
+        Render_background();
     }
 
 
@@ -149,30 +112,42 @@ public class GameView {
      */
     public void renderGraph() {
         clearCanvas();
+        paint.setStyle( Paint.Style.STROKE );
+
+        // Draw graph lines
+        paint.setStrokeWidth( LINEWIDTH );
         for ( Line line : gameModel.getGraph() ) {
-            renderLine( line );
+            paint.setColor( line.getColor() );
+            foregoundCanvas.drawLine(line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint);
         }
 
+        // Draw level dots
         paint.setStrokeWidth( POINTWIDTH );
         for ( int i = 0; i < gameModel.getLevels().size(); ++i ) {
             Posn point = gameModel.getLevels().get(i);
+
+            // Draw Point
             paint.setColor( Color.BLACK );
             paint.setStyle( Paint.Style.STROKE );
             foregoundCanvas.drawPoint(point.x(), point.y(), paint);
+
+            // Draw Number
             paint.setStyle( Paint.Style.FILL );
             paint.setColor( Color.WHITE );
             foregoundCanvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ), point.y() + ( TEXTWIDTH / 2 ), paint );
         }
-        paint.setStyle( Paint.Style.STROKE );
-        paint.setStrokeWidth( LINEWIDTH );
+
         foregound.invalidate();
     }
 
     /*
      * Simple method used to draw a grid in the background
      */
-    private void renderGrid() {
+    public void Render_background() {
+        backgroundCanvas.drawColor( Color.WHITE );
         paint.setColor( Color.LTGRAY );
+        paint.setStrokeWidth( LINEWIDTH/10 );
+
         for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
             backgroundCanvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
         }
@@ -180,40 +155,9 @@ public class GameView {
         for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
             backgroundCanvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
         }
+
         background.invalidate();
     }
-
-    /*
-     * Display a toast with the given message
-     *
-     * @param: String msg: The message we want to output
-     */
-    public void renderToast(String msg) {
-        Toast.makeText( context, msg, Toast.LENGTH_SHORT ).show();
-    }
-
-    /*
-     * Method used to setup an animation so that once completed it prints the updated graph
-     *
-     * @param: Animation a: The animation you wish to set up
-     */
-    private void setUpAnimation( Animation a ) {
-        a.setAnimationListener( new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart( Animation animation ) {
-                InAnimation = true;
-            }
-            @Override
-            public void onAnimationEnd( Animation animation ) {
-                foregound.clearAnimation();
-                renderGraph();
-                InAnimation = false;
-            }
-            @Override
-            public void onAnimationRepeat( Animation animation ) {}
-        });
-    }
-
 
     // Button methods
     //----------------
@@ -227,47 +171,50 @@ public class GameView {
     // Action methods
     //----------------
 
-    public void renderLine( Line l ) {
-        paint.setColor(l.getColor());
-        foregoundCanvas.drawLine(l.getP1().x(), l.getP1().y(), l.getP2().x(), l.getP2().y(), paint);
-        foregound.invalidate();
+    private void set_up_shadow() {
+        renderGraph();
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setColor( Color.BLACK );
+        paint.setAlpha( SHADOW );
     }
 
     public void renderShadow( Line line ) {
-        renderGraph();
-        paint.setColor( Color.BLACK );
-        paint.setAlpha( SHADOW );
+        set_up_shadow();
+        paint.setStrokeWidth( LINEWIDTH );
+
         foregoundCanvas.drawLine(line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint);
         foregound.invalidate();
     }
 
     public void renderShadow( Posn point ) {
-        renderGraph();
-        paint.setColor(Color.BLACK);
-        paint.setAlpha(SHADOW);
-        paint.setStrokeWidth(POINTWIDTH);
+        set_up_shadow();
+        paint.setStrokeWidth( POINTWIDTH );
+
         foregoundCanvas.drawPoint( point.x(), point.y(), paint );
         foregound.invalidate();
-        paint.setStrokeWidth( LINEWIDTH );
     }
 
-    public void renderRotateR() {
-        foregound.startAnimation(rotateRightAnimation);
-    }
+    public void Render_motion( Action action ) {
+        switch ( action ) {
+            case Rotate_right:
+                rotateRightAnimation.animate();
+                break;
 
-    public void renderRotateL() {
-        foregound.startAnimation(rotateLeftAnimation);
-    }
+            case Rotate_left:
+                rotateLeftAnimation.animate();
+                break;
 
-    public void renderFlipH() {
-        foregound.startAnimation(flipHAnimation);
-    }
+            case Flip_horizontally:
+                flipHAnimation.animate();
+                break;
 
-    public void renderFlipV() {
-        foregound.startAnimation(flipVAnimation);
-    }
+            case Flip_vertically:
+                flipVAnimation.animate();
+                break;
 
-    public void renderShift() {
-        foregound.startAnimation(fadeOutAndInAnimation);
+            case Shift:
+                fadeOutAndInAnimation.animate();
+                break;
+        }
     }
 }

@@ -1,6 +1,9 @@
 package symbolize.app.Game;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,27 +28,30 @@ public class GameModel {
     private ArrayList<Posn> levels;
     private int linesDrawn, linesErased;
     private int shiftNumber;
+    private GameView gameView;
     private GameModel pastState;
 
 
     // Constructors
     //--------------
 
-    public GameModel() {
+    public GameModel( Context context, LinearLayout foreground, LinearLayout background, Bitmap foregoundBitmap, Bitmap backgroundBitmap ) {
         graph = new LinkedList<Line>();
         levels = new ArrayList<Posn>();
         linesDrawn = 0;
         linesErased = 0;
         shiftNumber = 0;
+        gameView = new GameView( context, foreground, background, foregoundBitmap, backgroundBitmap, this );
         pastState = null;
     }
 
-    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int linesDrawn, int linesErased, int shiftNumber, GameModel pastState ) {
+    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int linesDrawn, int linesErased, int shiftNumber, GameView gameView, GameModel pastState ) {
         this.graph = graph;
         this.levels = levels;
         this.linesDrawn = linesDrawn;
         this.linesErased = linesErased;
         this.shiftNumber = shiftNumber;
+        this.gameView = gameView;
         this.pastState = pastState;
     }
 
@@ -58,7 +64,7 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, levels, linesDrawn, linesErased, shiftNumber, pastState );
+        return new GameModel( clonedGraph, levels, linesDrawn, linesErased, shiftNumber, gameView, pastState );
     }
 
 
@@ -77,6 +83,24 @@ public class GameModel {
         linesDrawn = 0;
         linesErased = 0;
         pastState = null;
+
+        gameView.renderGraph();
+    }
+
+    public void Add_shadow( Line line ) {
+        gameView.renderShadow( line );
+    }
+
+    public void Add_shadow( Posn posn ) {
+        gameView.renderShadow( posn );
+    }
+
+    public void Remove_shadows() {
+        gameView.renderGraph();
+    }
+
+    public void Undo() {
+        gameView.renderUndo();
     }
 
     public void pushState() {
@@ -138,6 +162,7 @@ public class GameModel {
                 line.editColor();
                 break;
         }
+        gameView.renderGraph();
     }
 
     public void action_motion( Action action ) {
@@ -179,6 +204,7 @@ public class GameModel {
                 }
                 break;
         }
+        gameView.Render_motion( action );
     }
 
     public void action_sensor( Action action, ArrayList<LinkedList<Line>> board) {
@@ -194,6 +220,7 @@ public class GameModel {
                 linesErased = 0;
                 break;
         }
+        gameView.Render_motion( action );
     }
 
 
