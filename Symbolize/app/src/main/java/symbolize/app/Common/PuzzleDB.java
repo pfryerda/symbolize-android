@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import symbolize.app.Common.Enum.Owner;
 import symbolize.app.R;
 
 /*
@@ -71,8 +72,8 @@ public class PuzzleDB {
 
         // Set up level variables
         String hint = "";
-        int drawRestirction = 0;
-        int eraseRestirction = 0;
+        int draw_restriction = 0;
+        int erase_restriction = 0;
         boolean rotateEnabled = false;
         boolean flipEnabled = false;
         boolean colourEnabled = false;
@@ -98,8 +99,8 @@ public class PuzzleDB {
             }
 
             hint = parse_preamble( "hint" );
-            drawRestirction = Integer.parseInt(parse_preamble("drawRestirction").trim());
-            eraseRestirction = Integer.parseInt( parse_preamble( "eraseRestirction" ).trim() );
+            draw_restriction = Integer.parseInt(parse_preamble("draw_restriction").trim());
+            erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
             rotateEnabled = Boolean.valueOf(parse_preamble("rotateEnabled"));
             flipEnabled = Boolean.valueOf( parse_preamble( "flipEnabled" ) );
             colourEnabled = Boolean.valueOf( parse_preamble( "colourEnabled" ) );
@@ -204,7 +205,7 @@ public class PuzzleDB {
                             if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
-                            tmpLine = new Line( tmpP1, tmpP2, tmpColor );
+                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Owner.App );
                             tmpList.add( tmpLine.clone() );
                             tmpLine = null;
                             tmpP1 = null;
@@ -231,7 +232,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, drawRestirction, eraseRestirction, rotateEnabled, flipEnabled, colourEnabled, boards, solutions );
+        return new Level( hint, draw_restriction, erase_restriction, rotateEnabled, flipEnabled, colourEnabled, boards, solutions );
     }
 
 

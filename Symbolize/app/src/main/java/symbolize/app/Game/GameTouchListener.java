@@ -1,13 +1,16 @@
 package symbolize.app.Game;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import symbolize.app.Common.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Owner;
+import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
 
 
@@ -52,7 +55,7 @@ public class GameTouchListener implements View.OnTouchListener {
     //----------------
 
     public boolean onTouch( View v, MotionEvent event ) {
-        if ( !GameView.InAnimation ) {
+        if ( !SymbolizeAnimation.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
                 case MotionEvent.ACTION_DOWN: {                                 // First finger down
@@ -94,7 +97,7 @@ public class GameTouchListener implements View.OnTouchListener {
                             onFingerUp();
                             long endtime = System.currentTimeMillis();
                             Line line = new Line( pointOne, pointOneEnd, Owner.User );
-                            if ( line.distSqr() >= MINLINESIZESQR ) {
+                            if ( line.distance_squared() >= MINLINESIZESQR ) {
                                 onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
                             } else if ( ( endtime - startTime) <= TAPTHRESHOLD ) {
                                 onTap( pointOneEnd );
@@ -120,7 +123,7 @@ public class GameTouchListener implements View.OnTouchListener {
                 case MotionEvent.ACTION_MOVE: {                                 // Finger moves
                     if ( !inDoubleTouch && pointOne != null ) {
                         Posn pointTemp = getPoint( event );
-                        onFingerMove( new Line( pointOne, pointTemp ), pointTemp );
+                        onFingerMove( new Line( pointOne, pointTemp, Owner.App), pointTemp );
                         if ( isEraseDelayDone ) {
                             onErase( pointTemp );
                         }

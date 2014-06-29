@@ -2,6 +2,7 @@ package symbolize.app.Common;
 
 import java.util.ArrayList;
 
+import symbolize.app.Common.Enum.Action;
 import symbolize.app.Game.GameActivity;
 
 public class Posn {
@@ -39,7 +40,7 @@ public class Posn {
     /*
      * Method that sees if the given posn is approximately equal to this posn
      */
-    public boolean eq( Posn point ) {
+    public boolean Approximately_equals( Posn point ) {
         return ( ( ( first - Line.DRAWINGTHRESHOLD ) <= point.x() ) && ( point.x() <= ( first + Line.DRAWINGTHRESHOLD ) ) &&
                  ( ( second - Line.DRAWINGTHRESHOLD ) <= point.y() ) && ( point.y() <= ( second + Line.DRAWINGTHRESHOLD ) ) );
     }
@@ -62,7 +63,7 @@ public class Posn {
      *
      * @param Posn point: the point you getting the distance with
      */
-    public int distSqr( Posn point ) {
+    public int distance_squared( Posn point ) {
         return ( first - point.x() ) * ( first - point.x() ) +
                 ( second - point.y() ) * ( second - point.y() );
     }
@@ -70,11 +71,11 @@ public class Posn {
     /*
      * Method used to snap posn to levels
      */
-   public void snapToLevels( ArrayList<Posn> levels) {
+   public void Snap_to_levels( ArrayList<Posn> levels) {
        if ( !levels.isEmpty() ) {
            Posn match = levels.get( 0 );
            for ( Posn point : levels ) {
-               if ( distSqr( point ) < distSqr( match ) ) {
+               if ( distance_squared( point ) < distance_squared( match ) ) {
                    match = point;
                }
            }
@@ -84,7 +85,7 @@ public class Posn {
    }
 
 
-    // Geter/Seter Methods
+    // Geter Methods
     //--------------------
 
     public int x() {
@@ -95,36 +96,33 @@ public class Posn {
         return second;
     }
 
-    public void setX(int x) {
-        first = x;
-    }
 
-    public void setY(int y) {
-        second = y;
-    }
+    // Action method
+    //--------------
 
+    public void Edit( Action action ) {
+        int tmp;
+        switch ( action ) {
+            case Rotate_right:
+                tmp = first;
+                first = GameActivity.SCALING - second;
+                second = tmp;
+                break;
 
-    // Action methods
-    //---------------
+            case Rotate_left:
+                tmp = second;
+                second = GameActivity.SCALING - first;
+                first = tmp;
+                break;
 
-    public void roateRight() {
-        int tmp = first;
-        first = GameActivity.SCALING - second;
-        second = tmp;
-    }
+            case Flip_horizontally:
+                first = GameActivity.SCALING - first;
+                break;
 
-    public void roateLeft() {
-        int tmp = second;
-        second = GameActivity.SCALING - first;
-        first = tmp;
-    }
-
-    public void flipH() {
-        first = GameActivity.SCALING - first;
-    }
-
-    public void flipV() {
-        second = GameActivity.SCALING - second;
+            case Flip_vertically:
+                second = GameActivity.SCALING - second;
+                break;
+        }
     }
 
 

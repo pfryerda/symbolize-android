@@ -8,9 +8,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import symbolize.app.Common.Action;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Animation.FadeOutAndInSymbolizeAnimation;
 import symbolize.app.Common.Animation.FlipSymbolizeAnimation;
 import symbolize.app.Common.Animation.RotateSymbolizeAnimation;
@@ -30,7 +32,6 @@ public class GameView {
     public static final int POINTWIDTH = LINEWIDTH * 2;
     public static final int TEXTWIDTH = LINEWIDTH;
     public static final int SHADOW = 80;
-    public static final int FADEDURATION = 450;
 
 
     // Fields
@@ -43,7 +44,6 @@ public class GameView {
     private Bitmap backgroundBitmap;
     private Canvas foregoundCanvas;
     private Canvas backgroundCanvas;
-    private GameModel gameModel;
     private Paint paint;
 
     private RotateSymbolizeAnimation rotateRightAnimation;
@@ -65,7 +65,6 @@ public class GameView {
         this.backgroundBitmap = backgroundBitmap;
         this.foregoundCanvas = new Canvas( foregoundBitmap );
         this.backgroundCanvas = new Canvas( backgroundBitmap );
-        this.gameModel = gameModel;
 
         if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
             foregound.setBackgroundDrawable( new BitmapDrawable( foregoundBitmap ) );
@@ -74,7 +73,6 @@ public class GameView {
             foregound.setBackground( new BitmapDrawable( context.getResources(), foregoundBitmap ) );
             background.setBackground( new BitmapDrawable( context.getResources(), backgroundBitmap ) );
         }
-
 
         // Set up paint
         paint = new Paint();
@@ -103,28 +101,28 @@ public class GameView {
     /*
      * Methods used to clear all lines in the foreground
      */
-    public void clearCanvas() {
+    private void clear_foreground() {
         foregoundCanvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 
     /*
      * Update the view with the current board in the model
      */
-    public void renderGraph() {
-        clearCanvas();
+    public void Render_foreground( LinkedList<Line> graph, ArrayList<Posn> levels ) {
+        clear_foreground();
         paint.setStyle( Paint.Style.STROKE );
 
         // Draw graph lines
         paint.setStrokeWidth( LINEWIDTH );
-        for ( Line line : gameModel.getGraph() ) {
-            paint.setColor( line.getColor() );
-            foregoundCanvas.drawLine(line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint);
+        for ( Line line : graph ) {
+            paint.setColor( line.Get_color() );
+            foregoundCanvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
         }
 
         // Draw level dots
         paint.setStrokeWidth( POINTWIDTH );
-        for ( int i = 0; i < gameModel.getLevels().size(); ++i ) {
-            Posn point = gameModel.getLevels().get(i);
+        for ( int i = 0; i < levels.size(); ++i ) {
+            Posn point = levels.get(i);
 
             // Draw Point
             paint.setColor( Color.BLACK );
@@ -159,61 +157,53 @@ public class GameView {
         background.invalidate();
     }
 
-    // Button methods
-    //----------------
-
-    public void renderUndo() {
-        gameModel = gameModel.getPastState();
-        renderGraph();
-    }
-
 
     // Action methods
     //----------------
 
-    private void set_up_shadow() {
-        renderGraph();
+    private void set_up_shadow( LinkedList<Line> graph, ArrayList<Posn> levels ) {
+        Render_foreground(graph, levels);
         paint.setStyle( Paint.Style.STROKE );
         paint.setColor( Color.BLACK );
         paint.setAlpha( SHADOW );
     }
 
-    public void renderShadow( Line line ) {
-        set_up_shadow();
+    public void Render_shadow( Line line, LinkedList<Line> graph, ArrayList<Posn> levels ) {
+        set_up_shadow( graph, levels );
         paint.setStrokeWidth( LINEWIDTH );
 
-        foregoundCanvas.drawLine(line.getP1().x(), line.getP1().y(), line.getP2().x(), line.getP2().y(), paint);
+        foregoundCanvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
         foregound.invalidate();
     }
 
-    public void renderShadow( Posn point ) {
-        set_up_shadow();
+    public void Render_shadow( Posn point, LinkedList<Line> graph, ArrayList<Posn> levels ) {
+        set_up_shadow( graph, levels );
         paint.setStrokeWidth( POINTWIDTH );
 
         foregoundCanvas.drawPoint( point.x(), point.y(), paint );
         foregound.invalidate();
     }
 
-    public void Render_motion( Action action ) {
+    public void Render_motion( Action action, LinkedList<Line> graph, ArrayList<Posn> levels ) {
         switch ( action ) {
             case Rotate_right:
-                rotateRightAnimation.animate();
+                rotateRightAnimation.Animate(graph, levels);
                 break;
 
             case Rotate_left:
-                rotateLeftAnimation.animate();
+                rotateLeftAnimation.Animate(graph, levels);
                 break;
 
             case Flip_horizontally:
-                flipHAnimation.animate();
+                flipHAnimation.Animate(graph, levels);
                 break;
 
             case Flip_vertically:
-                flipVAnimation.animate();
+                flipVAnimation.Animate(graph, levels);
                 break;
 
             case Shift:
-                fadeOutAndInAnimation.animate();
+                fadeOutAndInAnimation.Animate(graph, levels);
                 break;
         }
     }

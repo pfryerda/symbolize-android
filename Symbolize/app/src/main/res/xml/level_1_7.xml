@@ -2,8 +2,8 @@
 
 <Level>
     <hint></hint>
-    <drawRestirction>0</drawRestirction>
-    <eraseRestirction>0</eraseRestirction>
+    <draw_restriction>0</draw_restriction>
+    <erase_restriction>0</erase_restriction>
     <rotateEnabled>false</rotateEnabled>
     <flipEnabled>false</flipEnabled>
     <colourEnabled>false</colourEnabled>

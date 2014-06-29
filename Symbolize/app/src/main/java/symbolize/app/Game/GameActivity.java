@@ -1,14 +1,11 @@
 package symbolize.app.Game;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,12 +13,11 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-import symbolize.app.Common.Action;
+import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Owner;
+import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Puzzle;
 import symbolize.app.Common.PuzzleDB;
@@ -140,9 +136,9 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                line.snapToLevels( gameModel.getLevels() );
+                line.Snap_to_levels( gameModel.Get_levels() );
                 if ( drawnEnabled ) {
-                    if ( gameModel.getLinesDrawn() < currPuzzle.getDrawRestirction() ) {
+                    if ( gameModel.getLinesDrawn() < currPuzzle.Get_draw_restriction() ) {
                         gameModel.action_basic(Action.Draw, line);
                     } else {
                         renderToast( "Cannot draw any more lines " );
@@ -155,8 +151,8 @@ public class GameActivity extends Activity  {
                 if( !drawnEnabled ) {
                     //gameModel.Add_sadow( point );
                     for ( Line line : gameModel.getGraph() ) {
-                        if ( line.intersect( point ) ) {
-                            if ( ( gameModel.getLinesErased() < currPuzzle.getEraseRestirction() ) || ( line.getOwner() == Owner.User ) ) {
+                        if ( line.Intersects( point ) ) {
+                            if ( ( gameModel.getLinesErased() < currPuzzle.Get_erase_restriction() ) || ( line.Get_owner() == Owner.User ) ) {
                                 gameModel.action_basic( Action.Erase, line );
                             } else {
                                 renderToast( "Cannot erase any more lines" );
@@ -175,7 +171,7 @@ public class GameActivity extends Activity  {
             @Override
             public void onFingerMove( Line line, Posn point ) {
                 if ( drawnEnabled ) {
-                    line.snapToLevels( gameModel.getLevels() );
+                    line.Snap_to_levels( gameModel.Get_levels() );
                     gameModel.Add_shadow( line );
                 } else {
                     gameModel.Add_shadow( point );
@@ -184,10 +180,10 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onTap( Posn point ) {
-                ArrayList<Posn> levels = gameModel.getLevels();
+                ArrayList<Posn> levels = gameModel.Get_levels();
                 int level_found = 0;
                 for ( int i = 0; i < levels.size(); ++i ) {
-                    if ( point.eq( levels.get( i ) ) ) {
+                    if ( point.Approximately_equals( levels.get( i ) ) ) {
                         level_found =  i + 1;
                     }
                 }
@@ -196,7 +192,7 @@ public class GameActivity extends Activity  {
                 } else {
                     if ( currPuzzle.canChangeColur() ) {
                         for ( Line line : gameModel.getGraph( )) {
-                            if ( line.intersect( point ) ) {
+                            if ( line.Intersects( point ) ) {
                                 gameModel.action_basic( Action.Change_color, line );
                                 break;
                             }
@@ -242,8 +238,8 @@ public class GameActivity extends Activity  {
         shakeDetector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
-                if ( currPuzzle.canShift() ) {
-                    gameModel.action_sensor( Action.Shift, currPuzzle.getBoards() );
+                if ( currPuzzle.Can_shift() ) {
+                    gameModel.action_sensor( Action.Shift, currPuzzle.Get_boards() );
                 }
             }
         } );

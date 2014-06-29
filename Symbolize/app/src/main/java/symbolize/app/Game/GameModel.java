@@ -8,13 +8,11 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import symbolize.app.Common.Action;
-import symbolize.app.Common.Level;
+import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Owner;
+import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Puzzle;
-import symbolize.app.Common.World;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -74,33 +72,33 @@ public class GameModel {
     public void setPuzzle( Puzzle puzzle ) {
         graph.clear();
         levels.clear();
-        for ( Line line : puzzle.getBoard() ) {
+        for ( Line line : puzzle.Get_board() ) {
             graph.addLast( line.clone() );
         }
-        for ( Posn point : puzzle.getLevels() ) {
+        for ( Posn point : puzzle.Get_levels() ) {
             levels.add(point.clone());
         }
         linesDrawn = 0;
         linesErased = 0;
         pastState = null;
 
-        gameView.renderGraph();
+        gameView.Render_foreground(graph, levels);
     }
 
     public void Add_shadow( Line line ) {
-        gameView.renderShadow( line );
+        gameView.Render_shadow(line, graph, levels);
     }
 
     public void Add_shadow( Posn posn ) {
-        gameView.renderShadow( posn );
+        gameView.Render_shadow(posn, graph, levels);
     }
 
     public void Remove_shadows() {
-        gameView.renderGraph();
+        gameView.Render_foreground(graph, levels);
     }
 
     public void Undo() {
-        gameView.renderUndo();
+        gameView.Render_foreground(graph, levels);
     }
 
     public void pushState() {
@@ -115,7 +113,7 @@ public class GameModel {
         return graph;
     }
 
-    public ArrayList<Posn> getLevels() { return levels; }
+    public ArrayList<Posn> Get_levels() { return levels; }
 
     public int getLinesDrawn() {
         if ( GameActivity.DEVMODE ) {
@@ -151,7 +149,7 @@ public class GameModel {
 
             case Erase:
                 graph.remove(line);
-                if (line.getOwner() == Owner.App) {
+                if (line.Get_owner() == Owner.App) {
                     ++linesErased;
                 } else {
                     --linesDrawn;
@@ -159,52 +157,24 @@ public class GameModel {
                 break;
 
             case Change_color:
-                line.editColor();
+                line.Edit( action );
                 break;
         }
-        gameView.renderGraph();
+        gameView.Render_foreground(graph, levels);
     }
 
     public void action_motion( Action action ) {
         pushState();
-        switch ( action ) {
-            case Rotate_right:
-                for ( Line line : graph ) {
-                    line.rotateRight();
-                }
-                for ( Posn posn : levels ) {
-                    posn.roateRight();
-                }
-                break;
 
-            case Rotate_left:
-                for ( Line line : graph ) {
-                    line.rotateLeft();
-                }
-                for ( Posn posn : levels ) {
-                    posn.roateLeft();
-                }
-                break;
-
-            case Flip_horizontally:
-                for ( Line line : graph ) {
-                    line.flipH();
-                }
-                for ( Posn posn : levels ) {
-                    posn.flipH();
-                }
-                break;
-
-            case Flip_vertically:
-                for ( Line line : graph ) {
-                    line.flipV();
-                }
-                for ( Posn posn : levels ) {
-                    posn.flipV();
-                }
-                break;
+        for ( Line line : graph ) {
+            line.Edit( action );
         }
-        gameView.Render_motion( action );
+
+        for ( Posn posn : levels ) {
+            posn.Edit( action );
+        }
+
+        gameView.Render_motion( action, graph, levels );
     }
 
     public void action_sensor( Action action, ArrayList<LinkedList<Line>> board) {
@@ -220,7 +190,7 @@ public class GameModel {
                 linesErased = 0;
                 break;
         }
-        gameView.Render_motion( action );
+        gameView.Render_motion( action, graph, levels );
     }
 
 
@@ -231,7 +201,7 @@ public class GameModel {
         String graph_string = "Xml for current graph";
         graph_string += "\n<graph>";
         for ( Line line : graph ) {
-            graph_string += "\n" + line.printLine();
+            graph_string += "\n" + line.Print_line();
         }
         graph_string += "\n</graph>";
         Log.i("Graph Log:", graph_string);
