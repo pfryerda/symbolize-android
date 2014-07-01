@@ -20,11 +20,11 @@ class InvalidXmlException extends Exception {
     // Constructors
     //--------------
 
-    public InvalidXmlException( int linenum, int world_num, int level_num, String expected, String actual ) {
+    public InvalidXmlException( final int linenum, final int world_num, final int level_num, final String expected, final String actual ) {
         super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
     }
 
-    public InvalidXmlException( int linenum, int world_num, int level_num, String invalid_text, boolean isTag ) {
+    public InvalidXmlException( final int linenum, final int world_num, final int level_num, final String invalid_text, final boolean isTag ) {
         super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
     }
 }
@@ -41,9 +41,9 @@ public class PuzzleDB {
 
     // Fields
     //--------
-    private Resources res;
-    private int level_id_offset;
-    private int world_id_offset;
+    private final Resources res;
+    private final int level_id_offset;
+    private final int world_id_offset;
     private int world_num;
     private int level_num;
     private XmlResourceParser xpp;
@@ -53,7 +53,7 @@ public class PuzzleDB {
     // Constructor
     //-------------
 
-    public PuzzleDB( Resources res ) {
+    public PuzzleDB( final Resources res ) {
         this.res = res;
         level_id_offset = R.xml.level_1_1;
         world_id_offset = R.xml.world_1;
@@ -65,11 +65,12 @@ public class PuzzleDB {
     /*
      * Method used to get level from xml resource files
      */
-    public Level Fetch_level( int world_num, int level_num ) {
+    public Level Fetch_level( final int world_num, final int level_num ) {
         // Set up temp fields
         this.world_num = world_num;
         this.level_num = level_num;
-        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( world_num - 1 ) + ( level_num - 1 ) );
+        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( world_num - 1 )
+                + ( level_num - 1 ) );
 
         // Set up level variables
         String hint = "";
@@ -240,19 +241,19 @@ public class PuzzleDB {
     // Helper methods
     //---------------
 
-    private void bail_invalid_check( String actual ) throws InvalidXmlException {
+    private void bail_invalid_check( final String actual ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, xpp.getName(), actual );
     }
 
-    private void bail_invalid_tag( String invalid_tag ) throws InvalidXmlException {
+    private void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_tag, true );
     }
 
-    private void bail_invalid_text( String invalid_text ) throws InvalidXmlException {
+    private void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_text, false );
     }
 
-    private String parse_preamble( String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
+    private String parse_preamble( final String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
         String returnval = "";
         xpp.next();
         if ( !xpp.getName().equals( expected ) ) {

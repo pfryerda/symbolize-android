@@ -36,9 +36,9 @@ public class Level extends Puzzle {
         this.boards = new ArrayList<LinkedList<Line>>();
     }
 
-    public Level( String hint, int draw_restriction, int erase_restriction,
-                  boolean rotate_enabled, boolean flip_enabled, boolean colour_enabled,
-                  ArrayList<LinkedList<Line>> boards, ArrayList<LinkedList<Line>> solutions )
+    public Level( final String hint, final int draw_restriction, final int erase_restriction,
+                  final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
+                  final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions )
     {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
         this.draw_restriction = draw_restriction;

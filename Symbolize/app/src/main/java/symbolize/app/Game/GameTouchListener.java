@@ -54,7 +54,7 @@ public class GameTouchListener implements View.OnTouchListener {
     // Main method
     //--------------
 
-    public boolean onTouch( View v, MotionEvent event ) {
+    public boolean onTouch( final View v, final MotionEvent event ) {
         if ( !SymbolizeAnimation.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
@@ -154,7 +154,7 @@ public class GameTouchListener implements View.OnTouchListener {
      *
      * @param: MotionEvent event: The motion event that contains information about where the user touched
      */
-    private Posn get_point( MotionEvent event ) {
+    private Posn get_point( final MotionEvent event ) {
         // Get point off of screen
         float touchX = event.getX( event.getActionIndex() );
         float touchY = event.getY( event.getActionIndex() );
@@ -243,11 +243,11 @@ public class GameTouchListener implements View.OnTouchListener {
     // Methods to be overridden in MainActivity
     //------------------------------------------
 
-    public void onDraw( Line line ) {
+    public void onDraw( final Line line ) {
 
     }
 
-    public void onErase( Posn point ) {
+    public void onErase( final Posn point ) {
 
     }
 
@@ -255,11 +255,11 @@ public class GameTouchListener implements View.OnTouchListener {
 
     }
 
-    public void onFingerMove( Line line, Posn point ) {
+    public void onFingerMove( final Line line, final Posn point ) {
 
     }
 
-    public void onTap( Posn point ) {
+    public void onTap( final Posn point ) {
 
     }
 

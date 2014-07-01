@@ -40,9 +40,11 @@ public class Posn {
     /*
      * Method that sees if the given posn is approximately equal to this posn
      */
-    public boolean Approximately_equals( Posn point ) {
-        return ( ( ( first - Line.DRAWINGTHRESHOLD ) <= point.x() ) && ( point.x() <= ( first + Line.DRAWINGTHRESHOLD ) ) &&
-                 ( ( second - Line.DRAWINGTHRESHOLD ) <= point.y() ) && ( point.y() <= ( second + Line.DRAWINGTHRESHOLD ) ) );
+    public boolean Approximately_equals( final Posn point ) {
+        return ( ( ( first - Line.DRAWINGTHRESHOLD ) <= point.x() ) &&
+                    ( point.x() <= ( first + Line.DRAWINGTHRESHOLD ) ) &&
+                 ( ( second - Line.DRAWINGTHRESHOLD ) <= point.y() ) &&
+                    ( point.y() <= ( second + Line.DRAWINGTHRESHOLD ) ) );
     }
 
     /*
@@ -50,7 +52,7 @@ public class Posn {
      *
      * @param Posn point: the point you are comparing against
      */
-    public boolean Less_than( Posn point ) {
+    public boolean Less_than( final Posn point ) {
         if (first != point.x()) {
             return first < point.x();
         } else {
@@ -63,7 +65,7 @@ public class Posn {
      *
      * @param Posn point: the point you getting the distance with
      */
-    public int Distance_squared( Posn point ) {
+    public int Distance_squared( final Posn point ) {
         return ( first - point.x() ) * ( first - point.x() ) +
                 ( second - point.y() ) * ( second - point.y() );
     }
@@ -89,7 +91,7 @@ public class Posn {
     /*
      * Method used to snap posn to levels
      */
-    public void Snap_to_levels( ArrayList<Posn> levels) {
+    public void Snap_to_levels( final ArrayList<Posn> levels) {
        if ( !levels.isEmpty() ) {
            Posn match = levels.get( 0 );
            for ( Posn point : levels ) {
@@ -118,7 +120,7 @@ public class Posn {
     // Action method
     //--------------
 
-    public void Edit( Action action ) {
+    public void Edit( final Action action ) {
         int tmp;
         switch ( action ) {
             case Rotate_right:
@@ -152,8 +154,9 @@ public class Posn {
      *
      * @param String tag: Whether to print p1, or p2
      */
-    public String Print_posn( String tag ) {
+    public String Print_posn( final String tag ) {
         int stringLength = ( GameActivity.SCALING + "" ).length();
-        return "<" + tag + ">" + "<x>" +  String.format( "%1$" + stringLength + "s", first ) + "</x>" + "<y>" + String.format( "%1$" + stringLength + "s", second ) + "</y>" + "</" + tag + ">";
+        return "<" + tag + ">" + "<x>" +  String.format( "%1$" + stringLength + "s", first ) + "</x>"
+                + "<y>" + String.format( "%1$" + stringLength + "s", second ) + "</y>" + "</" + tag + ">";
     }
 }

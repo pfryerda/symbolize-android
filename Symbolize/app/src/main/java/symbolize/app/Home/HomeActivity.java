@@ -14,7 +14,7 @@ public class HomeActivity extends Activity {
     //-------------
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
     }
@@ -23,7 +23,7 @@ public class HomeActivity extends Activity {
     // Button methods
     //----------------
 
-    public void onStartGame( View view) {
+    public void onStartGame( final View view) {
         startActivity( new Intent(getApplicationContext(), GameActivity.class ) );
     }
 }

@@ -26,14 +26,17 @@ public class GameModel {
     private ArrayList<Posn> levels;
     private int lines_drawn, lines_erased;
     private int shift_number;
-    private GameView game_view;
+    private final GameView game_view;
     private GameModel past_state;
 
 
     // Constructors
     //--------------
 
-    public GameModel( Context context, LinearLayout foreground, LinearLayout background, Bitmap foreground_bitmap, Bitmap background_bitmap ) {
+    public GameModel( final Context context, final LinearLayout foreground,
+                      final LinearLayout background, final Bitmap foreground_bitmap,
+                      final Bitmap background_bitmap )
+    {
         graph = new LinkedList<Line>();
         levels = new ArrayList<Posn>();
         lines_drawn = 0;
@@ -43,7 +46,10 @@ public class GameModel {
         past_state = null;
     }
 
-    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int lines_drawn, int lines_erased, int shift_number, GameView game_view, GameModel past_state ) {
+    public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
+                      final int lines_drawn, final int lines_erased, final int shift_number,
+                      final GameView game_view, final GameModel past_state )
+    {
         this.graph = graph;
         this.levels = levels;
         this.lines_drawn = lines_drawn;
@@ -62,14 +68,15 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, shift_number, game_view, past_state );
+        return new GameModel( clonedGraph, levels, lines_drawn, lines_erased,
+                shift_number, game_view, past_state );
     }
 
 
     // Public methods
     //------------------
 
-    public void setPuzzle( Puzzle puzzle ) {
+    public void setPuzzle( final Puzzle puzzle ) {
         graph.clear();
         levels.clear();
         for ( Line line : puzzle.Get_board() ) {
@@ -85,11 +92,11 @@ public class GameModel {
         game_view.Render_foreground( graph, levels );
     }
 
-    public void Add_shadow( Line line ) {
+    public void Add_shadow( final Line line ) {
         game_view.Render_shadow( line, graph, levels );
     }
 
-    public void Add_shadow( Posn posn ) {
+    public void Add_shadow( final Posn posn ) {
         game_view.Render_shadow( posn, graph, levels );
     }
 
@@ -131,7 +138,7 @@ public class GameModel {
     // Action methods
     //----------------
 
-    public void action_basic( Action action, Line line ) {
+    public void action_basic( final Action action, final Line line ) {
         push_state();
         switch ( action ) {
             case Draw:
@@ -155,7 +162,7 @@ public class GameModel {
         game_view.Render_foreground(graph, levels);
     }
 
-    public void action_motion( Action action ) {
+    public void action_motion( final Action action ) {
         push_state();
 
         for ( Line line : graph ) {
@@ -169,7 +176,7 @@ public class GameModel {
         game_view.Render_motion( action, graph, levels );
     }
 
-    public void action_sensor( Action action, ArrayList<LinkedList<Line>> board ) {
+    public void action_sensor( final Action action, final ArrayList<LinkedList<Line>> board ) {
         push_state();
         switch ( action ) {
             case Shift:

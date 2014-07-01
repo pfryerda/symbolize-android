@@ -38,18 +38,20 @@ public class GameView {
     // Fields
     //--------
 
-    private LinearLayout foregound;
-    private LinearLayout background;
-    private Canvas foregound_canvas;
-    private Canvas background_canvas;
-    private Paint paint;
-    private HashMap<Action, SymbolizeAnimation> animations;
+    private final LinearLayout foregound;
+    private final LinearLayout background;
+    private final Canvas foregound_canvas;
+    private final Canvas background_canvas;
+    private final Paint paint;
+    private final HashMap<Action, SymbolizeAnimation> animations;
 
 
     // Constructor
     //-------------
 
-    public GameView( Context context, LinearLayout foregound, LinearLayout background, Bitmap foreground_bitmap, Bitmap background_bitmap ) {
+    public GameView( final Context context, final LinearLayout foregound, final LinearLayout background,
+                     final Bitmap foreground_bitmap, final Bitmap background_bitmap )
+    {
         this.foregound = foregound;
         this.background = background;
         this.foregound_canvas = new Canvas( foreground_bitmap );
@@ -90,7 +92,7 @@ public class GameView {
     /*
      * Update the view with the current board in the model
      */
-    public void Render_foreground( LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    public void Render_foreground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         clear_foreground();
         paint.setStyle( Paint.Style.STROKE );
 
@@ -114,7 +116,8 @@ public class GameView {
             // Draw Number
             paint.setStyle( Paint.Style.FILL );
             paint.setColor( Color.WHITE );
-            foregound_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ), point.y() + ( TEXTWIDTH / 2 ), paint );
+            foregound_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
+                    point.y() + ( TEXTWIDTH / 2 ), paint );
         }
 
         foregound.invalidate();
@@ -143,7 +146,7 @@ public class GameView {
     // Action methods
     //----------------
 
-    public void Render_shadow( Line line, LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    public void Render_shadow( final Line line, final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         set_up_shadow( graph, levels );
         paint.setStrokeWidth( LINEWIDTH );
 
@@ -151,7 +154,9 @@ public class GameView {
         foregound.invalidate();
     }
 
-    public void Render_shadow( Posn point, LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    public void Render_shadow( final Posn point,
+                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    {
         set_up_shadow( graph, levels );
         paint.setStrokeWidth( POINTWIDTH );
 
@@ -159,7 +164,9 @@ public class GameView {
         foregound.invalidate();
     }
 
-    public void Render_motion( Action action, LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    public void Render_motion( final Action action,
+                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    {
         animations.get( action ).Animate( graph, levels );
     }
 
@@ -174,7 +181,7 @@ public class GameView {
         foregound_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 
-    private void set_up_shadow( LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    private void set_up_shadow( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         Render_foreground(graph, levels);
         paint.setStyle( Paint.Style.STROKE );
         paint.setColor( Color.BLACK );
