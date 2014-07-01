@@ -43,14 +43,15 @@ public class GameActivity extends Activity  {
     private Puzzle currPuzzle;
     private PuzzleDB puzzleDB;
 
-    private GameModel gameModel;
-    //private GameView gameView;
+    private GameModel game_model;
+    private boolean draw_enabled;
 
-    private SensorManager sensorManager;
-    private ShakeDetector shakeDetector;
+    private SensorManager sensor_manager;
+    private ShakeDetector shake_detector;
 
-    private boolean drawnEnabled;
 
+    // Main method
+    //--------------
 
     /*
      * Main method called once app is ready
@@ -64,8 +65,8 @@ public class GameActivity extends Activity  {
 
         puzzleDB = new PuzzleDB( getResources() );
 
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        shakeDetector =  new ShakeDetector();
+        sensor_manager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        shake_detector =  new ShakeDetector();
 
 
         // Set up linerlayouts and bitamps
@@ -93,19 +94,71 @@ public class GameActivity extends Activity  {
 
 
         // Set up Game
-        gameModel = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
-        //gameView = new GameView( this, foreground, background, bitMap_fg, bitMap_bg, gameModel );
+        game_model = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
         currPuzzle = null;
-        drawnEnabled = true;
-        Level level = puzzleDB.fetch_level( currWorld, 1 );
+        draw_enabled = true;
+        Level level = puzzleDB.Fetch_level( currWorld, 1 );
         ArrayList<Posn> levels = new ArrayList<Posn>();
         levels.add( new Posn( 500, 500 ) );
         levels.add( new Posn( 500, 750 ) );
         levels.add( new Posn( 750, 500 ) );
         World world = new World( "hint", true, true, true, levels, null );
-        loadPuzzle( world );  // Load level 1-1
-        setUpListeners( foreground );
+        load_puzzle( world );  // Load level 1-1
+        Set_up_listeners( foreground );
     }
+
+
+    // Button methods
+    // ---------------
+
+    public void On_levels_button_clicked( View view ) {
+        Render_toast( "Levels!" );
+    }
+
+    public void On_settings_button_clicked( View view ) {
+        Render_toast("Settings!");
+    }
+
+    public void On_reset_button_clicked( View view ) {
+        load_puzzle( currPuzzle );
+    }
+
+    public void On_check_button_clicked(View view) {
+        if ( DEVMODE ) {
+            game_model.LogGraph();
+        } else {
+            if ( currPuzzle.Check_correctness( game_model.Get_graph() ) ) {
+                Render_toast("You are correct!");
+            } else {
+                Render_toast("You are incorrect");
+            }
+        }
+    }
+
+    public void On_hint_button_clicked( View view ) {
+        Render_toast("Hint");
+    }
+
+    public void On_undo_button_clicked( View view ) {
+        if ( game_model.getPastState() == null ) {
+            Render_toast( "There is nothing to undo" );
+        } else {
+            game_model = game_model.getPastState();
+            game_model.Remove_shadows();
+        }
+    }
+
+    public void On_draw_button_clicked( View view ) {
+        draw_enabled = true;
+    }
+
+    public void On_erase_button_clicked( View view ) {
+        draw_enabled = false;
+    }
+
+
+    // Private/Protected methods
+    //--------------------------
 
     /*
      * Method used for loading new levels, called once on game startup and again for any later
@@ -113,9 +166,9 @@ public class GameActivity extends Activity  {
      *
      * @param Level level: The level that needs to be loaded
      */
-    public void loadPuzzle( Puzzle puzzle ) {
+    private void load_puzzle( Puzzle puzzle ) {
         currPuzzle = puzzle;
-        gameModel.setPuzzle( puzzle );
+        game_model.setPuzzle( puzzle );
     }
 
     /*
@@ -123,7 +176,7 @@ public class GameActivity extends Activity  {
     *
     * @param: String msg: The message we want to output
     */
-    public void renderToast(String msg) {
+    private void Render_toast(String msg) {
         Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
     }
 
@@ -132,30 +185,32 @@ public class GameActivity extends Activity  {
      *
      * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
      */
-    public void setUpListeners( LinearLayout foreground ){
+    private void Set_up_listeners( LinearLayout foreground ){
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                line.Snap_to_levels( gameModel.Get_levels() );
-                if ( drawnEnabled ) {
-                    if ( gameModel.getLinesDrawn() < currPuzzle.Get_draw_restriction() ) {
-                        gameModel.action_basic(Action.Draw, line);
+                if ( DEVMODE ) {
+                    line.Snap();
+                }
+                line.Snap_to_levels( game_model.Get_levels() );
+                if ( draw_enabled ) {
+                    if ( game_model.getLinesDrawn() < currPuzzle.Get_draw_restriction() ) {
+                        game_model.action_basic( Action.Draw, line );
                     } else {
-                        renderToast( "Cannot draw any more lines " );
+                        Render_toast( "Cannot draw any more lines " );
                     }
                 }
             }
 
             @Override
             public void onErase( Posn point ) {
-                if( !drawnEnabled ) {
-                    //gameModel.Add_sadow( point );
-                    for ( Line line : gameModel.getGraph() ) {
+                if( !draw_enabled ) {
+                    for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            if ( ( gameModel.getLinesErased() < currPuzzle.Get_erase_restriction() ) || ( line.Get_owner() == Owner.User ) ) {
-                                gameModel.action_basic( Action.Erase, line );
+                            if ( ( game_model.getLinesErased() < currPuzzle.Get_erase_restriction() ) || ( line.Get_owner() == Owner.User ) ) {
+                                game_model.action_basic( Action.Erase, line );
                             } else {
-                                renderToast( "Cannot erase any more lines" );
+                                Render_toast( "Cannot erase any more lines" );
                             }
                             break;
                         }
@@ -165,22 +220,25 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onFingerUp() {
-                gameModel.Remove_shadows();
+                game_model.Remove_shadows();
             }
 
             @Override
             public void onFingerMove( Line line, Posn point ) {
-                if ( drawnEnabled ) {
-                    line.Snap_to_levels( gameModel.Get_levels() );
-                    gameModel.Add_shadow( line );
+                if ( draw_enabled ) {
+                    if ( DEVMODE ) {
+                        line.Snap();
+                    }
+                    line.Snap_to_levels( game_model.Get_levels() );
+                    game_model.Add_shadow( line );
                 } else {
-                    gameModel.Add_shadow( point );
+                    game_model.Add_shadow( point );
                 }
             }
 
             @Override
             public void onTap( Posn point ) {
-                ArrayList<Posn> levels = gameModel.Get_levels();
+                ArrayList<Posn> levels = game_model.Get_levels();
                 int level_found = 0;
                 for ( int i = 0; i < levels.size(); ++i ) {
                     if ( point.Approximately_equals( levels.get( i ) ) ) {
@@ -188,12 +246,12 @@ public class GameActivity extends Activity  {
                     }
                 }
                 if ( level_found > 0 ) {
-                    loadPuzzle( puzzleDB.fetch_level( currWorld, level_found ) );
+                    load_puzzle( puzzleDB.Fetch_level( currWorld, level_found ) );
                 } else {
-                    if ( currPuzzle.canChangeColur() ) {
-                        for ( Line line : gameModel.getGraph( )) {
+                    if ( currPuzzle.Can_change_color() ) {
+                        for ( Line line : game_model.Get_graph( )) {
                             if ( line.Intersects( point ) ) {
-                                gameModel.action_basic( Action.Change_color, line );
+                                game_model.action_basic( Action.Change_color, line );
                                 break;
                             }
                         }
@@ -203,95 +261,46 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onEnterDobuleTouch() {
-                gameModel.Remove_shadows();
+                game_model.Remove_shadows();
             }
 
             @Override
             public void onRotateRight() {
-                if ( currPuzzle.canRotate() ) {
-                    gameModel.action_motion( Action.Rotate_right );
+                if ( currPuzzle.Can_rotate() ) {
+                    game_model.action_motion( Action.Rotate_right );
                 }
             }
 
             @Override
             public void onRotateLeft() {
-                if ( currPuzzle.canRotate() ) {
-                    gameModel.action_motion( Action.Rotate_left );
+                if ( currPuzzle.Can_rotate() ) {
+                    game_model.action_motion( Action.Rotate_left );
                 }
             }
 
             @Override
             public void onFlipHorizontally() {
-                if ( currPuzzle.canFlip() ) {
-                    gameModel.action_motion( Action.Flip_horizontally );
+                if ( currPuzzle.Can_flip() ) {
+                    game_model.action_motion( Action.Flip_horizontally );
                 }
             }
 
             @Override
             public void onFlipVertically() {
-                if ( currPuzzle.canFlip() ) {
-                    gameModel.action_motion( Action.Flip_vertically );
+                if ( currPuzzle.Can_flip() ) {
+                    game_model.action_motion( Action.Flip_vertically );
                 }
             }
         } );
 
-        shakeDetector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
+        shake_detector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
                 if ( currPuzzle.Can_shift() ) {
-                    gameModel.action_sensor( Action.Shift, currPuzzle.Get_boards() );
+                    game_model.action_sensor( Action.Shift, currPuzzle.Get_boards() );
                 }
             }
         } );
-    }
-
-
-    // Button methods
-    // ---------------
-
-    public void onLevelsButtonClicked( View view ) {
-        renderToast( "Levels!" );
-    }
-
-    public void onSettingsButtonClicked( View view ) {
-        renderToast("Settings!");
-    }
-
-    public void onResetButtonClicked( View view ) {
-        loadPuzzle( currPuzzle );
-    }
-
-    public void onCheckButtonClicked(View view) {
-        if ( DEVMODE ) {
-            gameModel.LogGraph();
-        } else {
-            if ( currPuzzle.checkCorrectness( gameModel.getGraph() ) ) {
-                renderToast("You are correct!");
-            } else {
-                renderToast("You are incorrect");
-            }
-        }
-    }
-
-    public void onHintButtonClicked( View view ) {
-        renderToast("Hint");
-    }
-
-    public void onUndoButtonClicked( View view ) {
-        if ( gameModel.getPastState() == null ) {
-            renderToast( "There is nothing to undo" );
-        } else {
-            gameModel = gameModel.getPastState();
-            gameModel.Undo();
-        }
-    }
-
-    public void onDrawButtonClicked( View view ) {
-        drawnEnabled = true;
-    }
-
-    public void onEraseButtonClicked( View view ) {
-        drawnEnabled = false;
     }
 
 
@@ -301,14 +310,14 @@ public class GameActivity extends Activity  {
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener( shakeDetector,
-                sensorManager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
+        sensor_manager.registerListener( shake_detector,
+                sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener( shakeDetector );
+        sensor_manager.unregisterListener( shake_detector );
     }
 }

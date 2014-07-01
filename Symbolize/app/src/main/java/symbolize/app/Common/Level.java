@@ -12,9 +12,9 @@ public class Level extends Puzzle {
     //------------------
 
     //private final String hint;
-    //private final boolean rotateEnabled;
-    //private final boolean flipEnabled;
-    //private final boolean colourEnabled;
+    //private final boolean rotate_enabled;
+    //private final boolean flip_enabled;
+    //private final boolean colour_enabled;
     //private final ArrayList<LinkedList<Line>> solutions;
 
 
@@ -37,10 +37,10 @@ public class Level extends Puzzle {
     }
 
     public Level( String hint, int draw_restriction, int erase_restriction,
-                  boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
+                  boolean rotate_enabled, boolean flip_enabled, boolean colour_enabled,
                   ArrayList<LinkedList<Line>> boards, ArrayList<LinkedList<Line>> solutions )
     {
-        super( hint, rotateEnabled, flipEnabled, colourEnabled, solutions );
+        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
         this.draw_restriction = draw_restriction;
         this.erase_restriction = erase_restriction;
         this.boards = boards;

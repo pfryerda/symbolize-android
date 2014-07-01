@@ -27,19 +27,19 @@ public class GameTouchListener implements View.OnTouchListener {
     // Fields
     //-------
 
-    private boolean isEraseDelayDone;
+    private boolean is_erase_delay_done;
     private Timer timer;
 
-    private Posn pointOne;
-    private boolean isPointOneDown;
-    private Posn pointOneEnd;
+    private Posn point_one;
+    private boolean is_point_one_down;
+    private Posn point_one_end;
 
-    private Posn pointTwo;
-    private boolean isPointTwoDown;
-    private Posn pointTwoEnd;
+    private Posn point_two;
+    private boolean is_point_two_down;
+    private Posn point_two_end;
 
-    private long startTime;
-    private boolean inDoubleTouch;
+    private long start_time;
+    private boolean in_double_touch;
 
 
     // Constructor
@@ -47,84 +47,84 @@ public class GameTouchListener implements View.OnTouchListener {
 
     public GameTouchListener() {
         timer = new Timer();
-        resetVars();
+        reset_vars();
     }
 
 
-    // Primary method
-    //----------------
+    // Main method
+    //--------------
 
     public boolean onTouch( View v, MotionEvent event ) {
         if ( !SymbolizeAnimation.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
                 case MotionEvent.ACTION_DOWN: {                                 // First finger down
-                    pointOne = getPoint( event );
-                    isPointOneDown = true;
+                    point_one = get_point( event );
+                    is_point_one_down = true;
 
                     timer.cancel();
                     timer = new Timer();
                     timer.schedule( new TimerTask() {
                         @Override
                         public void run() {
-                            isEraseDelayDone = true;
+                            is_erase_delay_done = true;
                             timer.cancel();
                         }
                     }, ERASEDELAY );
 
-                    startTime = System.currentTimeMillis();
+                    start_time = System.currentTimeMillis();
                     return true;
                 }
 
                 case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
                     onEnterDobuleTouch();
-                    pointTwo = getPoint( event );
-                    isPointTwoDown = true;
-                    inDoubleTouch = true;
+                    point_two = get_point( event );
+                    is_point_two_down = true;
+                    in_double_touch = true;
                     return true;
                 }
 
                 case MotionEvent.ACTION_UP:                                     // First finger up
                 case MotionEvent.ACTION_POINTER_UP: {                           // Second finger up
-                    if ( ( event.getActionIndex() == 1 ) || !isPointOneDown ) { // Original second finger up
-                        pointTwoEnd = getPoint(event);
-                        isPointTwoDown = false;
+                    if ( ( event.getActionIndex() == 1 ) || !is_point_one_down ) { // Original second finger up
+                        point_two_end = get_point(event);
+                        is_point_two_down = false;
                     } else {                                                    // Original first finger up
-                        pointOneEnd = getPoint(event);
-                        isPointOneDown = false;
+                        point_one_end = get_point(event);
+                        is_point_one_down = false;
 
-                        if ( !inDoubleTouch ) {
+                        if ( !in_double_touch ) {
                             onFingerUp();
                             long endtime = System.currentTimeMillis();
-                            Line line = new Line( pointOne, pointOneEnd, Owner.User );
-                            if ( line.distance_squared() >= MINLINESIZESQR ) {
-                                onDraw( new Line( pointOne, pointOneEnd, Owner.User ) );
-                            } else if ( ( endtime - startTime) <= TAPTHRESHOLD ) {
-                                onTap( pointOneEnd );
+                            Line line = new Line( point_one, point_one_end, Owner.User );
+                            if ( line.Distance_squared() >= MINLINESIZESQR ) {
+                                onDraw( new Line( point_one, point_one_end, Owner.User ) );
+                            } else if ( ( endtime - start_time) <= TAPTHRESHOLD ) {
+                                onTap( point_one_end );
                             }
-                            startTime = endtime;
-                            resetVars();
+                            start_time = endtime;
+                            reset_vars();
                         }
                     }
 
-                    if ( inDoubleTouch && !isPointOneDown && !isPointTwoDown ) {
-                        boolean flipped = attemptToFlip();
+                    if ( in_double_touch && !is_point_one_down && !is_point_two_down ) {
+                        boolean flipped = attempt_to_flip();
                         if ( !flipped ) {
-                            attemptToRotate();
+                            attempt_to_rotate();
                         }
-                        resetVars();
+                        reset_vars();
                     }
 
-                    isEraseDelayDone = false;
+                    is_erase_delay_done = false;
                     timer.cancel();
                     return true;
                 }
 
                 case MotionEvent.ACTION_MOVE: {                                 // Finger moves
-                    if ( !inDoubleTouch && pointOne != null ) {
-                        Posn pointTemp = getPoint( event );
-                        onFingerMove( new Line( pointOne, pointTemp, Owner.App), pointTemp );
-                        if ( isEraseDelayDone ) {
+                    if ( !in_double_touch && point_one != null ) {
+                        Posn pointTemp = get_point( event );
+                        onFingerMove( new Line( point_one, pointTemp, Owner.App), pointTemp );
+                        if ( is_erase_delay_done ) {
                             onErase( pointTemp );
                         }
                     }
@@ -145,8 +145,8 @@ public class GameTouchListener implements View.OnTouchListener {
     }
 
 
-    // Methods
-    //---------
+    // Private Methods
+    //-----------------
 
     /*
      * Gets the point from the motion event and then scales the point accordingly.
@@ -154,24 +154,15 @@ public class GameTouchListener implements View.OnTouchListener {
      *
      * @param: MotionEvent event: The motion event that contains information about where the user touched
      */
-    Posn getPoint( MotionEvent event ) {
+    private Posn get_point( MotionEvent event ) {
         // Get point off of screen
         float touchX = event.getX( event.getActionIndex() );
         float touchY = event.getY( event.getActionIndex() );
 
-        // Scaled point accordingly and don't allow points off canvas
-        int scaledX = Math.min( GameActivity.SCALING,
-                Math.max( 0, Math.round( touchX * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
-        int scaledY = Math.min( GameActivity.SCALING,
-                Math.max( 0, Math.round( touchY * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
-
-        // If in DEVMODE snap points to grid
-        if ( GameActivity.DEVMODE ) {
-            scaledX = scaledX - ( scaledX % ( GameActivity.SCALING / 10 ) );
-            scaledY = scaledY - ( scaledY % ( GameActivity.SCALING / 10 ) );
-        }
-
-        return new Posn( scaledX, scaledY );
+        // Scale point and return it
+        Posn point = new Posn( Math.round( touchX ), Math.round( touchY ) );
+        point.Scale();
+        return point;
     }
 
     /*
@@ -179,39 +170,39 @@ public class GameTouchListener implements View.OnTouchListener {
      * This is usually done at the end of a gesture so that every gesture
      * has the same values at their start.
      */
-    void resetVars() {
-        isEraseDelayDone = false;
+    private void reset_vars() {
+        is_erase_delay_done = false;
 
-        pointOne = null;
-        isPointOneDown = false;
-        pointOneEnd = null;
+        point_one = null;
+        is_point_one_down = false;
+        point_one_end = null;
 
-        pointTwo = null;
-        isPointTwoDown = false;
-        pointTwoEnd = null;
+        point_two = null;
+        is_point_two_down = false;
+        point_two_end = null;
 
-        inDoubleTouch = false;
+        in_double_touch = false;
     }
 
     /*
      * This method is called after a two-finger gesture and checks to see if the
      * given gesture resembles a flipping gesture.
      */
-    boolean attemptToFlip() {
-        if ( pointOne == null || pointOneEnd == null || pointTwo == null || pointTwoEnd == null ) {
+    private boolean attempt_to_flip() {
+        if ( point_one == null || point_one_end == null || point_two == null || point_two_end == null ) {
             return false;
         }
-        else if ( ( ( pointOne.x() < GameActivity.SCALING/2 && pointTwo.x() < GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 && pointTwoEnd.x() > GameActivity.SCALING/2 ) ||
-                    ( pointOne.x() > GameActivity.SCALING/2 && pointTwo.x() > GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 && pointTwoEnd.x() < GameActivity.SCALING/2 ) ) &&
-                    ( pointOneEnd.y() - FLIPPINGTHRESHOLD <= pointOne.y() && pointOne.y() <= pointOneEnd.y() + FLIPPINGTHRESHOLD &&
-                      pointTwoEnd.y() - FLIPPINGTHRESHOLD <= pointTwo.y() && pointTwo.y() <= pointTwoEnd.y() + FLIPPINGTHRESHOLD ) ) {
+        else if ( ( ( point_one.x() < GameActivity.SCALING/2 && point_two.x() < GameActivity.SCALING/2 && point_two_end.x() > GameActivity.SCALING/2 && point_two_end.x() > GameActivity.SCALING/2 ) ||
+                    ( point_one.x() > GameActivity.SCALING/2 && point_two.x() > GameActivity.SCALING/2 && point_two_end.x() < GameActivity.SCALING/2 && point_two_end.x() < GameActivity.SCALING/2 ) ) &&
+                    ( point_one_end.y() - FLIPPINGTHRESHOLD <= point_one.y() && point_one.y() <= point_one_end.y() + FLIPPINGTHRESHOLD &&
+                      point_two_end.y() - FLIPPINGTHRESHOLD <= point_two.y() && point_two.y() <= point_two_end.y() + FLIPPINGTHRESHOLD ) ) {
             onFlipHorizontally();
             return true;
         }
-        else if ( ( ( pointOne.y() < GameActivity.SCALING/2 && pointTwo.y() < GameActivity.SCALING/2 && pointTwoEnd.y() > GameActivity.SCALING/2 && pointTwoEnd.y() > GameActivity.SCALING/2 ) ||
-                    ( pointOne.y() > GameActivity.SCALING/2 && pointTwo.y() > GameActivity.SCALING/2 && pointTwoEnd.y() < GameActivity.SCALING/2 && pointTwoEnd.y() < GameActivity.SCALING/2 ) ) &&
-                    ( pointOneEnd.x() - FLIPPINGTHRESHOLD <= pointOne.x() && pointOne.x() <= pointOneEnd.x() + FLIPPINGTHRESHOLD &&
-                      pointTwoEnd.x() - FLIPPINGTHRESHOLD <= pointTwo.x() && pointTwo.x() <= pointTwoEnd.x() + FLIPPINGTHRESHOLD ) ) {
+        else if ( ( ( point_one.y() < GameActivity.SCALING/2 && point_two.y() < GameActivity.SCALING/2 && point_two_end.y() > GameActivity.SCALING/2 && point_two_end.y() > GameActivity.SCALING/2 ) ||
+                    ( point_one.y() > GameActivity.SCALING/2 && point_two.y() > GameActivity.SCALING/2 && point_two_end.y() < GameActivity.SCALING/2 && point_two_end.y() < GameActivity.SCALING/2 ) ) &&
+                    ( point_one_end.x() - FLIPPINGTHRESHOLD <= point_one.x() && point_one.x() <= point_one_end.x() + FLIPPINGTHRESHOLD &&
+                      point_two_end.x() - FLIPPINGTHRESHOLD <= point_two.x() && point_two.x() <= point_two_end.x() + FLIPPINGTHRESHOLD ) ) {
             onFlipVertically();
             return true;
         }
@@ -219,28 +210,28 @@ public class GameTouchListener implements View.OnTouchListener {
     }
 
     /*
-     * This method is called if attemptToFlip fails and checks to see if the
+     * This method is called if attempt_to_flip fails and checks to see if the
       * given gesture resembles a rotating gesture.
      */
-    boolean attemptToRotate() {
-        if ( pointOne == null || pointOneEnd == null || pointTwo == null || pointTwoEnd == null ) {
+    private boolean attempt_to_rotate() {
+        if ( point_one == null || point_one_end == null || point_two == null || point_two_end == null ) {
             return false;
         }
-        if ( pointOne.y() >= pointTwo.y() ) {
-            if ( ( pointOne.x() >= pointOneEnd.x() ) && ( pointTwo.x() <= pointTwoEnd.x() ) ) {
+        if ( point_one.y() >= point_two.y() ) {
+            if ( ( point_one.x() >= point_one_end.x() ) && ( point_two.x() <= point_two_end.x() ) ) {
                 onRotateRight();
                 return true;
             }
-            else if ( ( pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+            else if ( ( point_one.x() <= point_one_end.x() ) && (  point_two.x() >= point_two_end.x() ) ) {
                 onRotateLeft();
                 return true;
             }
         } else {
-            if ( ( pointOne.x() <= pointOneEnd.x() ) && (  pointTwo.x() >= pointTwoEnd.x() ) ) {
+            if ( ( point_one.x() <= point_one_end.x() ) && (  point_two.x() >= point_two_end.x() ) ) {
                 onRotateRight();
                 return true;
             }
-            else if ( ( pointOne.x() >= pointOneEnd.x() ) && (  pointTwo.x() <= pointTwoEnd.x() ) ) {
+            else if ( ( point_one.x() >= point_one_end.x() ) && (  point_two.x() <= point_two_end.x() ) ) {
                 onRotateLeft();
                 return true;
             }

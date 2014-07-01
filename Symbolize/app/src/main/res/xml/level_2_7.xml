@@ -4,9 +4,9 @@
     <hint></hint>
     <draw_restriction>0</draw_restriction>
     <erase_restriction>0</erase_restriction>
-    <rotateEnabled>false</rotateEnabled>
-    <flipEnabled>false</flipEnabled>
-    <colourEnabled>false</colourEnabled>
+    <rotate_enabled>false</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
+    <colour_enabled>false</colour_enabled>
     <boards>
     </boards>
     <solutions>

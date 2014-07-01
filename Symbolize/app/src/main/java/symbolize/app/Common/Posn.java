@@ -20,7 +20,7 @@ public class Posn {
         second = -1;
     }
 
-    public Posn(int x0, int y0) {
+    public Posn( int x0, int y0 ) {
         first = x0;
         second = y0;
     }
@@ -30,12 +30,12 @@ public class Posn {
     //------------------
 
     public Posn clone() {
-        return  new Posn(first, second);
+        return  new Posn( first, second );
     }
 
 
-    // Methods
-    //---------
+    // Public Methods
+    //----------------
 
     /*
      * Method that sees if the given posn is approximately equal to this posn
@@ -50,7 +50,7 @@ public class Posn {
      *
      * @param Posn point: the point you are comparing against
      */
-    public boolean lt( Posn point ) {
+    public boolean Less_than( Posn point ) {
         if (first != point.x()) {
             return first < point.x();
         } else {
@@ -63,19 +63,37 @@ public class Posn {
      *
      * @param Posn point: the point you getting the distance with
      */
-    public int distance_squared( Posn point ) {
+    public int Distance_squared( Posn point ) {
         return ( first - point.x() ) * ( first - point.x() ) +
                 ( second - point.y() ) * ( second - point.y() );
     }
 
     /*
+     * Scale point according to the GameActivity.Scaling
+     */
+    public void Scale() {
+        first = Math.min( GameActivity.SCALING,
+                Math.max( 0, Math.round( first * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
+        second = Math.min( GameActivity.SCALING,
+                Math.max( 0, Math.round( second * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
+    }
+
+    /*
+     * Snap's point to nerest grid points
+     */
+    public void Snap() {
+        first = first - ( first % ( GameActivity.SCALING / 10 ) );
+        second = second - ( second % ( GameActivity.SCALING / 10 ) );
+    }
+
+    /*
      * Method used to snap posn to levels
      */
-   public void Snap_to_levels( ArrayList<Posn> levels) {
+    public void Snap_to_levels( ArrayList<Posn> levels) {
        if ( !levels.isEmpty() ) {
            Posn match = levels.get( 0 );
            for ( Posn point : levels ) {
-               if ( distance_squared( point ) < distance_squared( match ) ) {
+               if ( Distance_squared( point ) < Distance_squared( match ) ) {
                    match = point;
                }
            }
@@ -86,7 +104,7 @@ public class Posn {
 
 
     // Geter Methods
-    //--------------------
+    //---------------
 
     public int x() {
         return first;
@@ -131,8 +149,10 @@ public class Posn {
 
     /*
      * Method used to print the xml code to construct this Posn
+     *
+     * @param String tag: Whether to print p1, or p2
      */
-    public String printPosn( String tag ) {
+    public String Print_posn( String tag ) {
         int stringLength = ( GameActivity.SCALING + "" ).length();
         return "<" + tag + ">" + "<x>" +  String.format( "%1$" + stringLength + "s", first ) + "</x>" + "<y>" + String.format( "%1$" + stringLength + "s", second ) + "</y>" + "</" + tag + ">";
     }

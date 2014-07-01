@@ -23,7 +23,7 @@
                 android:id="@+id/Levels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onLevelsButtonClicked"
+                android:onClick="On_levels_button_clicked"
                 android:text="L"/>
 
             </LinearLayout>
@@ -47,14 +47,14 @@
                 android:id="@+id/Reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onResetButtonClicked"
+                android:onClick="On_reset_button_clicked"
                 android:text="R"/>
 
             <Button
                 android:id="@+id/Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onSettingsButtonClicked"
+                android:onClick="On_settings_button_clicked"
                 android:text="S" />
 
             </LinearLayout>
@@ -88,35 +88,35 @@
             android:id="@+id/Check"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="onCheckButtonClicked"
+            android:onClick="On_check_button_clicked"
             android:layout_weight="1"
             android:text="C" />
         <Button
             android:id="@+id/Hint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="onHintButtonClicked"
+            android:onClick="On_hint_button_clicked"
             android:layout_weight="1"
             android:text="H" />
         <Button
             android:id="@+id/Undo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="onUndoButtonClicked"
+            android:onClick="On_undo_button_clicked"
             android:layout_weight="1"
             android:text="U" />
         <Button
             android:id="@+id/Draw"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="onDrawButtonClicked"
+            android:onClick="On_draw_button_clicked"
             android:layout_weight="1"
             android:text="D" />
         <Button
             android:id="@+id/Erase"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="onEraseButtonClicked"
+            android:onClick="On_erase_button_clicked"
             android:layout_weight="1"
             android:text="E"/>
     </LinearLayout>

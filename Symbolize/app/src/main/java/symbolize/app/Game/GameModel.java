@@ -24,33 +24,33 @@ public class GameModel {
 
     private LinkedList<Line> graph;
     private ArrayList<Posn> levels;
-    private int linesDrawn, linesErased;
-    private int shiftNumber;
-    private GameView gameView;
-    private GameModel pastState;
+    private int lines_drawn, lines_erased;
+    private int shift_number;
+    private GameView game_view;
+    private GameModel past_state;
 
 
     // Constructors
     //--------------
 
-    public GameModel( Context context, LinearLayout foreground, LinearLayout background, Bitmap foregoundBitmap, Bitmap backgroundBitmap ) {
+    public GameModel( Context context, LinearLayout foreground, LinearLayout background, Bitmap foreground_bitmap, Bitmap background_bitmap ) {
         graph = new LinkedList<Line>();
         levels = new ArrayList<Posn>();
-        linesDrawn = 0;
-        linesErased = 0;
-        shiftNumber = 0;
-        gameView = new GameView( context, foreground, background, foregoundBitmap, backgroundBitmap, this );
-        pastState = null;
+        lines_drawn = 0;
+        lines_erased = 0;
+        shift_number = 0;
+        game_view = new GameView( context, foreground, background, foreground_bitmap, background_bitmap );
+        past_state = null;
     }
 
-    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int linesDrawn, int linesErased, int shiftNumber, GameView gameView, GameModel pastState ) {
+    public GameModel( LinkedList<Line> graph, ArrayList<Posn> levels, int lines_drawn, int lines_erased, int shift_number, GameView game_view, GameModel past_state ) {
         this.graph = graph;
         this.levels = levels;
-        this.linesDrawn = linesDrawn;
-        this.linesErased = linesErased;
-        this.shiftNumber = shiftNumber;
-        this.gameView = gameView;
-        this.pastState = pastState;
+        this.lines_drawn = lines_drawn;
+        this.lines_erased = lines_erased;
+        this.shift_number = shift_number;
+        this.game_view = game_view;
+        this.past_state = past_state;
     }
 
 
@@ -62,12 +62,12 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, levels, linesDrawn, linesErased, shiftNumber, gameView, pastState );
+        return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, shift_number, game_view, past_state );
     }
 
 
-    // Methods
-    //---------
+    // Public methods
+    //------------------
 
     public void setPuzzle( Puzzle puzzle ) {
         graph.clear();
@@ -78,38 +78,30 @@ public class GameModel {
         for ( Posn point : puzzle.Get_levels() ) {
             levels.add(point.clone());
         }
-        linesDrawn = 0;
-        linesErased = 0;
-        pastState = null;
+        lines_drawn = 0;
+        lines_erased = 0;
+        past_state = null;
 
-        gameView.Render_foreground(graph, levels);
+        game_view.Render_foreground( graph, levels );
     }
 
     public void Add_shadow( Line line ) {
-        gameView.Render_shadow(line, graph, levels);
+        game_view.Render_shadow( line, graph, levels );
     }
 
     public void Add_shadow( Posn posn ) {
-        gameView.Render_shadow(posn, graph, levels);
+        game_view.Render_shadow( posn, graph, levels );
     }
 
     public void Remove_shadows() {
-        gameView.Render_foreground(graph, levels);
-    }
-
-    public void Undo() {
-        gameView.Render_foreground(graph, levels);
-    }
-
-    public void pushState() {
-        pastState = clone();
+        game_view.Render_foreground( graph, levels );
     }
 
 
     // Geter methods
     //---------------
 
-    public LinkedList<Line> getGraph() {
+    public LinkedList<Line> Get_graph() {
         return graph;
     }
 
@@ -119,7 +111,7 @@ public class GameModel {
         if ( GameActivity.DEVMODE ) {
             return -1;
         } else {
-            return linesDrawn;
+            return lines_drawn;
         }
     }
 
@@ -127,12 +119,12 @@ public class GameModel {
         if ( GameActivity.DEVMODE ) {
             return -1;
         } else {
-            return linesErased;
+            return lines_erased;
         }
     }
 
     public GameModel getPastState() {
-        return pastState;
+        return past_state;
     }
 
 
@@ -140,19 +132,19 @@ public class GameModel {
     //----------------
 
     public void action_basic( Action action, Line line ) {
-        pushState();
+        push_state();
         switch ( action ) {
             case Draw:
                 graph.addLast(line);
-                ++linesDrawn;
+                ++lines_drawn;
                 break;
 
             case Erase:
                 graph.remove(line);
                 if (line.Get_owner() == Owner.App) {
-                    ++linesErased;
+                    ++lines_erased;
                 } else {
-                    --linesDrawn;
+                    --lines_drawn;
                 }
                 break;
 
@@ -160,11 +152,11 @@ public class GameModel {
                 line.Edit( action );
                 break;
         }
-        gameView.Render_foreground(graph, levels);
+        game_view.Render_foreground(graph, levels);
     }
 
     public void action_motion( Action action ) {
-        pushState();
+        push_state();
 
         for ( Line line : graph ) {
             line.Edit( action );
@@ -174,28 +166,36 @@ public class GameModel {
             posn.Edit( action );
         }
 
-        gameView.Render_motion( action, graph, levels );
+        game_view.Render_motion( action, graph, levels );
     }
 
-    public void action_sensor( Action action, ArrayList<LinkedList<Line>> board) {
-        pushState();
+    public void action_sensor( Action action, ArrayList<LinkedList<Line>> board ) {
+        push_state();
         switch ( action ) {
             case Shift:
-                shiftNumber = (shiftNumber + 1) % board.size();
+                shift_number = ( shift_number + 1 ) % board.size();
                 graph.clear();
-                for ( Line line : board.get( shiftNumber ) ) {
+                for ( Line line : board.get( shift_number ) ) {
                     graph.addLast( line.clone() );
                 }
-                linesDrawn = 0;
-                linesErased = 0;
+                lines_drawn = 0;
+                lines_erased = 0;
                 break;
         }
-        gameView.Render_motion( action, graph, levels );
+        game_view.Render_motion( action, graph, levels );
     }
 
 
-    // Developer methods
-    //------------------
+    // Private method
+    //----------------
+
+    private void push_state() {
+        past_state = clone();
+    }
+
+
+    // Developer method
+    //-----------------
 
     public void LogGraph() {
         String graph_string = "Xml for current graph";
