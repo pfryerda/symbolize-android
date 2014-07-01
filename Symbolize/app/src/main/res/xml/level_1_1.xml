@@ -4,9 +4,9 @@
     <hint>The 11th letter of the alphabet</hint>
     <draw_restriction>3000</draw_restriction>
     <erase_restriction>3000</erase_restriction>
-    <rotateEnabled>true</rotateEnabled>
-    <flipEnabled>true</flipEnabled>
-    <colourEnabled>true</colourEnabled>
+    <rotate_enabled>true</rotate_enabled>
+    <flip_enabled>true</flip_enabled>
+    <colour_enabled>true</colour_enabled>
     <boards>
         <graph>
             <Line><p1><x> 100</x><y> 100</y></p1><p2><x> 500</x><y> 500</y></p2><color>-16777216</color></Line>

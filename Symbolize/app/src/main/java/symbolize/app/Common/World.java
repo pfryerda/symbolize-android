@@ -8,9 +8,9 @@ public class World extends Puzzle {
     //------------------
 
     //private final String hint;
-    //private final boolean rotateEnabled;
-    //private final boolean flipEnabled;
-    //private final boolean colourEnabled;
+    //private final boolean rotate_enabled;
+    //private final boolean flip_enabled;
+    //private final boolean colour_enabled;
     //private final ArrayList<LinkedList<Line>> solutions;
 
 
@@ -23,16 +23,22 @@ public class World extends Puzzle {
     // Constructor
     //-------------
 
-    public World( String hint, boolean rotateEnabled, boolean flipEnabled, boolean colourEnabled,
+    public World( String hint, boolean rotate_enabled, boolean flip_enabled, boolean colour_enabled,
                   ArrayList<Posn> levels, ArrayList<LinkedList<Line>> solutions )
     {
-        super( hint, rotateEnabled, flipEnabled, colourEnabled, solutions );
+        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
         this.levels = levels;
     }
 
 
-    // Methods
-    //---------
+    // Public method
+    //----------------
+
+    public boolean Can_shift() { return false; }
+
+
+    // Getter methods
+    //---------------
 
     public ArrayList<Posn> Get_levels() {
         return levels;
@@ -43,11 +49,9 @@ public class World extends Puzzle {
     public LinkedList<Line> Get_board() { return new LinkedList<Line>(); }
 
     public int Get_draw_restriction() {
-        int number_of_vertcies = PuzzleDB.NUMBEROFLEVELSPERWORLD;
-        return ( number_of_vertcies * ( number_of_vertcies - 1 ) ) / 2;
+        int number_of_vertices = PuzzleDB.NUMBEROFLEVELSPERWORLD;
+        return ( number_of_vertices * ( number_of_vertices - 1 ) ) / 2;
     }
 
     public int Get_erase_restriction() { return 0; }
-
-    public boolean Can_shift() { return false; }
 }

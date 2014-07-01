@@ -34,11 +34,11 @@ abstract public class SymbolizeAnimation {
      * Used during construction simplifies constructor of concrete classes
      *
      * @param LinearLayout linearlayour: The linearlayout that will be animated
-     * @param GameView gameView: The game view that will be render after the animation
+     * @param GameView game_view: The game view that will be render after the animation
      */
-    public void Set_up( LinearLayout linearlayour, GameView gameView ) {
+    public void Set_up( LinearLayout linearlayour, GameView game_view ) {
         this.linearLayout = linearlayour;
-        set_up_animation( gameView );
+        set_up_animation( game_view );
     }
 
     /*
@@ -61,9 +61,9 @@ abstract public class SymbolizeAnimation {
      * Used to set up the animation
      *    - sets up the InAnimation variable properly
      *    - sets up the rendering of the graph after the animation
-     * @param: GameView gameView: The game view that will be rendered after the animation'
+     * @param: GameView game_view: The game view that will be rendered after the animation'
      */
-    protected void set_up_animation( final GameView gameView ) {
+    protected void set_up_animation( final GameView game_view ) {
         this.animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart( Animation animation ) {
@@ -72,7 +72,7 @@ abstract public class SymbolizeAnimation {
             @Override
             public void onAnimationEnd( Animation animation ) {
                 linearLayout.clearAnimation();
-                gameView.Render_foreground( graph, levels );
+                game_view.Render_foreground( graph, levels );
                 InAnimation = false;
             }
             @Override

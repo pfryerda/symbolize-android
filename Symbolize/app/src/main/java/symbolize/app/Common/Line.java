@@ -44,7 +44,7 @@ public class Line {
     }
 
     public Line( Posn pt1, Posn pt2, Owner creator ) {
-        if ( pt1.lt( pt2 ) ) {
+        if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
         } else {
@@ -58,7 +58,7 @@ public class Line {
     }
 
     public Line( Posn pt1, Posn pt2, int hue, Owner creator ) {
-        if ( pt1.lt( pt2 ) ) {
+        if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
         } else {
@@ -86,8 +86,8 @@ public class Line {
     /*
      * Method that calculates euclidean distance squared
      */
-    public int distance_squared() {
-        return p1.distance_squared( p2 );
+    public int Distance_squared() {
+        return p1.Distance_squared( p2 );
     }
 
     /*
@@ -135,9 +135,25 @@ public class Line {
      * @param Line line: The Line you are checking against.
      */
     public int Score( Line line ) {
-        return Math.min( p1.distance_squared( line.Get_p1() ) + p2.distance_squared( line.Get_p2() ),
-                p2.distance_squared( line.Get_p1() ) + p1.distance_squared( line.Get_p2() ) );
+        return Math.min( p1.Distance_squared( line.Get_p1() ) + p2.Distance_squared( line.Get_p2() ),
+                p2.Distance_squared( line.Get_p1() ) + p1.Distance_squared( line.Get_p2() ) );
     }
+
+    /*
+     * Scales line according to GameActivity.Scaling
+     */
+    public void Scale() {
+        p1.Scale();
+        p2.Scale();
+    }
+
+    /*
+     * Snaps line to nearest grid points
+     */
+   public void Snap() {
+       p1.Snap();
+       p2.Snap();
+   }
 
     /*
      * Method used to snap line to level dot
@@ -222,7 +238,7 @@ public class Line {
      * Method used to print the xml code to construct a line
      */
     public String Print_line() {
-        return "<Line>" + p1.printPosn( "p1" ) + p2.printPosn( "p2" ) +
+        return "<Line>" + p1.Print_posn( "p1" ) + p2.Print_posn( "p2" ) +
                "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
     }
 }

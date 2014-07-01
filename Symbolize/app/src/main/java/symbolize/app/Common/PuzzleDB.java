@@ -20,36 +20,37 @@ class InvalidXmlException extends Exception {
     // Constructors
     //--------------
 
-    public InvalidXmlException( int linenum, int worldNum, int levelNum, String expected, String actual ) {
-        super( "Error in xml for level_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
+    public InvalidXmlException( int linenum, int world_num, int level_num, String expected, String actual ) {
+        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
     }
 
-    public InvalidXmlException( int linenum, int worldNum, int levelNum, String invalid_text, boolean isTag ) {
-        super( "Error in xml for level_" + worldNum + "_" + levelNum + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
+    public InvalidXmlException( int linenum, int world_num, int level_num, String invalid_text, boolean isTag ) {
+        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
     }
 }
 
 
 /*
- * Class used to parse stoed xml files and load them into memory
+ * Class used to parse stored xml files and load them into memory
  */
 public class PuzzleDB {
-    // Static fields
-    //---------------
+    // Static field
+    //--------------
     public static final int NUMBEROFLEVELSPERWORLD = 15;
+
 
     // Fields
     //--------
     private Resources res;
     private int level_id_offset;
     private int world_id_offset;
-    private int worldNum;
-    private int levelNum;
+    private int world_num;
+    private int level_num;
     private XmlResourceParser xpp;
 
 
 
-    // Constrcutor
+    // Constructor
     //-------------
 
     public PuzzleDB( Resources res ) {
@@ -64,19 +65,19 @@ public class PuzzleDB {
     /*
      * Method used to get level from xml resource files
      */
-    public Level fetch_level( int worldNum, int levelNum ) {
+    public Level Fetch_level( int world_num, int level_num ) {
         // Set up temp fields
-        this.worldNum = worldNum;
-        this.levelNum = levelNum;
-        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( worldNum - 1 ) + ( levelNum - 1 ) );
+        this.world_num = world_num;
+        this.level_num = level_num;
+        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( world_num - 1 ) + ( level_num - 1 ) );
 
         // Set up level variables
         String hint = "";
         int draw_restriction = 0;
         int erase_restriction = 0;
-        boolean rotateEnabled = false;
-        boolean flipEnabled = false;
-        boolean colourEnabled = false;
+        boolean rotate_enabled = false;
+        boolean flip_enabled = false;
+        boolean colour_enabled = false;
         ArrayList<LinkedList<Line>> boards = new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
         ArrayList<LinkedList<Line>> solutions =  new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
 
@@ -101,9 +102,9 @@ public class PuzzleDB {
             hint = parse_preamble( "hint" );
             draw_restriction = Integer.parseInt(parse_preamble("draw_restriction").trim());
             erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
-            rotateEnabled = Boolean.valueOf(parse_preamble("rotateEnabled"));
-            flipEnabled = Boolean.valueOf( parse_preamble( "flipEnabled" ) );
-            colourEnabled = Boolean.valueOf( parse_preamble( "colourEnabled" ) );
+            rotate_enabled = Boolean.valueOf(parse_preamble("rotate_enabled"));
+            flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
+            colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
 
 
             // Parse boarsd and solutions
@@ -232,7 +233,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, draw_restriction, erase_restriction, rotateEnabled, flipEnabled, colourEnabled, boards, solutions );
+        return new Level( hint, draw_restriction, erase_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions );
     }
 
 
@@ -240,15 +241,15 @@ public class PuzzleDB {
     //---------------
 
     private void bail_invalid_check( String actual ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), worldNum, levelNum, xpp.getName(), actual );
+        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, xpp.getName(), actual );
     }
 
     private void bail_invalid_tag( String invalid_tag ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), worldNum, levelNum, invalid_tag, true );
+        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_tag, true );
     }
 
     private void bail_invalid_text( String invalid_text ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), worldNum, levelNum, invalid_text, false );
+        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_text, false );
     }
 
     private String parse_preamble( String expected ) throws XmlPullParserException, IOException, InvalidXmlException {

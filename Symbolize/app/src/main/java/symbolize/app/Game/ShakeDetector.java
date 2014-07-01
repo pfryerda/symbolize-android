@@ -17,22 +17,26 @@ public class ShakeDetector implements SensorEventListener {
     // Fields
     //-------
 
-    private OnShakeListener shakeListener;
+    private OnShakeListener shake_listener;
     private boolean shaking;
-    private long lastUpdate;
+    private long last_update;
 
 
-    // Methods
-    //--------
-
-    public void setOnShakeListener( OnShakeListener shakeListener ) {
-        this.shakeListener = shakeListener;
-        this.lastUpdate = System.currentTimeMillis();
-        this.shaking = false;
-    }
+    // Interface
+    //-----------
 
     public interface OnShakeListener {
         public void onShake();
+    }
+
+
+    // Public methods
+    //----------------
+
+    public void setOnShakeListener( OnShakeListener shake_listener ) {
+        this.shake_listener = shake_listener;
+        this.last_update = System.currentTimeMillis();
+        this.shaking = false;
     }
 
     @Override
@@ -42,29 +46,31 @@ public class ShakeDetector implements SensorEventListener {
     @Override
     public void onSensorChanged( SensorEvent event ) {
         if ( event.sensor.getType() == Sensor.TYPE_ACCELEROMETER ) {
-            getAccelerometer( event );
+            get_accelerometer( event );
         }
     }
 
-    private void getAccelerometer( SensorEvent event ) {
-        // Movement
+    // Private Method
+    //-----------------
+
+    private void get_accelerometer( SensorEvent event ) {
         float[] values = event.values;
         float x = values[0];
         float y = values[1];
         float z = values[2];
 
-        float accelationSQRT = ( x * x + y * y + z * z ) / ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH );
-        long currTime = event.timestamp;
+        float acceleration_square_root = ( x * x + y * y + z * z ) / ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH );
+        long current_time = event.timestamp;
 
-        if ( ( accelationSQRT >= SHAKETHRESHOLD ) && !shaking ) {
-            if ( ( currTime - lastUpdate ) < SHAKESEPARATIONTIME ) {
+        if ( ( acceleration_square_root >= SHAKETHRESHOLD ) && !shaking ) {
+            if ( ( current_time - last_update ) < SHAKESEPARATIONTIME ) {
                 return;
             }
             shaking = true;
-            lastUpdate = currTime;
-        } else if ( ( accelationSQRT <= SHAKEIDLETHRESHOLD ) && shaking )  {
+            last_update = current_time;
+        } else if ( ( acceleration_square_root <= SHAKEIDLETHRESHOLD ) && shaking )  {
             shaking = false;
-            shakeListener.onShake();
+            shake_listener.onShake();
         }
     }
 }

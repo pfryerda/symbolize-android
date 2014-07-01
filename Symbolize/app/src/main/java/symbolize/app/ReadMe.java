@@ -1,4 +1,4 @@
-// An example of the typical structure of a module in symbolize
+// An example of the typical structure of a module in symbolize ( does not include Activities )
 
 package symbolize.app;
 
@@ -36,6 +36,14 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
 
     /*
      * Constructor(s) go here
+     */
+
+
+    // Main method
+    //--------------
+
+    /*
+     * Main method goes here
      */
 
 
@@ -79,6 +87,14 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      */
 
 
+    // Abstract method(s)
+    //--------------------
+
+    /*
+     * Abstract method(s) go here
+     */
+
+
     // Static method(s)
     //-----------------
 
@@ -92,5 +108,12 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
 
     /*
      * Developer method(s) go here
+     */
+
+    // Misc/other method(s)
+    //----------------------
+
+    /*
+     * Misc/other method(s) go here
      */
 }

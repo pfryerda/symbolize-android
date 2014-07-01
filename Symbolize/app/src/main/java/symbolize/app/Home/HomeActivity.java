@@ -10,12 +10,18 @@ import symbolize.app.R;
 
 
 public class HomeActivity extends Activity {
+    // Main method
+    //-------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
     }
+
+
+    // Button methods
+    //----------------
 
     public void onStartGame( View view) {
         startActivity( new Intent(getApplicationContext(), GameActivity.class ) );

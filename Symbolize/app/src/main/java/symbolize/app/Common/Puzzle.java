@@ -12,9 +12,9 @@ abstract public class Puzzle {
     //--------
 
     private final String hint;
-    private final boolean rotateEnabled;
-    private final boolean flipEnabled;
-    private final boolean colourEnabled;
+    private final boolean rotate_enabled;
+    private final boolean flip_enabled;
+    private final boolean colour_enabled;
     private final ArrayList<LinkedList<Line>> solutions;
 
 
@@ -23,43 +23,39 @@ abstract public class Puzzle {
 
     public Puzzle() {
         this.hint = "";
-        this.rotateEnabled = false;
-        this.flipEnabled = false;
-        this.colourEnabled = false;
+        this.rotate_enabled = false;
+        this.flip_enabled = false;
+        this.colour_enabled = false;
         this.solutions = new ArrayList<LinkedList<Line>>();
     }
 
-    public Puzzle( String hint, boolean rotateEnabled, boolean flipEnabled,
-                  boolean colourEnabled, ArrayList<LinkedList<Line>> solutions )
+    public Puzzle( String hint, boolean rotate_enabled, boolean flip_enabled,
+                  boolean colour_enabled, ArrayList<LinkedList<Line>> solutions )
     {
         this.hint = hint;
-        this.rotateEnabled = rotateEnabled;
-        this.flipEnabled = flipEnabled;
-        this.colourEnabled = colourEnabled;
+        this.rotate_enabled = rotate_enabled;
+        this.flip_enabled = flip_enabled;
+        this.colour_enabled = colour_enabled;
         this.solutions = solutions;
     }
 
 
-    // Methods
-    //---------
+    // Public methods
+    //----------------
 
-    public String getHint() {
-        return hint;
+    public boolean Can_rotate() {
+        return rotate_enabled;
     }
 
-    public boolean canRotate() {
-        return rotateEnabled;
+    public boolean Can_flip() {
+        return flip_enabled;
     }
 
-    public boolean canFlip() {
-        return flipEnabled;
+    public boolean Can_change_color() {
+        return colour_enabled;
     }
 
-    public boolean canChangeColur() {
-        return colourEnabled;
-    }
-
-    public boolean checkCorrectness(LinkedList<Line> g) {
+    public boolean Check_correctness( LinkedList<Line> g ) {
         for( LinkedList<Line> s : solutions ) {
             if ( s.size() == g.size() ) {
                 @SuppressWarnings("unchecked")
@@ -83,6 +79,14 @@ abstract public class Puzzle {
             }
         }
         return false;
+    }
+
+
+    // Getter methods
+    //----------------
+
+    public String getHint() {
+        return hint;
     }
 
 
