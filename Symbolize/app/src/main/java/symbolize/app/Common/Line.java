@@ -17,7 +17,9 @@ public class Line {
 
     public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 7;
     public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
-    public static final ArrayList<Integer> COLORARRAY = new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
+    public static final ArrayList<Integer> COLORARRAY =
+            new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW,
+                    Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
     public static final SparseIntArray COLORMAP = make_color_map();
 
 
@@ -43,7 +45,7 @@ public class Line {
         owner = null;
     }
 
-    public Line( Posn pt1, Posn pt2, Owner creator ) {
+    public Line( final Posn pt1, final Posn pt2, final Owner creator ) {
         if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
@@ -57,7 +59,7 @@ public class Line {
         owner = creator;
     }
 
-    public Line( Posn pt1, Posn pt2, int hue, Owner creator ) {
+    public Line( final Posn pt1, final Posn pt2, final int hue, final Owner creator ) {
         if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
@@ -95,7 +97,7 @@ public class Line {
      *
      * @param Line soln: Line from the solution that we are checking against
      */
-    public boolean Approximately_equals( Line soln ) {
+    public boolean Approximately_equals( final Line soln ) {
         return ( ( (
                 ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.Get_p1().x() ) && ( soln.Get_p1().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
                 ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.Get_p1().y() ) && ( soln.Get_p1().y() <= ( p1.y() + DRAWINGTHRESHOLD ) )     &&
@@ -115,13 +117,16 @@ public class Line {
      *
      * @param Posn point: point of interest
      */
-    public boolean Intersects( Posn point ) {
-        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() && point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
-            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() && point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
+    public boolean Intersects( final Posn point ) {
+        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() &&
+                point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
+            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() &&
+                point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
             if ( ( slope != Float.POSITIVE_INFINITY ) && ( slope != 0 ) ) {
                 int x  = Math.round( ( point.y() - y_intercept ) /slope );
                 int y = Math.round( slope * point.x() + y_intercept );
-                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
+                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||
+                        ( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
             }
             return true;
         }
@@ -134,17 +139,9 @@ public class Line {
      *
      * @param Line line: The Line you are checking against.
      */
-    public int Score( Line line ) {
+    public int Score( final Line line ) {
         return Math.min( p1.Distance_squared( line.Get_p1() ) + p2.Distance_squared( line.Get_p2() ),
                 p2.Distance_squared( line.Get_p1() ) + p1.Distance_squared( line.Get_p2() ) );
-    }
-
-    /*
-     * Scales line according to GameActivity.Scaling
-     */
-    public void Scale() {
-        p1.Scale();
-        p2.Scale();
     }
 
     /*
@@ -160,7 +157,7 @@ public class Line {
      *
      * @param ArrayList<Posn> levels: Array of lines wanting to snap to
      */
-    public void Snap_to_levels( ArrayList<Posn> levels ) {
+    public void Snap_to_levels( final ArrayList<Posn> levels ) {
         p1.Snap_to_levels( levels );
         p2.Snap_to_levels( levels );
     }
@@ -189,7 +186,7 @@ public class Line {
     // Action Method
     //----------------
 
-    public void Edit( Action action ) {
+    public void Edit( final Action action ) {
         if ( action == Action.Change_color ) {
             color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
         } else {

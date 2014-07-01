@@ -33,18 +33,18 @@ public class ShakeDetector implements SensorEventListener {
     // Public methods
     //----------------
 
-    public void setOnShakeListener( OnShakeListener shake_listener ) {
+    public void setOnShakeListener( final OnShakeListener shake_listener ) {
         this.shake_listener = shake_listener;
         this.last_update = System.currentTimeMillis();
         this.shaking = false;
     }
 
     @Override
-    public void onAccuracyChanged( Sensor sensor, int accuracy ) {}
+    public void onAccuracyChanged( final Sensor sensor, final int accuracy ) {}
 
 
     @Override
-    public void onSensorChanged( SensorEvent event ) {
+    public void onSensorChanged( final SensorEvent event ) {
         if ( event.sensor.getType() == Sensor.TYPE_ACCELEROMETER ) {
             get_accelerometer( event );
         }
@@ -53,13 +53,14 @@ public class ShakeDetector implements SensorEventListener {
     // Private Method
     //-----------------
 
-    private void get_accelerometer( SensorEvent event ) {
+    private void get_accelerometer( final SensorEvent event ) {
         float[] values = event.values;
         float x = values[0];
         float y = values[1];
         float z = values[2];
 
-        float acceleration_square_root = ( x * x + y * y + z * z ) / ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH );
+        float acceleration_square_root = ( ( x * x + y * y + z * z ) /
+                ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH ) );
         long current_time = event.timestamp;
 
         if ( ( acceleration_square_root >= SHAKETHRESHOLD ) && !shaking ) {

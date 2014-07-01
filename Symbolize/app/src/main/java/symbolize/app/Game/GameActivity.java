@@ -59,7 +59,7 @@ public class GameActivity extends Activity  {
      * @parama Bundle savedInstanceState: A mapping from String values to various Parcelable types
      */
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
@@ -87,9 +87,11 @@ public class GameActivity extends Activity  {
         findViewById( R.id.buttons ).getLayoutParams().height = BARHEIGHT;
         findViewById( R.id.adspace ).getLayoutParams().height = BARHEIGHT;
 
-        Bitmap bitMap_fg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
+        Bitmap bitMap_fg = Bitmap.createScaledBitmap(
+                Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
                 SCALING, SCALING, true );
-        Bitmap bitMap_bg = Bitmap.createScaledBitmap( Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
+        Bitmap bitMap_bg = Bitmap.createScaledBitmap(
+                Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),
                 SCALING, SCALING, true );
 
 
@@ -111,19 +113,19 @@ public class GameActivity extends Activity  {
     // Button methods
     // ---------------
 
-    public void On_levels_button_clicked( View view ) {
+    public void On_levels_button_clicked( final View view ) {
         Render_toast( "Levels!" );
     }
 
-    public void On_settings_button_clicked( View view ) {
+    public void On_settings_button_clicked( final View view ) {
         Render_toast("Settings!");
     }
 
-    public void On_reset_button_clicked( View view ) {
+    public void On_reset_button_clicked( final View view ) {
         load_puzzle( currPuzzle );
     }
 
-    public void On_check_button_clicked(View view) {
+    public void On_check_button_clicked( final View view) {
         if ( DEVMODE ) {
             game_model.LogGraph();
         } else {
@@ -135,11 +137,11 @@ public class GameActivity extends Activity  {
         }
     }
 
-    public void On_hint_button_clicked( View view ) {
+    public void On_hint_button_clicked( final View view ) {
         Render_toast("Hint");
     }
 
-    public void On_undo_button_clicked( View view ) {
+    public void On_undo_button_clicked( final View view ) {
         if ( game_model.getPastState() == null ) {
             Render_toast( "There is nothing to undo" );
         } else {
@@ -148,11 +150,11 @@ public class GameActivity extends Activity  {
         }
     }
 
-    public void On_draw_button_clicked( View view ) {
+    public void On_draw_button_clicked( final View view ) {
         draw_enabled = true;
     }
 
-    public void On_erase_button_clicked( View view ) {
+    public void On_erase_button_clicked( final View view ) {
         draw_enabled = false;
     }
 
@@ -166,7 +168,7 @@ public class GameActivity extends Activity  {
      *
      * @param Level level: The level that needs to be loaded
      */
-    private void load_puzzle( Puzzle puzzle ) {
+    private void load_puzzle( final Puzzle puzzle ) {
         currPuzzle = puzzle;
         game_model.setPuzzle( puzzle );
     }
@@ -176,7 +178,7 @@ public class GameActivity extends Activity  {
     *
     * @param: String msg: The message we want to output
     */
-    private void Render_toast(String msg) {
+    private void Render_toast( final String msg ) {
         Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
     }
 
@@ -185,7 +187,7 @@ public class GameActivity extends Activity  {
      *
      * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
      */
-    private void Set_up_listeners( LinearLayout foreground ){
+    private void Set_up_listeners( final LinearLayout foreground ){
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
@@ -203,11 +205,13 @@ public class GameActivity extends Activity  {
             }
 
             @Override
-            public void onErase( Posn point ) {
+            public void onErase( final Posn point ) {
                 if( !draw_enabled ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            if ( ( game_model.getLinesErased() < currPuzzle.Get_erase_restriction() ) || ( line.Get_owner() == Owner.User ) ) {
+                            if ( ( game_model.getLinesErased() < currPuzzle.Get_erase_restriction() )
+                                    || ( line.Get_owner() == Owner.User ) )
+                            {
                                 game_model.action_basic( Action.Erase, line );
                             } else {
                                 Render_toast( "Cannot erase any more lines" );
@@ -224,7 +228,7 @@ public class GameActivity extends Activity  {
             }
 
             @Override
-            public void onFingerMove( Line line, Posn point ) {
+            public void onFingerMove( final Line line, final Posn point ) {
                 if ( draw_enabled ) {
                     if ( DEVMODE ) {
                         line.Snap();
@@ -237,7 +241,7 @@ public class GameActivity extends Activity  {
             }
 
             @Override
-            public void onTap( Posn point ) {
+            public void onTap( final Posn point ) {
                 ArrayList<Posn> levels = game_model.Get_levels();
                 int level_found = 0;
                 for ( int i = 0; i < levels.size(); ++i ) {

@@ -36,7 +36,7 @@ abstract public class SymbolizeAnimation {
      * @param LinearLayout linearlayour: The linearlayout that will be animated
      * @param GameView game_view: The game view that will be render after the animation
      */
-    public void Set_up( LinearLayout linearlayour, GameView game_view ) {
+    public void Set_up( final LinearLayout linearlayour, final GameView game_view ) {
         this.linearLayout = linearlayour;
         set_up_animation( game_view );
     }
@@ -47,7 +47,7 @@ abstract public class SymbolizeAnimation {
      * @param LinkedList<Line> graph: The desired graph to be rendered
      * @param ArrayList<Posn> levels: The desired points to be rendered
      */
-    public void Animate( LinkedList<Line> graph, ArrayList<Posn> levels ) {
+    public void Animate( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         this.graph = graph;
         this.levels = levels;
         linearLayout.startAnimation( animation );

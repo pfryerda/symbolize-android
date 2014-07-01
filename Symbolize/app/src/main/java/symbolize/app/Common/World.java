@@ -23,8 +23,8 @@ public class World extends Puzzle {
     // Constructor
     //-------------
 
-    public World( String hint, boolean rotate_enabled, boolean flip_enabled, boolean colour_enabled,
-                  ArrayList<Posn> levels, ArrayList<LinkedList<Line>> solutions )
+    public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
+                  final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions )
     {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
         this.levels = levels;

@@ -29,8 +29,8 @@ abstract public class Puzzle {
         this.solutions = new ArrayList<LinkedList<Line>>();
     }
 
-    public Puzzle( String hint, boolean rotate_enabled, boolean flip_enabled,
-                  boolean colour_enabled, ArrayList<LinkedList<Line>> solutions )
+    public Puzzle( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
+                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions )
     {
         this.hint = hint;
         this.rotate_enabled = rotate_enabled;
@@ -55,20 +55,25 @@ abstract public class Puzzle {
         return colour_enabled;
     }
 
-    public boolean Check_correctness( LinkedList<Line> g ) {
+    public boolean Check_correctness( final LinkedList<Line> graph ) {
         for( LinkedList<Line> s : solutions ) {
-            if ( s.size() == g.size() ) {
+            if ( s.size() == graph.size() ) {
                 @SuppressWarnings("unchecked")
                 LinkedList<Line> soln = ( LinkedList<Line> ) s.clone();
                 @SuppressWarnings("unchecked")
-                LinkedList<Line> guess = ( LinkedList<Line> ) g.clone();
+                LinkedList<Line> guess = ( LinkedList<Line> ) graph.clone();
                 while( !soln.isEmpty() ) {
                     Line match = null;
                     for ( Line line : guess ) {
                         if ( match == null ) {
-                            if( line.Approximately_equals( soln.getFirst() ) ) match = line;
+                            if( line.Approximately_equals( soln.getFirst() ) ) {
+                                match = line;
+                            }
                         } else {
-                            if( line.Approximately_equals( soln.getFirst() ) && ( soln.getFirst().Score( line ) < soln.getFirst().Score( match ) ) ) match = line;
+                            if( line.Approximately_equals( soln.getFirst() ) &&
+                                    ( soln.getFirst().Score( line ) < soln.getFirst().Score( match ) ) ) {
+                                match = line;
+                            }
                         }
                     }
                     if ( match == null ) break;

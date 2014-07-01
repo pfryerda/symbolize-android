@@ -27,13 +27,15 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
     // Field
     //-------
 
-    private AlphaAnimation fadeInAnimation;
+    private final AlphaAnimation fadeInAnimation;
 
 
     // Constructor
     //------------
 
-    public FadeOutAndInSymbolizeAnimation(LinearLayout linearLayout, GameView game_view) {
+    public FadeOutAndInSymbolizeAnimation( final LinearLayout linearLayout,
+                                           final GameView game_view)
+    {
         animation = new AlphaAnimation(1, 0);
         animation.setDuration( FADEDURATION );
         animation.setFillAfter( true );
