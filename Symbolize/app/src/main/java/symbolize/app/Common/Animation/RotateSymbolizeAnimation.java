@@ -23,11 +23,10 @@ public class RotateSymbolizeAnimation extends SymbolizeAnimation {
     // Constructor
     //------------
 
-    public RotateSymbolizeAnimation( final LinearLayout linearLayout,
-                                     final GameView game_view, final int rotation ) {
+    public RotateSymbolizeAnimation( final LinearLayout linearLayout, final int rotation ) {
+        super( linearLayout );
         animation = new RotateAnimation( 0, rotation,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
         animation.setDuration( ROTATEDURATION );
-        Set_up( linearLayout, game_view );
     }
 }

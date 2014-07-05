@@ -23,12 +23,12 @@ public class FlipSymbolizeAnimation extends SymbolizeAnimation {
     // Constructor
     //------------
 
-    public FlipSymbolizeAnimation( final LinearLayout linearLayout, final GameView game_view,
+    public FlipSymbolizeAnimation( final LinearLayout linearLayout,
                                    final int scale_horizontal, final int scale_vertical )
     {
+        super( linearLayout );
         animation = new ScaleAnimation( 1, scale_horizontal, 1, scale_vertical,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
         animation.setDuration( FLIPDURATION );
-        Set_up( linearLayout, game_view );
     }
 }

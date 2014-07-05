@@ -23,23 +23,17 @@ abstract public class SymbolizeAnimation {
     protected Animation animation;
     protected LinearLayout linearLayout;
 
-    protected LinkedList<Line> graph;
-    protected ArrayList<Posn> levels;
 
+    // Constructor
+    //--------------
 
-    // Public Methods
-    //----------------
-
-    /*
-     * Used during construction simplifies constructor of concrete classes
-     *
-     * @param LinearLayout linearlayour: The linearlayout that will be animated
-     * @param GameView game_view: The game view that will be render after the animation
-     */
-    public void Set_up( final LinearLayout linearlayour, final GameView game_view ) {
-        this.linearLayout = linearlayour;
-        set_up_animation( game_view );
+    SymbolizeAnimation( LinearLayout linarLayout ) {
+        this.linearLayout = linarLayout;
     }
+
+
+    // Public method
+    //---------------
 
     /*
      * Actually performs the animation and re renders the canvas
@@ -47,15 +41,14 @@ abstract public class SymbolizeAnimation {
      * @param LinkedList<Line> graph: The desired graph to be rendered
      * @param ArrayList<Posn> levels: The desired points to be rendered
      */
-    public void Animate( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        this.graph = graph;
-        this.levels = levels;
+    public void Animate( final GameView game_view, final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
+        set_up_animation( game_view, graph, levels );
         linearLayout.startAnimation( animation );
     }
 
 
-    // Protected methods
-    //-------------------
+    // Protected method
+    //------------------
 
     /*
      * Used to set up the animation
@@ -63,7 +56,9 @@ abstract public class SymbolizeAnimation {
      *    - sets up the rendering of the graph after the animation
      * @param: GameView game_view: The game view that will be rendered after the animation'
      */
-    protected void set_up_animation( final GameView game_view ) {
+    protected void set_up_animation( final GameView game_view,
+                                     final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    {
         this.animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart( Animation animation ) {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,8 +105,7 @@ public class GameActivity extends Activity  {
         // Set up Game
         game_model = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
         draw_enabled = true;
-        current_puzzle = puzzleDB.Fetch_world( 1 );
-        load_puzzle( current_puzzle );  // Load world 1
+        load_puzzle( puzzleDB.Fetch_world( 1 ) );  // Load world 1
         Set_up_listeners( foreground );
     }
 
@@ -189,12 +189,22 @@ public class GameActivity extends Activity  {
      * @param Level level: The level that needs to be loaded
      */
     private void load_puzzle( final Puzzle puzzle ) {
+        // Load up puzzle
         current_puzzle = puzzle;
         game_model.setPuzzle( puzzle );
+
+        // Change game from world mode to level mode and vice versa
+        Button left_button = ( Button ) findViewById( R.id.Left );
+        Button right_button = ( Button ) findViewById( R.id.Right );
+
         if ( in_world_view ) {
             ( (TextView) findViewById( R.id.Title ) ).setText( "World: " + current_world );
+            left_button.setVisibility( View.VISIBLE );
+            right_button.setVisibility( View.VISIBLE );
         } else {
             ( (TextView) findViewById( R.id.Title ) ).setText( "Level: " + current_world + "-" + current_level );
+            left_button.setVisibility( View.GONE );
+            right_button.setVisibility( View.GONE );
         }
     }
 

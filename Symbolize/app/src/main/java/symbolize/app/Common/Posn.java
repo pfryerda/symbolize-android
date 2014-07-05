@@ -6,6 +6,12 @@ import symbolize.app.Common.Enum.Action;
 import symbolize.app.Game.GameActivity;
 
 public class Posn {
+    // Static field
+    //--------------
+
+    public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 10;
+
+
     // Fields
     //-------
 
@@ -41,10 +47,10 @@ public class Posn {
      * Method that sees if the given posn is approximately equal to this posn
      */
     public boolean Approximately_equals( final Posn point ) {
-        return ( ( ( first - Line.DRAWINGTHRESHOLD ) <= point.x() ) &&
-                    ( point.x() <= ( first + Line.DRAWINGTHRESHOLD ) ) &&
-                 ( ( second - Line.DRAWINGTHRESHOLD ) <= point.y() ) &&
-                    ( point.y() <= ( second + Line.DRAWINGTHRESHOLD ) ) );
+        return ( ( ( first - DRAWINGTHRESHOLD ) <= point.x() ) &&
+                    ( point.x() <= ( first + DRAWINGTHRESHOLD ) ) &&
+                 ( ( second - DRAWINGTHRESHOLD ) <= point.y() ) &&
+                    ( point.y() <= ( second + DRAWINGTHRESHOLD ) ) );
     }
 
     /*
