@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
-    <hint>The 11th letter of the alphabet</hint>
+    <hint>Hint goes here</hint>
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
@@ -23,6 +23,8 @@
         <p><x>750</x><y>833</y></p>
     </levels>
     <solutions>
+        <graph>
+        </graph>
         <graph>
         </graph>
     </solutions>

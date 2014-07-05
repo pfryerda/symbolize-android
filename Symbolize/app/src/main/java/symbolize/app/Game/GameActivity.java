@@ -1,14 +1,17 @@
 package symbolize.app.Game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -22,6 +25,7 @@ import symbolize.app.Common.Posn;
 import symbolize.app.Common.Puzzle;
 import symbolize.app.Common.PuzzleDB;
 import symbolize.app.Common.World;
+import symbolize.app.Home.HomeActivity;
 import symbolize.app.R;
 
 
@@ -40,6 +44,8 @@ public class GameActivity extends Activity  {
     //---------
 
     private int current_world = 1;
+    private int current_level = 0;
+    private boolean in_world_view = true;
     private Puzzle current_puzzle;
     private PuzzleDB puzzleDB;
 
@@ -65,7 +71,7 @@ public class GameActivity extends Activity  {
 
         puzzleDB = new PuzzleDB( getResources() );
 
-        sensor_manager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         shake_detector =  new ShakeDetector();
 
 
@@ -97,13 +103,7 @@ public class GameActivity extends Activity  {
 
         // Set up Game
         game_model = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
-        current_puzzle = null;
         draw_enabled = true;
-        //ArrayList<Posn> levels = new ArrayList<Posn>();
-        //levels.add( new Posn( 500, 500 ) );
-        //levels.add( new Posn( 500, 750 ) );
-        //levels.add( new Posn( 750, 500 ) );
-        //current_puzzle = new World( "hint", true, true, true, levels, null );
         current_puzzle = puzzleDB.Fetch_world( 1 );
         load_puzzle( current_puzzle );  // Load world 1
         Set_up_listeners( foreground );
@@ -113,8 +113,28 @@ public class GameActivity extends Activity  {
     // Button methods
     // ---------------
 
-    public void On_levels_button_clicked( final View view ) {
-        Render_toast( "Levels!" );
+    public void On_left_button_clicked( final View view ) {
+        if ( in_world_view ) {
+            current_world = ( current_world == 1 ) ? 7 : current_world - 1;
+            load_puzzle( puzzleDB.Fetch_world( current_world ) );
+        }
+    }
+
+    public void On_back_button_clicked( final View view ) {
+        if ( in_world_view ) {
+            startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
+        } else {
+            in_world_view = true;
+            load_puzzle( puzzleDB.Fetch_world( current_world ) );
+            current_level = 0;
+        }
+    }
+
+    public void On_right_button_clicked( final View view ) {
+        if ( in_world_view ) {
+            current_world = ( current_world % 7 ) + 1;
+            load_puzzle( puzzleDB.Fetch_world( current_world ) );
+        }
     }
 
     public void On_settings_button_clicked( final View view ) {
@@ -171,6 +191,11 @@ public class GameActivity extends Activity  {
     private void load_puzzle( final Puzzle puzzle ) {
         current_puzzle = puzzle;
         game_model.setPuzzle( puzzle );
+        if ( in_world_view ) {
+            ( (TextView) findViewById( R.id.Title ) ).setText( "World: " + current_world );
+        } else {
+            ( (TextView) findViewById( R.id.Title ) ).setText( "Level: " + current_world + "-" + current_level );
+        }
     }
 
     /*
@@ -245,12 +270,14 @@ public class GameActivity extends Activity  {
                 ArrayList<Posn> levels = game_model.Get_levels();
                 int level_found = 0;
                 for ( int i = 0; i < levels.size(); ++i ) {
-                    if ( point.Approximately_equals( levels.get( i ) ) ) {
+                    if ( levels.get( i ).Approximately_equals( point ) ) {
                         level_found =  i + 1;
                     }
                 }
                 if ( level_found > 0 ) {
-                    load_puzzle( puzzleDB.Fetch_level( current_world, level_found ) );
+                    current_level = level_found;
+                    in_world_view = false;
+                    load_puzzle(puzzleDB.Fetch_level(current_world, current_level));
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {

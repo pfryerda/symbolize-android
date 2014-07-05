@@ -38,13 +38,38 @@ public class PuzzleDB {
     // Static field
     //--------------
     public static final int NUMBEROFLEVELSPERWORLD = 15;
+    public static final int[] XMLMAP = new int[]{ R.xml.world_1, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
+                                                  R.xml.level_1_4, R.xml.level_1_5, R.xml.level_1_6, R.xml.level_1_7,
+                                                  R.xml.level_1_8, R.xml.level_1_9, R.xml.level_1_10, R.xml.level_1_11,
+                                                  R.xml.level_1_12, R.xml.level_1_13, R.xml.level_1_14, R.xml.level_1_15,
+                                                  R.xml.world_2, R.xml.level_2_1, R.xml.level_2_2, R.xml.level_2_3,
+                                                  R.xml.level_2_4, R.xml.level_2_5, R.xml.level_2_6, R.xml.level_2_7,
+                                                  R.xml.level_2_8, R.xml.level_2_9, R.xml.level_2_10, R.xml.level_2_11,
+                                                  R.xml.level_2_12, R.xml.level_2_13, R.xml.level_2_14, R.xml.level_2_15,
+                                                  R.xml.world_3, R.xml.level_3_1, R.xml.level_3_2, R.xml.level_3_3,
+                                                  R.xml.level_3_4, R.xml.level_3_5, R.xml.level_3_6, R.xml.level_3_7,
+                                                  R.xml.level_3_8, R.xml.level_3_9, R.xml.level_3_10, R.xml.level_3_11,
+                                                  R.xml.level_3_12, R.xml.level_3_13, R.xml.level_3_14, R.xml.level_3_15,
+                                                  R.xml.world_4, R.xml.level_4_1, R.xml.level_4_2, R.xml.level_4_3,
+                                                  R.xml.level_4_4, R.xml.level_4_5, R.xml.level_4_6, R.xml.level_4_7,
+                                                  R.xml.level_4_8, R.xml.level_4_9, R.xml.level_4_10, R.xml.level_4_11,
+                                                  R.xml.level_4_12, R.xml.level_4_13, R.xml.level_4_14, R.xml.level_4_15,
+                                                  R.xml.world_5, R.xml.level_5_1, R.xml.level_5_2, R.xml.level_5_3,
+                                                  R.xml.level_5_4, R.xml.level_5_5, R.xml.level_5_6, R.xml.level_5_7,
+                                                  R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10, R.xml.level_5_11,
+                                                  R.xml.level_5_12, R.xml.level_5_13, R.xml.level_5_14, R.xml.level_5_15,
+                                                  R.xml.world_6, R.xml.level_6_1, R.xml.level_6_2, R.xml.level_6_3,
+                                                  R.xml.level_6_4, R.xml.level_6_5, R.xml.level_6_6, R.xml.level_6_7,
+                                                  R.xml.level_6_8, R.xml.level_6_9, R.xml.level_6_10, R.xml.level_6_11,
+                                                  R.xml.level_6_12, R.xml.level_6_13, R.xml.level_6_14, R.xml.level_6_15,
+                                                  R.xml.world_7, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
+                                                  R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
+                                                  R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
 
 
     // Fields
     //--------
     private final Resources res;
-    private final int level_id_offset;
-    private final int world_id_offset;
     private int world_num;
     private int level_num;
     private XmlResourceParser xpp;
@@ -56,8 +81,6 @@ public class PuzzleDB {
 
     public PuzzleDB( final Resources res ) {
         this.res = res;
-        level_id_offset = R.xml.level_1_1;
-        world_id_offset = R.xml.world_1;
     }
 
     // Methods
@@ -70,8 +93,7 @@ public class PuzzleDB {
         // Set up temp fields
         this.world_num = world_num;
         this.level_num = level_num;
-        this.xpp = res.getXml( level_id_offset + ( NUMBEROFLEVELSPERWORLD ) * ( world_num - 1 )
-                + ( level_num - 1 ) );
+        this.xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = "";
@@ -245,7 +267,7 @@ public class PuzzleDB {
         // Set up temp fields
         this.world_num = world_num;
         this.level_num = 0;
-        this.xpp = res.getXml( world_id_offset + ( world_num - 1 ) );
+        this.xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = "";

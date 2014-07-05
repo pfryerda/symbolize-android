@@ -15,15 +15,15 @@ public class HomeActivity extends Activity {
 
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_home );
     }
 
 
     // Button methods
     //----------------
 
-    public void onStartGame( final View view) {
-        startActivity( new Intent(getApplicationContext(), GameActivity.class ) );
+    public void onStartGame( final View view ) {
+        startActivity( new Intent ( getApplicationContext(), GameActivity.class ) );
     }
 }

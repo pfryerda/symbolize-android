@@ -20,19 +20,31 @@
             android:layout_alignParentLeft="true">
 
             <Button
-                android:id="@+id/Levels"
+                android:id="@+id/Left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="On_levels_button_clicked"
+                android:onClick="On_left_button_clicked"
                 android:text="L"/>
+            <Button
+                android:id="@+id/Back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="On_back_button_clicked"
+                android:text="B"/>
+            <Button
+                android:id="@+id/Right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="On_right_button_clicked"
+                android:text="R"/>
 
             </LinearLayout>
 
         <TextView
-            android:id="@+id/LevelTitle"
+            android:id="@+id/Title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Level: 1-1"
+            android:text="World: 1"
             android:textSize="27dp"
             android:textColor="@color/black"
             android:gravity="center"/>
