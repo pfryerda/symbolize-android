@@ -76,11 +76,11 @@ public class GameView {
 
         // Set up animations
         animations = new HashMap<Action, SymbolizeAnimation>();
-        animations.put( Action.Rotate_right, new RotateSymbolizeAnimation( foregound, this, 90 ) );
-        animations.put( Action.Rotate_left, new RotateSymbolizeAnimation( foregound, this, -90 ) );
-        animations.put( Action.Flip_horizontally, new FlipSymbolizeAnimation( foregound, this, -1, 1) );
-        animations.put( Action.Flip_vertically, new FlipSymbolizeAnimation( foregound, this, 1, -1 ) );
-        animations.put( Action.Shift, new FadeOutAndInSymbolizeAnimation( foregound, this ) );
+        animations.put( Action.Rotate_right, new RotateSymbolizeAnimation( foregound, 90 ) );
+        animations.put( Action.Rotate_left, new RotateSymbolizeAnimation( foregound, -90 ) );
+        animations.put( Action.Flip_horizontally, new FlipSymbolizeAnimation( foregound, -1, 1) );
+        animations.put( Action.Flip_vertically, new FlipSymbolizeAnimation( foregound, 1, -1 ) );
+        animations.put( Action.Shift, new FadeOutAndInSymbolizeAnimation( foregound ) );
 
         Render_background();
     }
@@ -167,7 +167,7 @@ public class GameView {
     public void Render_motion( final Action action,
                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-        animations.get( action ).Animate( graph, levels );
+        animations.get( action ).Animate( this, graph, levels );
     }
 
 

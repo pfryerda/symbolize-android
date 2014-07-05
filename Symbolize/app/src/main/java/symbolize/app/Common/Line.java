@@ -15,7 +15,6 @@ public class Line {
     // Static Fields
     //---------------
 
-    public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 7;
     public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
     public static final ArrayList<Integer> COLORARRAY =
             new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW,

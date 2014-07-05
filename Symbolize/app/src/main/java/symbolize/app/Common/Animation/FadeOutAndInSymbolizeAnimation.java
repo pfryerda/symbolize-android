@@ -33,9 +33,9 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
     // Constructor
     //------------
 
-    public FadeOutAndInSymbolizeAnimation( final LinearLayout linearLayout,
-                                           final GameView game_view)
+    public FadeOutAndInSymbolizeAnimation( final LinearLayout linearLayout )
     {
+        super( linearLayout );
         animation = new AlphaAnimation(1, 0);
         animation.setDuration( FADEDURATION );
         animation.setFillAfter( true );
@@ -43,8 +43,6 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
         fadeInAnimation = new AlphaAnimation( 0, 1 );
         fadeInAnimation.setDuration( FADEDURATION );
         fadeInAnimation.setFillAfter( true );
-
-        Set_up( linearLayout, game_view );
     }
 
 
@@ -53,7 +51,9 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
 
     /// @see SymbolizeAnimation::set_up_animation
     @Override
-    protected void set_up_animation( final GameView game_view ) {
+    protected void set_up_animation( final GameView game_view,
+                                     final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    {
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -64,7 +64,7 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
             @Override
             public void onAnimationEnd(Animation animation) {
                 linearLayout.clearAnimation();
-                game_view.Render_foreground(graph, levels);
+                game_view.Render_foreground( graph, levels );
                 linearLayout.startAnimation( fadeInAnimation );
                 InAnimation = false;
             }
