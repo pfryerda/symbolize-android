@@ -98,17 +98,9 @@ public class Line {
      * @param Line soln: Line from the solution that we are checking against
      */
     public boolean Approximately_equals( final Line soln ) {
-        return ( ( (
-                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.Get_p1().x() ) && ( soln.Get_p1().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.Get_p1().y() ) && ( soln.Get_p1().y() <= ( p1.y() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.Get_p2().x() ) && ( soln.Get_p2().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.Get_p2().y() ) && ( soln.Get_p2().y() <= ( p2.y() + DRAWINGTHRESHOLD ) ) )   ||
-                (
-                ( ( p2.x() - DRAWINGTHRESHOLD ) <= soln.Get_p1().x() ) && ( soln.Get_p1().x() <= ( p2.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p2.y() - DRAWINGTHRESHOLD ) <= soln.Get_p1().y() ) && ( soln.Get_p1().y() <= ( p2.y() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.x() - DRAWINGTHRESHOLD ) <= soln.Get_p2().x() ) && ( soln.Get_p2().x() <= ( p1.x() + DRAWINGTHRESHOLD ) )     &&
-                ( ( p1.y() - DRAWINGTHRESHOLD ) <= soln.Get_p2().y() ) && ( soln.Get_p2().y() <= ( p1.y() + DRAWINGTHRESHOLD ) ) ) ) &&
-                ( color == soln.Get_color() ) );
+        return ( ( p1.Approximately_equals( soln.Get_p1() ) && p2.Approximately_equals( soln.Get_p2() ) )   ||
+                 ( p1.Approximately_equals( soln.Get_p2() ) && p2.Approximately_equals( soln.Get_p1() ) ) ) &&
+               ( color == soln.Get_color() );
     }
 
     /*

@@ -2,6 +2,7 @@ package symbolize.app.Common;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -25,7 +26,7 @@ class InvalidXmlException extends Exception {
     }
 
     public InvalidXmlException( final int linenum, final int world_num, final int level_num, final String invalid_text, final boolean isTag ) {
-        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: + \"<\" + invalid_text + \">\"" : "text:" + invalid_text ) );
+        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: <" + invalid_text + ">" : "text:" + invalid_text ) );
     }
 }
 
@@ -101,9 +102,9 @@ public class PuzzleDB {
             }
 
             hint = parse_preamble( "hint" );
-            draw_restriction = Integer.parseInt(parse_preamble("draw_restriction").trim());
+            draw_restriction = Integer.parseInt( parse_preamble("draw_restriction").trim());
             erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
-            rotate_enabled = Boolean.valueOf(parse_preamble("rotate_enabled"));
+            rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
 
@@ -115,7 +116,7 @@ public class PuzzleDB {
 
                     case ( XmlPullParser.START_TAG ): {
                         String topTag = xpp.getName();
-                        if ( topTag.equals( "Level" ) || topTag.equals( "boards" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
+                        if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
                             if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) ) {
                                 if ( tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
@@ -237,6 +238,193 @@ public class PuzzleDB {
         return new Level( hint, draw_restriction, erase_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions );
     }
 
+    /*
+     * Method used to get level from xml resource files
+     */
+    public World Fetch_world( final int world_num ) {
+        // Set up temp fields
+        this.world_num = world_num;
+        this.level_num = 0;
+        this.xpp = res.getXml( world_id_offset + ( world_num - 1 ) );
+
+        // Set up level variables
+        String hint = "";
+        boolean rotate_enabled = false;
+        boolean flip_enabled = false;
+        boolean colour_enabled = false;
+        ArrayList<Posn> levels = null;
+        ArrayList<LinkedList<Line>> solutions = null;
+
+        try {
+            // Set up temp variables
+            LinkedList<Line> tmpList = null;
+            Line tmpLine = null;
+            Posn tmpP = null;
+            Posn tmpP1 = null;
+            Posn tmpP2 = null;
+            Integer tmpColor = null;
+            Integer tmpX = null;
+            Integer tmpY = null;
+
+            // Manually parse preamble
+            xpp.next();
+            xpp.next();
+            if ( !xpp.getName().equals( "World" ) ) {
+                bail_invalid_check( "World" );
+            }
+
+            hint = parse_preamble( "hint" );
+            rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
+            flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
+            colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
+
+
+            // Parse boarsd and solutions
+            for ( int eventType = xpp.getEventType(); eventType != XmlResourceParser.END_DOCUMENT; eventType = xpp.next() ){
+                switch ( eventType ) {
+
+                    case ( XmlPullParser.START_TAG ): {
+                        String topTag = xpp.getName();
+                        if ( topTag.equals( "levels" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p" ) || topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
+                            if( topTag.equals( "levels" ) ) {
+                                if ( levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                levels = new ArrayList<Posn>();
+                            } else if ( topTag.equals( "p" ) ) {
+                                if ( levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpP = new Posn();
+                            } else if ( topTag.equals( "solutions" ) ) {
+                                if ( levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                solutions = new ArrayList<LinkedList<Line>>();
+                            } else if ( topTag.equals( "graph" ) ) {
+                                if ( levels == null || solutions == null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpList = new LinkedList<Line>();
+                            } else if ( topTag.equals( "Line" ) ) {
+                                if (levels == null || solutions == null || tmpList == null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpLine = new Line();
+
+                            } else if ( topTag.equals( "p1" ) ) {
+                                if ( levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP1 != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpP1 = new Posn();
+                            } else if ( topTag.equals( "p2" ) ) {
+                                if ( levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpP2 = new Posn();
+                            }
+                        } else {
+                            xpp.next();
+                            if ( topTag.equals( "x" ) ) {
+                                if ( ( levels == null && solutions == null )  || ( tmpP1 == null && tmpP2 == null && tmpP == null ) || tmpX != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpX = Integer.valueOf( xpp.getText().trim() );
+                            } else if ( topTag.equals( "y" ) ) {
+                                if ( ( levels == null && solutions == null ) || ( tmpP1 == null && tmpP2 == null && tmpP == null ) || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpY = Integer.valueOf( xpp.getText().trim() );
+                            } else if ( topTag.equals( "color" ) ) {
+                                if ( levels == null || solutions == null || tmpList == null || tmpLine == null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                tmpColor = Integer.valueOf( xpp.getText() );
+                            } else {
+                                bail_invalid_tag( topTag );
+                            }
+                            xpp.next();
+
+                            if ( !topTag.equals( xpp.getName() ) ) {
+                                bail_invalid_check( topTag );
+                            }
+                        }
+                        break;
+                    }
+
+                    case ( XmlPullParser.END_TAG ): {
+                        if ( xpp.getName().equals( "levels" ) ) {
+                            if ( levels == null ) {
+                                bail_invalid_tag( "/" + xpp.getName() );
+                            }
+                        }
+                        else if ( xpp.getName().equals( "solutions" ) ) {
+                            if ( solutions == null ) {
+                                bail_invalid_tag( "/" + xpp.getName() );
+                            }
+                        } else if ( xpp.getName().equals( "graph" ) ) {
+                            if (tmpList == null) {
+                                bail_invalid_tag("/" + xpp.getName());
+                            }
+                            solutions.add((LinkedList<Line>) tmpList.clone());
+                            tmpList = null;
+                        } else if ( xpp.getName().equals( "p" ) ) {
+                            if ( tmpP == null || tmpX == null || tmpY == null ) {
+                                bail_invalid_tag( "/" + xpp.getName() );
+                            }
+                            tmpP = new Posn( tmpX, tmpY );
+                            levels.add( tmpP.clone() );
+                            tmpP = null;
+                            tmpX = null;
+                            tmpY = null;
+                        } else if ( xpp.getName().equals( "p1" ) ) {
+                            if ( tmpP1 == null || tmpX == null || tmpY == null ) {
+                                bail_invalid_tag( "/" + xpp.getName() );
+                            }
+                            tmpP1 = new Posn( tmpX, tmpY );
+                            tmpX = null;
+                            tmpY = null;
+                        } else if ( xpp.getName().equals( "p2" ) ) {
+                            if ( tmpP2 == null || tmpX == null || tmpY == null ) {
+                                bail_invalid_tag( "/" +xpp.getName() );
+                            }
+                            tmpP2 = new Posn( tmpX, tmpY );
+                            tmpX = null;
+                            tmpY = null;
+                        } else if ( xpp.getName().equals( "Line" ) ) {
+                            if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
+                                bail_invalid_tag( "/" +xpp.getName() );
+                            }
+                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Owner.App );
+                            tmpList.add( tmpLine.clone() );
+                            tmpLine = null;
+                            tmpP1 = null;
+                            tmpP2 = null;
+                            tmpColor = null;
+                        }
+                        break;
+                    }
+
+                    case ( XmlPullParser.TEXT ): {
+                        bail_invalid_text( xpp.getText() );
+                    }
+
+                    default: {
+                        break;
+                    }
+                }
+            }
+        } catch ( XmlPullParserException e ) {
+            e.printStackTrace();
+        } catch ( IOException e  ) {
+            e.printStackTrace();
+        } catch ( InvalidXmlException e ) {
+            e.printStackTrace();
+        }
+
+        return new World( hint,rotate_enabled, flip_enabled, colour_enabled, levels, solutions );
+    }
+
 
     // Helper methods
     //---------------
@@ -262,7 +450,7 @@ public class PuzzleDB {
         xpp.next();
         returnval = xpp.getText();
         xpp.next();
-        if (!xpp.getName().equals(expected)) {
+        if ( !xpp.getName().equals( expected ) ) {
             bail_invalid_check( "/" + expected );
         }
         return returnval;

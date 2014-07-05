@@ -39,8 +39,8 @@ public class GameActivity extends Activity  {
     // Fields
     //---------
 
-    private int currWorld = 1;
-    private Puzzle currPuzzle;
+    private int current_world = 1;
+    private Puzzle current_puzzle;
     private PuzzleDB puzzleDB;
 
     private GameModel game_model;
@@ -97,15 +97,15 @@ public class GameActivity extends Activity  {
 
         // Set up Game
         game_model = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
-        currPuzzle = null;
+        current_puzzle = null;
         draw_enabled = true;
-        Level level = puzzleDB.Fetch_level( currWorld, 1 );
-        ArrayList<Posn> levels = new ArrayList<Posn>();
-        levels.add( new Posn( 500, 500 ) );
-        levels.add( new Posn( 500, 750 ) );
-        levels.add( new Posn( 750, 500 ) );
-        World world = new World( "hint", true, true, true, levels, null );
-        load_puzzle( world );  // Load level 1-1
+        //ArrayList<Posn> levels = new ArrayList<Posn>();
+        //levels.add( new Posn( 500, 500 ) );
+        //levels.add( new Posn( 500, 750 ) );
+        //levels.add( new Posn( 750, 500 ) );
+        //current_puzzle = new World( "hint", true, true, true, levels, null );
+        current_puzzle = puzzleDB.Fetch_world( 1 );
+        load_puzzle( current_puzzle );  // Load world 1
         Set_up_listeners( foreground );
     }
 
@@ -118,21 +118,21 @@ public class GameActivity extends Activity  {
     }
 
     public void On_settings_button_clicked( final View view ) {
-        Render_toast("Settings!");
+        Render_toast( "Settings!" );
     }
 
     public void On_reset_button_clicked( final View view ) {
-        load_puzzle( currPuzzle );
+        load_puzzle( current_puzzle );
     }
 
     public void On_check_button_clicked( final View view) {
         if ( DEVMODE ) {
             game_model.LogGraph();
         } else {
-            if ( currPuzzle.Check_correctness( game_model.Get_graph() ) ) {
-                Render_toast("You are correct!");
+            if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
+                Render_toast( "You are correct!" );
             } else {
-                Render_toast("You are incorrect");
+                Render_toast( "You are incorrect" );
             }
         }
     }
@@ -169,7 +169,7 @@ public class GameActivity extends Activity  {
      * @param Level level: The level that needs to be loaded
      */
     private void load_puzzle( final Puzzle puzzle ) {
-        currPuzzle = puzzle;
+        current_puzzle = puzzle;
         game_model.setPuzzle( puzzle );
     }
 
@@ -196,7 +196,7 @@ public class GameActivity extends Activity  {
                 }
                 line.Snap_to_levels( game_model.Get_levels() );
                 if ( draw_enabled ) {
-                    if ( game_model.getLinesDrawn() < currPuzzle.Get_draw_restriction() ) {
+                    if ( game_model.getLinesDrawn() < current_puzzle.Get_draw_restriction() ) {
                         game_model.action_basic( Action.Draw, line );
                     } else {
                         Render_toast( "Cannot draw any more lines " );
@@ -209,7 +209,7 @@ public class GameActivity extends Activity  {
                 if( !draw_enabled ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            if ( ( game_model.getLinesErased() < currPuzzle.Get_erase_restriction() )
+                            if ( ( game_model.getLinesErased() < current_puzzle.Get_erase_restriction() )
                                     || ( line.Get_owner() == Owner.User ) )
                             {
                                 game_model.action_basic( Action.Erase, line );
@@ -250,9 +250,9 @@ public class GameActivity extends Activity  {
                     }
                 }
                 if ( level_found > 0 ) {
-                    load_puzzle( puzzleDB.Fetch_level( currWorld, level_found ) );
+                    load_puzzle( puzzleDB.Fetch_level( current_world, level_found ) );
                 } else {
-                    if ( currPuzzle.Can_change_color() ) {
+                    if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
                             if ( line.Intersects( point ) ) {
                                 game_model.action_basic( Action.Change_color, line );
@@ -270,28 +270,28 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onRotateRight() {
-                if ( currPuzzle.Can_rotate() ) {
+                if ( current_puzzle.Can_rotate() ) {
                     game_model.action_motion( Action.Rotate_right );
                 }
             }
 
             @Override
             public void onRotateLeft() {
-                if ( currPuzzle.Can_rotate() ) {
+                if ( current_puzzle.Can_rotate() ) {
                     game_model.action_motion( Action.Rotate_left );
                 }
             }
 
             @Override
             public void onFlipHorizontally() {
-                if ( currPuzzle.Can_flip() ) {
+                if ( current_puzzle.Can_flip() ) {
                     game_model.action_motion( Action.Flip_horizontally );
                 }
             }
 
             @Override
             public void onFlipVertically() {
-                if ( currPuzzle.Can_flip() ) {
+                if ( current_puzzle.Can_flip() ) {
                     game_model.action_motion( Action.Flip_vertically );
                 }
             }
@@ -300,8 +300,8 @@ public class GameActivity extends Activity  {
         shake_detector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
-                if ( currPuzzle.Can_shift() ) {
-                    game_model.action_sensor( Action.Shift, currPuzzle.Get_boards() );
+                if ( current_puzzle.Can_shift() ) {
+                    game_model.action_sensor( Action.Shift, current_puzzle.Get_boards() );
                 }
             }
         } );
