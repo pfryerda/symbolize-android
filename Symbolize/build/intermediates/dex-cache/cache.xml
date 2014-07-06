@@ -2,11 +2,11 @@
 <pre-dex-items>
 
     <item
-        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\simple-xml-2.7.1-063059f1b5c64449a500ff6b913a4fa6dc4dcd8f.jar"
-        jar="C:\Users\Luke\.gradle\caches\modules-2\files-2.1\org.simpleframework\simple-xml\2.7.1\dd91fb744c2ff921407475cb29a1e3fee397d411\simple-xml-2.7.1.jar"
+        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\classes-4ec552c0aa10067a662e6802fb8026c33f279d84.jar"
+        jar="B:\Documents\GitHub\symbolize-android\Symbolize\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.77\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="dd91fb744c2ff921407475cb29a1e3fee397d411"/>
+        sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>
     <item
         dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-c64f83dcbef39132a8748640f696362614aaea41.jar"
         jar="B:\Users\Luke\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"

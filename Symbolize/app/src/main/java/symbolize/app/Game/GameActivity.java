@@ -7,7 +7,9 @@ import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
+import com.google.android.gms.ads.*;
+
+import android.provider.Settings;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -19,13 +21,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import symbolize.app.Common.Enum.Action;
-import symbolize.app.Common.Level;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Puzzle;
 import symbolize.app.Common.PuzzleDB;
-import symbolize.app.Common.World;
 import symbolize.app.Home.HomeActivity;
 import symbolize.app.R;
 
@@ -67,13 +67,23 @@ public class GameActivity extends Activity  {
      */
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
+        // Basic setup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Variable setup
         puzzleDB = new PuzzleDB( getResources() );
-
         sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         shake_detector =  new ShakeDetector();
+
+        // Ad setup
+        AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
+        AdRequest ad_request = new AdRequest.Builder()
+                .addTestDevice( AdRequest.DEVICE_ID_EMULATOR )
+                .addTestDevice( Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) )
+                .build();
+        adView.setAdListener(new AdListener() {} );
+        adView.loadAd(ad_request);
 
 
         // Set up linerlayouts and bitamps
@@ -89,10 +99,9 @@ public class GameActivity extends Activity  {
         background.getLayoutParams().height = SCREENSIZE.x;
         background.getLayoutParams().width = SCREENSIZE.x;
 
-        BARHEIGHT = ( SCREENSIZE.y - SCREENSIZE.x ) / 3;
+        BARHEIGHT = ( SCREENSIZE.y - SCREENSIZE.x - AdSize.BANNER.getHeight() ) / 2;
         findViewById( R.id.topbar ).getLayoutParams().height = BARHEIGHT;
         findViewById( R.id.buttons ).getLayoutParams().height = BARHEIGHT;
-        findViewById( R.id.adspace ).getLayoutParams().height = BARHEIGHT;
 
         Bitmap bitMap_fg = Bitmap.createScaledBitmap(
                 Bitmap.createBitmap( SCREENSIZE.x, SCREENSIZE.x, Bitmap.Config.ARGB_8888 ),

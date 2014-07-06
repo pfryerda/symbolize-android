@@ -133,12 +133,11 @@
             android:text="E"/>
     </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/adspace"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:orientation="horizontal" >
-    </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/game_adspace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-1155399458000973/5500786240"
+        ads:adSize="BANNER"/>
 </LinearLayout>
