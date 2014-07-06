@@ -1,0 +1,17 @@
+World 1:
+
+1)  Inro drawing 			- Y
+2)  Good drawing level (multi line) 	- 
+3)  Lesser drawing level 		- 7
+4)  Into rotate 			- K
+5)  Cool rotate level (rotae plus draw) - M
+6)  Lesser rotate level 		- A
+7)  ARG 1 (website) 			- Snow flake
+8)  ARG 2 (maps) 			- 8
+9)  Lesser level			- Mail
+10) Cool level 				- 3D
+11) Erase Intro 			- Z
+12) Good erase level 			- rubix cube
+13) Hard level eraser 			- arrow
+14) Draw + Erase + Rotate		- music note
+15) ARG 				-
