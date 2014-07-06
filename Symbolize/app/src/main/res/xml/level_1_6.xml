@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <hint>This is a hint</hint>
-    <draw_restriction>0</draw_restriction>
+    <hint>Change this T into your favourite grade</hint>
+    <draw_restriction>1</draw_restriction>
     <erase_restriction>0</erase_restriction>
-    <rotate_enabled>false</rotate_enabled>
+    <rotate_enabled>true</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
     <boards>
         <graph>
+            <Line><p1><x> 900</x><y> 500</y></p1><p2><x> 200</x><y> 200</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 700</y></p1><p2><x> 500</x><y> 300</y></p2><color>-16777216</color></Line>
         </graph>
     </boards>
     <solutions>
         <graph>
+            <Line><p1><x> 200</x><y> 800</y></p1><p2><x> 500</x><y> 100</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 700</x><y> 500</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 100</y></p1><p2><x> 800</x><y> 800</y></p2><color>-16777216</color></Line>
         </graph>
     </solutions>
 </Level>
