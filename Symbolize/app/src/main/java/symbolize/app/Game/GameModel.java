@@ -24,7 +24,7 @@ public class GameModel {
 
     private LinkedList<Line> graph;
     private ArrayList<Posn> levels;
-    private int lines_drawn, lines_erased;
+    private int lines_drawn, lines_erased, lines_dragged;
     private int shift_number;
     private final GameView game_view;
     private GameModel past_state;
@@ -41,19 +41,21 @@ public class GameModel {
         levels = new ArrayList<Posn>();
         lines_drawn = 0;
         lines_erased = 0;
+        lines_dragged = 0;
         shift_number = 0;
         game_view = new GameView( context, foreground, background, foreground_bitmap, background_bitmap );
         past_state = null;
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
-                      final int lines_drawn, final int lines_erased, final int shift_number,
-                      final GameView game_view, final GameModel past_state )
+                      final int lines_drawn, final int lines_erased, final  int lines_dragged,
+                      final int shift_number, final GameView game_view, final GameModel past_state )
     {
         this.graph = graph;
         this.levels = levels;
         this.lines_drawn = lines_drawn;
         this.lines_erased = lines_erased;
+        this.lines_dragged = lines_dragged;
         this.shift_number = shift_number;
         this.game_view = game_view;
         this.past_state = past_state;
@@ -68,7 +70,7 @@ public class GameModel {
         for ( Line line : graph ) {
             clonedGraph.addLast( line.clone() );
         }
-        return new GameModel( clonedGraph, levels, lines_drawn, lines_erased,
+        return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, lines_dragged,
                 shift_number, game_view, past_state );
     }
 
@@ -114,7 +116,7 @@ public class GameModel {
 
     public ArrayList<Posn> Get_levels() { return levels; }
 
-    public int getLinesDrawn() {
+    public int Get_lines_drawn() {
         if ( GameActivity.DEVMODE ) {
             return -1;
         } else {
@@ -122,11 +124,19 @@ public class GameModel {
         }
     }
 
-    public int getLinesErased() {
+    public int Get_lines_erased() {
         if ( GameActivity.DEVMODE ) {
             return -1;
         } else {
             return lines_erased;
+        }
+    }
+
+    public int Get_lines_dragged() {
+        if ( GameActivity.DEVMODE ) {
+            return -1;
+        } else {
+            return lines_dragged;
         }
     }
 
@@ -159,6 +169,7 @@ public class GameModel {
 
             case Drag_start:
                 graph.remove( line );
+                ++lines_dragged;
                 break;
 
             case Drag_end:

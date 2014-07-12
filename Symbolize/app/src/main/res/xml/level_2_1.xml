@@ -4,6 +4,7 @@
     <hint>He_ _o wor_d</hint>
     <draw_restriction>0</draw_restriction>
     <erase_restriction>1</erase_restriction>
+    <drag_restriction>0</drag_restriction>
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>false</colour_enabled>

@@ -23,6 +23,7 @@ public class Level extends Puzzle {
 
     private final int draw_restriction;
     private final int erase_restriction;
+    private final int drag_restriction;
     protected final ArrayList<LinkedList<Line>> boards;
 
 
@@ -33,16 +34,18 @@ public class Level extends Puzzle {
         super();
         this.draw_restriction = 0;
         this.erase_restriction = 0;
+        this.drag_restriction = 0;
         this.boards = new ArrayList<LinkedList<Line>>();
     }
 
-    public Level( final String hint, final int draw_restriction, final int erase_restriction,
+    public Level( final String hint, final int draw_restriction, final int erase_restriction, final int drag_restriction,
                   final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
                   final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions )
     {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
         this.draw_restriction = draw_restriction;
         this.erase_restriction = erase_restriction;
+        this.drag_restriction = drag_restriction;
         this.boards = boards;
     }
 
@@ -75,6 +78,10 @@ public class Level extends Puzzle {
 
     public int Get_erase_restriction() {
         return erase_restriction;
+    }
+
+    public int Get_drag_restriction() {
+        return drag_restriction;
     }
 
 }

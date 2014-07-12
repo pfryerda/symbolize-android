@@ -54,4 +54,8 @@ public class World extends Puzzle {
     }
 
     public int Get_erase_restriction() { return 0; }
+
+    public int Get_drag_restriction() {
+        return 0;
+    }
 }

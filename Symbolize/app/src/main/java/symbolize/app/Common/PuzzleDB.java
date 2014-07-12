@@ -99,6 +99,7 @@ public class PuzzleDB {
         String hint = "";
         int draw_restriction = 0;
         int erase_restriction = 0;
+        int drag_restriction = 0;
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
@@ -126,6 +127,7 @@ public class PuzzleDB {
             hint = parse_preamble( "hint" );
             draw_restriction = Integer.parseInt( parse_preamble("draw_restriction").trim());
             erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
+            drag_restriction = Integer.parseInt( parse_preamble( "drag_restriction" ).trim() );
             rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
@@ -257,7 +259,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, draw_restriction, erase_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions );
+        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions );
     }
 
     /*
