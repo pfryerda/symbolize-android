@@ -35,7 +35,7 @@ public class GameActivity extends Activity  {
     // Static fields
     //---------------
 
-    public static final boolean DEVMODE = true;
+    public static final boolean DEVMODE = false;
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static final String LUKE = "Awesome";
@@ -169,8 +169,7 @@ public class GameActivity extends Activity  {
         if ( game_model.getPastState() == null ) {
             Render_toast( "There is nothing to undo" );
         } else {
-            game_model = game_model.getPastState();
-            game_model.Remove_shadows();
+            undo();
         }
     }
 
@@ -235,7 +234,7 @@ public class GameActivity extends Activity  {
                 }
                 line.Snap_to_levels( game_model.Get_levels() );
                 if ( draw_enabled ) {
-                    if ( game_model.getLinesDrawn() < current_puzzle.Get_draw_restriction() ) {
+                    if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
                         game_model.action_basic( Action.Draw, line );
                     } else {
                         Render_toast( "Cannot draw any more lines " );
@@ -248,7 +247,7 @@ public class GameActivity extends Activity  {
                 if( !draw_enabled ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            if ( ( game_model.getLinesErased() < current_puzzle.Get_erase_restriction() )
+                            if ( ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
                                     || ( line.Get_owner() == Owner.User ) )
                             {
                                 game_model.action_basic( Action.Erase, line );
@@ -319,7 +318,12 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onDragEnd( Line line ) {
-                game_model.action_basic( Action.Drag_end, line );
+                if ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() ) {
+                    game_model.action_basic( Action.Drag_end, line );
+                } else {
+                    undo();
+                    Render_toast( "Cannot drag any more lines" );
+                }
             }
 
             @Override
@@ -366,6 +370,14 @@ public class GameActivity extends Activity  {
         } );
     }
 
+
+    // Private method
+    //---------------
+
+    private void undo() {
+        game_model = game_model.getPastState();
+        game_model.Remove_shadows();
+    }
 
     // Methods used to stop sensors on pause ( save resources )
     //---------------------------------------------------------

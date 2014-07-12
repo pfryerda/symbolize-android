@@ -189,10 +189,4 @@ public class GameView {
     private void clear_foreground() {
         foregound_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
-
-    private void set_up_shadow( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        Render_foreground( graph, levels );
-        paint.setStyle( Paint.Style.STROKE );
-        paint.setAlpha( SHADOW );
-    }
 }

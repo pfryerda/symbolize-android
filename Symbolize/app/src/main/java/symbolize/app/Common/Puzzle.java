@@ -108,5 +108,7 @@ abstract public class Puzzle {
 
     abstract public int Get_erase_restriction();
 
+    abstract public int Get_drag_restriction();
+
     abstract public boolean Can_shift();
 }
