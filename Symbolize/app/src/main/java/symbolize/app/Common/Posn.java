@@ -44,6 +44,17 @@ public class Posn {
     //----------------
 
     /*
+     * Method that translate a point via an x and y value
+     *
+     * @param int x: The value you wish to translate horizontally
+     * @param int y: The value you wish to translate vertically
+     */
+    public void Translate( int x, int y ) {
+        first += x;
+        second += y;
+    }
+
+    /*
      * Method that sees if the given posn is approximately equal to this posn
      */
     public boolean Approximately_equals( final Posn point ) {

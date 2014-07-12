@@ -139,27 +139,39 @@ public class GameModel {
     //----------------
 
     public void action_basic( final Action action, final Line line ) {
-        push_state();
+        if ( action != Action.Drag_end ) {
+            push_state();
+        }
         switch ( action ) {
             case Draw:
-                graph.addLast(line);
+                graph.addLast( line );
                 ++lines_drawn;
                 break;
 
             case Erase:
-                graph.remove(line);
-                if (line.Get_owner() == Owner.App) {
+                graph.remove( line );
+                if ( line.Get_owner() == Owner.App ) {
                     ++lines_erased;
                 } else {
                     --lines_drawn;
                 }
                 break;
 
+            case Drag_start:
+                graph.remove( line );
+                break;
+
+            case Drag_end:
+                graph.add( line );
+                break;
+
             case Change_color:
                 line.Edit( action );
                 break;
         }
-        game_view.Render_foreground(graph, levels);
+        if ( action != Action.Drag_start ) {
+            game_view.Render_foreground( graph, levels );
+        }
     }
 
     public void action_motion( final Action action ) {
