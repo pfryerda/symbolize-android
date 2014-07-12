@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.google.android.gms.ads.*;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,7 @@ public class GameActivity extends Activity  {
     // Static fields
     //---------------
 
-    public static final boolean DEVMODE = false;
+    public static final boolean DEVMODE = true;
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static final String LUKE = "Awesome";
@@ -301,6 +302,24 @@ public class GameActivity extends Activity  {
                         }
                     }
                 }
+            }
+
+            @Override
+            public Line onDragStart( Posn point ) {
+                if ( draw_enabled ) {
+                    for ( Line line : game_model.Get_graph() ) {
+                        if ( line.Intersects( point ) ) {
+                            game_model.action_basic( Action.Drag_start, line );
+                            return line.clone();
+                        }
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public void onDragEnd( Line line ) {
+                game_model.action_basic( Action.Drag_end, line );
             }
 
             @Override

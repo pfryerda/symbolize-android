@@ -1,7 +1,4 @@
 package symbolize.app.Game;
-
-import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,13 +19,18 @@ public class GameTouchListener implements View.OnTouchListener {
     public static final int FLIPPINGTHRESHOLD = 140;
     public static final int MINLINESIZESQR = 10000;
     public static final int ERASEDELAY = 250;
+    public static final int DRAGDELAY = 600;
 
 
     // Fields
     //-------
 
     private boolean is_erase_delay_done;
-    private Timer timer;
+    private Timer erase_timer;
+    
+    private Line drag_line;
+    private boolean in_drag_mode;
+    private Timer drag_timer;
 
     private Posn point_one;
     private boolean is_point_one_down;
@@ -38,6 +40,9 @@ public class GameTouchListener implements View.OnTouchListener {
     private boolean is_point_two_down;
     private Posn point_two_end;
 
+    private Posn previous_point;
+    private Posn current_point;
+
     private long start_time;
     private boolean in_double_touch;
 
@@ -46,7 +51,8 @@ public class GameTouchListener implements View.OnTouchListener {
     //--------------
 
     public GameTouchListener() {
-        timer = new Timer();
+        erase_timer = new Timer();
+        drag_timer = new Timer();
         reset_vars();
     }
 
@@ -62,47 +68,70 @@ public class GameTouchListener implements View.OnTouchListener {
                     point_one = get_point( event );
                     is_point_one_down = true;
 
-                    timer.cancel();
-                    timer = new Timer();
-                    timer.schedule( new TimerTask() {
+                    erase_timer.cancel();
+                    erase_timer = new Timer();
+                    erase_timer.schedule( new TimerTask() {
                         @Override
                         public void run() {
                             is_erase_delay_done = true;
-                            timer.cancel();
+                            erase_timer.cancel();
                         }
                     }, ERASEDELAY );
+
+                    drag_timer.cancel();
+                    drag_timer = new Timer();
+                    drag_timer.schedule( new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            drag_line = onDragStart( point_one );
+                            if ( drag_line != null ) {
+                                in_drag_mode = true;
+                            }
+                            drag_timer.cancel();
+                        }
+                    }, DRAGDELAY );
 
                     start_time = System.currentTimeMillis();
                     return true;
                 }
 
                 case MotionEvent.ACTION_POINTER_DOWN: {                         // Second finger down
-                    onEnterDobuleTouch();
-                    point_two = get_point( event );
-                    is_point_two_down = true;
-                    in_double_touch = true;
-                    return true;
+                    if( in_drag_mode ) {
+                        onDragEnd( drag_line );
+                        reset_vars();
+                    } else {
+                        onEnterDobuleTouch();
+                        point_two = get_point( event );
+                        is_point_two_down = true;
+                        in_double_touch = true;
+                        return true;
+                    }
                 }
 
                 case MotionEvent.ACTION_UP:                                     // First finger up
                 case MotionEvent.ACTION_POINTER_UP: {                           // Second finger up
                     if ( ( event.getActionIndex() == 1 ) || !is_point_one_down ) { // Original second finger up
-                        point_two_end = get_point(event);
+                        point_two_end = get_point( event );
                         is_point_two_down = false;
                     } else {                                                    // Original first finger up
-                        point_one_end = get_point(event);
+                        point_one_end = get_point( event );
                         is_point_one_down = false;
 
                         if ( !in_double_touch ) {
                             onFingerUp();
-                            long endtime = System.currentTimeMillis();
-                            Line line = new Line( point_one, point_one_end, Owner.User );
-                            if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                                onDraw( new Line( point_one, point_one_end, Owner.User ) );
-                            } else if ( ( endtime - start_time) <= TAPTHRESHOLD ) {
-                                onTap( point_one_end );
+                            long end_time = System.currentTimeMillis();
+                            if ( in_drag_mode ) {
+                                onDragEnd( drag_line );
+                            } else {
+                                Line line = new Line( point_one, point_one_end, Owner.User );
+                                if ( line.Distance_squared() >= MINLINESIZESQR ) {
+                                    onDraw(new Line(point_one, point_one_end, Owner.User ) );
+                                } else if ( ( end_time - start_time) <= TAPTHRESHOLD ) {
+                                    onTap( point_one_end );
+                                }
                             }
-                            start_time = endtime;
+                            start_time = end_time;
                             reset_vars();
                         }
                     }
@@ -116,16 +145,27 @@ public class GameTouchListener implements View.OnTouchListener {
                     }
 
                     is_erase_delay_done = false;
-                    timer.cancel();
+                    erase_timer.cancel();
+                    in_drag_mode = false;
+                    drag_timer .cancel();
                     return true;
                 }
 
                 case MotionEvent.ACTION_MOVE: {                                 // Finger moves
-                    if ( !in_double_touch && point_one != null ) {
-                        Posn pointTemp = get_point( event );
-                        onFingerMove( new Line( point_one, pointTemp, Owner.App), pointTemp );
-                        if ( is_erase_delay_done ) {
-                            onErase( pointTemp );
+                    if ( !in_double_touch && ( event.getActionIndex() == 0 ) && point_one != null ) {
+                        previous_point = ( current_point == null ) ? point_one : current_point;
+                        current_point = get_point( event );
+                        if( in_drag_mode ) {
+                            drag_line.Translate( current_point.x() - previous_point.x(), current_point.y() - previous_point.y() );
+                            onFingerMove( drag_line, null );
+                        } else {
+                            if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWINGTHRESHOLD * Posn.DRAWINGTHRESHOLD ) ) {
+                                drag_timer.cancel();
+                            }
+                            onFingerMove( new Line( point_one, current_point, Owner.App ), current_point );
+                            if ( is_erase_delay_done ) {
+                                onErase( current_point );
+                            }
                         }
                     }
                     return true;
@@ -172,6 +212,9 @@ public class GameTouchListener implements View.OnTouchListener {
      */
     private void reset_vars() {
         is_erase_delay_done = false;
+        
+        in_drag_mode = false;
+        drag_line = null;
 
         point_one = null;
         is_point_one_down = false;
@@ -180,6 +223,9 @@ public class GameTouchListener implements View.OnTouchListener {
         point_two = null;
         is_point_two_down = false;
         point_two_end = null;
+
+        previous_point = null;
+        current_point = null;
 
         in_double_touch = false;
     }
@@ -261,6 +307,14 @@ public class GameTouchListener implements View.OnTouchListener {
 
     public void onTap( final Posn point ) {
 
+    }
+    
+    public Line onDragStart( final Posn point ) {
+        return null;
+    }
+    
+    public void onDragEnd( final Line line ) {
+        
     }
 
     public void onEnterDobuleTouch() {

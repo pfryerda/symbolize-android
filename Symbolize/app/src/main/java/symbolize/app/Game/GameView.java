@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -146,8 +147,13 @@ public class GameView {
     // Action methods
     //----------------
 
-    public void Render_shadow( final Line line, final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        set_up_shadow( graph, levels );
+    public void Render_shadow( final Line line,
+                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    {
+        Render_foreground( graph, levels );
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setColor( line.Get_color() );
+        paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINEWIDTH );
 
         foregound_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
@@ -157,7 +163,10 @@ public class GameView {
     public void Render_shadow( final Posn point,
                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-        set_up_shadow( graph, levels );
+        Render_foreground( graph, levels );
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setColor( Color.BLACK );
+        paint.setAlpha( SHADOW );
         paint.setStrokeWidth( POINTWIDTH );
 
         foregound_canvas.drawPoint( point.x(), point.y(), paint );
@@ -182,9 +191,8 @@ public class GameView {
     }
 
     private void set_up_shadow( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        Render_foreground(graph, levels);
+        Render_foreground( graph, levels );
         paint.setStyle( Paint.Style.STROKE );
-        paint.setColor( Color.BLACK );
         paint.setAlpha( SHADOW );
     }
 }

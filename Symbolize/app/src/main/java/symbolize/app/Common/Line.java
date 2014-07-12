@@ -77,7 +77,7 @@ public class Line {
     //------------------
 
     public Line clone() {
-        return new Line(p1.clone(), p2.clone(), color, owner);
+        return new Line( p1.clone(), p2.clone(), color, owner );
     }
 
 
@@ -89,6 +89,17 @@ public class Line {
      */
     public int Distance_squared() {
         return p1.Distance_squared( p2 );
+    }
+
+    /*
+     * Method that translate a line via an x and y value
+     *
+     * @param int x: The value you wish to translate horizontally
+     * @param int y: The value you wish to translate vertically
+     */
+    public void Translate( int x, int y ) {
+        p1.Translate( x, y );
+        p2.Translate( x, y );
     }
 
     /*
