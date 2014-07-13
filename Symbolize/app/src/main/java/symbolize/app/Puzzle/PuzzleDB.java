@@ -1,8 +1,7 @@
-package symbolize.app.Common;
+package symbolize.app.Puzzle;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Common.Enum.Owner;
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
 import symbolize.app.R;
 
 /*

@@ -12,7 +12,7 @@ import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
-import symbolize.app.Common.Puzzle;
+import symbolize.app.Puzzle.Puzzle;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,

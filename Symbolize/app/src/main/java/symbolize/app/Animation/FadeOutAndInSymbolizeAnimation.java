@@ -1,4 +1,4 @@
-package symbolize.app.Common.Animation;
+package symbolize.app.Animation;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;

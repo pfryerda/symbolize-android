@@ -7,18 +7,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import symbolize.app.Common.Animation.SymbolizeAnimation;
+import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Enum.Action;
-import symbolize.app.Common.Animation.FadeOutAndInSymbolizeAnimation;
-import symbolize.app.Common.Animation.FlipSymbolizeAnimation;
-import symbolize.app.Common.Animation.RotateSymbolizeAnimation;
+import symbolize.app.Animation.FadeOutAndInSymbolizeAnimation;
+import symbolize.app.Animation.FlipSymbolizeAnimation;
+import symbolize.app.Animation.RotateSymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
