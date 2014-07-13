@@ -1,7 +1,10 @@
-package symbolize.app.Common;
+package symbolize.app.Puzzle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
 
 public class World extends Puzzle {
     // Inherited fields

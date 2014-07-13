@@ -10,7 +10,6 @@ import android.os.Bundle;
 import com.google.android.gms.ads.*;
 
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +24,8 @@ import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
-import symbolize.app.Common.Puzzle;
-import symbolize.app.Common.PuzzleDB;
+import symbolize.app.Puzzle.Puzzle;
+import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.Home.HomeActivity;
 import symbolize.app.R;
 
@@ -47,6 +46,7 @@ public class GameActivity extends Activity  {
     private int current_world = 1;
     private int current_level = 0;
     private boolean in_world_view = true;
+
     private Puzzle current_puzzle;
     private PuzzleDB puzzleDB;
 
@@ -54,7 +54,7 @@ public class GameActivity extends Activity  {
     private boolean draw_enabled;
 
     private SensorManager sensor_manager;
-    private ShakeDetector shake_detector;
+    private GameShakeDetector shake_detector;
 
 
     // Main method
@@ -74,7 +74,7 @@ public class GameActivity extends Activity  {
         // Variable setup
         puzzleDB = new PuzzleDB( getResources() );
         sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
-        shake_detector =  new ShakeDetector();
+        shake_detector =  new GameShakeDetector();
 
         // Ad setup
         AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
@@ -290,7 +290,7 @@ public class GameActivity extends Activity  {
                 if ( level_found > 0 ) {
                     current_level = level_found;
                     in_world_view = false;
-                    load_puzzle(puzzleDB.Fetch_level(current_world, current_level));
+                    load_puzzle( puzzleDB.Fetch_level( current_world, current_level ) );
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
@@ -327,7 +327,7 @@ public class GameActivity extends Activity  {
             }
 
             @Override
-            public void onEnterDobuleTouch() {
+            public void onEnterDoubleTouch() {
                 game_model.Remove_shadows();
             }
 
@@ -360,7 +360,7 @@ public class GameActivity extends Activity  {
             }
         } );
 
-        shake_detector.setOnShakeListener( new ShakeDetector.OnShakeListener() {
+        shake_detector.setOnShakeListener( new GameShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
                 if ( current_puzzle.Can_shift() ) {

@@ -1,7 +1,11 @@
-package symbolize.app.Common;
+package symbolize.app.Puzzle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
+import symbolize.app.Puzzle.Puzzle;
 
 /*
  * Class used to store all the information about a given puzzle
