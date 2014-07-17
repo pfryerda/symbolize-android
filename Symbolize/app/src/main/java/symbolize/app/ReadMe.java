@@ -55,11 +55,19 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      */
 
 
-    // Geter method(s)
-    //----------------
+    // Getter method(s)
+    //-----------------
 
     /*
-     * Geter method(s) go here
+     * Getter method(s) go here
+     */
+
+
+    // Setter method(s)
+    //-----------------
+
+    /*
+     * Setter method(s) go here
      */
 
 
