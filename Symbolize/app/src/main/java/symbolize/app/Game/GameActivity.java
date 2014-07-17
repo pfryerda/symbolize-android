@@ -1,6 +1,7 @@
 package symbolize.app.Game;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
+import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
@@ -34,7 +36,6 @@ public class GameActivity extends Activity  {
     // Static fields
     //---------------
 
-    public static final boolean DEVMODE = false;
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static final String LUKE = "Awesome";
@@ -43,15 +44,13 @@ public class GameActivity extends Activity  {
     // Fields
     //---------
 
-    private int current_world = 1;
-    private int current_level = 0;
-    private boolean in_world_view = true;
+    private GameModel game_model;
 
-    private Puzzle current_puzzle;
+    private Player player;
     private PuzzleDB puzzleDB;
 
-    private GameModel game_model;
-    private boolean draw_enabled;
+    private boolean in_world_view = true;
+    private Puzzle current_puzzle;
 
     private SensorManager sensor_manager;
     private GameShakeDetector shake_detector;
@@ -107,8 +106,10 @@ public class GameActivity extends Activity  {
 
 
         // Set up Game
-        game_model = new GameModel( this, foreground, background, bitMap_fg, bitMap_bg );
-        draw_enabled = true;
+        player = new Player( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ),
+                this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
+        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
+
         load_puzzle( puzzleDB.Fetch_world( 1 ) );  // Load world 1
         Set_up_listeners( foreground );
     }
@@ -119,8 +120,11 @@ public class GameActivity extends Activity  {
 
     public void On_left_button_clicked( final View view ) {
         if ( in_world_view ) {
-            current_world = ( current_world == 1 ) ? 7 : current_world - 1;
-            load_puzzle( puzzleDB.Fetch_world( current_world ) );
+            if( player.Decrease_world() ) {
+                load_puzzle( puzzleDB.Fetch_world( player.Get_current_world() ) );
+            } else {
+                Render_toast( "World is not unlocked" );
+            }
         }
     }
 
@@ -129,15 +133,18 @@ public class GameActivity extends Activity  {
             startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
         } else {
             in_world_view = true;
-            load_puzzle( puzzleDB.Fetch_world( current_world ) );
-            current_level = 0;
+            load_puzzle( puzzleDB.Fetch_world( player.Get_current_world() ) );
+            player.Set_to_world_level();
         }
     }
 
     public void On_right_button_clicked( final View view ) {
         if ( in_world_view ) {
-            current_world = ( current_world % 7 ) + 1;
-            load_puzzle( puzzleDB.Fetch_world( current_world ) );
+            if ( player.Increase_world() ) {
+                load_puzzle( puzzleDB.Fetch_world( player.Get_current_world() ) );
+            } else {
+                Render_toast( "World is not unlocked" );
+            }
         }
     }
 
@@ -150,10 +157,13 @@ public class GameActivity extends Activity  {
     }
 
     public void On_check_button_clicked( final View view) {
-        if ( DEVMODE ) {
+        if ( Player.DEVMODE ) {
             game_model.LogGraph();
         } else {
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
+                if ( player.Get_current_level() < PuzzleDB.NUMBEROFLEVELSPERWORLD ) {
+                    player.Unlock( player.Get_current_world(), player.Get_current_level() + 1 );
+                }
                 Render_toast( "You are correct!" );
             } else {
                 Render_toast( "You are incorrect" );
@@ -174,11 +184,11 @@ public class GameActivity extends Activity  {
     }
 
     public void On_draw_button_clicked( final View view ) {
-        draw_enabled = true;
+        player.Set_draw_mode();
     }
 
     public void On_erase_button_clicked( final View view ) {
-        draw_enabled = false;
+        player.Set_erase_mode();
     }
 
 
@@ -201,11 +211,11 @@ public class GameActivity extends Activity  {
         Button right_button = ( Button ) findViewById( R.id.Right );
 
         if ( in_world_view ) {
-            ( (TextView) findViewById( R.id.Title ) ).setText( "World: " + current_world );
+            ( (TextView) findViewById( R.id.Title ) ).setText( "World: " + player.Get_current_world() );
             left_button.setVisibility( View.VISIBLE );
             right_button.setVisibility( View.VISIBLE );
         } else {
-            ( (TextView) findViewById( R.id.Title ) ).setText( "Level: " + current_world + "-" + current_level );
+            ( (TextView) findViewById( R.id.Title ) ).setText( "Level: " + player.Get_current_world() + "-" + player.Get_current_level() );
             left_button.setVisibility( View.GONE );
             right_button.setVisibility( View.GONE );
         }
@@ -229,11 +239,11 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                if ( DEVMODE ) {
+                if ( Player.DEVMODE ) {
                     line.Snap();
                 }
-                line.Snap_to_levels( game_model.Get_levels() );
-                if ( draw_enabled ) {
+                line.Snap_to_levels( game_model.Get_unlocked_levels() );
+                if ( player.In_draw_mode() ) {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
                         game_model.action_basic( Action.Draw, line );
                     } else {
@@ -244,7 +254,7 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onErase( final Posn point ) {
-                if( !draw_enabled ) {
+                if( player.In_erase_mode() ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
                             if ( ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
@@ -267,11 +277,11 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onFingerMove( final Line line, final Posn point ) {
-                if ( draw_enabled ) {
-                    if ( DEVMODE ) {
+                if ( player.In_draw_mode() ) {
+                    if ( Player.DEVMODE ) {
                         line.Snap();
                     }
-                    line.Snap_to_levels( game_model.Get_levels() );
+                    line.Snap_to_levels( game_model.Get_unlocked_levels() );
                     game_model.Add_shadow( line );
                 } else {
                     game_model.Add_shadow( point );
@@ -283,14 +293,14 @@ public class GameActivity extends Activity  {
                 ArrayList<Posn> levels = game_model.Get_levels();
                 int level_found = 0;
                 for ( int i = 0; i < levels.size(); ++i ) {
-                    if ( levels.get( i ).Approximately_equals( point ) ) {
+                    if ( levels.get( i ).Approximately_equals( point ) && player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
                         level_found =  i + 1;
                     }
                 }
                 if ( level_found > 0 ) {
-                    current_level = level_found;
+                    player.Set_current_level( level_found );
                     in_world_view = false;
-                    load_puzzle( puzzleDB.Fetch_level( current_world, current_level ) );
+                    load_puzzle( puzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ) );
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
@@ -305,7 +315,7 @@ public class GameActivity extends Activity  {
 
             @Override
             public Line onDragStart( Posn point ) {
-                if ( draw_enabled ) {
+                if ( player.In_draw_mode() ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
                             game_model.action_basic( Action.Drag_start, line );

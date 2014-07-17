@@ -38,6 +38,8 @@ class InvalidXmlException extends Exception {
 public class PuzzleDB {
     // Static field
     //--------------
+
+    public static final int NUMBEROFWORLDS = 7;
     public static final int NUMBEROFLEVELSPERWORLD = 15;
     public static final int[] XMLMAP = new int[]{ R.xml.world_1, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
                                                   R.xml.level_1_4, R.xml.level_1_5, R.xml.level_1_6, R.xml.level_1_7,
