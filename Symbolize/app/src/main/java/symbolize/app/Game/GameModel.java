@@ -13,7 +13,9 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
+import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
+import symbolize.app.Puzzle.World;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -83,20 +85,20 @@ public class GameModel {
     // Public methods
     //------------------
 
-    public void setPuzzle( final Puzzle puzzle ) {
-        graph.clear();
-        levels.clear();
-        for ( Line line : puzzle.Get_board() ) {
-            graph.addLast( line.clone() );
-        }
-        for ( Posn point : puzzle.Get_levels() ) {
-            levels.add(point.clone());
-        }
-        lines_drawn = 0;
-        lines_erased = 0;
-        past_state = null;
-
+    public void Reset( final  Puzzle puzzle ) {
+        set_puzzle( puzzle );
         game_view.Render_foreground( graph, Get_unlocked_levels() );
+    }
+
+    public void Set_world( final World world, Action action ) {
+        set_puzzle( world );
+        game_view.Render_motion( action, graph, Get_unlocked_levels() );
+    }
+
+    public void Set_level( final Level level, Posn pivot ) {
+        set_puzzle( level );
+        game_view.Set_zoom_animations_pivot( pivot );
+        game_view.Render_motion( Action.Load_level, graph, Get_unlocked_levels() );
     }
 
     public void Add_shadow( final Line line ) {
@@ -233,6 +235,20 @@ public class GameModel {
 
     // Private methods
     //-----------------
+
+    private void set_puzzle( final Puzzle puzzle ) {
+        graph.clear();
+        levels.clear();
+        for ( Line line : puzzle.Get_board() ) {
+            graph.addLast( line.clone() );
+        }
+        for ( Posn point : puzzle.Get_levels() ) {
+            levels.add(point.clone());
+        }
+        lines_drawn = 0;
+        lines_erased = 0;
+        past_state = null;
+    }
 
     private void push_state() {
         past_state = clone();

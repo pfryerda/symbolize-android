@@ -14,9 +14,11 @@ abstract public class SymbolizeAnimation {
     // Static Fields
     //--------------
     public static boolean InAnimation = false;
-    public static final int ROTATEDURATION = 450;
-    public static final int FLIPDURATION = 450;
-    public static final int FADEDURATION = 450;
+    protected static final int ROTATEDURATION = 450;
+    protected static final int FLIPDURATION = 450;
+    protected static final int FADEDURATION = 600;
+    protected static final int ZOOMDURATION = 600;
+    protected static final int TRANSLATEDURATION = 650;
 
     // Fields
     //--------
@@ -45,7 +47,6 @@ abstract public class SymbolizeAnimation {
         set_up_animation( game_view, graph, levels );
         linearLayout.startAnimation( animation );
     }
-
 
     // Protected method
     //------------------

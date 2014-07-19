@@ -2,8 +2,8 @@
 <pre-dex-items>
 
     <item
-        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\classes-4ec552c0aa10067a662e6802fb8026c33f279d84.jar"
-        jar="B:\Documents\GitHub\symbolize-android\Symbolize\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.77\classes.jar"
+        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\classes-b886c951d1666457e3db6a470aec6622e9425bcb.jar"
+        jar="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.77\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>

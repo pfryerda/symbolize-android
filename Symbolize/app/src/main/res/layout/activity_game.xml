@@ -11,7 +11,6 @@
         android:id="@+id/topbar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -95,43 +94,47 @@
         android:id="@+id/buttons"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/Check"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:onClick="On_check_button_clicked"
-            android:layout_weight="1"
-            android:text="C" />
+            android:text="C"/>
         <Button
             android:id="@+id/Hint"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:onClick="On_hint_button_clicked"
-            android:layout_weight="1"
-            android:text="H" />
+            android:text="H"/>
         <Button
             android:id="@+id/Undo"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:onClick="On_undo_button_clicked"
-            android:layout_weight="1"
-            android:text="U" />
+            android:text="U"/>
         <Button
             android:id="@+id/Draw"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:onClick="On_draw_button_clicked"
-            android:layout_weight="1"
             android:text="D" />
         <Button
             android:id="@+id/Erase"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:onClick="On_erase_button_clicked"
-            android:layout_weight="1"
             android:text="E"/>
     </LinearLayout>
 

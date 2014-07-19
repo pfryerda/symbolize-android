@@ -23,7 +23,15 @@ public class HomeActivity extends Activity {
     // Button methods
     //----------------
 
-    public void onStartGame( final View view ) {
+    public void On_start_button_clicked( final View view ) {
         startActivity( new Intent ( getApplicationContext(), GameActivity.class ) );
+    }
+
+    public void On_mute_button_clicked( final View view ) {
+
+    }
+
+    public void On_settings_button_clicked( final View view ){
+
     }
 }

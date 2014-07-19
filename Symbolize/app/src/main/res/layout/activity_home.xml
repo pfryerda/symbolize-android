@@ -12,11 +12,28 @@
 
     <Button
         android:id="@+id/Start"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onStartGame"
+        android:onClick="On_start_button_clicked"
         android:text="Start" />
 
+    <Button
+        android:id="@+id/Mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="On_mute_button_clicked"
+        android:text="Mute"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="On_settings_button_clicked"
+        android:text="Settings"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>
