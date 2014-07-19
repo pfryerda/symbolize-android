@@ -4,31 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
-
-import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
+import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Puzzle.Level;
@@ -54,6 +46,7 @@ public class GameActivity extends Activity  {
     private GameModel game_model;
 
     private Player player;
+    private Options options;
     private PuzzleDB puzzleDB;
 
     private boolean in_world_view = true;
@@ -124,13 +117,13 @@ public class GameActivity extends Activity  {
 
 
         // Set up Game
-        player = new Player( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ),
-                this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
+        player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
+        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
         game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
 
         current_puzzle = puzzleDB.Fetch_world( 1 );
         game_model.Reset( current_puzzle );
-        update_buttons();
+        update_view();
         Set_up_listeners( foreground );
     }
 
@@ -214,22 +207,28 @@ public class GameActivity extends Activity  {
     private void load_world( final World world, Action action ) {
         current_puzzle = world;
         game_model.Set_world( world, action );
-        ( (TextView) findViewById( R.id.Title ) ).setText( "World: " + player.Get_current_world() );
-        update_buttons();
+        update_view();
     }
 
     private void load_level( final Level level, final Posn pivot ) {
         // Load up puzzle
         current_puzzle = level;
         game_model.Set_level( level, pivot );
-        ( (TextView) findViewById( R.id.Title ) ).setText( "Level: " + player.Get_current_world() + "-" + player.Get_current_level() );
-        update_buttons();
+        update_view();
     }
 
     /*
      * Method used to update button states for switching between world mode and level mode
      */
-    private void update_buttons() {
+    private void update_view() {
+        if ( in_world_view ) {
+            ( (TextView) findViewById( R.id.Title ) ).setText(
+                    getResources().getString( R.string.world ) + ": " + player.Get_current_world() );
+        } else {
+            ( (TextView) findViewById( R.id.Title ) ).setText(
+                    getResources().getString( R.string.level ) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
+        }
+
         Button left_button = ( Button ) findViewById( R.id.Left );
         Button right_button = ( Button ) findViewById( R.id.Right );
 
