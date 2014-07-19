@@ -15,7 +15,6 @@ public class Player {
     private boolean[] world_unlocks;
     private boolean[] level_unlocks;
     private SharedPreferences.Editor unlocks_editor;
-    private Settings settings;
     private int current_world;
     private int current_level;
     private boolean draw_enabled;
@@ -24,9 +23,8 @@ public class Player {
     // Constructor
     //-------------
 
-    public Player( SharedPreferences unlocks_dao, SharedPreferences settings_dao ) {
+    public Player( SharedPreferences unlocks_dao ) {
         this.unlocks_editor = unlocks_dao.edit();
-        this.settings = new Settings( settings_dao );
 
         world_unlocks = new boolean[PuzzleDB.NUMBEROFWORLDS];
         level_unlocks = new boolean[PuzzleDB.NUMBEROFWORLDS*PuzzleDB.NUMBEROFLEVELSPERWORLD];
@@ -121,10 +119,6 @@ public class Player {
 
     // Getter methods
     //----------------
-
-    public Settings Get_settings() {
-        return settings;
-    }
 
     public int Get_current_world() {
         return current_world;

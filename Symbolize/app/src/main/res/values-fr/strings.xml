@@ -11,7 +11,7 @@
     <string name="preference_settings_key">symbolize.app.PREFERENCE_SETTINGS_KEY</string>
     <string name="grid_preference_settings_key">symbolize.app.PREFENCE_GRID_KEY</string>
 
-    <string name="world">World</string>
-    <string name="level">">Level</string>
+    <string name="world">Monde</string>
+    <string name="level">">Niveau</string>
 
 </resources>
