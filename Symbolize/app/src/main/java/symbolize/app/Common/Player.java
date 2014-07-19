@@ -55,25 +55,15 @@ public class Player {
     /*
      * Decrease the current world number and will wrap back to last world if at world 1
      */
-    public boolean Decrease_world() {
-        int new_world = ( current_world == 1 ) ? PuzzleDB.NUMBEROFWORLDS : current_world - 1;
-        if ( Is_unlocked( new_world ) ) {
-            current_world = new_world;
-            return true;
-        }
-        return false;
+    public void Decrease_world() {
+        current_world = get_previous_world();
     }
 
     /*
      * Increase the current world number will wrap back to world 1 if at last world
      */
-    public boolean Increase_world() {
-        int new_world = ( current_world % PuzzleDB.NUMBEROFWORLDS) + 1;
-        if ( Is_unlocked( new_world ) ) {
-            current_world = new_world;
-            return true;
-        }
-        return false;
+    public void Increase_world() {
+        current_world = get_next_world();
     }
 
     /*
@@ -90,11 +80,24 @@ public class Player {
      * @param int level: The level of interest
      */
     public boolean Is_unlocked( int world ) {
-        return world_unlocks[world - 1] || DEVMODE;
+        return true;
+        //return world_unlocks[world - 1] || DEVMODE;
     }
 
     public boolean Is_unlocked( int world, int level ) {
-        return level_unlocks[(world - 1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] || DEVMODE;
+        return true;
+        //return level_unlocks[(world - 1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] || DEVMODE;
+    }
+
+    /*
+     * Methods used to determine is the next/previous worlds are unlocked
+     */
+    public boolean Is_previous_world_unlocked() {
+        return Is_unlocked( get_previous_world() );
+    }
+
+    public boolean Is_next_world_unlocked() {
+        return Is_unlocked( get_next_world() );
     }
 
     /*
@@ -153,5 +156,17 @@ public class Player {
 
     public void Set_current_level( int new_level ) {
         current_level = new_level;
+    }
+
+
+    // Private methods
+    //-----------------
+
+    private int get_next_world() {
+        return ( current_world % PuzzleDB.NUMBEROFWORLDS ) + 1;
+    }
+
+    private int get_previous_world() {
+        return ( current_world == 1 ) ? PuzzleDB.NUMBEROFWORLDS : current_world - 1;
     }
 }

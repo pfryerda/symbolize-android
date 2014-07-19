@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import symbolize.app.Animation.SymbolizeAnimation;
+import symbolize.app.Animation.TranslateSymbolizeAnimation;
+import symbolize.app.Animation.ZoomSymbolizeAnimation;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Animation.FadeOutAndInSymbolizeAnimation;
 import symbolize.app.Animation.FlipSymbolizeAnimation;
@@ -81,6 +83,10 @@ public class GameView {
         animations.put( Action.Flip_horizontally, new FlipSymbolizeAnimation( foregound, -1, 1) );
         animations.put( Action.Flip_vertically, new FlipSymbolizeAnimation( foregound, 1, -1 ) );
         animations.put( Action.Shift, new FadeOutAndInSymbolizeAnimation( foregound ) );
+        animations.put( Action.Load_level, new ZoomSymbolizeAnimation( foregound, 5, 5 ) );
+        animations.put( Action.Load_world_via_level, new ZoomSymbolizeAnimation( foregound, 0.2f, 0.2f ) );
+        animations.put( Action.Load_world_left, new TranslateSymbolizeAnimation( foregound, 1, 0 ) );
+        animations.put( Action.Load_world_right, new TranslateSymbolizeAnimation( foregound, -1, 0 ) );
 
         Render_background();
     }
@@ -176,6 +182,14 @@ public class GameView {
                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
         animations.get( action ).Animate( this, graph, levels );
+    }
+
+    public void Set_zoom_animations_pivot( final Posn pivot )
+    {
+        ZoomSymbolizeAnimation load_world_animation = (ZoomSymbolizeAnimation) animations.get( Action.Load_world_via_level );
+        load_world_animation.Set_pivot( pivot );
+        ZoomSymbolizeAnimation load_level_animation = (ZoomSymbolizeAnimation) animations.get(Action.Load_level);
+        load_level_animation.Set_pivot( pivot );
     }
 
 
