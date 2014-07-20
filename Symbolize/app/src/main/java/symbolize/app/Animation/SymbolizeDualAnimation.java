@@ -8,7 +8,7 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Game.GameView;
 
-abstract public class SymbolizeDualAnimation extends SymbolizeAnimation {
+public class SymbolizeDualAnimation extends SymbolizeAnimation {
     // Inherited fields
     //------------------
 
@@ -29,8 +29,12 @@ abstract public class SymbolizeDualAnimation extends SymbolizeAnimation {
     // Constructor
     //-------------
 
-    public SymbolizeDualAnimation( final LinearLayout linearLayout ) {
-        super( linearLayout );
+    public SymbolizeDualAnimation( final LinearLayout linearLayout, final Animation animation_1, final int duration_1,
+                                   final Animation animation_2, final int duration_2 ) {
+        super( linearLayout, animation_1, duration_1, true );
+        this.animation_2 = animation_2;
+        this.animation_2.setDuration( duration_2 );
+        this.animation_2.setFillAfter( true );
     }
 
 
@@ -42,8 +46,6 @@ abstract public class SymbolizeDualAnimation extends SymbolizeAnimation {
     public void Set_up_animation( final GameView game_view,
                                   final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-        animation.setFillAfter( true );
-        animation_2.setFillAfter( true );
         this.animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
