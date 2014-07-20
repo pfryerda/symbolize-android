@@ -97,7 +97,7 @@ public class GameModel {
 
     public void Set_level( final Level level, Posn pivot ) {
         set_puzzle( level );
-        game_view.Set_zoom_animations_pivot( pivot );
+        //game_view.Set_zoom_animations_pivot( pivot );
         game_view.Render_motion( Action.Load_level, graph, Get_unlocked_levels() );
     }
 

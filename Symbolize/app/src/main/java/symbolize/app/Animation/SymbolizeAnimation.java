@@ -10,15 +10,15 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Game.GameView;
 
-abstract public class SymbolizeAnimation {
+public class SymbolizeAnimation {
     // Static Fields
     //--------------
     public static boolean InAnimation = false;
-    protected static final int ROTATEDURATION = 450;
-    protected static final int FLIPDURATION = 450;
-    protected static final int FADEDURATION = 600;
-    protected static final int ZOOMDURATION = 600;
-    protected static final int TRANSLATEDURATION = 650;
+    public static final int ROTATEDURATION = 450;
+    public static final int FLIPDURATION = 450;
+    public static final int FADEDURATION = 600;
+    public static final int ZOOMDURATION = 600;
+    public static final int TRANSLATEDURATION = 650;
 
     // Fields
     //--------
@@ -29,8 +29,22 @@ abstract public class SymbolizeAnimation {
     // Constructor
     //--------------
 
-    SymbolizeAnimation( LinearLayout linarLayout ) {
+    public SymbolizeAnimation( final LinearLayout linarLayout, final Animation animation,
+                               final int duration, final boolean fill_after )
+    {
         this.linearLayout = linarLayout;
+        this.animation = animation;
+        animation.setDuration( duration );
+        animation.setFillAfter( fill_after );
+    }
+
+    public SymbolizeAnimation( final LinearLayout linarLayout, final Animation animation,
+                               final int duration )
+    {
+        this.linearLayout = linarLayout;
+        this.animation = animation;
+        this.animation.setDuration( duration );
+        this.animation.setFillAfter( false );
     }
 
 
