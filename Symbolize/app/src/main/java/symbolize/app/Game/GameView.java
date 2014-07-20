@@ -22,6 +22,7 @@ import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Animation.SymbolizeAnimationSet;
 import symbolize.app.Animation.SymbolizeDualAnimation;
 import symbolize.app.Animation.SymbolizeDualAnimationSet;
+import symbolize.app.Animation.SymbolizeZoomAnimation;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
@@ -51,6 +52,7 @@ public class GameView {
     private final Paint paint;
     private final HashMap<Action, SymbolizeAnimation> animations;
     private final HashMap<Action, SymbolizeAnimationSet> animationsets;
+    private final ArrayList<SymbolizeZoomAnimation> zoom_animations;
 
     // Constructor
     //-------------
@@ -81,6 +83,9 @@ public class GameView {
         paint.setTextSize( TEXTWIDTH );
 
         // Set up animations
+        //-------------------
+
+        // Basic animations
         animations = new HashMap<Action, SymbolizeAnimation>();
         animations.put( Action.Rotate_right, new SymbolizeAnimation( foreground,
                 new RotateAnimation( 0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
@@ -110,56 +115,57 @@ public class GameView {
 
         animationsets = new HashMap<Action, SymbolizeAnimationSet>();
 
+        // Zoom animations
+
+        // Zoom in
         SymbolizeDualAnimationSet zoom_in_animation = new SymbolizeDualAnimationSet( foreground );
         zoom_in_animation.Add_animation( new SymbolizeAnimation( foreground,
-                        new ScaleAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
-                                Animation.RELATIVE_TO_SELF, 0.5f ,
-                                Animation.RELATIVE_TO_SELF, 0.5f ),
-                        SymbolizeAnimation.ZOOMDURATION,
+                        new AlphaAnimation( 1, 0 ),
+                        SymbolizeAnimation.FADEDURATION,
                         true )
         );
+        SymbolizeZoomAnimation zoom_animation_1 =
+                new SymbolizeZoomAnimation( foreground, 1, ZOMMSCALING, 1, ZOMMSCALING,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_in_animation.Add_animation( zoom_animation_1 );
         zoom_in_animation.Add_animation_2( new SymbolizeAnimation(foreground,
                         new AlphaAnimation( 0, 1 ),
                         SymbolizeAnimation.FADEDURATION,
-                        true)
+                        true )
         );
-        zoom_in_animation.Add_animation_2( new SymbolizeAnimation(foreground,
-                        new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, 0.5f,
-                                Animation.RELATIVE_TO_SELF, 0.5f),
-                        SymbolizeAnimation.ZOOMDURATION,
-                        true
-                )
-        );
+        SymbolizeZoomAnimation zoom_animation_2 =
+                new SymbolizeZoomAnimation(foreground, ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_in_animation.Add_animation_2( zoom_animation_2 );
         animationsets.put( Action.Load_level, zoom_in_animation );
 
+        // Zoom out
         SymbolizeDualAnimationSet zoom_out_animation = new SymbolizeDualAnimationSet( foreground );
         zoom_out_animation.Add_animation( new SymbolizeAnimation( foreground,
                         new AlphaAnimation( 1, 0 ),
                         SymbolizeAnimation.FADEDURATION,
                         true )
         );
-        zoom_out_animation.Add_animation( new SymbolizeAnimation( foreground,
-                        new ScaleAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
-                                Animation.RELATIVE_TO_SELF, 0.5f ,
-                                Animation.RELATIVE_TO_SELF, 0.5f ),
-                        SymbolizeAnimation.ZOOMDURATION,
-                        true )
-        );
+        SymbolizeZoomAnimation zoom_animation_3 =
+                new SymbolizeZoomAnimation( foreground, 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_out_animation.Add_animation( zoom_animation_3 );
         zoom_out_animation.Add_animation_2( new SymbolizeAnimation( foreground,
                         new AlphaAnimation( 0, 1 ),
                         SymbolizeAnimation.FADEDURATION,
                         true )
         );
-        zoom_out_animation.Add_animation_2( new SymbolizeAnimation( foreground,
-                        new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, 0.5f ,
-                                Animation.RELATIVE_TO_SELF, 0.5f ),
-                        SymbolizeAnimation.ZOOMDURATION,
-                        true )
-        );
+        SymbolizeZoomAnimation zoom_animation_4 =
+                new SymbolizeZoomAnimation( foreground, ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_out_animation.Add_animation_2( zoom_animation_4 );
         animationsets.put( Action.Load_world_via_level, zoom_out_animation );
 
+        zoom_animations = new ArrayList<SymbolizeZoomAnimation>();
+        zoom_animations.add( zoom_animation_1 );
+        zoom_animations.add( zoom_animation_2 );
+        zoom_animations.add( zoom_animation_3 );
+        zoom_animations.add( zoom_animation_4 );
 
         Render_background();
     }
@@ -265,13 +271,12 @@ public class GameView {
         }
     }
 
-    /*public void Set_zoom_animations_pivot( final Posn pivot )
+    public void Set_zoom_animations_pivot( final Posn pivot )
     {
-        ZoomSymbolizeAnimation load_world_animation = (ZoomSymbolizeAnimation) zoom_in_animation.Get_animations().get( 0 );
-        load_world_animation.Set_pivot( pivot );
-        ZoomSymbolizeAnimation load_level_animation = (ZoomSymbolizeAnimation) zoom_out_animation.Get_animations().get( 0 );
-        load_level_animation.Set_pivot( pivot );
-    }*/
+        for ( SymbolizeZoomAnimation zoom_animation : zoom_animations ) {
+            zoom_animation.Set_pivot( pivot );
+        }
+    }
 
 
     // Private methods
