@@ -1,5 +1,6 @@
 package symbolize.app.Game;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import symbolize.app.Animation.SymbolizeAnimation;
+import symbolize.app.Animation.SymbolizeAnimationSet;
 import symbolize.app.Animation.TranslateSymbolizeAnimation;
 import symbolize.app.Animation.ZoomSymbolizeAnimation;
 import symbolize.app.Common.Enum.Action;
@@ -46,6 +48,8 @@ public class GameView {
     private final Canvas background_canvas;
     private final Paint paint;
     private final HashMap<Action, SymbolizeAnimation> animations;
+    private final SymbolizeAnimationSet zoom_in_animation;
+    private final SymbolizeAnimationSet zoom_out_animation;
 
 
     // Constructor
@@ -83,10 +87,16 @@ public class GameView {
         animations.put( Action.Flip_horizontally, new FlipSymbolizeAnimation( foregound, -1, 1) );
         animations.put( Action.Flip_vertically, new FlipSymbolizeAnimation( foregound, 1, -1 ) );
         animations.put( Action.Shift, new FadeOutAndInSymbolizeAnimation( foregound ) );
-        animations.put( Action.Load_level, new ZoomSymbolizeAnimation( foregound, 5, 5 ) );
-        animations.put( Action.Load_world_via_level, new ZoomSymbolizeAnimation( foregound, 0.2f, 0.2f ) );
         animations.put( Action.Load_world_left, new TranslateSymbolizeAnimation( foregound, 1, 0 ) );
         animations.put( Action.Load_world_right, new TranslateSymbolizeAnimation( foregound, -1, 0 ) );
+
+        zoom_in_animation = new SymbolizeAnimationSet( foregound );
+        zoom_in_animation.Add_animation( new ZoomSymbolizeAnimation( foregound, 5, 5, 5, 5 ) );       // Zoom must come first!
+        zoom_in_animation.Add_animation( new FadeOutAndInSymbolizeAnimation( foregound ) );
+
+        zoom_out_animation = new SymbolizeAnimationSet( foregound );
+        zoom_out_animation.Add_animation( new ZoomSymbolizeAnimation( foregound, 0.2f, 0.2f, 5, 5 ) );// Zoom must come first!
+        zoom_out_animation.Add_animation( new FadeOutAndInSymbolizeAnimation( foregound ) );
 
         Render_background();
     }
@@ -181,14 +191,25 @@ public class GameView {
     public void Render_motion( final Action action,
                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-        animations.get( action ).Animate( this, graph, levels );
+        switch ( action ) {
+            case Load_level:
+                zoom_in_animation.Animate( this, graph, levels );
+                break;
+
+            case Load_world_via_level:
+                zoom_out_animation.Animate( this, graph, levels );
+                break;
+
+            default:
+                animations.get( action ).Animate( this, graph, levels );
+        }
     }
 
     public void Set_zoom_animations_pivot( final Posn pivot )
     {
-        ZoomSymbolizeAnimation load_world_animation = (ZoomSymbolizeAnimation) animations.get( Action.Load_world_via_level );
+        ZoomSymbolizeAnimation load_world_animation = (ZoomSymbolizeAnimation) zoom_in_animation.Get_animations().get( 0 );
         load_world_animation.Set_pivot( pivot );
-        ZoomSymbolizeAnimation load_level_animation = (ZoomSymbolizeAnimation) animations.get(Action.Load_level);
+        ZoomSymbolizeAnimation load_level_animation = (ZoomSymbolizeAnimation) zoom_out_animation.Get_animations().get( 0 );
         load_level_animation.Set_pivot( pivot );
     }
 
