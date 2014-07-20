@@ -175,12 +175,12 @@ public class GameActivity extends Activity  {
     }
 
     public void On_hint_button_clicked( final View view ) {
-        Render_toast("Hint");
+        Render_toast( "Hint" );
     }
 
     public void On_undo_button_clicked( final View view ) {
         if ( game_model.getPastState() == null ) {
-            Render_toast( "There is nothing to undo" );
+            Render_toast( R.string.nothing_to_undo );
         } else {
             undo();
         }
@@ -246,12 +246,24 @@ public class GameActivity extends Activity  {
     }
 
     /*
+     * Updates the game model to previous state and updates the view
+     */
+    private void undo() {
+        game_model = game_model.getPastState();
+        game_model.Remove_shadows();
+    }
+
+    /*
     * Display a toast with the given message
     *
-    * @param: String msg: The message we want to output
+    * @param: int/String msg: The message we want to output or the id for it in strings.xml
     */
-    private void Render_toast( final String msg ) {
+    private void Render_toast( final String msg ){
         Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
+    }
+
+    private void Render_toast( final int msg_id ) {
+        Toast.makeText( this, getResources().getString( msg_id ), Toast.LENGTH_SHORT ).show();
     }
 
     /*
@@ -271,7 +283,7 @@ public class GameActivity extends Activity  {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
                         game_model.action_basic( Action.Draw, line );
                     } else {
-                        Render_toast( "Cannot draw any more lines " );
+                        Render_toast( R.string.out_of_lines );
                     }
                 }
             }
@@ -286,7 +298,7 @@ public class GameActivity extends Activity  {
                             {
                                 game_model.action_basic( Action.Erase, line );
                             } else {
-                                Render_toast( "Cannot erase any more lines" );
+                                Render_toast( R.string.out_of_erase );
                             }
                             break;
                         }
@@ -358,7 +370,7 @@ public class GameActivity extends Activity  {
                     game_model.action_basic( Action.Drag_end, line );
                 } else {
                     undo();
-                    Render_toast( "Cannot drag any more lines" );
+                    Render_toast( R.string.out_of_drag );
                 }
             }
 
@@ -406,14 +418,6 @@ public class GameActivity extends Activity  {
         } );
     }
 
-
-    // Private method
-    //---------------
-
-    private void undo() {
-        game_model = game_model.getPastState();
-        game_model.Remove_shadows();
-    }
 
     // Methods used to stop sensors on pause ( save resources )
     //---------------------------------------------------------

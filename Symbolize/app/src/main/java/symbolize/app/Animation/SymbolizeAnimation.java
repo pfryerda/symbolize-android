@@ -44,8 +44,16 @@ abstract public class SymbolizeAnimation {
      * @param ArrayList<Posn> levels: The desired points to be rendered
      */
     public void Animate( final GameView game_view, final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        set_up_animation( game_view, graph, levels );
+        Set_up_animation( game_view, graph, levels );
         linearLayout.startAnimation( animation );
+    }
+
+
+    // Getter method
+    //---------------
+
+    public Animation Get_animation() {
+        return animation;
     }
 
     // Protected method
@@ -57,7 +65,7 @@ abstract public class SymbolizeAnimation {
      *    - sets up the rendering of the graph after the animation
      * @param: GameView game_view: The game view that will be rendered after the animation'
      */
-    protected void set_up_animation( final GameView game_view,
+    public void Set_up_animation( final GameView game_view,
                                      final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
         this.animation.setAnimationListener( new Animation.AnimationListener() {
