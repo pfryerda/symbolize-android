@@ -102,16 +102,28 @@ public class GameView {
         animations.put( Action.Shift, new SymbolizeDualAnimation( foreground,
                 new AlphaAnimation( 1, 0 ),
                 SymbolizeAnimation.FADEDURATION,
+                true,
                 new AlphaAnimation( 0, 1 ),
-                SymbolizeAnimation.FADEDURATION ) );
-        animations.put( Action.Load_world_left, new SymbolizeAnimation( foreground,
+                SymbolizeAnimation.FADEDURATION,
+                true) );
+        animations.put( Action.Load_world_left, new SymbolizeDualAnimation( foreground,
                 new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
-                SymbolizeAnimation.TRANSLATEDURATION ) );
-        animations.put( Action.Load_world_right, new SymbolizeAnimation( foreground,
+                SymbolizeAnimation.TRANSLATEDURATION,
+                false,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                true ) );
+        animations.put( Action.Load_world_right, new SymbolizeDualAnimation( foreground,
                 new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
-                SymbolizeAnimation.TRANSLATEDURATION ) );
+                SymbolizeAnimation.TRANSLATEDURATION,
+                false,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                true ) );
 
         animationsets = new HashMap<Action, SymbolizeAnimationSet>();
 
