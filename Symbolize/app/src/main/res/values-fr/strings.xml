@@ -11,12 +11,7 @@
     <string name="preference_settings_key">symbolize.app.PREFERENCE_SETTINGS_KEY</string>
     <string name="grid_preference_settings_key">symbolize.app.PREFENCE_GRID_KEY</string>
 
-    <string name="world">World</string>
-    <string name="level">Level</string>
-
-    <string name="out_of_lines">"Cannot draw any more lines"</string>
-    <string name="out_of_erase">Cannot erase any more lines</string>
-    <string name="out_of_drag">Cannot drag any more lines</string>
-    <string name="nothing_to_undo">There is nothing to undo</string>
+    <string name="world">Monde</string>
+    <string name="level">">Niveau</string>
 
 </resources>

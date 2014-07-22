@@ -93,7 +93,7 @@ abstract public class Puzzle {
     // Getter methods
     //----------------
 
-    public String getHint() {
+    public String Get_hint() {
         return hint;
     }
 

@@ -7,6 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -14,10 +19,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import symbolize.app.Animation.SymbolizeAnimation;
+import symbolize.app.Animation.SymbolizeAnimationSet;
+import symbolize.app.Animation.SymbolizeDualAnimation;
+import symbolize.app.Animation.SymbolizeDualAnimationSet;
+import symbolize.app.Animation.SymbolizeZoomAnimation;
 import symbolize.app.Common.Enum.Action;
-import symbolize.app.Animation.FadeOutAndInSymbolizeAnimation;
-import symbolize.app.Animation.FlipSymbolizeAnimation;
-import symbolize.app.Animation.RotateSymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
@@ -33,35 +39,37 @@ public class GameView {
     public static final int POINTWIDTH = LINEWIDTH * 2;
     public static final int TEXTWIDTH = LINEWIDTH;
     public static final int SHADOW = 80;
+    public static final int ZOMMSCALING = 4;
 
 
     // Fields
     //--------
 
-    private final LinearLayout foregound;
+    private final LinearLayout foreground;
     private final LinearLayout background;
-    private final Canvas foregound_canvas;
+    private final Canvas foreground_canvas;
     private final Canvas background_canvas;
     private final Paint paint;
     private final HashMap<Action, SymbolizeAnimation> animations;
-
+    private final HashMap<Action, SymbolizeAnimationSet> animationsets;
+    private final ArrayList<SymbolizeZoomAnimation> zoom_animations;
 
     // Constructor
     //-------------
 
-    public GameView( final Context context, final LinearLayout foregound, final LinearLayout background,
+    public GameView( final Context context, final LinearLayout foreground, final LinearLayout background,
                      final Bitmap foreground_bitmap, final Bitmap background_bitmap )
     {
-        this.foregound = foregound;
+        this.foreground = foreground;
         this.background = background;
-        this.foregound_canvas = new Canvas( foreground_bitmap );
+        this.foreground_canvas = new Canvas( foreground_bitmap );
         this.background_canvas = new Canvas( background_bitmap );
 
         if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
-            foregound.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
+            foreground.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
             background.setBackgroundDrawable( new BitmapDrawable( background_bitmap ) );
         } else {
-            foregound.setBackground( new BitmapDrawable( context.getResources(), foreground_bitmap ) );
+            foreground.setBackground( new BitmapDrawable( context.getResources(), foreground_bitmap ) );
             background.setBackground( new BitmapDrawable( context.getResources(), background_bitmap ) );
         }
 
@@ -75,12 +83,101 @@ public class GameView {
         paint.setTextSize( TEXTWIDTH );
 
         // Set up animations
+        //-------------------
+
+        // Basic animations
         animations = new HashMap<Action, SymbolizeAnimation>();
-        animations.put( Action.Rotate_right, new RotateSymbolizeAnimation( foregound, 90 ) );
-        animations.put( Action.Rotate_left, new RotateSymbolizeAnimation( foregound, -90 ) );
-        animations.put( Action.Flip_horizontally, new FlipSymbolizeAnimation( foregound, -1, 1) );
-        animations.put( Action.Flip_vertically, new FlipSymbolizeAnimation( foregound, 1, -1 ) );
-        animations.put( Action.Shift, new FadeOutAndInSymbolizeAnimation( foregound ) );
+        animations.put( Action.Rotate_right, new SymbolizeAnimation( foreground,
+                new RotateAnimation( 0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
+                SymbolizeAnimation.ROTATEDURATION ) );
+        animations.put( Action.Rotate_left, new SymbolizeAnimation( foreground,
+                new RotateAnimation( 0, -90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
+                SymbolizeAnimation.ROTATEDURATION ) );
+        animations.put( Action.Flip_horizontally, new SymbolizeAnimation( foreground,
+                new ScaleAnimation( 1, -1, 1, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
+                SymbolizeAnimation.FLIPDURATION ) );
+        animations.put( Action.Flip_vertically, new SymbolizeAnimation( foreground,
+                new ScaleAnimation( 1, 1, 1, -1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
+                SymbolizeAnimation.FLIPDURATION ) );
+        animations.put( Action.Shift, new SymbolizeDualAnimation( foreground,
+                new AlphaAnimation( 1, 0 ),
+                SymbolizeAnimation.FADEDURATION,
+                true,
+                new AlphaAnimation( 0, 1 ),
+                SymbolizeAnimation.FADEDURATION,
+                true) );
+        animations.put( Action.Load_world_left, new SymbolizeDualAnimation( foreground,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                false,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                true ) );
+        animations.put( Action.Load_world_right, new SymbolizeDualAnimation( foreground,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                false,
+                new TranslateAnimation( Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
+                SymbolizeAnimation.TRANSLATEDURATION,
+                true ) );
+
+        animationsets = new HashMap<Action, SymbolizeAnimationSet>();
+
+        // Zoom animations
+
+        // Zoom in
+        SymbolizeDualAnimationSet zoom_in_animation = new SymbolizeDualAnimationSet( foreground );
+        zoom_in_animation.Add_animation( new SymbolizeAnimation( foreground,
+                        new AlphaAnimation( 1, 0 ),
+                        SymbolizeAnimation.FADEDURATION,
+                        true )
+        );
+        SymbolizeZoomAnimation zoom_animation_1 =
+                new SymbolizeZoomAnimation( foreground, 1, ZOMMSCALING, 1, ZOMMSCALING,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_in_animation.Add_animation( zoom_animation_1 );
+        zoom_in_animation.Add_animation_2( new SymbolizeAnimation(foreground,
+                        new AlphaAnimation( 0, 1 ),
+                        SymbolizeAnimation.FADEDURATION,
+                        true )
+        );
+        SymbolizeZoomAnimation zoom_animation_2 =
+                new SymbolizeZoomAnimation(foreground, ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_in_animation.Add_animation_2( zoom_animation_2 );
+        animationsets.put( Action.Load_level, zoom_in_animation );
+
+        // Zoom out
+        SymbolizeDualAnimationSet zoom_out_animation = new SymbolizeDualAnimationSet( foreground );
+        zoom_out_animation.Add_animation( new SymbolizeAnimation( foreground,
+                        new AlphaAnimation( 1, 0 ),
+                        SymbolizeAnimation.FADEDURATION,
+                        true )
+        );
+        SymbolizeZoomAnimation zoom_animation_3 =
+                new SymbolizeZoomAnimation( foreground, 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_out_animation.Add_animation( zoom_animation_3 );
+        zoom_out_animation.Add_animation_2( new SymbolizeAnimation( foreground,
+                        new AlphaAnimation( 0, 1 ),
+                        SymbolizeAnimation.FADEDURATION,
+                        true )
+        );
+        SymbolizeZoomAnimation zoom_animation_4 =
+                new SymbolizeZoomAnimation( foreground, ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        SymbolizeAnimation.ZOOMDURATION, true );
+        zoom_out_animation.Add_animation_2( zoom_animation_4 );
+        animationsets.put( Action.Load_world_via_level, zoom_out_animation );
+
+        zoom_animations = new ArrayList<SymbolizeZoomAnimation>();
+        zoom_animations.add( zoom_animation_1 );
+        zoom_animations.add( zoom_animation_2 );
+        zoom_animations.add( zoom_animation_3 );
+        zoom_animations.add( zoom_animation_4 );
 
         Render_background();
     }
@@ -100,7 +197,7 @@ public class GameView {
         paint.setStrokeWidth( LINEWIDTH );
         for ( Line line : graph ) {
             paint.setColor( line.Get_color() );
-            foregound_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
+            foreground_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
         }
 
         // Draw level dots
@@ -111,16 +208,16 @@ public class GameView {
             // Draw Point
             paint.setStyle( Paint.Style.STROKE );
             paint.setColor( Color.BLACK );
-            foregound_canvas.drawPoint(point.x(), point.y(), paint);
+            foreground_canvas.drawPoint(point.x(), point.y(), paint);
 
             // Draw Number
             paint.setStyle( Paint.Style.FILL );
             paint.setColor( Color.WHITE );
-            foregound_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
+            foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
                     point.y() + ( TEXTWIDTH / 2 ), paint );
         }
 
-        foregound.invalidate();
+        foreground.invalidate();
     }
 
     /*
@@ -155,8 +252,8 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINEWIDTH );
 
-        foregound_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
-        foregound.invalidate();
+        foreground_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
+        foreground.invalidate();
     }
 
     public void Render_shadow( final Posn point,
@@ -168,14 +265,29 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( POINTWIDTH );
 
-        foregound_canvas.drawPoint( point.x(), point.y(), paint );
-        foregound.invalidate();
+        foreground_canvas.drawPoint( point.x(), point.y(), paint );
+        foreground.invalidate();
     }
 
     public void Render_motion( final Action action,
                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-        animations.get( action ).Animate( this, graph, levels );
+        switch ( action ) {
+            case Load_level:
+            case Load_world_via_level:
+                animationsets.get( action ).Animate( this, graph, levels );
+                 break;
+
+            default:
+                animations.get( action ).Animate( this, graph, levels );
+        }
+    }
+
+    public void Set_zoom_animations_pivot( final Posn pivot )
+    {
+        for ( SymbolizeZoomAnimation zoom_animation : zoom_animations ) {
+            zoom_animation.Set_pivot( pivot );
+        }
     }
 
 
@@ -186,6 +298,6 @@ public class GameView {
      * Methods used to clear all lines in the foreground
      */
     private void clear_foreground() {
-        foregound_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
+        foreground_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 }

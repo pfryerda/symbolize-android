@@ -10,13 +10,15 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Game.GameView;
 
-abstract public class SymbolizeAnimation {
+public class SymbolizeAnimation {
     // Static Fields
     //--------------
     public static boolean InAnimation = false;
     public static final int ROTATEDURATION = 450;
     public static final int FLIPDURATION = 450;
-    public static final int FADEDURATION = 450;
+    public static final int FADEDURATION = 600;
+    public static final int ZOOMDURATION = 600;
+    public static final int TRANSLATEDURATION = 650;
 
     // Fields
     //--------
@@ -27,8 +29,22 @@ abstract public class SymbolizeAnimation {
     // Constructor
     //--------------
 
-    SymbolizeAnimation( LinearLayout linarLayout ) {
+    public SymbolizeAnimation( final LinearLayout linarLayout, final Animation animation,
+                               final int duration, final boolean fill_after )
+    {
         this.linearLayout = linarLayout;
+        this.animation = animation;
+        animation.setDuration( duration );
+        animation.setFillAfter( fill_after );
+    }
+
+    public SymbolizeAnimation( final LinearLayout linarLayout, final Animation animation,
+                               final int duration )
+    {
+        this.linearLayout = linarLayout;
+        this.animation = animation;
+        this.animation.setDuration( duration );
+        this.animation.setFillAfter( false );
     }
 
 
@@ -42,10 +58,17 @@ abstract public class SymbolizeAnimation {
      * @param ArrayList<Posn> levels: The desired points to be rendered
      */
     public void Animate( final GameView game_view, final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        set_up_animation( game_view, graph, levels );
+        Set_up_animation( game_view, graph, levels );
         linearLayout.startAnimation( animation );
     }
 
+
+    // Getter method
+    //---------------
+
+    public Animation Get_animation() {
+        return animation;
+    }
 
     // Protected method
     //------------------
@@ -56,7 +79,7 @@ abstract public class SymbolizeAnimation {
      *    - sets up the rendering of the graph after the animation
      * @param: GameView game_view: The game view that will be rendered after the animation'
      */
-    protected void set_up_animation( final GameView game_view,
+    public void Set_up_animation( final GameView game_view,
                                      final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
         this.animation.setAnimationListener( new Animation.AnimationListener() {

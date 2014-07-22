@@ -1,17 +1,14 @@
 package symbolize.app.Animation;
 
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Game.GameView;
 
-public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
+public class SymbolizeDualAnimation extends SymbolizeAnimation {
     // Inherited fields
     //------------------
 
@@ -23,39 +20,34 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
     protected ArrayList<Posn> levels;
     */
 
-
     // Field
     //-------
 
-    private final AlphaAnimation fadeInAnimation;
+    protected Animation animation_2;
 
 
     // Constructor
-    //------------
+    //-------------
 
-    public FadeOutAndInSymbolizeAnimation( final LinearLayout linearLayout )
-    {
-        super( linearLayout );
-        animation = new AlphaAnimation(1, 0);
-        animation.setDuration( FADEDURATION );
-        animation.setFillAfter( true );
-
-        fadeInAnimation = new AlphaAnimation( 0, 1 );
-        fadeInAnimation.setDuration( FADEDURATION );
-        fadeInAnimation.setFillAfter( true );
+    public SymbolizeDualAnimation( final LinearLayout linearLayout,
+                                   final Animation animation_1, final int duration_1, final boolean fill_after_1,
+                                   final Animation animation_2, final int duration_2, final boolean fill_after_2 ) {
+        super( linearLayout, animation_1, duration_1, fill_after_1 );
+        this.animation_2 = animation_2;
+        this.animation_2.setDuration( duration_2 );
+        this.animation_2.setFillAfter( fill_after_2 );
     }
 
 
-    // Protected Methods
-    //--------------------
+    // Public method
+    //---------------
 
     /// @see SymbolizeAnimation::set_up_animation
     @Override
-    protected void set_up_animation( final GameView game_view,
-                                     final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    public void Set_up_animation( final GameView game_view,
+                                  final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
-
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        this.animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 InAnimation = true;
@@ -65,7 +57,7 @@ public class FadeOutAndInSymbolizeAnimation extends  SymbolizeAnimation {
             public void onAnimationEnd(Animation animation) {
                 linearLayout.clearAnimation();
                 game_view.Render_foreground( graph, levels );
-                linearLayout.startAnimation( fadeInAnimation );
+                linearLayout.startAnimation( animation_2 );
                 InAnimation = false;
             }
 
