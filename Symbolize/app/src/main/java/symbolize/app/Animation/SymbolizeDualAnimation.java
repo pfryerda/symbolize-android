@@ -50,7 +50,7 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
         this.animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                InAnimation = true;
+                GameAnimationHandler.InAnimation = true;
             }
 
             @Override
@@ -58,7 +58,7 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
                 linearLayout.clearAnimation();
                 game_view.Render_foreground( graph, levels );
                 linearLayout.startAnimation( animation_2 );
-                InAnimation = false;
+                GameAnimationHandler.InAnimation = false;
             }
 
             @Override

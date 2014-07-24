@@ -5,6 +5,7 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
@@ -63,7 +64,7 @@ public class GameTouchListener implements View.OnTouchListener {
     //-------------
 
     public boolean onTouch( final View v, final MotionEvent event ) {
-        if ( !SymbolizeAnimation.InAnimation ) {
+        if ( !GameAnimationHandler.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
                 case MotionEvent.ACTION_DOWN: {

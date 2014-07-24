@@ -54,13 +54,13 @@ public class SymbolizeDualAnimationSet extends SymbolizeAnimationSet {
         animationSet_1.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart( Animation animation ) {
-                SymbolizeAnimation.InAnimation = true;
+                GameAnimationHandler.InAnimation = true;
             }
             @Override
             public void onAnimationEnd( Animation animation ) {
                 linearLayout.clearAnimation();
                 game_view.Render_foreground( graph, levels );
-                SymbolizeAnimation.InAnimation = false;
+                GameAnimationHandler.InAnimation = false;
                 linearLayout.startAnimation( animationSet_2 );
             }
             @Override
