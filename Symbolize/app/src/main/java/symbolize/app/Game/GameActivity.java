@@ -44,6 +44,7 @@ public class GameActivity extends Activity  {
     //---------
 
     private GameModel game_model;
+    private Toast toast;
 
     private Player player;
     private Options options;
@@ -120,6 +121,7 @@ public class GameActivity extends Activity  {
         player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
         options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
         game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
+        toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
         current_puzzle = puzzleDB.Fetch_world( 1 );
         game_model.Reset( current_puzzle );
@@ -259,11 +261,19 @@ public class GameActivity extends Activity  {
     * @param: int/String msg: The message we want to output or the id for it in strings.xml
     */
     private void Render_toast( final String msg ){
-        Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
+        if ( toast == null | toast.getView().getWindowVisibility() != View.VISIBLE ) {
+            toast.setText( msg );
+            toast.show();
+        }
+        //Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
     }
 
     private void Render_toast( final int msg_id ) {
-        Toast.makeText( this, getResources().getString( msg_id ), Toast.LENGTH_SHORT ).show();
+        if ( toast == null | toast.getView().getWindowVisibility() != View.VISIBLE ) {
+            toast.setText( getResources().getString( msg_id ) );
+            toast.show();
+        }
+        //Toast.makeText( this, getResources().getString( msg_id ), Toast.LENGTH_SHORT ).show();
     }
 
     /*

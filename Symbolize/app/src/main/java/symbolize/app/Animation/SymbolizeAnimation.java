@@ -11,15 +11,6 @@ import symbolize.app.Common.Posn;
 import symbolize.app.Game.GameView;
 
 public class SymbolizeAnimation {
-    // Static Fields
-    //--------------
-    public static boolean InAnimation = false;
-    public static final int ROTATEDURATION = 450;
-    public static final int FLIPDURATION = 450;
-    public static final int FADEDURATION = 600;
-    public static final int ZOOMDURATION = 600;
-    public static final int TRANSLATEDURATION = 650;
-
     // Fields
     //--------
     protected Animation animation;
@@ -85,13 +76,13 @@ public class SymbolizeAnimation {
         this.animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart( Animation animation ) {
-                InAnimation = true;
+                GameAnimationHandler.InAnimation = true;
             }
             @Override
             public void onAnimationEnd( Animation animation ) {
                 linearLayout.clearAnimation();
                 game_view.Render_foreground( graph, levels );
-                InAnimation = false;
+                GameAnimationHandler.InAnimation = false;
             }
             @Override
             public void onAnimationRepeat( Animation animation ) {}
