@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Request;
 import symbolize.app.Game.GameView;
 
 public class GameAnimationHandler {
@@ -133,17 +134,16 @@ public class GameAnimationHandler {
     // Public methods
     //----------------
 
-    public void Handle_request( final Action action,final GameView gameView,
-                                final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    public void Handle_request( final  Request request )
     {
-        switch ( action ) {
+        switch ( request.action ) {
             case Load_level:
             case Load_world_via_level:
-                animationsets.get( action ).Animate( gameView, graph, levels );
+                animationsets.get( request.action ).Animate( request.game_view, request.graph, request.levels );
                 break;
 
             default:
-                animations.get( action ).Animate( gameView, graph, levels );
+                animations.get( request.action ).Animate( request.game_view, request.graph, request.levels );
         }
     }
 

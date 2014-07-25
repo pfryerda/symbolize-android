@@ -15,6 +15,7 @@ import symbolize.app.Animation.SymbolizeZoomAnimation;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Request;
 
 
 /*
@@ -76,6 +77,15 @@ public class GameView {
 
     // Public methods
     //----------------
+
+    public void Render( Request request ) {
+        if ( request.requires_animation ) {
+            request.game_view = this;
+            animation_handler.Handle_request( request );
+        } else {
+            Render_foreground( request.graph, request.levels );
+        }
+    }
 
     /*
      * Update the view with the current board in the model
@@ -158,12 +168,6 @@ public class GameView {
 
         foreground_canvas.drawPoint( point.x(), point.y(), paint );
         foreground.invalidate();
-    }
-
-    public void Render_motion( final Action action,
-                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
-    {
-        animation_handler.Handle_request( action, this, graph, levels );
     }
 
     public void Set_zoom_animations_pivot( final Posn pivot )
