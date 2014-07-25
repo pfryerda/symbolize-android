@@ -71,7 +71,7 @@ public class SymbolizeAnimation {
      * @param: GameView game_view: The game view that will be rendered after the animation'
      */
     public void Set_up_animation( final GameView game_view,
-                                     final LinkedList<Line> graph, final ArrayList<Posn> levels )
+                                  final LinkedList<Line> graph, final ArrayList<Posn> levels )
     {
         this.animation.setAnimationListener( new Animation.AnimationListener() {
             @Override

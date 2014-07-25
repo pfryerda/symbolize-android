@@ -13,6 +13,7 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Request;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.World;
@@ -92,13 +93,19 @@ public class GameModel {
 
     public void Set_world( final World world, Action action ) {
         set_puzzle( world );
-        game_view.Render_motion( action, graph, Get_unlocked_levels() );
+        Request request = new Request( action, graph, Get_unlocked_levels() );
+        request.requires_animation = true;
+
+        game_view.Render( request );
     }
 
     public void Set_level( final Level level, Posn pivot ) {
         set_puzzle( level );
         game_view.Set_zoom_animations_pivot( pivot );
-        game_view.Render_motion( Action.Load_level, graph, Get_unlocked_levels() );
+
+        Request request = new Request( Action.Load_level, graph, Get_unlocked_levels() );
+        request.requires_animation = true;
+        game_view.Render( request );
     }
 
     public void Add_shadow( final Line line ) {
@@ -165,19 +172,20 @@ public class GameModel {
     // Action methods
     //----------------
 
-    public void action_basic( final Action action, final Line line ) {
-        if ( action != Action.Drag_end ) {
+    public void Handle_request( final Request request ) {
+        if ( request.action != Action.Drag_end ) {
             push_state();
         }
-        switch ( action ) {
+
+        switch ( request.action ) {
             case Draw:
-                graph.addLast( line );
+                graph.addLast( request.line );
                 ++lines_drawn;
                 break;
 
             case Erase:
-                graph.remove( line );
-                if ( line.Get_owner() == Owner.App ) {
+                graph.remove( request.line );
+                if ( request.line.Get_owner() == Owner.App ) {
                     ++lines_erased;
                 } else {
                     --lines_drawn;
@@ -185,51 +193,49 @@ public class GameModel {
                 break;
 
             case Drag_start:
-                graph.remove( line );
+                graph.remove( request.line );
                 ++lines_dragged;
                 break;
 
             case Drag_end:
-                graph.add( line );
+                graph.add( request.line );
                 break;
 
             case Change_color:
-                line.Edit( action );
+                request.line.Edit( request.action );
                 break;
-        }
-        if ( action != Action.Drag_start ) {
-            game_view.Render_foreground( graph, Get_unlocked_levels() );
-        }
-    }
 
-    public void action_motion( final Action action ) {
-        push_state();
-
-        for ( Line line : graph ) {
-            line.Edit( action );
-        }
-
-        for ( Posn posn : levels ) {
-            posn.Edit( action );
-        }
-
-        game_view.Render_motion( action, graph, levels );
-    }
-
-    public void action_sensor( final Action action, final ArrayList<LinkedList<Line>> board ) {
-        push_state();
-        switch ( action ) {
             case Shift:
-                shift_number = ( shift_number + 1 ) % board.size();
+                shift_number = ( shift_number + 1 ) % request.board.size();
                 graph.clear();
-                for ( Line line : board.get( shift_number ) ) {
+                for ( Line line : request.board.get( shift_number ) ) {
                     graph.addLast( line.clone() );
                 }
                 lines_drawn = 0;
                 lines_erased = 0;
                 break;
+
+            case Rotate_left:
+            case Rotate_right:
+            case Flip_horizontally:
+            case Flip_vertically:
+                for ( Line line : graph ) {
+                    line.Edit( request.action );
+                }
+
+                for ( Posn posn : levels ) {
+                    posn.Edit( request.action );
+                }
+                request.requires_animation = true;
+                break;
         }
-        game_view.Render_motion( action, graph, levels );
+
+        if ( request.action != Action.Drag_start ) {
+            //game_view.Render_foreground( graph, Get_unlocked_levels() );
+            request.graph = graph;
+            request.levels = Get_unlocked_levels();
+            game_view.Render( request );
+        }
     }
 
 

@@ -23,6 +23,7 @@ import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Request;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
@@ -291,7 +292,7 @@ public class GameActivity extends Activity  {
                 line.Snap_to_levels( game_model.Get_unlocked_levels() );
                 if ( player.In_draw_mode() ) {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
-                        game_model.action_basic( Action.Draw, line );
+                        game_model.Handle_request( new Request( Action.Draw, line ) );
                     } else {
                         Render_toast( R.string.out_of_lines );
                     }
@@ -306,7 +307,7 @@ public class GameActivity extends Activity  {
                             if ( ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
                                     || ( line.Get_owner() == Owner.User ) )
                             {
-                                game_model.action_basic( Action.Erase, line );
+                                game_model.Handle_request( new Request( Action.Erase, line ) );
                             } else {
                                 Render_toast( R.string.out_of_erase );
                             }
@@ -353,7 +354,7 @@ public class GameActivity extends Activity  {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
                             if ( line.Intersects( point ) ) {
-                                game_model.action_basic( Action.Change_color, line );
+                                game_model.Handle_request( new Request( Action.Change_color, line ) );
                                 break;
                             }
                         }
@@ -366,7 +367,7 @@ public class GameActivity extends Activity  {
                 if ( player.In_draw_mode() ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            game_model.action_basic( Action.Drag_start, line );
+                            game_model.Handle_request( new Request( Action.Drag_start, line ) );
                             return line.clone();
                         }
                     }
@@ -377,7 +378,7 @@ public class GameActivity extends Activity  {
             @Override
             public void onDragEnd( Line line ) {
                 if ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() ) {
-                    game_model.action_basic( Action.Drag_end, line );
+                    game_model.Handle_request( new Request( Action.Drag_end, line ) );
                 } else {
                     undo();
                     Render_toast( R.string.out_of_drag );
@@ -392,28 +393,28 @@ public class GameActivity extends Activity  {
             @Override
             public void onRotateRight() {
                 if ( current_puzzle.Can_rotate() ) {
-                    game_model.action_motion( Action.Rotate_right );
+                    game_model.Handle_request( new Request( Action.Rotate_right ) );
                 }
             }
 
             @Override
             public void onRotateLeft() {
                 if ( current_puzzle.Can_rotate() ) {
-                    game_model.action_motion( Action.Rotate_left );
+                    game_model.Handle_request( new Request( Action.Rotate_left ) );
                 }
             }
 
             @Override
             public void onFlipHorizontally() {
                 if ( current_puzzle.Can_flip() ) {
-                    game_model.action_motion( Action.Flip_horizontally );
+                    game_model.Handle_request( new Request( Action.Flip_horizontally ) );
                 }
             }
 
             @Override
             public void onFlipVertically() {
                 if ( current_puzzle.Can_flip() ) {
-                    game_model.action_motion( Action.Flip_vertically );
+                    game_model.Handle_request( new Request( Action.Flip_vertically ) );
                 }
             }
         } );
@@ -422,7 +423,7 @@ public class GameActivity extends Activity  {
             @Override
             public void onShake() {
                 if ( current_puzzle.Can_shift() ) {
-                    game_model.action_sensor( Action.Shift, current_puzzle.Get_boards() );
+                    game_model.Handle_request(new Request(Action.Shift, current_puzzle.Get_boards()));
                 }
             }
         } );
