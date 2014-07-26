@@ -1,6 +1,7 @@
 package symbolize.app.Game;
 
-import android.app.Activity;
+
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
 import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +35,8 @@ import symbolize.app.Puzzle.World;
 import symbolize.app.R;
 
 
-public class GameActivity extends Activity  {
+public class GameActivity extends FragmentActivity
+                          implements OptionsDialog.OptionsDialogListener {
     // Static fields
     //---------------
 
@@ -57,6 +60,8 @@ public class GameActivity extends Activity  {
 
     private SensorManager sensor_manager;
     private GameShakeDetector shake_detector;
+
+    private FragmentManager dialog_fragment_manager;
 
 
     // Main method
@@ -126,10 +131,13 @@ public class GameActivity extends Activity  {
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
+        dialog_fragment_manager = getFragmentManager();
+
         current_puzzle = puzzleDB.Fetch_world( 1 );
         Request request = new Request( Action.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
+
         update_view();
         Set_up_listeners( foreground );
     }
@@ -159,8 +167,9 @@ public class GameActivity extends Activity  {
     }
 
     public void On_settings_button_clicked( final View view ) {
-        OptionsDialog options_dialog = new OptionsDialog( this, options, player, game_model  );
-        options_dialog.Show_dialog();
+        OptionsDialog options_dialog = new OptionsDialog();
+        options_dialog.Set_up( options );
+        options_dialog.show( dialog_fragment_manager, "options_dialog" );
     }
 
     public void On_reset_button_clicked( final View view ) {
@@ -459,6 +468,41 @@ public class GameActivity extends Activity  {
                 }
             }
         } );
+    }
+
+    @Override
+    public void OnToggleGrid() {
+        options.Toggle_grid();
+        Request request = new Request( Action.Background_change );
+        request.options = options;
+        game_model.Handle_request( request );
+    }
+
+    @Override
+    public void OnToggleBorder() {
+        options.Toggle_border();
+        Request request = new Request( Action.Background_change );
+        request.options = options;
+        game_model.Handle_request( request );
+    }
+
+    @Override
+    public void OnToggleSnap() {
+        options.Is_snap_drawing();
+        Request request = new Request( Action.Background_change );
+        request.options = options;
+        game_model.Handle_request( request );
+    }
+
+    @Override
+    public void OnDeleteAllData() {
+        player.Delete_all_data();
+        startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
+    }
+
+    @Override
+    public void OnEditVolume( int volume ) {
+        options.Set_volume( volume );
     }
 
 
