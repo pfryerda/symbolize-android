@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Game.GameView;
+import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
 public class Request {
@@ -13,12 +14,19 @@ public class Request {
     //--------
 
     public Action action;
+
+    public Puzzle puzzle;
+
+    public Line action_line;
+    public Posn action_point;
+
+    public ArrayList<LinkedList<Line>> shift_graphs;
+
     public LinkedList<Line> graph;
     public ArrayList<Posn> levels;
+
     public GameView game_view;
-    public ArrayList<LinkedList<Line>> board;
-    public Line line;
-    public boolean requires_animation;
+
 
 
     // Constructors
@@ -26,25 +34,32 @@ public class Request {
 
     public Request( Action action ) {
         this.action = action;
-        this.requires_animation = false;
+
+        this.puzzle = null;
+
+        this.action_line = null;
+        this.action_point = null;
+
+        this.shift_graphs = null;
+
+        this.graph = null;
+        this.levels = null;
+
+        this.game_view = null;
     }
 
-    public Request( Action action, Line line ) {
-        this.action = action;
-        this.line = line;
-        this.requires_animation = false;
+
+    // Method
+    //-------
+
+    public boolean Is_animation_action() {
+        return action != Action.Draw       && action != Action.Erase &&
+               action != Action.Drag_start && action != Action.Drag_end &&
+               action != Action.Shadow_line && action != Action.Shadow_Point &&
+               action != Action.Reset && action != Action.None && action != Action.Change_color;
     }
 
-    public Request( Action action, ArrayList<LinkedList<Line>> board ) {
-        this.action = action;
-        this.board = board;
-        this.requires_animation = false;
-    }
-
-    public Request( Action action, LinkedList<Line> graph, ArrayList<Posn> levels ) {
-        this.action = action;
-        this.graph = graph;
-        this.levels = levels;
-        this.requires_animation = false;
+    public boolean Is_shadow_action() {
+        return action == Action.Shadow_line || action == Action.Shadow_Point;
     }
 }

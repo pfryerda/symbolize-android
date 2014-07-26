@@ -125,7 +125,9 @@ public class GameActivity extends Activity  {
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
         current_puzzle = puzzleDB.Fetch_world( 1 );
-        game_model.Reset( current_puzzle );
+        Request request = new Request( Action.Reset );
+        request.puzzle = current_puzzle;
+        game_model.Handle_request( request );
         update_view();
         Set_up_listeners( foreground );
     }
@@ -159,7 +161,9 @@ public class GameActivity extends Activity  {
     }
 
     public void On_reset_button_clicked( final View view ) {
-        game_model.Reset( current_puzzle );
+        Request request = new Request( Action.Reset );
+        request.puzzle = current_puzzle;
+        game_model.Handle_request( request );
     }
 
     public void On_check_button_clicked( final View view) {
@@ -209,14 +213,23 @@ public class GameActivity extends Activity  {
      */
     private void load_world( final World world, Action action ) {
         current_puzzle = world;
-        game_model.Set_world( world, action );
+
+        Request request = new Request( action );
+        request.puzzle = world;
+        game_model.Handle_request( request );
+
         update_view();
     }
 
     private void load_level( final Level level, final Posn pivot ) {
         // Load up puzzle
         current_puzzle = level;
-        game_model.Set_level( level, pivot );
+
+        Request request = new Request( Action.Load_level );
+        request.puzzle = level;
+        request.action_point = pivot;
+        game_model.Handle_request( request );
+
         update_view();
     }
 
@@ -253,7 +266,7 @@ public class GameActivity extends Activity  {
      */
     private void undo() {
         game_model = game_model.getPastState();
-        game_model.Remove_shadows();
+        game_model.Handle_request( new Request( Action.None ) );
     }
 
     /*
@@ -292,7 +305,9 @@ public class GameActivity extends Activity  {
                 line.Snap_to_levels( game_model.Get_unlocked_levels() );
                 if ( player.In_draw_mode() ) {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
-                        game_model.Handle_request( new Request( Action.Draw, line ) );
+                        Request request = new Request( Action.Draw );
+                        request.action_line = line;
+                        game_model.Handle_request( request );
                     } else {
                         Render_toast( R.string.out_of_lines );
                     }
@@ -307,7 +322,9 @@ public class GameActivity extends Activity  {
                             if ( ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
                                     || ( line.Get_owner() == Owner.User ) )
                             {
-                                game_model.Handle_request( new Request( Action.Erase, line ) );
+                                Request request = new Request( Action.Erase );
+                                request.action_line = line;
+                                game_model.Handle_request( request );
                             } else {
                                 Render_toast( R.string.out_of_erase );
                             }
@@ -319,7 +336,7 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onFingerUp() {
-                game_model.Remove_shadows();
+                game_model.Handle_request( new Request( Action.None ) );
             }
 
             @Override
@@ -329,9 +346,13 @@ public class GameActivity extends Activity  {
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );
-                    game_model.Add_shadow( line );
+                    Request request = new Request( Action.Shadow_line );
+                    request.action_line = line;
+                    game_model.Handle_request(request);
                 } else {
-                    game_model.Add_shadow( point );
+                    Request request = new Request( Action.Shadow_Point );
+                    request.action_point = point;
+                    game_model.Handle_request(request);
                 }
             }
 
@@ -354,7 +375,9 @@ public class GameActivity extends Activity  {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
                             if ( line.Intersects( point ) ) {
-                                game_model.Handle_request( new Request( Action.Change_color, line ) );
+                                Request request = new Request( Action.Change_color );
+                                request.action_line = line;
+                                game_model.Handle_request( request );
                                 break;
                             }
                         }
@@ -367,7 +390,9 @@ public class GameActivity extends Activity  {
                 if ( player.In_draw_mode() ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            game_model.Handle_request( new Request( Action.Drag_start, line ) );
+                            Request request = new Request( Action.Drag_start );
+                            request.action_line = line;
+                            game_model.Handle_request( request );
                             return line.clone();
                         }
                     }
@@ -378,7 +403,9 @@ public class GameActivity extends Activity  {
             @Override
             public void onDragEnd( Line line ) {
                 if ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() ) {
-                    game_model.Handle_request( new Request( Action.Drag_end, line ) );
+                    Request request = new Request( Action.Drag_end );
+                    request.action_line = line;
+                    game_model.Handle_request( request );
                 } else {
                     undo();
                     Render_toast( R.string.out_of_drag );
@@ -387,7 +414,7 @@ public class GameActivity extends Activity  {
 
             @Override
             public void onEnterDoubleTouch() {
-                game_model.Remove_shadows();
+                game_model.Handle_request( new Request( Action.None ) );
             }
 
             @Override
@@ -423,7 +450,9 @@ public class GameActivity extends Activity  {
             @Override
             public void onShake() {
                 if ( current_puzzle.Can_shift() ) {
-                    game_model.Handle_request(new Request(Action.Shift, current_puzzle.Get_boards()));
+                    Request request = new Request( Action.Shift );
+                    request.shift_graphs = current_puzzle.Get_boards();
+                    game_model.Handle_request( request );
                 }
             }
         } );
