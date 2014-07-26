@@ -79,11 +79,28 @@ public class GameView {
     //----------------
 
     public void Render( Request request ) {
-        if ( request.requires_animation ) {
+        if ( request.Is_animation_action() ) {
+            if( request.action == Action.Load_level ) {
+                animation_handler.Set_zoom_pivots( request.action_point );
+            }
             request.game_view = this;
             animation_handler.Handle_request( request );
         } else {
             Render_foreground( request.graph, request.levels );
+            if( request.Is_shadow_action() ) {
+                paint.setStyle( Paint.Style.STROKE );
+                paint.setColor( ( request.action == Action.Shadow_line ) ? request.action_line.Get_color() : Color.BLACK );
+                paint.setAlpha( SHADOW );
+                paint.setStrokeWidth( ( request.action == Action.Shadow_line ) ? LINEWIDTH : POINTWIDTH );
+
+                if ( request.action == Action.Shadow_line ) {
+                    foreground_canvas.drawLine( request.action_line.Get_p1().x(), request.action_line.Get_p1().y(),
+                                                request.action_line.Get_p2().x(), request.action_line.Get_p2().y(), paint );
+                } else {
+                    foreground_canvas.drawPoint( request.action_point.x(), request.action_point.y(), paint );
+                }
+                foreground.invalidate();
+            }
         }
     }
 
@@ -141,41 +158,6 @@ public class GameView {
     }
 
 
-    // Action methods
-    //----------------
-
-    public void Render_shadow( final Line line,
-                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
-    {
-        Render_foreground( graph, levels );
-        paint.setStyle( Paint.Style.STROKE );
-        paint.setColor( line.Get_color() );
-        paint.setAlpha( SHADOW );
-        paint.setStrokeWidth( LINEWIDTH );
-
-        foreground_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
-        foreground.invalidate();
-    }
-
-    public void Render_shadow( final Posn point,
-                               final LinkedList<Line> graph, final ArrayList<Posn> levels )
-    {
-        Render_foreground( graph, levels );
-        paint.setStyle( Paint.Style.STROKE );
-        paint.setColor( Color.BLACK );
-        paint.setAlpha( SHADOW );
-        paint.setStrokeWidth( POINTWIDTH );
-
-        foreground_canvas.drawPoint( point.x(), point.y(), paint );
-        foreground.invalidate();
-    }
-
-    public void Set_zoom_animations_pivot( final Posn pivot )
-    {
-        animation_handler.Set_zoom_pivots( pivot );
-    }
-
-
     // Private methods
     //----------------
 
@@ -184,5 +166,12 @@ public class GameView {
      */
     private void clear_foreground() {
         foreground_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
+    }
+
+    /*
+     * Methods used to clear all lines in the foreground
+     */
+    private void clear_background() {
+        background_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 }

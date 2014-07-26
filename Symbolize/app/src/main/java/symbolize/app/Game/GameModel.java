@@ -86,38 +86,79 @@ public class GameModel {
     // Public methods
     //------------------
 
-    public void Reset( final  Puzzle puzzle ) {
-        set_puzzle( puzzle );
-        game_view.Render_foreground( graph, Get_unlocked_levels() );
-    }
+    public void Handle_request( final Request request ) {
+        if ( request.action != Action.Drag_end ) {
+            push_state();
+        }
 
-    public void Set_world( final World world, Action action ) {
-        set_puzzle( world );
-        Request request = new Request( action, graph, Get_unlocked_levels() );
-        request.requires_animation = true;
+        switch ( request.action ) {
+            case Draw:
+                graph.addLast( request.action_line );
+                ++lines_drawn;
+                break;
 
-        game_view.Render( request );
-    }
+            case Erase:
+                graph.remove( request.action_line );
+                if ( request.action_line.Get_owner() == Owner.App ) {
+                    ++lines_erased;
+                } else {
+                    --lines_drawn;
+                }
+                break;
 
-    public void Set_level( final Level level, Posn pivot ) {
-        set_puzzle( level );
-        game_view.Set_zoom_animations_pivot( pivot );
+            case Drag_start:
+                graph.remove( request.action_line );
+                ++lines_dragged;
+                break;
 
-        Request request = new Request( Action.Load_level, graph, Get_unlocked_levels() );
-        request.requires_animation = true;
-        game_view.Render( request );
-    }
+            case Drag_end:
+                graph.add( request.action_line );
+                break;
 
-    public void Add_shadow( final Line line ) {
-        game_view.Render_shadow( line, graph, Get_unlocked_levels() );
-    }
+            case Change_color:
+                request.action_line.Edit( request.action );
+                break;
 
-    public void Add_shadow( final Posn posn ) {
-        game_view.Render_shadow( posn, graph, Get_unlocked_levels() );
-    }
+            case Shift:
+                shift_number = ( shift_number + 1 ) % request.shift_graphs.size();
+                graph.clear();
+                for ( Line line : request.shift_graphs.get( shift_number ) ) {
+                    graph.addLast( line.clone() );
+                }
+                lines_drawn = 0;
+                lines_erased = 0;
+                break;
 
-    public void Remove_shadows() {
-        game_view.Render_foreground( graph, Get_unlocked_levels() );
+            case Rotate_left:
+            case Rotate_right:
+            case Flip_horizontally:
+            case Flip_vertically:
+                for ( Line line : graph ) {
+                    line.Edit( request.action );
+                }
+
+                for ( Posn posn : levels ) {
+                    posn.Edit( request.action );
+                }
+                break;
+
+            case Load_level:
+            case Load_world_via_level:
+            case Load_world_left:
+            case Load_world_right:
+            case Reset:
+                handle_set_puzzle( request.puzzle );
+                break;
+
+            default:
+                break;
+        }
+
+        if ( request.action != Action.Drag_start ) {
+            request.graph = graph;
+            request.levels = Get_unlocked_levels();
+            game_view.Render( request );
+        }
     }
 
 
@@ -169,80 +210,10 @@ public class GameModel {
     }
 
 
-    // Action methods
-    //----------------
-
-    public void Handle_request( final Request request ) {
-        if ( request.action != Action.Drag_end ) {
-            push_state();
-        }
-
-        switch ( request.action ) {
-            case Draw:
-                graph.addLast( request.line );
-                ++lines_drawn;
-                break;
-
-            case Erase:
-                graph.remove( request.line );
-                if ( request.line.Get_owner() == Owner.App ) {
-                    ++lines_erased;
-                } else {
-                    --lines_drawn;
-                }
-                break;
-
-            case Drag_start:
-                graph.remove( request.line );
-                ++lines_dragged;
-                break;
-
-            case Drag_end:
-                graph.add( request.line );
-                break;
-
-            case Change_color:
-                request.line.Edit( request.action );
-                break;
-
-            case Shift:
-                shift_number = ( shift_number + 1 ) % request.board.size();
-                graph.clear();
-                for ( Line line : request.board.get( shift_number ) ) {
-                    graph.addLast( line.clone() );
-                }
-                lines_drawn = 0;
-                lines_erased = 0;
-                break;
-
-            case Rotate_left:
-            case Rotate_right:
-            case Flip_horizontally:
-            case Flip_vertically:
-                for ( Line line : graph ) {
-                    line.Edit( request.action );
-                }
-
-                for ( Posn posn : levels ) {
-                    posn.Edit( request.action );
-                }
-                request.requires_animation = true;
-                break;
-        }
-
-        if ( request.action != Action.Drag_start ) {
-            //game_view.Render_foreground( graph, Get_unlocked_levels() );
-            request.graph = graph;
-            request.levels = Get_unlocked_levels();
-            game_view.Render( request );
-        }
-    }
-
-
     // Private methods
     //-----------------
 
-    private void set_puzzle( final Puzzle puzzle ) {
+    private void handle_set_puzzle( final Puzzle puzzle ) {
         graph.clear();
         levels.clear();
         for ( Line line : puzzle.Get_board() ) {
