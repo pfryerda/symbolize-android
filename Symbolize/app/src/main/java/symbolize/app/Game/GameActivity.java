@@ -24,6 +24,7 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
@@ -121,7 +122,8 @@ public class GameActivity extends Activity  {
         // Set up Game
         player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
         options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
-        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
+        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg, options );
+
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
         current_puzzle = puzzleDB.Fetch_world( 1 );
@@ -157,7 +159,8 @@ public class GameActivity extends Activity  {
     }
 
     public void On_settings_button_clicked( final View view ) {
-        Render_toast( "Settings!" );
+        OptionsDialog options_dialog = new OptionsDialog( this, options, player, game_model  );
+        options_dialog.Show_dialog();
     }
 
     public void On_reset_button_clicked( final View view ) {
@@ -299,7 +302,7 @@ public class GameActivity extends Activity  {
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                if ( Player.DEVMODE ) {
+                if ( options.Is_snap_drawing() ) {
                     line.Snap();
                 }
                 line.Snap_to_levels( game_model.Get_unlocked_levels() );
@@ -342,7 +345,7 @@ public class GameActivity extends Activity  {
             @Override
             public void onFingerMove( final Line line, final Posn point ) {
                 if ( player.In_draw_mode() ) {
-                    if ( Player.DEVMODE ) {
+                    if ( options.Is_snap_drawing() ) {
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );

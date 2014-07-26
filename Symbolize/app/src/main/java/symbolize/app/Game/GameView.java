@@ -14,6 +14,7 @@ import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Animation.SymbolizeZoomAnimation;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
+import symbolize.app.Common.Options;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 
@@ -28,6 +29,8 @@ public class GameView {
     public static final int LINEWIDTH = GameActivity.SCALING / 17;
     public static final int POINTWIDTH = LINEWIDTH * 2;
     public static final int TEXTWIDTH = LINEWIDTH;
+    public static final int GRIDWIDTH = LINEWIDTH / 10;
+    public static final int BRODERWIDTH = LINEWIDTH;
     public static final int SHADOW = 80;
 
 
@@ -45,7 +48,7 @@ public class GameView {
     //-------------
 
     public GameView( final Context context, final LinearLayout foreground, final LinearLayout background,
-                     final Bitmap foreground_bitmap, final Bitmap background_bitmap )
+                     final Bitmap foreground_bitmap, final Bitmap background_bitmap, final Options options )
     {
         this.foreground = foreground;
         this.background = background;
@@ -71,7 +74,7 @@ public class GameView {
 
         animation_handler = new GameAnimationHandler( foreground );
 
-        Render_background();
+        Render_background( options );
     }
 
 
@@ -79,7 +82,9 @@ public class GameView {
     //----------------
 
     public void Render( Request request ) {
-        if ( request.Is_animation_action() ) {
+        if ( request.action == Action.Background_change ) {
+            Render_background( request.options );
+        } else if ( request.Is_animation_action() ) {
             if( request.action == Action.Load_level ) {
                 animation_handler.Set_zoom_pivots( request.action_point );
             }
@@ -122,17 +127,19 @@ public class GameView {
         paint.setStrokeWidth( POINTWIDTH );
         for ( int i = 0; i < levels.size(); ++i ) {
             Posn point = levels.get(i);
+            if ( point != null ) {
 
-            // Draw Point
-            paint.setStyle( Paint.Style.STROKE );
-            paint.setColor( Color.BLACK );
-            foreground_canvas.drawPoint(point.x(), point.y(), paint);
+                // Draw Point
+                paint.setStyle( Paint.Style.STROKE );
+                paint.setColor( Color.BLACK );
+                foreground_canvas.drawPoint( point.x(), point.y(), paint );
 
-            // Draw Number
-            paint.setStyle( Paint.Style.FILL );
-            paint.setColor( Color.WHITE );
-            foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
-                    point.y() + ( TEXTWIDTH / 2 ), paint );
+                // Draw Number
+                paint.setStyle( Paint.Style.FILL );
+                paint.setColor( Color.WHITE );
+                foreground_canvas.drawText( Integer.toString(i + 1), point.x() - ( TEXTWIDTH / 2 ),
+                        point.y() + ( TEXTWIDTH / 2 ), paint );
+            }
         }
 
         foreground.invalidate();
@@ -141,17 +148,31 @@ public class GameView {
     /*
      * Simple method used to draw a grid in the background
      */
-    public void Render_background() {
-        background_canvas.drawColor( Color.WHITE );
-        paint.setColor( Color.LTGRAY );
-        paint.setStrokeWidth( LINEWIDTH/10 );
+    public void Render_background( Options options ) {
+        clear_background();
+        paint.setStyle( Paint.Style.STROKE );
 
-        for ( int x = GameActivity.SCALING/10; x < GameActivity.SCALING; x+=GameActivity.SCALING/10 ) {
-            background_canvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
+        if ( options.Show_grid() ) {
+            paint.setColor( Color.LTGRAY );
+            paint.setStrokeWidth( GRIDWIDTH );
+
+            for ( int x = GameActivity.SCALING / 10; x < GameActivity.SCALING; x += GameActivity.SCALING / 10 ) {
+                background_canvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
+            }
+
+            for ( int y = GameActivity.SCALING / 10; y < GameActivity.SCALING; y += GameActivity.SCALING / 10 ) {
+                background_canvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
+            }
         }
 
-        for ( int y = GameActivity.SCALING/10; y < GameActivity.SCALING; y+=GameActivity.SCALING/10 ) {
-            background_canvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
+        if ( options.Show_border() ) {
+            paint.setColor( Color.BLACK );
+            paint.setStrokeWidth( BRODERWIDTH );
+
+            background_canvas.drawLine( 0, 0, 0, GameActivity.SCALING, paint );
+            background_canvas.drawLine( 0, 0, GameActivity.SCALING, 0, paint );
+            background_canvas.drawLine( 0, GameActivity.SCALING, GameActivity.SCALING, GameActivity.SCALING, paint );
+            background_canvas.drawLine( GameActivity.SCALING, 0, GameActivity.SCALING, GameActivity.SCALING, paint );
         }
 
         background.invalidate();

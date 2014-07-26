@@ -25,6 +25,7 @@ public class Request {
     public LinkedList<Line> graph;
     public ArrayList<Posn> levels;
 
+    public Options options;
     public GameView game_view;
 
 
@@ -45,6 +46,7 @@ public class Request {
         this.graph = null;
         this.levels = null;
 
+        this.options = null;
         this.game_view = null;
     }
 
@@ -56,7 +58,8 @@ public class Request {
         return action != Action.Draw       && action != Action.Erase &&
                action != Action.Drag_start && action != Action.Drag_end &&
                action != Action.Shadow_line && action != Action.Shadow_Point &&
-               action != Action.Reset && action != Action.None && action != Action.Change_color;
+               action != Action.Reset && action != Action.Change_color &&
+               action != Action.Background_change && action != Action.None;
     }
 
     public boolean Is_shadow_action() {

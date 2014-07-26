@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Enum.Owner;
+import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
@@ -40,7 +41,8 @@ public class GameModel {
 
     public GameModel( final Player player, final Context context,
                       final LinearLayout foreground, final LinearLayout background,
-                      final Bitmap foreground_bitmap, final Bitmap background_bitmap )
+                      final Bitmap foreground_bitmap, final Bitmap background_bitmap,
+                      final Options options )
     {
         this.graph = new LinkedList<Line>();
         this.levels = new ArrayList<Posn>();
@@ -49,7 +51,8 @@ public class GameModel {
         this.lines_dragged = 0;
         this.shift_number = 0;
         this.player = player;
-        this.game_view = new GameView( context, foreground, background, foreground_bitmap, background_bitmap );
+        this.game_view = new GameView( context, foreground, background,
+                                       foreground_bitmap, background_bitmap, options );
         this.past_state = null;
     }
 
@@ -184,6 +187,8 @@ public class GameModel {
         for ( int i = 0; i < levels.size(); ++i ) {
             if ( player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
+            } else {
+                unlocked_levels.add( null );
             }
         }
         return unlocked_levels;
@@ -220,7 +225,7 @@ public class GameModel {
             graph.addLast( line.clone() );
         }
         for ( Posn point : puzzle.Get_levels() ) {
-            levels.add(point.clone());
+            levels.add( point.clone() );
         }
         lines_drawn = 0;
         lines_erased = 0;
