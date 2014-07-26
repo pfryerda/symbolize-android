@@ -78,13 +78,13 @@ public class Player {
      * @param int level: The level of interest
      */
     public boolean Is_unlocked( int world ) {
-        return true;
-        //return world_unlocks[world - 1] || DEVMODE;
+        //return true;
+        return world_unlocks[world - 1] || DEVMODE;
     }
 
     public boolean Is_unlocked( int world, int level ) {
-        return true;
-        //return level_unlocks[(world - 1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] || DEVMODE;
+        //return true;
+        return level_unlocks[(world - 1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] || DEVMODE;
     }
 
     /*
@@ -105,7 +105,7 @@ public class Player {
      * @param int world: The level of interest
      */
     public void Unlock( int world ) {
-        level_unlocks[world - 1] = true;
+        world_unlocks[world - 1] = true;
         unlocks_editor.putBoolean( world + "" , true );
         unlocks_editor.commit();
     }
@@ -113,6 +113,24 @@ public class Player {
     public void Unlock( int world, int level ) {
         level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level -1 )] = true;
         unlocks_editor.putBoolean( world + "-" + level, true );
+        unlocks_editor.commit();
+    }
+
+    public void Delete_all_data() {
+        for ( int world  = 1; world < PuzzleDB.NUMBEROFWORLDS; ++world ) {
+            level_unlocks[world - 1] = false;
+            unlocks_editor.putBoolean(world + "", false);
+            for ( int level = 1; level < PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
+                level_unlocks[(world - 1) * PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] = false;
+                unlocks_editor.putBoolean( world + "-" + level, false );
+            }
+        }
+
+        world_unlocks[0] = true;
+        unlocks_editor.putBoolean( "1", true);
+        level_unlocks[0] = true;
+        unlocks_editor.putBoolean( "1-1", true );
+
         unlocks_editor.commit();
     }
 

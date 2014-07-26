@@ -112,8 +112,10 @@ public class Posn {
        if ( !levels.isEmpty() ) {
            Posn match = levels.get( 0 );
            for ( Posn point : levels ) {
-               if ( Distance_squared( point ) < Distance_squared( match ) ) {
-                   match = point;
+               if ( point != null ) {
+                   if ( Distance_squared(point) < Distance_squared( match ) ) {
+                       match = point;
+                   }
                }
            }
            first = match.x();
