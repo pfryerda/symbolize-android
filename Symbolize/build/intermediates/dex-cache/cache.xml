@@ -2,14 +2,14 @@
 <pre-dex-items>
 
     <item
-        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\classes-b886c951d1666457e3db6a470aec6622e9425bcb.jar"
-        jar="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.77\classes.jar"
+        dex="/Users/pfryerda/symbolize-android/symbolize/app/build/intermediates/pre-dexed/debug/classes-1628b1a5fd7ad2208a843cc7e10466f4a2101f69.jar"
+        jar="/Users/pfryerda/symbolize-android/symbolize/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>
     <item
-        dex="B:\Documents\GitHub\symbolize-android\Symbolize\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-c64f83dcbef39132a8748640f696362614aaea41.jar"
-        jar="B:\Users\Luke\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        dex="/Users/pfryerda/symbolize-android/symbolize/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-fe930dc68beb1e566675ce71b270d4091c6c249b.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
