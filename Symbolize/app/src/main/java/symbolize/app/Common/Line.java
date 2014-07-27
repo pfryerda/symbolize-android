@@ -3,15 +3,17 @@ package symbolize.app.Common;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import android.graphics.Color;
 import android.util.SparseIntArray;
-
-import symbolize.app.Common.Enum.Action;
-import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Game.GameActivity;
 
 public class Line {
+    // Flags
+    //-------
+
+    public static final int App = 0;
+    public static final int User = 1;
+
     // Static Fields
     //---------------
 
@@ -27,7 +29,7 @@ public class Line {
 
     private Posn p1, p2;
     private int color;
-    private final Owner owner;
+    private final int owner;
     private float slope;
     private float y_intercept;
 
@@ -41,10 +43,10 @@ public class Line {
         slope = Float.POSITIVE_INFINITY;
         y_intercept = Float.POSITIVE_INFINITY;
         color = 0;
-        owner = null;
+        owner = 0;
     }
 
-    public Line( final Posn pt1, final Posn pt2, final Owner creator ) {
+    public Line( final Posn pt1, final Posn pt2, final int creator ) {
         if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
@@ -58,7 +60,7 @@ public class Line {
         owner = creator;
     }
 
-    public Line( final Posn pt1, final Posn pt2, final int hue, final Owner creator ) {
+    public Line( final Posn pt1, final Posn pt2, final int hue, final int creator ) {
         if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
@@ -180,7 +182,7 @@ public class Line {
         return color;
     }
 
-    public Owner Get_owner() {
+    public int Get_owner() {
         return owner;
     }
 
@@ -188,12 +190,12 @@ public class Line {
     // Action Method
     //----------------
 
-    public void Edit( final Action action ) {
-        if ( action == Action.Change_color ) {
+    public void Edit( final int request_type ) {
+        if ( request_type == Request.Change_color ) {
             color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
         } else {
-            p1.Edit( action );
-            p2.Edit( action );
+            p1.Edit( request_type );
+            p2.Edit( request_type );
         }
         update_attributes();
     }

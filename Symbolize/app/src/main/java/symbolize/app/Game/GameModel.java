@@ -4,20 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
-import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
-import symbolize.app.Puzzle.World;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -90,39 +84,39 @@ public class GameModel {
     //------------------
 
     public void Handle_request( final Request request ) {
-        if ( request.action != Action.Drag_end ) {
+        if ( request.Require_undo() ) {
             push_state();
         }
 
-        switch ( request.action ) {
-            case Draw:
-                graph.addLast( request.action_line );
+        switch ( request.type ) {
+            case Request.Draw:
+                graph.addLast( request.request_line );
                 ++lines_drawn;
                 break;
 
-            case Erase:
-                graph.remove( request.action_line );
-                if ( request.action_line.Get_owner() == Owner.App ) {
+            case Request.Erase:
+                graph.remove( request.request_line );
+                if ( request.request_line.Get_owner() == Line.App ) {
                     ++lines_erased;
                 } else {
                     --lines_drawn;
                 }
                 break;
 
-            case Drag_start:
-                graph.remove( request.action_line );
+            case Request.Drag_start:
+                graph.remove( request.request_line );
                 ++lines_dragged;
                 break;
 
-            case Drag_end:
-                graph.add( request.action_line );
+            case Request.Drag_end:
+                graph.add( request.request_line );
                 break;
 
-            case Change_color:
-                request.action_line.Edit( request.action );
+            case Request.Change_color:
+                request.request_line.Edit( request.type );
                 break;
 
-            case Shift:
+            case Request.Shift:
                 shift_number = ( shift_number + 1 ) % request.shift_graphs.size();
                 graph.clear();
                 for ( Line line : request.shift_graphs.get( shift_number ) ) {
@@ -132,24 +126,24 @@ public class GameModel {
                 lines_erased = 0;
                 break;
 
-            case Rotate_left:
-            case Rotate_right:
-            case Flip_horizontally:
-            case Flip_vertically:
+            case Request.Rotate_left:
+            case Request.Rotate_right:
+            case Request.Flip_horizontally:
+            case Request.Flip_vertically:
                 for ( Line line : graph ) {
-                    line.Edit( request.action );
+                    line.Edit( request.type );
                 }
 
                 for ( Posn posn : levels ) {
-                    posn.Edit( request.action );
+                    posn.Edit( request.type );
                 }
                 break;
 
-            case Load_level:
-            case Load_world_via_level:
-            case Load_world_left:
-            case Load_world_right:
-            case Reset:
+            case Request.Load_level_via_world:
+            case Request.Load_world_via_level:
+            case Request.Load_puzzle_left:
+            case Request.Load_puzzle_right:
+            case Request.Reset:
                 handle_set_puzzle( request.puzzle );
                 break;
 
@@ -157,7 +151,7 @@ public class GameModel {
                 break;
         }
 
-        if ( request.action != Action.Drag_start ) {
+        if ( request.Require_render() ) {
             request.graph = graph;
             request.levels = Get_unlocked_levels();
             game_view.Render( request );

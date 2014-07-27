@@ -1,14 +1,11 @@
 package symbolize.app.Game;
+
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
 import symbolize.app.Animation.GameAnimationHandler;
-import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Posn;
 
 
@@ -293,9 +290,9 @@ public class GameTouchListener implements View.OnTouchListener {
             if ( in_drag_mode ) {
                 onDragEnd( drag_line );
             } else {
-                Line line = new Line( point_one, point_one_end, Owner.User );
+                Line line = new Line( point_one, point_one_end, Line.User );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    onDraw( new Line( point_one, point_one_end, Owner.User ) );
+                    onDraw( new Line( point_one, point_one_end, Line.User ) );
                 } else if ( ( end_time - start_time) <= TAPTHRESHOLD ) {
                     onTap( point_one_end );
                 }
@@ -366,7 +363,7 @@ public class GameTouchListener implements View.OnTouchListener {
         if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWINGTHRESHOLD * Posn.DRAWINGTHRESHOLD ) ) {
             drag_timer.cancel();
         }
-        onFingerMove( new Line( point_one, current_point, Owner.App ), current_point );
+        onFingerMove( new Line( point_one, current_point, Line.App ), current_point );
         if ( is_erase_delay_done ) {
             onErase( current_point );
         }
