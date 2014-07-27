@@ -1,17 +1,13 @@
 package symbolize.app.Home;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
-import symbolize.app.Common.Request;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GameActivity;
@@ -90,7 +86,7 @@ public class HomeActivity extends FragmentActivity
             @Override
             public void OnDialogFail() {}
         } );
-        confirmDialog.show(dialog_fragment_manager, "delete_all_data_dialog");
+        confirmDialog.show( dialog_fragment_manager, "delete_all_data_dialog" );
     }
 
     @Override

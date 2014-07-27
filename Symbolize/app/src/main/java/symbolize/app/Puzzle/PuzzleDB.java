@@ -2,15 +2,11 @@ package symbolize.app.Puzzle;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.R;
@@ -235,7 +231,7 @@ public class PuzzleDB {
                             if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
-                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Owner.App );
+                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Line.App );
                             tmpList.add( tmpLine.clone() );
                             tmpLine = null;
                             tmpP1 = null;
@@ -422,7 +418,7 @@ public class PuzzleDB {
                             if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
-                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Owner.App );
+                            tmpLine = new Line( tmpP1, tmpP2, tmpColor, Line.App );
                             tmpList.add( tmpLine.clone() );
                             tmpLine = null;
                             tmpP1 = null;

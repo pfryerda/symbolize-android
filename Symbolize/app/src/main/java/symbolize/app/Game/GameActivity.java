@@ -1,10 +1,8 @@
 package symbolize.app.Game;
 
 
-import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -21,9 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Enum.Owner;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
@@ -138,7 +134,7 @@ public class GameActivity extends FragmentActivity
         dialog_fragment_manager = getFragmentManager();
 
         current_puzzle = puzzleDB.Fetch_world( 1 );
-        Request request = new Request( Action.Reset );
+        Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
 
@@ -152,7 +148,7 @@ public class GameActivity extends FragmentActivity
 
     public void On_left_button_clicked( final View view ) {
         player.Decrease_world();
-        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Action.Load_world_left );
+        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_left );
     }
 
     public void On_back_button_clicked( final View view ) {
@@ -160,13 +156,13 @@ public class GameActivity extends FragmentActivity
             startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
         } else {
             player.Set_to_world_level();
-            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Action.Load_world_via_level );
+            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_world_via_level );
         }
     }
 
     public void On_right_button_clicked( final View view ) {
         player.Increase_world();
-        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Action.Load_world_right );
+        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
     }
 
     public void On_settings_button_clicked( final View view ) {
@@ -176,7 +172,7 @@ public class GameActivity extends FragmentActivity
     }
 
     public void On_reset_button_clicked( final View view ) {
-        Request request = new Request( Action.Reset );
+        Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
     }
@@ -193,12 +189,12 @@ public class GameActivity extends FragmentActivity
                     player.Unlock( player.Get_current_world() + 1 );
                 }
                 ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.Set_attr( "Congratulations", "You are correct! Would like to be sent back to the level select view" );
+                confirmDialog.Set_attr( "Congratulations", "You are correct! Would you like to be sent back to the level select view" );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
                         load_world( puzzleDB.Fetch_world( player.Get_current_world() ),
-                                Action.Load_world_via_level );
+                                Request.Load_world_via_level );
                     }
 
                     @Override
@@ -244,11 +240,11 @@ public class GameActivity extends FragmentActivity
      *
      * @param Level level: The level that needs to be loaded
      */
-    private void load_world( final World world, Action action ) {
+    private void load_world( final World world, int request_type ) {
         in_world_view = true;
         current_puzzle = world;
 
-        Request request = new Request( action );
+        Request request = new Request( request_type );
         request.puzzle = world;
         game_model.Handle_request( request );
 
@@ -259,9 +255,9 @@ public class GameActivity extends FragmentActivity
         in_world_view = false;
         current_puzzle = level;
 
-        Request request = new Request( Action.Load_level );
+        Request request = new Request( Request.Load_level_via_world );
         request.puzzle = level;
-        request.action_point = pivot;
+        request.request_point = pivot;
         game_model.Handle_request( request );
 
         update_view();
@@ -300,7 +296,7 @@ public class GameActivity extends FragmentActivity
      */
     private void undo() {
         game_model = game_model.getPastState();
-        game_model.Handle_request( new Request( Action.None ) );
+        game_model.Handle_request( new Request( Request.None ) );
     }
 
     /*
@@ -339,8 +335,8 @@ public class GameActivity extends FragmentActivity
                 line.Snap_to_levels( game_model.Get_unlocked_levels() );
                 if ( player.In_draw_mode() ) {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
-                        Request request = new Request( Action.Draw );
-                        request.action_line = line;
+                        Request request = new Request( Request.Draw );
+                        request.request_line = line;
                         game_model.Handle_request( request );
                     } else {
                         Render_toast( R.string.out_of_lines );
@@ -354,10 +350,10 @@ public class GameActivity extends FragmentActivity
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
                             if ( ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
-                                    || ( line.Get_owner() == Owner.User ) )
+                                    || ( line.Get_owner() == Line.User ) )
                             {
-                                Request request = new Request( Action.Erase );
-                                request.action_line = line;
+                                Request request = new Request( Request.Erase );
+                                request.request_line = line;
                                 game_model.Handle_request( request );
                             } else {
                                 Render_toast( R.string.out_of_erase );
@@ -370,7 +366,7 @@ public class GameActivity extends FragmentActivity
 
             @Override
             public void onFingerUp() {
-                game_model.Handle_request( new Request( Action.None ) );
+                game_model.Handle_request( new Request( Request.None ) );
             }
 
             @Override
@@ -380,12 +376,12 @@ public class GameActivity extends FragmentActivity
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );
-                    Request request = new Request( Action.Shadow_line );
-                    request.action_line = line;
+                    Request request = new Request( Request.Shadow_line );
+                    request.request_line = line;
                     game_model.Handle_request(request);
                 } else {
-                    Request request = new Request( Action.Shadow_Point );
-                    request.action_point = point;
+                    Request request = new Request( Request.Shadow_point );
+                    request.request_point = point;
                     game_model.Handle_request(request);
                 }
             }
@@ -408,8 +404,8 @@ public class GameActivity extends FragmentActivity
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph( )) {
                             if ( line.Intersects( point ) ) {
-                                Request request = new Request( Action.Change_color );
-                                request.action_line = line;
+                                Request request = new Request( Request.Change_color );
+                                request.request_line = line;
                                 game_model.Handle_request( request );
                                 break;
                             }
@@ -423,8 +419,8 @@ public class GameActivity extends FragmentActivity
                 if ( player.In_draw_mode() ) {
                     for ( Line line : game_model.Get_graph() ) {
                         if ( line.Intersects( point ) ) {
-                            Request request = new Request( Action.Drag_start );
-                            request.action_line = line;
+                            Request request = new Request( Request.Drag_start );
+                            request.request_line = line;
                             game_model.Handle_request( request );
                             return line.clone();
                         }
@@ -436,8 +432,8 @@ public class GameActivity extends FragmentActivity
             @Override
             public void onDragEnd( Line line ) {
                 if ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() ) {
-                    Request request = new Request( Action.Drag_end );
-                    request.action_line = line;
+                    Request request = new Request( Request.Drag_end );
+                    request.request_line = line;
                     game_model.Handle_request( request );
                 } else {
                     undo();
@@ -447,34 +443,34 @@ public class GameActivity extends FragmentActivity
 
             @Override
             public void onEnterDoubleTouch() {
-                game_model.Handle_request( new Request( Action.None ) );
+                game_model.Handle_request( new Request( Request.None ) );
             }
 
             @Override
             public void onRotateRight() {
                 if ( current_puzzle.Can_rotate() ) {
-                    game_model.Handle_request( new Request( Action.Rotate_right ) );
+                    game_model.Handle_request( new Request( Request.Rotate_right ) );
                 }
             }
 
             @Override
             public void onRotateLeft() {
                 if ( current_puzzle.Can_rotate() ) {
-                    game_model.Handle_request( new Request( Action.Rotate_left ) );
+                    game_model.Handle_request( new Request( Request.Rotate_left ) );
                 }
             }
 
             @Override
             public void onFlipHorizontally() {
                 if ( current_puzzle.Can_flip() ) {
-                    game_model.Handle_request( new Request( Action.Flip_horizontally ) );
+                    game_model.Handle_request( new Request( Request.Flip_horizontally ) );
                 }
             }
 
             @Override
             public void onFlipVertically() {
                 if ( current_puzzle.Can_flip() ) {
-                    game_model.Handle_request( new Request( Action.Flip_vertically ) );
+                    game_model.Handle_request( new Request( Request.Flip_vertically ) );
                 }
             }
         } );
@@ -483,7 +479,7 @@ public class GameActivity extends FragmentActivity
             @Override
             public void onShake() {
                 if ( current_puzzle.Can_shift() ) {
-                    Request request = new Request( Action.Shift );
+                    Request request = new Request( Request.Shift );
                     request.shift_graphs = current_puzzle.Get_boards();
                     game_model.Handle_request( request );
                 }
@@ -494,7 +490,7 @@ public class GameActivity extends FragmentActivity
     @Override
     public void OnToggleGrid() {
         options.Toggle_grid();
-        Request request = new Request( Action.Background_change );
+        Request request = new Request( Request.Background_change );
         request.options = options;
         game_model.Handle_request( request );
     }
@@ -502,7 +498,7 @@ public class GameActivity extends FragmentActivity
     @Override
     public void OnToggleBorder() {
         options.Toggle_border();
-        Request request = new Request( Action.Background_change );
+        Request request = new Request( Request.Background_change );
         request.options = options;
         game_model.Handle_request( request );
     }
@@ -510,7 +506,7 @@ public class GameActivity extends FragmentActivity
     @Override
     public void OnToggleSnap() {
         options.Is_snap_drawing();
-        Request request = new Request( Action.Background_change );
+        Request request = new Request( Request.Background_change );
         request.options = options;
         game_model.Handle_request( request );
     }

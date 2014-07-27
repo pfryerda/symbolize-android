@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
-import symbolize.app.Animation.SymbolizeZoomAnimation;
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Posn;
@@ -82,11 +80,11 @@ public class GameView {
     //----------------
 
     public void Render( Request request ) {
-        if ( request.action == Action.Background_change ) {
+        if ( request.type == Request.Background_change ) {
             Render_background( request.options );
         } else if ( request.Is_animation_action() ) {
-            if( request.action == Action.Load_level ) {
-                animation_handler.Set_zoom_pivots( request.action_point );
+            if( request.type == Request.Load_level_via_world ) {
+                animation_handler.Set_zoom_pivots( request.request_point );
             }
             request.game_view = this;
             animation_handler.Handle_request( request );
@@ -94,15 +92,15 @@ public class GameView {
             Render_foreground( request.graph, request.levels );
             if( request.Is_shadow_action() ) {
                 paint.setStyle( Paint.Style.STROKE );
-                paint.setColor( ( request.action == Action.Shadow_line ) ? request.action_line.Get_color() : Color.BLACK );
+                paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
                 paint.setAlpha( SHADOW );
-                paint.setStrokeWidth( ( request.action == Action.Shadow_line ) ? LINEWIDTH : POINTWIDTH );
+                paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINEWIDTH : POINTWIDTH );
 
-                if ( request.action == Action.Shadow_line ) {
-                    foreground_canvas.drawLine( request.action_line.Get_p1().x(), request.action_line.Get_p1().y(),
-                                                request.action_line.Get_p2().x(), request.action_line.Get_p2().y(), paint );
+                if ( request.type == Request.Shadow_line ) {
+                    foreground_canvas.drawLine( request.request_line.Get_p1().x(), request.request_line.Get_p1().y(),
+                                                request.request_line.Get_p2().x(), request.request_line.Get_p2().y(), paint );
                 } else {
-                    foreground_canvas.drawPoint( request.action_point.x(), request.action_point.y(), paint );
+                    foreground_canvas.drawPoint( request.request_point.x(), request.request_point.y(), paint );
                 }
                 foreground.invalidate();
             }

@@ -1,8 +1,6 @@
 package symbolize.app.Common;
 
 import java.util.ArrayList;
-
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Game.GameActivity;
 
 public class Posn {
@@ -139,26 +137,26 @@ public class Posn {
     // Action method
     //--------------
 
-    public void Edit( final Action action ) {
+    public void Edit( final int request_type ) {
         int tmp;
-        switch ( action ) {
-            case Rotate_right:
+        switch ( request_type ) {
+            case Request.Rotate_right:
                 tmp = first;
                 first = GameActivity.SCALING - second;
                 second = tmp;
                 break;
 
-            case Rotate_left:
+            case Request.Rotate_left:
                 tmp = second;
                 second = GameActivity.SCALING - first;
                 first = tmp;
                 break;
 
-            case Flip_horizontally:
+            case Request.Flip_horizontally:
                 first = GameActivity.SCALING - first;
                 break;
 
-            case Flip_vertically:
+            case Request.Flip_vertically:
                 second = GameActivity.SCALING - second;
                 break;
         }

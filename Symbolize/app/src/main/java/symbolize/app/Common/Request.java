@@ -3,22 +3,43 @@ package symbolize.app.Common;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import symbolize.app.Common.Enum.Action;
 import symbolize.app.Game.GameView;
 import symbolize.app.Puzzle.Puzzle;
-import symbolize.app.R;
 
 public class Request {
+    // Flags
+    //-------
+
+    public static final int Drag_start           = 0;
+    public static final int Drag_end             = 1;
+    public static final int None                 = 2;
+    public static final int Reset                = 3;
+    public static final int Background_change    = 4;
+    public static final int Shadow_point         = 5;
+    public static final int Shadow_line          = 6;
+    public static final int Draw                 = 7;
+    public static final int Erase                = 8;
+    public static final int Rotate_right         = 9;
+    public static final int Rotate_left          = 10;
+    public static final int Flip_horizontally    = 11;
+    public static final int Flip_vertically      = 12;
+    public static final int Change_color         = 13;
+    public static final int Shift                = 14;
+    public static final int Load_level_via_world = 15;
+    public static final int Load_world_via_level = 16;
+    public static final int Load_puzzle_left     = 17;
+    public static final int Load_puzzle_right    = 18;
+
+
     // Fields
     //--------
 
-    public Action action;
+    public int type;
 
     public Puzzle puzzle;
 
-    public Line action_line;
-    public Posn action_point;
+    public Line request_line;
+    public Posn request_point;
 
     public ArrayList<LinkedList<Line>> shift_graphs;
 
@@ -33,13 +54,13 @@ public class Request {
     // Constructors
     //-------------
 
-    public Request( Action action ) {
-        this.action = action;
+    public Request( int type ) {
+        this.type = type;
 
         this.puzzle = null;
 
-        this.action_line = null;
-        this.action_point = null;
+        this.request_line = null;
+        this.request_point = null;
 
         this.shift_graphs = null;
 
@@ -51,18 +72,22 @@ public class Request {
     }
 
 
-    // Method
-    //-------
+    // Public Methods
+    //---------------
+
+    public boolean Require_render() {
+        return 1 <= type && type <= 18;
+    }
+
+    public boolean Require_undo() {
+        return 7 <= type && type <= 14;
+    }
 
     public boolean Is_animation_action() {
-        return action != Action.Draw       && action != Action.Erase &&
-               action != Action.Drag_start && action != Action.Drag_end &&
-               action != Action.Shadow_line && action != Action.Shadow_Point &&
-               action != Action.Reset && action != Action.Change_color &&
-               action != Action.Background_change && action != Action.None;
+        return 9 <= type && type <= 18;
     }
 
     public boolean Is_shadow_action() {
-        return action == Action.Shadow_line || action == Action.Shadow_Point;
+        return 5 <= type && type <= 6;
     }
 }
