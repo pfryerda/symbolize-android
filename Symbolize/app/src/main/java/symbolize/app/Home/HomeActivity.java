@@ -12,6 +12,7 @@ import symbolize.app.Common.Enum.Action;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Request;
+import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
@@ -78,7 +79,18 @@ public class HomeActivity extends FragmentActivity
 
     @Override
     public void OnDeleteAllData() {
-        player.Delete_all_data();
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.Set_attr( "Delete all data", "Are you sure you would like to clear all your progress. This cannot be reverted" );
+        confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+            @Override
+            public void OnDialogSuccess() {
+                player.Delete_all_data();
+            }
+
+            @Override
+            public void OnDialogFail() {}
+        } );
+        confirmDialog.show(dialog_fragment_manager, "delete_all_data_dialog");
     }
 
     @Override

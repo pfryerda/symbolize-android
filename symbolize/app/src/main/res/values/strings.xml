@@ -14,6 +14,9 @@
     <string name="world">World</string>
     <string name="level">Level</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="out_of_lines">"Cannot draw any more lines"</string>
     <string name="out_of_erase">Cannot erase any more lines</string>
     <string name="out_of_drag">Cannot drag any more lines</string>
