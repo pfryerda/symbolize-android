@@ -1,8 +1,10 @@
 package symbolize.app.Game;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -26,6 +28,8 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.Dialog.ConfirmDialog;
+import symbolize.app.Dialog.HintDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
@@ -155,9 +159,8 @@ public class GameActivity extends FragmentActivity
         if ( in_world_view ) {
             startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
         } else {
-            in_world_view = true;
-            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Action.Load_world_via_level );
             player.Set_to_world_level();
+            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Action.Load_world_via_level );
         }
     }
 
@@ -185,8 +188,24 @@ public class GameActivity extends FragmentActivity
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
                 if ( player.Get_current_level() < PuzzleDB.NUMBEROFLEVELSPERWORLD ) {
                     player.Unlock( player.Get_current_world(), player.Get_current_level() + 1 );
+                } else {
+                    player.Unlock( player.Get_current_world() + 1, 1 );
+                    player.Unlock( player.Get_current_world() + 1 );
                 }
-                Render_toast( "You are correct!" );
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attr( "Congratulations", "You are correct! Would like to be sent back to the level select view" );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        load_world( puzzleDB.Fetch_world( player.Get_current_world() ),
+                                Action.Load_world_via_level );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.show( dialog_fragment_manager, "congratulations_dialog" );
+
             } else {
                 Render_toast( "You are incorrect" );
             }
@@ -194,7 +213,9 @@ public class GameActivity extends FragmentActivity
     }
 
     public void On_hint_button_clicked( final View view ) {
-        Render_toast( "Hint" );
+        HintDialog hint_dialog = new HintDialog();
+        hint_dialog.Set_attr( current_puzzle );
+        hint_dialog.show( dialog_fragment_manager, "hint_dialog" );
     }
 
     public void On_undo_button_clicked( final View view ) {
@@ -224,6 +245,7 @@ public class GameActivity extends FragmentActivity
      * @param Level level: The level that needs to be loaded
      */
     private void load_world( final World world, Action action ) {
+        in_world_view = true;
         current_puzzle = world;
 
         Request request = new Request( action );
@@ -234,7 +256,7 @@ public class GameActivity extends FragmentActivity
     }
 
     private void load_level( final Level level, final Posn pivot ) {
-        // Load up puzzle
+        in_world_view = false;
         current_puzzle = level;
 
         Request request = new Request( Action.Load_level );
@@ -381,7 +403,6 @@ public class GameActivity extends FragmentActivity
                 }
                 if ( level_found > 0 ) {
                     player.Set_current_level( level_found );
-                    in_world_view = false;
                     load_level( puzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ), pivot );
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
@@ -496,8 +517,19 @@ public class GameActivity extends FragmentActivity
 
     @Override
     public void OnDeleteAllData() {
-        player.Delete_all_data();
-        startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.Set_attr( "Delete all data", "Are you sure you would like to clear all your progress. This cannot be reverted" );
+        confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+            @Override
+            public void OnDialogSuccess() {
+                player.Delete_all_data();
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            }
+
+            @Override
+            public void OnDialogFail() {}
+        } );
+        confirmDialog.show( dialog_fragment_manager, "delete_all_data_dialog" );
     }
 
     @Override

@@ -117,10 +117,10 @@ public class Player {
     }
 
     public void Delete_all_data() {
-        for ( int world  = 1; world < PuzzleDB.NUMBEROFWORLDS; ++world ) {
+        for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
             level_unlocks[world - 1] = false;
             unlocks_editor.putBoolean(world + "", false);
-            for ( int level = 1; level < PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
+            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
                 level_unlocks[(world - 1) * PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] = false;
                 unlocks_editor.putBoolean( world + "-" + level, false );
             }
