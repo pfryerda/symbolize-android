@@ -1,6 +1,5 @@
 package symbolize.app.Game;
 
-
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -258,6 +257,13 @@ public class GameActivity extends FragmentActivity
         Request request = new Request( Request.Load_level_via_world );
         request.puzzle = level;
         request.request_point = pivot;
+
+        HintDialog hint_dialog = new HintDialog();
+        hint_dialog.Set_attr( current_puzzle );
+
+        request.dialog = hint_dialog;
+        request.dialog_fragment_manager = dialog_fragment_manager;
+
         game_model.Handle_request( request );
 
         update_view();

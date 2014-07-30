@@ -23,16 +23,16 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
     // Field
     //-------
 
+    protected SymbolizeAnimationListener listener_2;
     protected Animation animation_2;
 
 
     // Constructor
     //-------------
 
-    public SymbolizeDualAnimation( final LinearLayout linearLayout,
-                                   final Animation animation_1, final int duration_1, final boolean fill_after_1,
+    public SymbolizeDualAnimation( final Animation animation_1, final int duration_1, final boolean fill_after_1,
                                    final Animation animation_2, final int duration_2, final boolean fill_after_2 ) {
-        super( linearLayout, animation_1, duration_1, fill_after_1 );
+        super( animation_1, duration_1, fill_after_1 );
         this.animation_2 = animation_2;
         this.animation_2.setDuration( duration_2 );
         this.animation_2.setFillAfter( fill_after_2 );
@@ -44,10 +44,9 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
 
     /// @see SymbolizeAnimation::set_up_animation
     @Override
-    public void Set_up_animation( final GameView game_view,
-                                  final LinkedList<Line> graph, final ArrayList<Posn> levels )
+    public void Set_up_animation( final LinearLayout linearLayout )
     {
-        this.animation.setAnimationListener(new Animation.AnimationListener() {
+        this.animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 GameAnimationHandler.InAnimation = true;
@@ -56,7 +55,9 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
             @Override
             public void onAnimationEnd(Animation animation) {
                 linearLayout.clearAnimation();
-                game_view.Render_foreground( graph, levels );
+                if ( listener != null ) {
+                    listener.onSymbolizeAnimationEnd();
+                }
                 linearLayout.startAnimation( animation_2 );
                 GameAnimationHandler.InAnimation = false;
             }
@@ -64,6 +65,30 @@ public class SymbolizeDualAnimation extends SymbolizeAnimation {
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
-        });
+        } );
+
+        this.animation_2.setAnimationListener( new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                GameAnimationHandler.InAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                linearLayout.clearAnimation();
+                if ( listener_2 != null ) {
+                    listener_2.onSymbolizeAnimationEnd();
+                }
+                GameAnimationHandler.InAnimation = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        } );
+    }
+
+    public void SetSymbolizeAnimationListener_2( SymbolizeAnimationListener listener ) {
+        this.listener_2 = listener;
     }
 }
