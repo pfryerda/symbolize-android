@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -70,7 +71,7 @@ public class GameView {
         paint.setStrokeCap( Paint.Cap.ROUND );
         paint.setTextSize( TEXTWIDTH );
 
-        animation_handler = new GameAnimationHandler( foreground );
+        animation_handler = new GameAnimationHandler();
 
         Render_background( options );
     }
@@ -86,6 +87,7 @@ public class GameView {
             if( request.type == Request.Load_level_via_world ) {
                 animation_handler.Set_zoom_pivots( request.request_point );
             }
+            request.linearLayout = foreground;
             request.game_view = this;
             animation_handler.Handle_request( request );
         } else {

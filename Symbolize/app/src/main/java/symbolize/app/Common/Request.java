@@ -1,8 +1,13 @@
 package symbolize.app.Common;
 
 
+import android.app.FragmentManager;
+import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Dialog.HintDialog;
 import symbolize.app.Game.GameView;
 import symbolize.app.Puzzle.Puzzle;
 
@@ -17,13 +22,13 @@ public class Request {
     public static final int Background_change    = 4;
     public static final int Shadow_point         = 5;
     public static final int Shadow_line          = 6;
-    public static final int Draw                 = 7;
-    public static final int Erase                = 8;
-    public static final int Rotate_right         = 9;
-    public static final int Rotate_left          = 10;
-    public static final int Flip_horizontally    = 11;
-    public static final int Flip_vertically      = 12;
-    public static final int Change_color         = 13;
+    public static final int Change_color         = 7;
+    public static final int Draw                 = 8;
+    public static final int Erase                = 9;
+    public static final int Rotate_right         = 10;
+    public static final int Rotate_left          = 11;
+    public static final int Flip_horizontally    = 12;
+    public static final int Flip_vertically      = 13;
     public static final int Shift                = 14;
     public static final int Load_level_via_world = 15;
     public static final int Load_world_via_level = 16;
@@ -46,8 +51,13 @@ public class Request {
     public LinkedList<Line> graph;
     public ArrayList<Posn> levels;
 
-    public Options options;
+    public LinearLayout linearLayout;
     public GameView game_view;
+
+    public Options options;
+
+    public HintDialog dialog; // TODO: Might make sense to make this a general dialog of sorts
+    public FragmentManager dialog_fragment_manager;
 
 
 
@@ -67,8 +77,13 @@ public class Request {
         this.graph = null;
         this.levels = null;
 
-        this.options = null;
+        this.linearLayout = null;
         this.game_view = null;
+
+        this.options = null;
+
+        this.dialog = null;
+        this.dialog_fragment_manager = null;
     }
 
 
@@ -80,7 +95,7 @@ public class Request {
     }
 
     public boolean Require_undo() {
-        return 7 <= type && type <= 14;
+        return ( 7 <= type && type <= 14 ) || type == 0;
     }
 
     public boolean Is_animation_action() {

@@ -30,36 +30,39 @@ public class GameAnimationHandler {
     //-------
 
     private final HashMap<Integer, SymbolizeAnimation> animations;
+    private final HashMap<Integer, SymbolizeDualAnimation> dual_animations;
     private final HashMap<Integer, SymbolizeAnimationSet> animationsets;
+    private final HashMap<Integer, SymbolizeDualAnimationSet> dual_animationsets;
     private final ArrayList<SymbolizeZoomAnimation> zoom_animations;
     
     
     // Constructor
     //-------------
     
-    public GameAnimationHandler( LinearLayout linearLayout ) {
+    public GameAnimationHandler() {
         // Basic animations
         animations = new HashMap<Integer, SymbolizeAnimation>();
-        animations.put( Request.Rotate_right, new SymbolizeAnimation( linearLayout,
+        dual_animations = new HashMap<Integer, SymbolizeDualAnimation>();
+        animations.put( Request.Rotate_right, new SymbolizeAnimation(
                 new RotateAnimation( 0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
-                ROTATEDURATION ) );
-        animations.put( Request.Rotate_left, new SymbolizeAnimation( linearLayout,
+                ROTATEDURATION, false ) );
+        animations.put( Request.Rotate_left, new SymbolizeAnimation(
                 new RotateAnimation( 0, -90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
-                ROTATEDURATION ) );
-        animations.put( Request.Flip_horizontally, new SymbolizeAnimation( linearLayout,
+                ROTATEDURATION, false ) );
+        animations.put( Request.Flip_horizontally, new SymbolizeAnimation(
                 new ScaleAnimation( 1, -1, 1, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
-                FLIPDURATION ) );
-        animations.put( Request.Flip_vertically, new SymbolizeAnimation( linearLayout,
+                FLIPDURATION, false ) );
+        animations.put( Request.Flip_vertically, new SymbolizeAnimation(
                 new ScaleAnimation( 1, 1, 1, -1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ),
-                FLIPDURATION ) );
-        animations.put( Request.Shift, new SymbolizeDualAnimation( linearLayout,
+                FLIPDURATION, false ) );
+        dual_animations.put( Request.Shift, new SymbolizeDualAnimation(
                 new AlphaAnimation( 1, 0 ),
                 FADEDURATION,
                 true,
                 new AlphaAnimation( 0, 1 ),
                 FADEDURATION,
                 true) );
-        animations.put( Request.Load_puzzle_left, new SymbolizeDualAnimation( linearLayout,
+        dual_animations.put( Request.Load_puzzle_left, new SymbolizeDualAnimation(
                 new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
                 TRANSLATEDURATION,
@@ -68,7 +71,7 @@ public class GameAnimationHandler {
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
                 TRANSLATEDURATION,
                 true ) );
-        animations.put( Request.Load_puzzle_right, new SymbolizeDualAnimation( linearLayout,
+        dual_animations.put( Request.Load_puzzle_right, new SymbolizeDualAnimation(
                 new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
                         Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0 ),
                 TRANSLATEDURATION,
@@ -79,43 +82,44 @@ public class GameAnimationHandler {
                 true ) );
 
         animationsets = new HashMap<Integer, SymbolizeAnimationSet>();
+        dual_animationsets = new HashMap<Integer, SymbolizeDualAnimationSet>();
 
         // Zoom animations
 
         // Zoom in
-        SymbolizeDualAnimationSet zoom_in_animation = new SymbolizeDualAnimationSet( linearLayout );
+        SymbolizeDualAnimationSet zoom_in_animation = new SymbolizeDualAnimationSet();
         zoom_in_animation.Add_animation(
-                new SymbolizeAnimation( linearLayout, new AlphaAnimation( 1, 0 ), FADEDURATION, true )
+                new SymbolizeAnimation( new AlphaAnimation( 1, 0 ), FADEDURATION, true )
         );
         SymbolizeZoomAnimation zoom_animation_1 =
-                new SymbolizeZoomAnimation( linearLayout, 1, ZOMMSCALING, 1, ZOMMSCALING,
+                new SymbolizeZoomAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
                         ZOOMDURATION, true );
         zoom_in_animation.Add_animation( zoom_animation_1 );
         zoom_in_animation.Add_animation_2(
-                new SymbolizeAnimation( linearLayout, new AlphaAnimation( 0, 1 ), FADEDURATION, true )
+                new SymbolizeAnimation( new AlphaAnimation( 0, 1 ), FADEDURATION, true )
         );
         SymbolizeZoomAnimation zoom_animation_2 =
-                new SymbolizeZoomAnimation(linearLayout, ZOMMSCALING, 1, ZOMMSCALING, 1,
+                new SymbolizeZoomAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
                         ZOOMDURATION, true );
         zoom_in_animation.Add_animation_2( zoom_animation_2 );
-        animationsets.put( Request.Load_level_via_world, zoom_in_animation );
+        dual_animationsets.put( Request.Load_level_via_world, zoom_in_animation );
 
         // Zoom out
-        SymbolizeDualAnimationSet zoom_out_animation = new SymbolizeDualAnimationSet( linearLayout );
+        SymbolizeDualAnimationSet zoom_out_animation = new SymbolizeDualAnimationSet();
         zoom_out_animation.Add_animation(
-                new SymbolizeAnimation( linearLayout,  new AlphaAnimation( 1, 0 ), FADEDURATION, true )
+                new SymbolizeAnimation( new AlphaAnimation( 1, 0 ), FADEDURATION, true )
         );
         SymbolizeZoomAnimation zoom_animation_3 =
-                new SymbolizeZoomAnimation( linearLayout, 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
+                new SymbolizeZoomAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
                         ZOOMDURATION, true );
         zoom_out_animation.Add_animation( zoom_animation_3 );
         zoom_out_animation.Add_animation_2(
-                new SymbolizeAnimation( linearLayout, new AlphaAnimation( 0, 1 ), FADEDURATION, true )
+                new SymbolizeAnimation( new AlphaAnimation( 0, 1 ), FADEDURATION, true )
         );
         SymbolizeZoomAnimation zoom_animation_4 =
-                new SymbolizeZoomAnimation( linearLayout, ZOMMSCALING, 1, ZOMMSCALING, 1, ZOOMDURATION, true );
+                new SymbolizeZoomAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1, ZOOMDURATION, true );
         zoom_out_animation.Add_animation_2( zoom_animation_4 );
-        animationsets.put( Request.Load_world_via_level, zoom_out_animation );
+        dual_animationsets.put( Request.Load_world_via_level, zoom_out_animation );
 
         zoom_animations = new ArrayList<SymbolizeZoomAnimation>();
         zoom_animations.add( zoom_animation_1 );
@@ -133,11 +137,53 @@ public class GameAnimationHandler {
         switch ( request.type ) {
             case Request.Load_level_via_world:
             case Request.Load_world_via_level:
-                animationsets.get( request.type ).Animate( request.game_view, request.graph, request.levels );
+                SymbolizeDualAnimationSet dual_animation_set = dual_animationsets.get( request.type ); // TODO: THIS IS BAD, design needs to change on this guy
+                dual_animation_set.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                    @Override
+                    public void onSymbolizeAnimationEnd() {
+                        request.game_view.Render_foreground( request.graph, request.levels );
+                    }
+                } );
+                dual_animation_set.SetSymbolizeAnimationListener_2( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                    @Override
+                    public void onSymbolizeAnimationEnd() {
+                        request.game_view.Render_foreground(request.graph, request.levels);
+                        if ( request.type == Request.Load_level_via_world ) {
+                            request.dialog.show( request.dialog_fragment_manager, "hint_dialog" );
+                        }
+                    }
+                });
+                dual_animation_set.Animate( request.linearLayout );
+                break;
+
+            case Request.Shift:
+            case Request.Load_puzzle_left:
+            case Request.Load_puzzle_right:
+                SymbolizeDualAnimation dual_animation = dual_animations.get(request.type);
+                dual_animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                    @Override
+                    public void onSymbolizeAnimationEnd() {
+                        request.game_view.Render_foreground( request.graph, request.levels );
+                    }
+                } );
+                dual_animation.SetSymbolizeAnimationListener_2( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                    @Override
+                    public void onSymbolizeAnimationEnd() {
+                        request.game_view.Render_foreground( request.graph, request.levels );
+                    }
+                } );
+                dual_animation.Animate( request.linearLayout );
                 break;
 
             default:
-                animations.get( request.type ).Animate( request.game_view, request.graph, request.levels );
+                SymbolizeAnimation animation = animations.get(request.type);
+                animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                    @Override
+                    public void onSymbolizeAnimationEnd() {
+                        request.game_view.Render_foreground( request.graph, request.levels );
+                    }
+                } );
+                animation.Animate( request.linearLayout );
         }
     }
 

@@ -26,10 +26,10 @@ public class SymbolizeZoomAnimation extends SymbolizeAnimation {
     // Constructor
     //-------------
 
-    public SymbolizeZoomAnimation( final LinearLayout linarLayout, final float fromX, final float toX,
+    public SymbolizeZoomAnimation( final float fromX, final float toX,
                                    final float fromY, final float toY, final int duration, final boolean fill_after )
     {
-        super( linarLayout, new ScaleAnimation( fromX, toX, fromY, toY, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ), duration, fill_after );
+        super( new ScaleAnimation( fromX, toX, fromY, toY, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f ), duration, fill_after );
 
         this.duration = duration;
         this.fill_after = fill_after;
