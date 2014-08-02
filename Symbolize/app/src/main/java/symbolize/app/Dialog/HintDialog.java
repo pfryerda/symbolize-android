@@ -13,6 +13,8 @@ import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
 public class HintDialog extends DialogFragment {
+    // Fields
+    //--------
     private String hint;
 
     // Main method

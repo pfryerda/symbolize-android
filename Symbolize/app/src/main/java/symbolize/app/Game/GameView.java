@@ -8,6 +8,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -80,18 +83,18 @@ public class GameView {
     // Public methods
     //----------------
 
-    public void Render( Request request ) {
+    public void Render( final Request request ) {
         if ( request.type == Request.Background_change ) {
             Render_background( request.options );
         } else if ( request.Is_animation_action() ) {
             if( request.type == Request.Load_level_via_world ) {
-                animation_handler.Set_zoom_pivots( request.request_point );
+                animation_handler.current_pivot = request.request_point;
             }
             request.linearLayout = foreground;
             request.game_view = this;
             animation_handler.Handle_request( request );
         } else {
-            Render_foreground( request.graph, request.levels );
+            Render_foreground(request.graph, request.levels);
             if( request.Is_shadow_action() ) {
                 paint.setStyle( Paint.Style.STROKE );
                 paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
