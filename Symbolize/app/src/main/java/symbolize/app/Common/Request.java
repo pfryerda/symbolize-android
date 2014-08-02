@@ -91,18 +91,18 @@ public class Request {
     //---------------
 
     public boolean Require_render() {
-        return 1 <= type && type <= 18;
+        return Drag_end <= type && type <= Load_puzzle_right;
     }
 
     public boolean Require_undo() {
-        return ( 7 <= type && type <= 14 ) || type == 0;
+        return ( Change_color <= type && type <= Shift ) || type == Drag_start;
     }
 
     public boolean Is_animation_action() {
-        return 9 <= type && type <= 18;
+        return Rotate_right <= type && type <= Load_puzzle_right;
     }
 
     public boolean Is_shadow_action() {
-        return 5 <= type && type <= 6;
+        return Shadow_point <= type && type <= Shadow_line;
     }
 }

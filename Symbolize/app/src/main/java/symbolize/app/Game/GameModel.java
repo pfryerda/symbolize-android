@@ -109,7 +109,7 @@ public class GameModel {
                 break;
 
             case Request.Drag_end:
-                graph.add( request.request_line );
+                graph.addLast( request.request_line );
                 break;
 
             case Request.Change_color:

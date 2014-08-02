@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Common.Line;
+import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 
 /*
@@ -47,15 +48,15 @@ abstract public class Puzzle {
     //----------------
 
     public boolean Can_rotate() {
-        return rotate_enabled;
+        return rotate_enabled || Player.DEVMODE;
     }
 
     public boolean Can_flip() {
-        return flip_enabled;
+        return flip_enabled|| Player.DEVMODE;
     }
 
     public boolean Can_change_color() {
-        return colour_enabled;
+        return colour_enabled|| Player.DEVMODE;
     }
 
     public boolean Check_correctness( final LinkedList<Line> graph ) {

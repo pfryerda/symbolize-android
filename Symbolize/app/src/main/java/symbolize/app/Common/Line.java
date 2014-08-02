@@ -17,6 +17,7 @@ public class Line {
     // Static Fields
     //---------------
 
+    public static final int TAPTHRESHOLD = GameActivity.SCALING / 12;
     public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
     public static final ArrayList<Integer> COLORARRAY =
             new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW,
@@ -30,8 +31,6 @@ public class Line {
     private Posn p1, p2;
     private int color;
     private final int owner;
-    private float slope;
-    private float y_intercept;
 
 
     // Constructors
@@ -40,8 +39,6 @@ public class Line {
     public Line() {
         p1 = null;
         p2 = null;
-        slope = Float.POSITIVE_INFINITY;
-        y_intercept = Float.POSITIVE_INFINITY;
         color = 0;
         owner = 0;
     }
@@ -55,7 +52,6 @@ public class Line {
             p2 = pt1;
         }
 
-        update_attributes();
         color = Color.BLACK;
         owner = creator;
     }
@@ -69,7 +65,6 @@ public class Line {
             p2 = pt1;
         }
 
-        update_attributes();
         color = hue;
         owner = creator;
     }
@@ -122,15 +117,16 @@ public class Line {
      * @param Posn point: point of interest
      */
     public boolean Intersects( final Posn point ) {
-        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() &&
-                point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
-            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() &&
-                point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD ) {
-            if ( ( slope != Float.POSITIVE_INFINITY ) && ( slope != 0 ) ) {
-                int x  = Math.round( ( point.y() - y_intercept ) /slope );
-                int y = Math.round( slope * point.x() + y_intercept );
-                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||
-                        ( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
+        if( Math.min( p1.x(), p2.x() ) - TAPTHRESHOLD <= point.x() &&
+                point.x() <= Math.max( p1.x(), p2.x() ) + TAPTHRESHOLD &&
+            Math.min( p1.y(), p2.y() ) - TAPTHRESHOLD <= point.y() &&
+                point.y() <= Math.max( p1.y(), p2.y() ) + TAPTHRESHOLD )
+        {
+            if ( ( slope() != Float.POSITIVE_INFINITY ) && ( slope() != 0 ) ) {
+                int x  = Math.round( ( point.y() - y_intercept() ) / slope() );
+                int y = Math.round( slope() * point.x() + y_intercept() );
+                return Math.abs( x - point.x() ) <= TAPTHRESHOLD ||
+                        ( Math.abs( y - point.y() ) <= TAPTHRESHOLD );
             }
             return true;
         }
@@ -197,26 +193,27 @@ public class Line {
             p1.Edit( request_type );
             p2.Edit( request_type );
         }
-        update_attributes();
     }
 
 
-    // Private method
+    // Private methods
     //----------------
 
     /*
-     * Method used to calculate the slope and y intercept
+     * Calculates the slope of the line
      */
-    private void update_attributes() {
+    private float slope() {
         int dx = p2.x() - p1.x();
         int dy = p2.y() - p1.y();
-        if( dx == 0 ) {
-            slope = Float.POSITIVE_INFINITY;
-            y_intercept = Float.POSITIVE_INFINITY;
-        } else {
-            slope = (float) dy / dx;
-            y_intercept = p1.y() - ( slope * p1.x() );
-        }
+        return ( dx == 0 ) ? Float.POSITIVE_INFINITY : (float) dy / dx;
+    }
+
+    /*
+     * Calculates the y intercept of the line
+     */
+    private float y_intercept() {
+        int dx = p2.x() - p1.x();
+        return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( slope() * p1.x() );
     }
 
 

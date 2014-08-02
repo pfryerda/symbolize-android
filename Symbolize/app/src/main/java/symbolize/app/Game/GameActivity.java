@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.google.android.gms.ads.*;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,7 @@ public class GameActivity extends FragmentActivity
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static final String LUKE = "Awesome";
+    private static Context game_context;
 
 
     // Fields
@@ -76,6 +78,7 @@ public class GameActivity extends FragmentActivity
         // Basic setup
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_game );
+        this.game_context = this;
 
         // Variable setup
         puzzleDB = new PuzzleDB( getResources() );
@@ -125,7 +128,7 @@ public class GameActivity extends FragmentActivity
 
         // Set up Game
         player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
-        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
+        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ), this );
         game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg, options );
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
@@ -167,7 +170,7 @@ public class GameActivity extends FragmentActivity
     public void On_settings_button_clicked( final View view ) {
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Set_up( options );
-        options_dialog.show( dialog_fragment_manager, "options_dialog" );
+        options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
     }
 
     public void On_reset_button_clicked( final View view ) {
@@ -188,7 +191,7 @@ public class GameActivity extends FragmentActivity
                     player.Unlock( player.Get_current_world() + 1 );
                 }
                 ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.Set_attr( "Congratulations", "You are correct! Would you like to be sent back to the level select view" );
+                confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.puzzle_complete_dialog_msg ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
@@ -199,10 +202,10 @@ public class GameActivity extends FragmentActivity
                     @Override
                     public void OnDialogFail() {}
                 } );
-                confirmDialog.show( dialog_fragment_manager, "congratulations_dialog" );
+                confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
 
             } else {
-                Render_toast( "You are incorrect" );
+                Render_toast( R.string.incorrect );
             }
         }
     }
@@ -210,7 +213,7 @@ public class GameActivity extends FragmentActivity
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
         hint_dialog.Set_attr( current_puzzle );
-        hint_dialog.show( dialog_fragment_manager, "hint_dialog" );
+        hint_dialog.show( dialog_fragment_manager, getString( R.string.hint_dialog_id ) );
     }
 
     public void On_undo_button_clicked( final View view ) {
@@ -408,7 +411,7 @@ public class GameActivity extends FragmentActivity
                     load_level( puzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ), pivot );
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
-                        for ( Line line : game_model.Get_graph( )) {
+                        for ( Line line : game_model.Get_graph() ) {
                             if ( line.Intersects( point ) ) {
                                 Request request = new Request( Request.Change_color );
                                 request.request_line = line;
@@ -520,7 +523,7 @@ public class GameActivity extends FragmentActivity
     @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attr( "Delete all data", "Are you sure you would like to clear all your progress. This cannot be reverted" );
+        confirmDialog.Set_attr( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
         confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
             @Override
             public void OnDialogSuccess() {
@@ -531,12 +534,24 @@ public class GameActivity extends FragmentActivity
             @Override
             public void OnDialogFail() {}
         } );
-        confirmDialog.show( dialog_fragment_manager, "delete_all_data_dialog" );
+        confirmDialog.show( dialog_fragment_manager, getString( R.string.delete_all_data_id ) );
     }
 
     @Override
     public void OnEditVolume( int volume ) {
         options.Set_volume( volume );
+    }
+
+
+    // Static methods
+    //----------------
+
+    public static Context Get_game_context() {
+        return game_context;
+    }
+
+    public static String Get_resource_string( int id ) {
+        return game_context.getString( id );
     }
 
 

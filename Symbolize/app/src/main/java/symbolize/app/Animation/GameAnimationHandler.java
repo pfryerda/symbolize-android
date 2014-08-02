@@ -2,6 +2,7 @@ package symbolize.app.Animation;
 
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 import symbolize.app.Game.GameActivity;
+import symbolize.app.R;
 
 public class GameAnimationHandler {
     // Static fields
@@ -64,7 +66,8 @@ public class GameAnimationHandler {
                 @Override
                 public void onSymbolizeAnimationEnd() {
                     request.game_view.Render_foreground( request.graph, request.levels );
-                    request.dialog.show( request.dialog_fragment_manager, "hint_dialog" );
+                    request.dialog.show( request.dialog_fragment_manager,
+                            GameActivity.Get_resource_string( R.string.hint_dialog_id ) );
                 }
             } );
         } else {
@@ -88,6 +91,7 @@ public class GameAnimationHandler {
 
         switch ( request.type ) {
             case Request.Rotate_right:
+                animation.Start_new_set();
                 animation.Add_animation(
                         new RotateAnimation( 0, 90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
@@ -97,6 +101,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Rotate_left:
+                animation.Start_new_set();
                 animation.Add_animation(
                         new RotateAnimation( 0, -90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
@@ -106,6 +111,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Flip_horizontally:
+                animation.Start_new_set();
                 animation.Add_animation(
                         new ScaleAnimation( 1, -1, 1, 1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
@@ -115,6 +121,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Flip_vertically:
+                animation.Start_new_set();
                 animation.Add_animation(
                         new ScaleAnimation( 1, 1, 1, -1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
@@ -124,12 +131,14 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Shift:
+                animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
                 break;
 
             case Request.Load_puzzle_left:
+                animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
@@ -146,6 +155,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Load_puzzle_right:
+                animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
@@ -162,6 +172,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Load_level_via_world:
+                animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
@@ -182,6 +193,7 @@ public class GameAnimationHandler {
                 break;
 
             case Request.Load_world_via_level:
+                animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,

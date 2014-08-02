@@ -32,7 +32,7 @@ public class HomeActivity extends FragmentActivity
         setContentView( R.layout.activity_home );
 
         player = new Player( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
-        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ) );
+        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ), this );
         dialog_fragment_manager = getFragmentManager();
     }
 
@@ -51,7 +51,7 @@ public class HomeActivity extends FragmentActivity
     public void On_settings_button_clicked( final View view ){
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Set_up( options );
-        options_dialog.show( dialog_fragment_manager, "options_dialog" );
+        options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
     }
 
 
@@ -76,7 +76,7 @@ public class HomeActivity extends FragmentActivity
     @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attr( "Delete all data", "Are you sure you would like to clear all your progress. This cannot be reverted" );
+        confirmDialog.Set_attr( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
         confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
             @Override
             public void OnDialogSuccess() {
@@ -86,7 +86,7 @@ public class HomeActivity extends FragmentActivity
             @Override
             public void OnDialogFail() {}
         } );
-        confirmDialog.show( dialog_fragment_manager, "delete_all_data_dialog" );
+        confirmDialog.show( dialog_fragment_manager, getString( R.string.delete_all_data_id ) );
     }
 
     @Override

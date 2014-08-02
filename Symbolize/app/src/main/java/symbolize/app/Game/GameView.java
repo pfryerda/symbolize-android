@@ -94,7 +94,7 @@ public class GameView {
             request.game_view = this;
             animation_handler.Handle_request( request );
         } else {
-            Render_foreground(request.graph, request.levels);
+            Render_foreground( request.graph, request.levels );
             if( request.Is_shadow_action() ) {
                 paint.setStyle( Paint.Style.STROKE );
                 paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
