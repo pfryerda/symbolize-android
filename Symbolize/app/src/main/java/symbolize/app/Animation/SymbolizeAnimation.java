@@ -30,7 +30,6 @@ public class SymbolizeAnimation {
 
     public SymbolizeAnimation() {
         animations = new ArrayList<AnimationSet>();
-        Start_new_set();
     }
 
 

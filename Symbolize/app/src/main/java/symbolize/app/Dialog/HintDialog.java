@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import symbolize.app.Game.GameActivity;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
@@ -29,7 +30,7 @@ public class HintDialog extends DialogFragment {
         final View dialog_view = inflater.inflate( R.layout.hint_dialog, null );
 
         builder.setView( dialog_view )
-                .setNeutralButton( "Close", new DialogInterface.OnClickListener() {
+                .setNeutralButton( GameActivity.Get_resource_string(R.string.close), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick( DialogInterface dialogInterface, int id ) {
                                 HintDialog.this.getDialog().dismiss();

@@ -8,6 +8,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import symbolize.app.Game.GameActivity;
+import symbolize.app.R;
+
 public class ConfirmDialog extends DialogFragment {
     // Fields
     //-------
@@ -38,14 +41,14 @@ public class ConfirmDialog extends DialogFragment {
 
         builder.setTitle( title )
             .setMessage( message )
-            .setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
+            .setPositiveButton( GameActivity.Get_resource_string( R.string.yes ), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick( DialogInterface dialogInterface, int id ) {
                     listener.OnDialogSuccess();
                     listener.OnDialogSuccess();
                 }
             } )
-            .setNeutralButton( "No", new DialogInterface.OnClickListener() {
+            .setNeutralButton( GameActivity.Get_resource_string( R.string.yes ), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     listener.OnDialogFail();

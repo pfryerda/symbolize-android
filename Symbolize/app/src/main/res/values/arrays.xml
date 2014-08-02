@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="multi_choice_options">
+        <item>@string/option_grid</item>
+        <item>@string/option_border</item>
+        <item>@string/option_snap</item>
+    </array>
+</resources>

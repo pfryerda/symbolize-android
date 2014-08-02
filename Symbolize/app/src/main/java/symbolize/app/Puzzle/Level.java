@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Common.Line;
+import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Puzzle.Puzzle;
 
