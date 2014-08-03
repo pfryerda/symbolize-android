@@ -18,67 +18,50 @@ public class Options {
     // Fields
     //-------
 
-    private Context context;
-    private SharedPreferences.Editor settings_editor;
-    private boolean show_grid;
-    private boolean show_border;
-    private boolean snap_drawing;
-    private int volume;
-
-    // Constructor
-    //-------------
-
-    public Options( SharedPreferences settings_dao, Context context) {
-        this.context = context;
-        this.settings_editor = settings_dao.edit();
-        show_grid = settings_dao.getBoolean( context.getString( R.string.grid_settings ), true );
-        show_border = settings_dao.getBoolean( context.getString( R.string.border_settings ), false );
-        snap_drawing = settings_dao.getBoolean( context.getString( R.string.snap_settings ), false );
-        volume = settings_dao.getInt( context.getString( R.string.volume_settings ), 100 );
-    }
+    private static Context context = SymbolizeActivity.Get_context();
+    private static SharedPreferences settings_dao = context.getSharedPreferences( context.getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE );
+    private static SharedPreferences.Editor settings_editor = settings_dao.edit();
 
 
     // Getter method
     //---------------
 
-    public boolean Show_grid() {
-        return show_grid;
+    public static boolean Show_grid() {
+        return settings_dao.getBoolean( context.getString( R.string.grid_settings ), true );
     }
 
-    public boolean Show_border() {
-        return show_border;
+    public static boolean Show_border() {
+        return settings_dao.getBoolean( context.getString( R.string.border_settings ), false );
     }
 
-    public boolean Is_snap_drawing() {
-        return snap_drawing;
+    public static boolean Is_snap_drawing() {
+        return settings_dao.getBoolean( context.getString( R.string.snap_settings ), false );
     }
 
-    public int Get_volume() { return volume; }
+    public static int Get_volume() {
+        return settings_dao.getInt( context.getString( R.string.volume_settings ), 100 );
+    }
 
 
     // Setter methods
     //----------------
 
-    public void Toggle_grid() {
-        show_grid = !show_grid;
-        settings_editor.putBoolean( context.getString( R.string.grid_settings ), show_grid );
+    public static void Toggle_grid() {
+        settings_editor.putBoolean( context.getString( R.string.grid_settings ), !Show_grid() );
         settings_editor.commit();
     }
 
-    public void Toggle_border() {
-        show_border = !show_border;
-        settings_editor.putBoolean( context.getString( R.string.border_settings ), show_border );
+    public static void Toggle_border() {
+        settings_editor.putBoolean( context.getString( R.string.border_settings ), !Show_border() );
         settings_editor.commit();
     }
 
-    public void Toggle_snap() {
-        snap_drawing = !snap_drawing;
-        settings_editor.putBoolean( context.getString( R.string.snap_settings ), snap_drawing );
+    public static void Toggle_snap() {
+        settings_editor.putBoolean( context.getString( R.string.snap_settings ), !Is_snap_drawing() );
         settings_editor.commit();
     }
 
-    public void Set_volume( int volume ) {
-        this.volume = volume;
+    public static void Set_volume( int volume ) {
         settings_editor.putInt( context.getString( R.string.volume_settings ), volume );
         settings_editor.commit();
     }

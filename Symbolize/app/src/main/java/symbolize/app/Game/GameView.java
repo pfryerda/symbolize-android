@@ -50,7 +50,7 @@ public class GameView {
     //-------------
 
     public GameView( final Context context, final LinearLayout foreground, final LinearLayout background,
-                     final Bitmap foreground_bitmap, final Bitmap background_bitmap, final Options options )
+                     final Bitmap foreground_bitmap, final Bitmap background_bitmap )
     {
         this.foreground = foreground;
         this.background = background;
@@ -76,7 +76,7 @@ public class GameView {
 
         animation_handler = new GameAnimationHandler();
 
-        Render_background( options );
+        Render_background();
     }
 
 
@@ -85,7 +85,7 @@ public class GameView {
 
     public void Render( final Request request ) {
         if ( request.type == Request.Background_change ) {
-            Render_background( request.options );
+            Render_background();
         } else if ( request.Is_animation_action() ) {
             if( request.type == Request.Load_level_via_world ) {
                 animation_handler.current_pivot = request.request_point;
@@ -151,11 +151,11 @@ public class GameView {
     /*
      * Simple method used to draw a grid in the background
      */
-    public void Render_background( Options options ) {
+    public void Render_background() {
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
-        if ( options.Show_grid() ) {
+        if ( Options.Show_grid() ) {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRIDWIDTH );
 
@@ -168,7 +168,7 @@ public class GameView {
             }
         }
 
-        if ( options.Show_border() ) {
+        if ( Options.Show_border() ) {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BRODERWIDTH );
 

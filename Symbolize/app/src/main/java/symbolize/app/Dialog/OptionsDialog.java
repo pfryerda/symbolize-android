@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ public class OptionsDialog extends DialogFragment {
     //-------
 
     private OptionsDialogListener listener;
-    private Options options;
 
 
     // Interface setup
@@ -45,7 +45,6 @@ public class OptionsDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog( Bundle save_instance_state ) {
-        super.onCreateDialog( save_instance_state );
 
         final AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
         final LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -54,13 +53,13 @@ public class OptionsDialog extends DialogFragment {
         Button delete_all_data_button = (Button) dialog_view.findViewById( R.id.options_delete_data );
 
         SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_seekbar );
-        volume_bar.setProgress( options.Get_volume() );
+        volume_bar.setProgress( Options.Get_volume() );
 
-        final String[] options_text =  GameActivity.Get_game_context().getResources().getStringArray( R.array.multi_choice_options );
+        final String[] options_text =  GameActivity.Get_context().getResources().getStringArray( R.array.multi_choice_options );
         boolean[] selected_items = new boolean[options_text.length];
-        selected_items[Options.SHOW_GRID]    = options.Show_grid();
-        selected_items[Options.SHOW_BORDER]  = options.Show_border();
-        selected_items[Options.SNAP_DRAWING] = options.Is_snap_drawing();
+        selected_items[Options.SHOW_GRID]    = Options.Show_grid();
+        selected_items[Options.SHOW_BORDER]  = Options.Show_border();
+        selected_items[Options.SNAP_DRAWING] = Options.Is_snap_drawing();
 
         builder.setView( dialog_view )
                 .setMultiChoiceItems(options_text, selected_items,
@@ -116,12 +115,4 @@ public class OptionsDialog extends DialogFragment {
 
         return builder.create();
     }
-
-    // Public method
-    //---------------
-
-    public void Set_up( Options options ) {
-        this.options = options;
-    }
-
 }

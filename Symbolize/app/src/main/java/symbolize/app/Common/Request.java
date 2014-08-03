@@ -54,8 +54,6 @@ public class Request {
     public LinearLayout linearLayout;
     public GameView game_view;
 
-    public Options options;
-
     public HintDialog dialog; // TODO: Might make sense to make this a general dialog of sorts
     public FragmentManager dialog_fragment_manager;
 
@@ -79,8 +77,6 @@ public class Request {
 
         this.linearLayout = null;
         this.game_view = null;
-
-        this.options = null;
 
         this.dialog = null;
         this.dialog_fragment_manager = null;

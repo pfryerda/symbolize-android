@@ -35,8 +35,7 @@ public class GameModel {
 
     public GameModel( final Player player, final Context context,
                       final LinearLayout foreground, final LinearLayout background,
-                      final Bitmap foreground_bitmap, final Bitmap background_bitmap,
-                      final Options options )
+                      final Bitmap foreground_bitmap, final Bitmap background_bitmap )
     {
         this.graph = new LinkedList<Line>();
         this.levels = new ArrayList<Posn>();
@@ -46,7 +45,7 @@ public class GameModel {
         this.shift_number = 0;
         this.player = player;
         this.game_view = new GameView( context, foreground, background,
-                                       foreground_bitmap, background_bitmap, options );
+                                       foreground_bitmap, background_bitmap );
         this.past_state = null;
     }
 
