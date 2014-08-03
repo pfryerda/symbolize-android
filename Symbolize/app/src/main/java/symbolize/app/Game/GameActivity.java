@@ -24,6 +24,7 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.HintDialog;
 import symbolize.app.Dialog.OptionsDialog;
@@ -35,7 +36,7 @@ import symbolize.app.Puzzle.World;
 import symbolize.app.R;
 
 
-public class GameActivity extends FragmentActivity
+public class GameActivity extends SymbolizeActivity
                           implements OptionsDialog.OptionsDialogListener {
     // Static fields
     //---------------
@@ -43,7 +44,6 @@ public class GameActivity extends FragmentActivity
     public static final int SCALING = 1000;
     public static Point SCREENSIZE;
     public static final String LUKE = "Awesome";
-    private static Context game_context;
 
 
     // Fields
@@ -53,7 +53,6 @@ public class GameActivity extends FragmentActivity
     private Toast toast;
 
     private Player player;
-    private Options options;
     private PuzzleDB puzzleDB;
 
     private boolean in_world_view = true;
@@ -78,7 +77,6 @@ public class GameActivity extends FragmentActivity
         // Basic setup
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_game );
-        this.game_context = this;
 
         // Variable setup
         puzzleDB = new PuzzleDB( getResources() );
@@ -128,8 +126,7 @@ public class GameActivity extends FragmentActivity
 
         // Set up Game
         player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
-        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ), this );
-        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg, options );
+        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
@@ -169,7 +166,6 @@ public class GameActivity extends FragmentActivity
 
     public void On_settings_button_clicked( final View view ) {
         OptionsDialog options_dialog = new OptionsDialog();
-        options_dialog.Set_up( options );
         options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
     }
 
@@ -359,7 +355,7 @@ public class GameActivity extends FragmentActivity
         foreground.setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                if ( options.Is_snap_drawing() ) {
+                if ( Options.Is_snap_drawing() ) {
                     line.Snap();
                 }
                 line.Snap_to_levels( game_model.Get_unlocked_levels() );
@@ -402,7 +398,7 @@ public class GameActivity extends FragmentActivity
             @Override
             public void onFingerMove( final Line line, final Posn point ) {
                 if ( player.In_draw_mode() ) {
-                    if ( options.Is_snap_drawing() ) {
+                    if ( Options.Is_snap_drawing() ) {
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );
@@ -519,25 +515,22 @@ public class GameActivity extends FragmentActivity
 
     @Override
     public void OnToggleGrid() {
-        options.Toggle_grid();
+        Options.Toggle_grid();
         Request request = new Request( Request.Background_change );
-        request.options = options;
         game_model.Handle_request( request );
     }
 
     @Override
     public void OnToggleBorder() {
-        options.Toggle_border();
+        Options.Toggle_border();
         Request request = new Request( Request.Background_change );
-        request.options = options;
         game_model.Handle_request( request );
     }
 
     @Override
     public void OnToggleSnap() {
-        options.Toggle_snap();
+        Options.Toggle_snap();
         Request request = new Request( Request.Background_change );
-        request.options = options;
         game_model.Handle_request( request );
     }
 
@@ -560,20 +553,9 @@ public class GameActivity extends FragmentActivity
 
     @Override
     public void OnEditVolume( int volume ) {
-        options.Set_volume( volume );
+        Options.Set_volume( volume );
     }
 
-
-    // Static methods
-    //----------------
-
-    public static Context Get_game_context() {
-        return game_context;
-    }
-
-    public static String Get_resource_string( int id ) {
-        return game_context.getString( id );
-    }
 
 
     // Methods used to stop sensors on pause ( save resources )

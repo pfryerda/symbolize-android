@@ -8,13 +8,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
 
 
-public class HomeActivity extends FragmentActivity
+public class HomeActivity extends SymbolizeActivity
                           implements OptionsDialog.OptionsDialogListener{
     // Fields
     //--------
@@ -32,7 +33,6 @@ public class HomeActivity extends FragmentActivity
         setContentView( R.layout.activity_home );
 
         player = new Player( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
-        options = new Options( this.getSharedPreferences( getString( R.string.preference_settings_key ), Context.MODE_PRIVATE ), this );
         dialog_fragment_manager = getFragmentManager();
     }
 
@@ -50,7 +50,6 @@ public class HomeActivity extends FragmentActivity
 
     public void On_settings_button_clicked( final View view ){
         OptionsDialog options_dialog = new OptionsDialog();
-        options_dialog.Set_up( options );
         options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
     }
 
