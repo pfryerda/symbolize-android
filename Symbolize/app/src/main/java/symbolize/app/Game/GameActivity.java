@@ -186,7 +186,9 @@ public class GameActivity extends FragmentActivity
             ConfirmDialog confirmDialog = new ConfirmDialog();
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
                 if ( in_world_view && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
-                    player.Unlock( player.Get_current_world() + 1 );
+                    for( int unlock : current_puzzle.Get_unlocks() ) {
+                        player.Unlock( unlock );
+                    }
 
                     confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
@@ -201,10 +203,12 @@ public class GameActivity extends FragmentActivity
                     } );
                     confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
                 } else if( in_world_view && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
-                    // You beat the game dialog
+
+                    // TODO: You beat the game dialog
+
                 } else if ( !in_world_view ) {
-                    if( player.Get_current_level() < PuzzleDB.NUMBEROFLEVELSPERWORLD ) {
-                        player.Unlock( player.Get_current_world(), player.Get_current_level() + 1 );
+                    for( int unlock : current_puzzle.Get_unlocks() ) {
+                        player.Unlock( player.Get_current_world(), unlock );
                     }
 
                     confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );

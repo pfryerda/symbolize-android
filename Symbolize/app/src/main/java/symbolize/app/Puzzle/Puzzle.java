@@ -93,6 +93,10 @@ abstract public class Puzzle {
         return hint;
     }
 
+    public ArrayList<Integer> Get_unlocks() {
+        return unlocks;
+    }
+
 
     // Abstract methods
     //------------------
