@@ -8,6 +8,9 @@
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
+    <unlocks>
+        <unlock>4</unlock>
+    </unlocks>
     <boards>
         <graph>
             <Line><p1><x> 300</x><y> 900</y></p1><p2><x> 800</x><y> 200</y></p2><color>-16777216</color></Line>

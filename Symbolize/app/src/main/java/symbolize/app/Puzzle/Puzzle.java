@@ -20,27 +20,22 @@ abstract public class Puzzle {
     private final boolean flip_enabled;
     private final boolean colour_enabled;
     private final ArrayList<LinkedList<Line>> solutions;
+    private final ArrayList<Integer> unlocks;
 
 
     // Constructors
     //-------------
 
-    public Puzzle() {
-        this.hint = "";
-        this.rotate_enabled = false;
-        this.flip_enabled = false;
-        this.colour_enabled = false;
-        this.solutions = new ArrayList<LinkedList<Line>>();
-    }
 
     public Puzzle( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
-                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions )
+                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
     {
         this.hint = hint;
         this.rotate_enabled = rotate_enabled;
         this.flip_enabled = flip_enabled;
         this.colour_enabled = colour_enabled;
         this.solutions = solutions;
+        this.unlocks = unlocks;
     }
 
 

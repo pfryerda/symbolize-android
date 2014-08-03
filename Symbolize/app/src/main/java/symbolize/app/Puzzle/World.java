@@ -27,9 +27,9 @@ public class World extends Puzzle {
     //-------------
 
     public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
-                  final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions )
+                  final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
+        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
         this.levels = levels;
     }
 
