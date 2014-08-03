@@ -20,8 +20,6 @@ public class HomeActivity extends SymbolizeActivity
     // Fields
     //--------
 
-    private Player player;
-    private Options options;
     private FragmentManager dialog_fragment_manager;
 
     // Main method
@@ -32,7 +30,6 @@ public class HomeActivity extends SymbolizeActivity
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_home );
 
-        player = new Player( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
         dialog_fragment_manager = getFragmentManager();
     }
 
@@ -59,17 +56,17 @@ public class HomeActivity extends SymbolizeActivity
 
     @Override
     public void OnToggleGrid() {
-        options.Toggle_grid();
+        Options.Toggle_grid();
     }
 
     @Override
     public void OnToggleBorder() {
-        options.Toggle_border();
+        Options.Toggle_border();
     }
 
     @Override
     public void OnToggleSnap() {
-        options.Is_snap_drawing();
+        Options.Is_snap_drawing();
     }
 
     @Override
@@ -79,6 +76,7 @@ public class HomeActivity extends SymbolizeActivity
         confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
             @Override
             public void OnDialogSuccess() {
+                Player player = Player.Get_instance();
                 player.Delete_all_data();
             }
 
@@ -90,6 +88,6 @@ public class HomeActivity extends SymbolizeActivity
 
     @Override
     public void OnEditVolume( int volume ) {
-        options.Set_volume( volume );
+        Options.Set_volume( volume );
     }
 }
