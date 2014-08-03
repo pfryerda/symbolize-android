@@ -183,26 +183,43 @@ public class GameActivity extends FragmentActivity
         if ( Player.DEVMODE ) {
             game_model.LogGraph();
         } else {
+            ConfirmDialog confirmDialog = new ConfirmDialog();
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
-                if ( player.Get_current_level() < PuzzleDB.NUMBEROFLEVELSPERWORLD ) {
-                    player.Unlock( player.Get_current_world(), player.Get_current_level() + 1 );
-                } else {
-                    player.Unlock( player.Get_current_world() + 1, 1 );
+                if ( in_world_view && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
                     player.Unlock( player.Get_current_world() + 1 );
-                }
-                ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.puzzle_complete_dialog_msg ) );
-                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-                    @Override
-                    public void OnDialogSuccess() {
-                        load_world( puzzleDB.Fetch_world( player.Get_current_world() ),
-                                Request.Load_world_via_level );
+
+                    confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
+                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                        @Override
+                        public void OnDialogSuccess() {
+                            player.Increase_world();
+                            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
+                        }
+
+                        @Override
+                        public void OnDialogFail() {}
+                    } );
+                    confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
+                } else if( in_world_view && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
+                    // You beat the game dialog
+                } else if ( !in_world_view ) {
+                    if( player.Get_current_level() < PuzzleDB.NUMBEROFLEVELSPERWORLD ) {
+                        player.Unlock( player.Get_current_world(), player.Get_current_level() + 1 );
                     }
 
-                    @Override
-                    public void OnDialogFail() {}
-                } );
-                confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
+                    confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
+                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                        @Override
+                        public void OnDialogSuccess() {
+                            load_world( puzzleDB.Fetch_world( player.Get_current_world() ),
+                                    Request.Load_world_via_level );
+                        }
+
+                        @Override
+                        public void OnDialogFail() {}
+                    } );
+                    confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
+                }
 
             } else {
                 Render_toast( R.string.incorrect );
@@ -514,7 +531,7 @@ public class GameActivity extends FragmentActivity
 
     @Override
     public void OnToggleSnap() {
-        options.Is_snap_drawing();
+        options.Toggle_snap();
         Request request = new Request( Request.Background_change );
         request.options = options;
         game_model.Handle_request( request );

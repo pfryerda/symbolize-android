@@ -33,7 +33,7 @@ public class Player {
         for ( int world = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
             world_unlocks[(world-1)] = unlocks_dao.getBoolean( world + "", false );
             for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
-                level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1)] =
+                level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] =
                         unlocks_dao.getBoolean(world + "-" + level, false);
             }
         }
@@ -107,11 +107,13 @@ public class Player {
     public void Unlock( int world ) {
         world_unlocks[world - 1] = true;
         unlocks_editor.putBoolean( world + "" , true );
+        level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD] = true;
+        unlocks_editor.putBoolean( world + "-" + 1, true );
         unlocks_editor.commit();
     }
 
     public void Unlock( int world, int level ) {
-        level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level -1 )] = true;
+        level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] = true;
         unlocks_editor.putBoolean( world + "-" + level, true );
         unlocks_editor.commit();
     }

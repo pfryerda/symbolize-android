@@ -29,7 +29,7 @@ public class GameView {
     //-------------
 
     public static final int LINEWIDTH = GameActivity.SCALING / 17;
-    public static final int POINTWIDTH = LINEWIDTH * 2;
+    public static final int POINTWIDTH = ( LINEWIDTH * 7 ) / 4;
     public static final int TEXTWIDTH = LINEWIDTH;
     public static final int GRIDWIDTH = LINEWIDTH / 10;
     public static final int BRODERWIDTH = LINEWIDTH;
