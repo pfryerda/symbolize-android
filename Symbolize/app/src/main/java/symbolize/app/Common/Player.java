@@ -1,21 +1,28 @@
 package symbolize.app.Common;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+
+import symbolize.app.Game.GameActivity;
 import symbolize.app.Puzzle.PuzzleDB;
+import symbolize.app.R;
 
 public class Player {
     // Static field
     //-------------
 
+    private static Player instance;
     public static final boolean DEVMODE = false;
 
     // Fields
     //--------
 
-    private boolean[] world_unlocks;
-    private boolean[] level_unlocks;
-    private SharedPreferences.Editor unlocks_editor;
-    private int current_world;
+    private final SharedPreferences unlocks_dao = SymbolizeActivity
+            .Get_context()
+            .getSharedPreferences( GameActivity.Get_resource_string( R.string.preference_unlocks_key ),
+                    Context.MODE_PRIVATE );
+    private final SharedPreferences.Editor unlocks_editor = unlocks_dao.edit();
+
     private int current_level;
     private boolean draw_enabled;
 
@@ -23,25 +30,14 @@ public class Player {
     // Constructor
     //-------------
 
-    public Player( SharedPreferences unlocks_dao ) {
-        this.unlocks_editor = unlocks_dao.edit();
-
-        world_unlocks = new boolean[PuzzleDB.NUMBEROFWORLDS];
-        level_unlocks = new boolean[PuzzleDB.NUMBEROFWORLDS*PuzzleDB.NUMBEROFLEVELSPERWORLD];
-
-        // Read data from dao
-        for ( int world = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
-            world_unlocks[(world-1)] = unlocks_dao.getBoolean( world + "", false );
-            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
-                level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] =
-                        unlocks_dao.getBoolean(world + "-" + level, false);
-            }
+    public static Player Get_instance() {
+        if ( instance == null ) {
+            instance = new Player();
         }
+        return instance;
+    }
 
-        // Set default values
-        world_unlocks[0] = true;
-        level_unlocks[0] = true;
-        current_world = 1;
+    private Player() {
         current_level = 0;
         this.draw_enabled = true;
     }
@@ -54,14 +50,16 @@ public class Player {
      * Decrease the current world number and will wrap back to last world if at world 1
      */
     public void Decrease_world() {
-        current_world = get_previous_world();
+        unlocks_editor.putInt( "current_world" , get_previous_world() );
+        unlocks_editor.commit();
     }
 
     /*
      * Increase the current world number will wrap back to world 1 if at last world
      */
     public void Increase_world() {
-        current_world = get_next_world();
+        unlocks_editor.putInt( "current_world" , get_next_world() );
+        unlocks_editor.commit();
     }
 
     /*
@@ -79,12 +77,12 @@ public class Player {
      */
     public boolean Is_unlocked( int world ) {
         //return true;
-        return world_unlocks[world - 1] || DEVMODE;
+        return unlocks_dao.getBoolean( world + "", false ) || DEVMODE;
     }
 
     public boolean Is_unlocked( int world, int level ) {
         //return true;
-        return level_unlocks[(world - 1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] || DEVMODE;
+        return unlocks_dao.getBoolean(world + "-" + level, false) || DEVMODE;
     }
 
     /*
@@ -105,34 +103,26 @@ public class Player {
      * @param int world: The level of interest
      */
     public void Unlock( int world ) {
-        world_unlocks[world - 1] = true;
         unlocks_editor.putBoolean( world + "" , true );
-        level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD] = true;
         unlocks_editor.putBoolean( world + "-" + 1, true );
         unlocks_editor.commit();
     }
 
     public void Unlock( int world, int level ) {
-        level_unlocks[(world-1)*PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] = true;
         unlocks_editor.putBoolean( world + "-" + level, true );
         unlocks_editor.commit();
     }
 
     public void Delete_all_data() {
         for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
-            level_unlocks[world - 1] = false;
             unlocks_editor.putBoolean(world + "", false);
             for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
-                level_unlocks[(world - 1) * PuzzleDB.NUMBEROFLEVELSPERWORLD + ( level - 1 )] = false;
                 unlocks_editor.putBoolean( world + "-" + level, false );
             }
         }
 
-        world_unlocks[0] = true;
         unlocks_editor.putBoolean( "1", true);
-        level_unlocks[0] = true;
         unlocks_editor.putBoolean( "1-1", true );
-
         unlocks_editor.commit();
     }
 
@@ -141,7 +131,7 @@ public class Player {
     //----------------
 
     public int Get_current_world() {
-        return current_world;
+        return unlocks_dao.getInt( "current_world", 1 );
     }
 
     public int Get_current_level() {
@@ -177,10 +167,10 @@ public class Player {
     //-----------------
 
     private int get_next_world() {
-        return ( current_world % PuzzleDB.NUMBEROFWORLDS ) + 1;
+        return ( Get_current_world() % PuzzleDB.NUMBEROFWORLDS ) + 1;
     }
 
     private int get_previous_world() {
-        return ( current_world == 1 ) ? PuzzleDB.NUMBEROFWORLDS : current_world - 1;
+        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBEROFWORLDS : Get_current_world() - 1;
     }
 }

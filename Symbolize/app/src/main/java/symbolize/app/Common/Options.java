@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
 
-public class Options {
+abstract public class Options {
     // Flags
     //-------
 
@@ -18,12 +18,14 @@ public class Options {
     // Fields
     //-------
 
-    private static Context context = SymbolizeActivity.Get_context();
-    private static SharedPreferences settings_dao = context.getSharedPreferences( context.getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE );
-    private static SharedPreferences.Editor settings_editor = settings_dao.edit();
+    private static final Context context = SymbolizeActivity.Get_context();
+    private static final SharedPreferences settings_dao = context
+            .getSharedPreferences( context.getString( R.string.preference_unlocks_key ),
+                    Context.MODE_PRIVATE );
+    private final static SharedPreferences.Editor settings_editor = settings_dao.edit();
 
 
-    // Getter method
+    // Getter methods
     //---------------
 
     public static boolean Show_grid() {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.R;
 
 /*
@@ -31,7 +32,7 @@ class InvalidXmlException extends Exception {
 /*
  * Class used to parse stored xml files and load them into memory
  */
-public class PuzzleDB {
+abstract public class PuzzleDB {
     // Static field
     //--------------
 
@@ -68,19 +69,12 @@ public class PuzzleDB {
 
     // Fields
     //--------
-    private final Resources res;
-    private int world_num;
-    private int level_num;
-    private XmlResourceParser xpp;
+    private static final Resources res = SymbolizeActivity.Get_context().getResources();
+    private static int world_num;
+    private static int level_num;
+    private static XmlResourceParser xpp;
 
 
-
-    // Constructor
-    //-------------
-
-    public PuzzleDB( final Resources res ) {
-        this.res = res;
-    }
 
     // Methods
     //---------
@@ -88,11 +82,11 @@ public class PuzzleDB {
     /*
      * Method used to get level from xml resource files
      */
-    public Level Fetch_level( final int world_num, final int level_num ) {
+    public static Level Fetch_level( final int world_number, final int level_number ) {
         // Set up temp fields
-        this.world_num = world_num;
-        this.level_num = level_num;
-        this.xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        world_num = world_number;
+        level_num = level_number;
+        xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = "";
@@ -279,11 +273,11 @@ public class PuzzleDB {
     /*
      * Method used to get level from xml resource files
      */
-    public World Fetch_world( final int world_num ) {
+    public static World Fetch_world( final int world_number ) {
         // Set up temp fields
-        this.world_num = world_num;
-        this.level_num = 0;
-        this.xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        world_num = world_number;
+        level_num = 0;
+        xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = "";
@@ -479,22 +473,22 @@ public class PuzzleDB {
     }
 
 
-    // Helper methods
+    // Private methods
     //---------------
 
-    private void bail_invalid_check( final String actual ) throws InvalidXmlException {
+    private static void bail_invalid_check( final String actual ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, xpp.getName(), actual );
     }
 
-    private void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
+    private static void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_tag, true );
     }
 
-    private void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
+    private static void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
         throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_text, false );
     }
 
-    private String parse_preamble( final String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
+    private static String parse_preamble( final String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
         String returnval = "";
         xpp.next();
         if ( !xpp.getName().equals( expected ) ) {

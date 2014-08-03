@@ -53,7 +53,6 @@ public class GameActivity extends SymbolizeActivity
     private Toast toast;
 
     private Player player;
-    private PuzzleDB puzzleDB;
 
     private boolean in_world_view = true;
     private Puzzle current_puzzle;
@@ -79,7 +78,6 @@ public class GameActivity extends SymbolizeActivity
         setContentView( R.layout.activity_game );
 
         // Variable setup
-        puzzleDB = new PuzzleDB( getResources() );
         sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         shake_detector =  new GameShakeDetector();
 
@@ -125,14 +123,14 @@ public class GameActivity extends SymbolizeActivity
 
 
         // Set up Game
-        player = new Player  ( this.getSharedPreferences( getString( R.string.preference_unlocks_key ), Context.MODE_PRIVATE ) );
+        player = Player.Get_instance();
         game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
         dialog_fragment_manager = getFragmentManager();
 
-        current_puzzle = puzzleDB.Fetch_world( 1 );
+        current_puzzle = PuzzleDB.Fetch_world( 1 );
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
@@ -147,7 +145,7 @@ public class GameActivity extends SymbolizeActivity
 
     public void On_left_button_clicked( final View view ) {
         player.Decrease_world();
-        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_left );
+        load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_left );
     }
 
     public void On_back_button_clicked( final View view ) {
@@ -155,13 +153,13 @@ public class GameActivity extends SymbolizeActivity
             startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
         } else {
             player.Set_to_world_level();
-            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_world_via_level );
+            load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_world_via_level );
         }
     }
 
     public void On_right_button_clicked( final View view ) {
         player.Increase_world();
-        load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
+        load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
     }
 
     public void On_settings_button_clicked( final View view ) {
@@ -191,7 +189,7 @@ public class GameActivity extends SymbolizeActivity
                         @Override
                         public void OnDialogSuccess() {
                             player.Increase_world();
-                            load_world( puzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
+                            load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
                         }
 
                         @Override
@@ -211,7 +209,7 @@ public class GameActivity extends SymbolizeActivity
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
-                            load_world( puzzleDB.Fetch_world( player.Get_current_world() ),
+                            load_world( PuzzleDB.Fetch_world( player.Get_current_world() ),
                                     Request.Load_world_via_level );
                         }
 
@@ -425,7 +423,7 @@ public class GameActivity extends SymbolizeActivity
                 }
                 if ( level_found > 0 ) {
                     player.Set_current_level( level_found );
-                    load_level( puzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ), pivot );
+                    load_level( PuzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ), pivot );
                 } else {
                     if ( current_puzzle.Can_change_color() ) {
                         for ( Line line : game_model.Get_graph() ) {
