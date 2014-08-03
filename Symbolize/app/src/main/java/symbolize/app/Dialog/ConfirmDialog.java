@@ -45,13 +45,11 @@ public class ConfirmDialog extends DialogFragment {
                 @Override
                 public void onClick( DialogInterface dialogInterface, int id ) {
                     listener.OnDialogSuccess();
-                    listener.OnDialogSuccess();
                 }
             } )
-            .setNeutralButton( GameActivity.Get_resource_string( R.string.yes ), new DialogInterface.OnClickListener() {
+            .setNeutralButton( GameActivity.Get_resource_string( R.string.no ), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    listener.OnDialogFail();
                     listener.OnDialogFail();
                 }
             } );

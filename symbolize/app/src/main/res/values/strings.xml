@@ -39,7 +39,8 @@
 
     <string name="puzzle_complete_dialog_id">puzzle_complete_dialog</string>
     <string name="puzzle_complete_dialog_title">Congratulations</string>
-    <string name="puzzle_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
+    <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
+    <string name="world_complete_dialog_msg">You are correct! Would you like to be sent back to the next world</string>
 
     <string name="hint_dialog_id">hint_dialog</string>
 
