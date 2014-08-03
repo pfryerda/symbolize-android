@@ -35,19 +35,12 @@ public class Level extends Puzzle {
     // Constructors
     //-------------
 
-    public Level() {
-        super();
-        this.draw_restriction = 0;
-        this.erase_restriction = 0;
-        this.drag_restriction = 0;
-        this.boards = new ArrayList<LinkedList<Line>>();
-    }
 
     public Level( final String hint, final int draw_restriction, final int erase_restriction, final int drag_restriction,
                   final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
-                  final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions )
+                  final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions );
+        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
         this.draw_restriction = draw_restriction;
         this.erase_restriction = erase_restriction;
         this.drag_restriction = drag_restriction;

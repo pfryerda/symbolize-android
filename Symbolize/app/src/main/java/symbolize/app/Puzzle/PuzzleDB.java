@@ -102,6 +102,7 @@ public class PuzzleDB {
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
+        ArrayList<Integer> unlocks = null;
         ArrayList<LinkedList<Line>> boards = new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
         ArrayList<LinkedList<Line>> solutions =  new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
 
@@ -139,36 +140,46 @@ public class PuzzleDB {
 
                     case ( XmlPullParser.START_TAG ): {
                         String topTag = xpp.getName();
-                        if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
-                            if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) ) {
-                                if ( tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                        if ( topTag.equals( "unlocks" ) || topTag.equals( "boards" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
+                            if( topTag.equals( "unlocks" ) ) {
+                                if ( unlocks != null || tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                unlocks = new ArrayList<Integer>();
+                            } else if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) ) {
+                                if ( unlocks == null || tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpArray = new ArrayList<LinkedList<Line>>();
                             } else if ( topTag.equals( "graph" ) ) {
-                                if ( tmpArray == null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || tmpArray == null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpList = new LinkedList<Line>();
                             } else if ( topTag.equals( "Line" ) ) {
-                                if ( tmpArray == null || tmpList == null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || tmpArray == null || tmpList == null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpLine = new Line();
                             } else if ( topTag.equals( "p1" ) ) {
-                                if ( tmpArray == null || tmpList == null || tmpLine == null || tmpP1 != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || tmpArray == null || tmpList == null || tmpLine == null || tmpP1 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpP1 = new Posn();
                             } else if ( topTag.equals( "p2" ) ) {
-                                if ( tmpArray == null || tmpList == null || tmpLine == null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || tmpArray == null || tmpList == null || tmpLine == null || tmpP2 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpP2 = new Posn();
                             }
                         } else {
                             xpp.next();
-                            if ( topTag.equals( "x" ) ) {
+                            if ( topTag.equals( "unlock" ) ) {
+                                if ( tmpArray != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                unlocks.add( Integer.valueOf( xpp.getText().trim() ) );
+                            } else if ( topTag.equals( "x" ) ) {
                                 if ( tmpArray == null || tmpList == null || tmpLine == null || ( tmpP1 == null && tmpP2 == null ) || tmpX != null ) {
                                     bail_invalid_tag( topTag );
                                 }
@@ -196,7 +207,11 @@ public class PuzzleDB {
                     }
 
                     case ( XmlPullParser.END_TAG ): {
-                        if ( xpp.getName().equals( "boards" ) ) {
+                        if ( xpp.getName().equals( "unlocks" ) ) {
+                            if ( unlocks == null ) {
+                                bail_invalid_tag( "/" +xpp.getName() );
+                            }
+                        } else if ( xpp.getName().equals( "boards" ) ) {
                             if ( tmpArray == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
@@ -258,7 +273,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions );
+        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions, unlocks );
     }
 
     /*
@@ -277,6 +292,7 @@ public class PuzzleDB {
         boolean colour_enabled = false;
         ArrayList<Posn> levels = null;
         ArrayList<LinkedList<Line>> solutions = null;
+        ArrayList<Integer> unlocks = null;
 
         try {
             // Set up temp variables
@@ -297,7 +313,7 @@ public class PuzzleDB {
             }
 
             hint = parse_preamble( "hint" );
-            rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
+            rotate_enabled = Boolean.valueOf( parse_preamble( "rotate_enabled" ) );
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
 
@@ -308,47 +324,57 @@ public class PuzzleDB {
 
                     case ( XmlPullParser.START_TAG ): {
                         String topTag = xpp.getName();
-                        if ( topTag.equals( "levels" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p" ) || topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
-                            if( topTag.equals( "levels" ) ) {
-                                if ( levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                        if ( topTag.equals( "unlocks" ) || topTag.equals( "levels" ) || topTag.equals( "solutions" ) || topTag.equals( "graph" ) ||  topTag.equals( "Line" ) ||  topTag.equals( "p" ) || topTag.equals( "p1" ) || topTag.equals( "p2" )  ) {
+                            if( topTag.equals( "unlocks" ) ) {
+                                if ( unlocks != null || levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                unlocks = new ArrayList<Integer>();
+                            } else if( topTag.equals( "levels" ) ) {
+                                if ( unlocks == null || levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 levels = new ArrayList<Posn>();
                             } else if ( topTag.equals( "p" ) ) {
-                                if ( levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpP = new Posn();
                             } else if ( topTag.equals( "solutions" ) ) {
-                                if ( levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || levels == null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 solutions = new ArrayList<LinkedList<Line>>();
                             } else if ( topTag.equals( "graph" ) ) {
-                                if ( levels == null || solutions == null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || levels == null || solutions == null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpList = new LinkedList<Line>();
                             } else if ( topTag.equals( "Line" ) ) {
-                                if (levels == null || solutions == null || tmpList == null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null) {
+                                if ( unlocks == null || levels == null || solutions == null || tmpList == null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpLine = new Line();
 
                             } else if ( topTag.equals( "p1" ) ) {
-                                if ( levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP1 != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP1 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpP1 = new Posn();
                             } else if ( topTag.equals( "p2" ) ) {
-                                if ( levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                if ( unlocks == null || levels == null || solutions == null || tmpList == null || tmpLine == null || tmpP != null || tmpP2 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
                                 tmpP2 = new Posn();
                             }
                         } else {
                             xpp.next();
-                            if ( topTag.equals( "x" ) ) {
+                            if ( topTag.equals( "unlock" ) ) {
+                                if ( levels != null || solutions != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
+                                    bail_invalid_tag( topTag );
+                                }
+                                unlocks.add( Integer.valueOf( xpp.getText().trim() ) );
+                            } else if ( topTag.equals( "x" ) ) {
                                 if ( ( levels == null && solutions == null )  || ( tmpP1 == null && tmpP2 == null && tmpP == null ) || tmpX != null ) {
                                     bail_invalid_tag( topTag );
                                 }
@@ -376,7 +402,11 @@ public class PuzzleDB {
                     }
 
                     case ( XmlPullParser.END_TAG ): {
-                        if ( xpp.getName().equals( "levels" ) ) {
+                        if ( xpp.getName().equals( "unlocks" ) ) {
+                            if ( unlocks == null ) {
+                                bail_invalid_tag( "/" + xpp.getName() );
+                            }
+                        } else if ( xpp.getName().equals( "levels" ) ) {
                             if ( levels == null ) {
                                 bail_invalid_tag( "/" + xpp.getName() );
                             }
@@ -445,7 +475,7 @@ public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new World( hint,rotate_enabled, flip_enabled, colour_enabled, levels, solutions );
+        return new World( hint,rotate_enabled, flip_enabled, colour_enabled, levels, solutions, unlocks );
     }
 
 

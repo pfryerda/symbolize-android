@@ -8,6 +8,9 @@
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
+    <unlocks>
+        <unlock>14</unlock>
+    </unlocks>
     <boards>
         <graph>
         </graph>

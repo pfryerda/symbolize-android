@@ -5,6 +5,9 @@
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
+    <unlocks>
+        <unlock>2</unlock>
+    </unlocks>
     <levels>
         <p><x> 100</x><y> 100</y></p>
         <p><x> 300</x><y> 200</y></p>
