@@ -9,11 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
-public class HintDialog extends DialogFragment {
+public class HintDialog extends SymbolizeDialog {
     // Fields
     //--------
     private String hint;
@@ -50,4 +51,11 @@ public class HintDialog extends DialogFragment {
         this.hint = puzzle.Get_hint();
     }
 
+
+    // Protected method
+    //------------------
+
+    protected String Get_dialog_id() {
+        return SymbolizeActivity.Get_resource_string( R.string.hint_dialog_id );
+    }
 }

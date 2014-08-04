@@ -12,10 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import symbolize.app.Common.Options;
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
 
-public class OptionsDialog extends DialogFragment {
+public class OptionsDialog extends SymbolizeDialog {
     // Fields
     //-------
 
@@ -45,7 +46,6 @@ public class OptionsDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog( Bundle save_instance_state ) {
-
         final AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialog_view = inflater.inflate(R.layout.options_dialog, null);
@@ -115,4 +115,14 @@ public class OptionsDialog extends DialogFragment {
 
         return builder.create();
     }
+
+
+    // Protected methods
+    //-------------------
+
+    protected String Get_dialog_id() {
+        return SymbolizeActivity.Get_resource_string( R.string.options_dialog_id );
+    }
+
+
 }

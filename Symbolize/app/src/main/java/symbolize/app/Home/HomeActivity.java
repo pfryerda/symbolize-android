@@ -17,10 +17,6 @@ import symbolize.app.R;
 
 public class HomeActivity extends SymbolizeActivity
                           implements OptionsDialog.OptionsDialogListener{
-    // Fields
-    //--------
-
-    private FragmentManager dialog_fragment_manager;
 
     // Main method
     //-------------
@@ -29,8 +25,6 @@ public class HomeActivity extends SymbolizeActivity
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_home );
-
-        dialog_fragment_manager = getFragmentManager();
     }
 
 
@@ -47,7 +41,7 @@ public class HomeActivity extends SymbolizeActivity
 
     public void On_settings_button_clicked( final View view ){
         OptionsDialog options_dialog = new OptionsDialog();
-        options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
+        options_dialog.Show();
     }
 
 
@@ -83,7 +77,7 @@ public class HomeActivity extends SymbolizeActivity
             @Override
             public void OnDialogFail() {}
         } );
-        confirmDialog.show( dialog_fragment_manager, getString( R.string.delete_all_data_id ) );
+        confirmDialog.Show();
     }
 
     @Override

@@ -60,7 +60,6 @@ public class GameActivity extends SymbolizeActivity
     private SensorManager sensor_manager;
     private GameShakeDetector shake_detector;
 
-    private FragmentManager dialog_fragment_manager;
 
 
     // Main method
@@ -128,8 +127,6 @@ public class GameActivity extends SymbolizeActivity
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
-        dialog_fragment_manager = getFragmentManager();
-
         current_puzzle = PuzzleDB.Fetch_world( 1 );
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
@@ -164,7 +161,7 @@ public class GameActivity extends SymbolizeActivity
 
     public void On_settings_button_clicked( final View view ) {
         OptionsDialog options_dialog = new OptionsDialog();
-        options_dialog.show( dialog_fragment_manager, getString( R.string.options_dialog_id ) );
+        options_dialog.Show();
     }
 
     public void On_reset_button_clicked( final View view ) {
@@ -197,7 +194,7 @@ public class GameActivity extends SymbolizeActivity
                         @Override
                         public void OnDialogFail() {}
                     } );
-                    confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
+                    confirmDialog.Show();
                 } else if( in_world_view && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
 
                     // TODO: You beat the game dialog
@@ -218,7 +215,7 @@ public class GameActivity extends SymbolizeActivity
                         @Override
                         public void OnDialogFail() {}
                     } );
-                    confirmDialog.show( dialog_fragment_manager, getString( R.string.puzzle_complete_dialog_id ) );
+                    confirmDialog.Show();
                 }
 
             } else {
@@ -230,7 +227,7 @@ public class GameActivity extends SymbolizeActivity
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
         hint_dialog.Set_attr( current_puzzle );
-        hint_dialog.show( dialog_fragment_manager, getString( R.string.hint_dialog_id ) );
+        hint_dialog.Show();
     }
 
     public void On_undo_button_clicked( final View view ) {
@@ -282,7 +279,6 @@ public class GameActivity extends SymbolizeActivity
         hint_dialog.Set_attr( current_puzzle );
 
         request.dialog = hint_dialog;
-        request.dialog_fragment_manager = dialog_fragment_manager;
 
         game_model.Handle_request( request );
 
@@ -548,7 +544,7 @@ public class GameActivity extends SymbolizeActivity
             @Override
             public void OnDialogFail() {}
         } );
-        confirmDialog.show( dialog_fragment_manager, getString( R.string.delete_all_data_id ) );
+        confirmDialog.Show();
     }
 
     @Override

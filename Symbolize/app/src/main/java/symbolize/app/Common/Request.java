@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Dialog.HintDialog;
+import symbolize.app.Dialog.SymbolizeDialog;
 import symbolize.app.Game.GameView;
 import symbolize.app.Puzzle.Puzzle;
 
@@ -54,9 +55,7 @@ public class Request {
     public LinearLayout linearLayout;
     public GameView game_view;
 
-    public HintDialog dialog; // TODO: Might make sense to make this a general dialog of sorts
-    public FragmentManager dialog_fragment_manager;
-
+    public SymbolizeDialog dialog;
 
 
     // Constructors
@@ -79,7 +78,6 @@ public class Request {
         this.game_view = null;
 
         this.dialog = null;
-        this.dialog_fragment_manager = null;
     }
 
 
