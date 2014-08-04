@@ -66,8 +66,7 @@ public class GameAnimationHandler {
                 @Override
                 public void onSymbolizeAnimationEnd() {
                     request.game_view.Render_foreground( request.graph, request.levels );
-                    request.dialog.show( request.dialog_fragment_manager,
-                            GameActivity.Get_resource_string( R.string.hint_dialog_id ) );
+                    request.dialog.Show();
                 }
             } );
         } else {

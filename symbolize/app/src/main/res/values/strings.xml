@@ -29,16 +29,16 @@
     <string name="nothing_to_undo">There is nothing to undo</string>
     <string name="incorrect">You are incorrect</string>
 
-    <string name="delete_all_data_id">delete_all_data_dialog</string>
-    <string name="delete_all_data_title">Delete all data</string>
-    <string name="delete_all_data_msg">Are you sure you would like to clear all your progress. This cannot be reverted</string>
-
     <string name="options_dialog_id">options_dialog</string>
     <string name="option_grid">Show grid</string>
     <string name="option_border">Show border</string>
     <string name="option_snap">Snap</string>
 
-    <string name="puzzle_complete_dialog_id">puzzle_complete_dialog</string>
+    <string name="confirmation_dialog_id">confirmation_dialog</string>
+
+    <string name="delete_all_data_title">Delete all data</string>
+    <string name="delete_all_data_msg">Are you sure you would like to clear all your progress. This cannot be reverted</string>
+
     <string name="puzzle_complete_dialog_title">Congratulations</string>
     <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
     <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world</string>

@@ -8,10 +8,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
 
-public class ConfirmDialog extends DialogFragment {
+public class ConfirmDialog extends SymbolizeDialog {
     // Fields
     //-------
 
@@ -37,7 +38,6 @@ public class ConfirmDialog extends DialogFragment {
         super.onCreateDialog( save_instance_state );
 
         final AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-        final LayoutInflater inflater = getActivity().getLayoutInflater();
 
         builder.setTitle( title )
             .setMessage( message )
@@ -68,5 +68,13 @@ public class ConfirmDialog extends DialogFragment {
 
     public void SetConfirmationListener( ConfirmDialogListener listener ) {
         this.listener = listener;
+    }
+
+
+    // Protected method
+    //------------------
+
+    protected String Get_dialog_id() {
+        return SymbolizeActivity.Get_resource_string( R.string.confirmation_dialog_id );
     }
 }
