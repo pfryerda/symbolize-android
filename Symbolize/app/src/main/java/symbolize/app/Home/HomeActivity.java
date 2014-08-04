@@ -66,7 +66,7 @@ public class HomeActivity extends SymbolizeActivity
     @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attr( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
+        confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
         confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
             @Override
             public void OnDialogSuccess() {

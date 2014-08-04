@@ -27,6 +27,7 @@ import symbolize.app.Common.Request;
 import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.HintDialog;
+import symbolize.app.Dialog.InfoDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
@@ -183,7 +184,7 @@ public class GameActivity extends SymbolizeActivity
                         player.Unlock( unlock );
                     }
 
-                    confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
+                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
@@ -196,15 +197,16 @@ public class GameActivity extends SymbolizeActivity
                     } );
                     confirmDialog.Show();
                 } else if( in_world_view && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
-
-                    // TODO: You beat the game dialog
-
+                    InfoDialog info_dialog = new InfoDialog();
+                    info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
+                                          getString( R.string.game_complete_dialog_msg ) );
+                    info_dialog.Show();
                 } else if ( !in_world_view ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
                         player.Unlock( player.Get_current_world(), unlock );
                     }
 
-                    confirmDialog.Set_attr( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
+                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
@@ -226,7 +228,7 @@ public class GameActivity extends SymbolizeActivity
 
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attr( current_puzzle );
+        hint_dialog.Set_attrs( current_puzzle );
         hint_dialog.Show();
     }
 
@@ -276,7 +278,7 @@ public class GameActivity extends SymbolizeActivity
         request.request_point = pivot;
 
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attr( current_puzzle );
+        hint_dialog.Set_attrs( current_puzzle );
 
         request.dialog = hint_dialog;
 
@@ -533,7 +535,7 @@ public class GameActivity extends SymbolizeActivity
     @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attr( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
+        confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
         confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
             @Override
             public void OnDialogSuccess() {

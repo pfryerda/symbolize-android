@@ -63,6 +63,17 @@ public class Player {
     //---------------
 
     /*
+     *
+     */
+    public String Get_current_puzzle_text() {
+        if ( current_level == 0 ) {
+            return "World: " + current_world;
+        } else {
+            return "Level: " + current_world + "-" + current_level;
+        }
+    }
+
+    /*
      * Decrease the current world number and will wrap back to last world if at world 1
      */
     public void Decrease_world() {
