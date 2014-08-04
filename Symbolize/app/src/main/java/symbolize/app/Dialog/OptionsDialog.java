@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.SymbolizeActivity;
@@ -47,48 +48,53 @@ public class OptionsDialog extends SymbolizeDialog {
     @Override
     protected AlertDialog.Builder get_builder() {
         final AlertDialog.Builder builder = super.get_builder();
+
+        builder.setNeutralButton( SymbolizeActivity.Get_resource_string( R.string.close ), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                OptionsDialog.this.getDialog().dismiss();
+            }
+        } );
+
+        return builder;
+    }
+
+    @Override
+    protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view = inflater.inflate(R.layout.options_dialog, null);
+        final View dialog_view =  inflater.inflate( R.layout.options_dialog, null );
+
+        final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_graph );
+        show_graph.setChecked( Options.Show_grid() );
+        show_graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                listener.OnToggleGrid();
+                show_graph.setChecked( !show_graph.isChecked() );
+            }
+        } );
+
+        final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
+        show_border.setChecked( Options.Show_border() );
+        show_border.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                listener.OnToggleBorder();
+                show_border.setChecked( !show_border.isChecked() );
+            }
+        } );
+
+        final CheckedTextView snap_drawing = (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing );
+        snap_drawing.setChecked( Options.Is_snap_drawing() );
+        snap_drawing.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                listener.OnToggleSnap();
+                snap_drawing.setChecked( !snap_drawing.isChecked() );
+            }
+        } );
 
         Button delete_all_data_button = (Button) dialog_view.findViewById( R.id.options_delete_data );
-
-        SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_seekbar );
-        volume_bar.setProgress( Options.Get_volume() );
-
-        final String[] options_text =  GameActivity.Get_context().getResources().getStringArray( R.array.multi_choice_options );
-        boolean[] selected_items = new boolean[options_text.length];
-        selected_items[Options.SHOW_GRID]    = Options.Show_grid();
-        selected_items[Options.SHOW_BORDER]  = Options.Show_border();
-        selected_items[Options.SNAP_DRAWING] = Options.Is_snap_drawing();
-
-        builder.setView( dialog_view )
-                .setMultiChoiceItems(options_text, selected_items,
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick( DialogInterface dialog, int which,
-                                                 boolean isChecked)
-                            {
-                                switch ( which ) {
-                                    case Options.SHOW_GRID:
-                                        listener.OnToggleGrid();
-                                        break;
-                                    case Options.SHOW_BORDER:
-                                        listener.OnToggleBorder();
-                                        break;
-                                    case Options.SNAP_DRAWING:
-                                        listener.OnToggleSnap();
-                                        break;
-                                }
-                            }
-                        }
-                )
-                .setNeutralButton( "Close", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick( DialogInterface dialogInterface, int id ) {
-                                OptionsDialog.this.getDialog().dismiss();
-                            }
-                        }
-                );
 
         delete_all_data_button.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -96,6 +102,9 @@ public class OptionsDialog extends SymbolizeDialog {
                 listener.OnDeleteAllData();
             }
         } );
+
+        final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_seekbar );
+        volume_bar.setProgress( Options.Get_volume() );
 
         volume_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             int progress_change = 0;
@@ -113,13 +122,11 @@ public class OptionsDialog extends SymbolizeDialog {
             }
         } );
 
-        return builder;
+        return dialog_view;
     }
 
     @Override
     protected String get_dialog_id() {
         return SymbolizeActivity.Get_resource_string( R.string.options_dialog_id );
     }
-
-
 }

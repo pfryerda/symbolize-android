@@ -13,6 +13,36 @@
         android:textColor="@color/black"
         android:gravity="center"/>
 
+    <CheckedTextView
+        android:id="@+id/options_show_graph"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:checked="true"
+        android:textColor="@color/black"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="Show graph"/>
+
+    <CheckedTextView
+        android:id="@+id/options_show_border"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:checked="false"
+        android:textColor="@color/black"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="Show border"/>
+
+    <CheckedTextView
+        android:id="@+id/options_snap_drawing"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:checked="false"
+        android:textColor="@color/black"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="Snap drawing"/>
+
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -31,7 +61,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        >
+        android:progress="100">
     </SeekBar>
 
     <Button
