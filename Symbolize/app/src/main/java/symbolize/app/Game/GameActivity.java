@@ -124,7 +124,7 @@ public class GameActivity extends SymbolizeActivity
 
         // Set up Game
         player = Player.Get_instance();
-        game_model = new GameModel( player, this, foreground, background, bitMap_fg, bitMap_bg );
+        game_model = new GameModel( foreground, background, bitMap_fg, bitMap_bg );
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
 
@@ -179,6 +179,8 @@ public class GameActivity extends SymbolizeActivity
         } else {
             ConfirmDialog confirmDialog = new ConfirmDialog();
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
+                player.Complete();
+
                 if ( in_world_view && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
                         player.Unlock( unlock );
@@ -356,7 +358,7 @@ public class GameActivity extends SymbolizeActivity
                 if ( Options.Is_snap_drawing() ) {
                     line.Snap();
                 }
-                line.Snap_to_levels( game_model.Get_unlocked_levels() );
+                line.Snap_to_levels( game_model.Get_completed_levels() );
                 if ( player.In_draw_mode() ) {
                     if ( game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction() ) {
                         Request request = new Request( Request.Draw );
@@ -571,5 +573,6 @@ public class GameActivity extends SymbolizeActivity
     protected void onPause() {
         super.onPause();
         sensor_manager.unregisterListener( shake_detector );
+        player.Commit_current_world();
     }
 }

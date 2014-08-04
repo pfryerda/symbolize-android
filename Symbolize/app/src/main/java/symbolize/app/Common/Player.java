@@ -19,10 +19,17 @@ public class Player {
 
     private final SharedPreferences unlocks_dao = SymbolizeActivity
             .Get_context()
-            .getSharedPreferences( GameActivity.Get_resource_string( R.string.preference_unlocks_key ),
+            .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_unlocks_key ),
                     Context.MODE_PRIVATE );
     private final SharedPreferences.Editor unlocks_editor = unlocks_dao.edit();
 
+    private final SharedPreferences completed_dao = SymbolizeActivity
+            .Get_context()
+            .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_completed_key ),
+                    Context.MODE_PRIVATE );
+    private final SharedPreferences.Editor completed_editor = completed_dao.edit();
+
+    private int current_world;
     private int current_level;
     private boolean draw_enabled;
 
@@ -38,6 +45,15 @@ public class Player {
     }
 
     private Player() {
+        SharedPreferences settings_dao  = SymbolizeActivity
+                .Get_context()
+                .getSharedPreferences(SymbolizeActivity.Get_resource_string(R.string.preference_unlocks_key),
+                        Context.MODE_PRIVATE );
+
+        Unlock( 1 );
+        Unlock( 1, 1 );
+
+        current_world = settings_dao.getInt( "current_world", 1 );
         current_level = 0;
         this.draw_enabled = true;
     }
@@ -50,16 +66,14 @@ public class Player {
      * Decrease the current world number and will wrap back to last world if at world 1
      */
     public void Decrease_world() {
-        unlocks_editor.putInt( "current_world" , get_previous_world() );
-        unlocks_editor.commit();
+        current_world = get_previous_world();
     }
 
     /*
      * Increase the current world number will wrap back to world 1 if at last world
      */
     public void Increase_world() {
-        unlocks_editor.putInt( "current_world" , get_next_world() );
-        unlocks_editor.commit();
+        current_world = get_next_world();
     }
 
     /*
@@ -113,6 +127,34 @@ public class Player {
         unlocks_editor.commit();
     }
 
+    /*
+     * Returns whether the give level/world is complete
+     *
+     * @param int world: The world of interest
+     * @param int level: The level of interest
+     */
+    public boolean Is_completed( int world ) {
+        //return true;
+        return completed_dao.getBoolean( world + "", false ) || DEVMODE;
+    }
+
+    public boolean Is_completed( int world, int level ) {
+        //return true;
+        return completed_dao.getBoolean(world + "-" + level, false) || DEVMODE;
+    }
+
+    /*
+     * Set the the current level/world as completed
+     */
+    public void Complete() {
+        if( current_level == 0 ) {
+            completed_editor.putBoolean( current_world + "", true );
+        } else {
+            completed_editor.putBoolean( current_world + "-" + current_level, true );
+        }
+        completed_editor.commit();
+    }
+
     public void Delete_all_data() {
         for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
             unlocks_editor.putBoolean(world + "", false);
@@ -124,6 +166,17 @@ public class Player {
         unlocks_editor.putBoolean( "1", true);
         unlocks_editor.putBoolean( "1-1", true );
         unlocks_editor.commit();
+    }
+
+    public void Commit_current_world() {
+        SharedPreferences settings_dao  = SymbolizeActivity
+                .Get_context()
+                .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_unlocks_key ),
+                        Context.MODE_PRIVATE );
+        SharedPreferences.Editor settings_editor = settings_dao.edit();
+
+        settings_editor.putInt( "current_world", current_world );
+        settings_editor.commit();
     }
 
 

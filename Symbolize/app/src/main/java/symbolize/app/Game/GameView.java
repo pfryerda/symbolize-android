@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Options;
+import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 
@@ -30,6 +31,7 @@ public class GameView {
 
     public static final int LINEWIDTH = GameActivity.SCALING / 17;
     public static final int POINTWIDTH = ( LINEWIDTH * 7 ) / 4;
+    public static final int POINTBORDERWIDTH = POINTWIDTH / 10;
     public static final int TEXTWIDTH = LINEWIDTH;
     public static final int GRIDWIDTH = LINEWIDTH / 10;
     public static final int BRODERWIDTH = LINEWIDTH;
@@ -49,7 +51,7 @@ public class GameView {
     // Constructor
     //-------------
 
-    public GameView( final Context context, final LinearLayout foreground, final LinearLayout background,
+    public GameView( final LinearLayout foreground, final LinearLayout background,
                      final Bitmap foreground_bitmap, final Bitmap background_bitmap )
     {
         this.foreground = foreground;
@@ -61,8 +63,8 @@ public class GameView {
             foreground.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
             background.setBackgroundDrawable( new BitmapDrawable( background_bitmap ) );
         } else {
-            foreground.setBackground( new BitmapDrawable( context.getResources(), foreground_bitmap ) );
-            background.setBackground( new BitmapDrawable( context.getResources(), background_bitmap ) );
+            foreground.setBackground( new BitmapDrawable( GameActivity.Get_context().getResources(), foreground_bitmap ) );
+            background.setBackground( new BitmapDrawable( GameActivity.Get_context().getResources(), background_bitmap ) );
         }
 
         // Set up paint
@@ -127,21 +129,35 @@ public class GameView {
         }
 
         // Draw level dots
-        paint.setStrokeWidth( POINTWIDTH );
+        Player player = Player.Get_instance();
+
         for ( int i = 0; i < levels.size(); ++i ) {
-            Posn point = levels.get(i);
-            if ( point != null ) {
+            if( player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+                Posn point = levels.get(i);
+                if ( point != null ) {
 
-                // Draw Point
-                paint.setStyle( Paint.Style.STROKE );
-                paint.setColor( Color.BLACK );
-                foreground_canvas.drawPoint( point.x(), point.y(), paint );
+                    // Draw Point
+                    paint.setStrokeWidth( POINTWIDTH );
+                    paint.setStyle( Paint.Style.STROKE );
+                    paint.setColor( Color.BLACK );
+                    foreground_canvas.drawPoint( point.x(), point.y(), paint );
 
-                // Draw Number
-                paint.setStyle( Paint.Style.FILL );
-                paint.setColor( Color.WHITE );
-                foreground_canvas.drawText( Integer.toString(i + 1), point.x() - ( TEXTWIDTH / 2 ),
-                        point.y() + ( TEXTWIDTH / 2 ), paint );
+                    // Draw 'complete' border
+                    paint.setStrokeWidth( POINTBORDERWIDTH );
+                    paint.setStyle( Paint.Style.STROKE );
+                    if ( player.Is_completed( player.Get_current_world(), i + 1 ) ) {
+                        paint.setColor( Color.GREEN );
+                    } else {
+                        paint.setColor( Color.RED );
+                    }
+                    foreground_canvas.drawCircle( point.x(), point.y(), POINTWIDTH / 2, paint );
+
+                    // Draw Number
+                    paint.setStyle( Paint.Style.FILL );
+                    paint.setColor( Color.WHITE );
+                    foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
+                            point.y() + ( TEXTWIDTH / 2 ), paint);
+                }
             }
         }
 

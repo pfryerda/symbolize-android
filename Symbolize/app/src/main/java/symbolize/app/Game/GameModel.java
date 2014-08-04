@@ -25,7 +25,6 @@ public class GameModel {
     private ArrayList<Posn> levels;
     private int lines_drawn, lines_erased, lines_dragged;
     private int shift_number;
-    private final Player player;
     private final GameView game_view;
     private GameModel past_state;
 
@@ -33,8 +32,7 @@ public class GameModel {
     // Constructors
     //--------------
 
-    public GameModel( final Player player, final Context context,
-                      final LinearLayout foreground, final LinearLayout background,
+    public GameModel( final LinearLayout foreground, final LinearLayout background,
                       final Bitmap foreground_bitmap, final Bitmap background_bitmap )
     {
         this.graph = new LinkedList<Line>();
@@ -43,16 +41,14 @@ public class GameModel {
         this.lines_erased = 0;
         this.lines_dragged = 0;
         this.shift_number = 0;
-        this.player = player;
-        this.game_view = new GameView( context, foreground, background,
+        this.game_view = new GameView( foreground, background,
                                        foreground_bitmap, background_bitmap );
         this.past_state = null;
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
                       final int lines_drawn, final int lines_erased, final  int lines_dragged,
-                      final int shift_number, final Player player, final GameView game_view,
-                      final GameModel past_state )
+                      final int shift_number, final GameView game_view, final GameModel past_state )
     {
         this.graph = graph;
         this.levels = levels;
@@ -60,7 +56,7 @@ public class GameModel {
         this.lines_erased = lines_erased;
         this.lines_dragged = lines_dragged;
         this.shift_number = shift_number;
-        this.player = player;
+
         this.game_view = game_view;
         this.past_state = past_state;
     }
@@ -75,7 +71,7 @@ public class GameModel {
             clonedGraph.addLast( line.clone() );
         }
         return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, lines_dragged,
-                shift_number, player, game_view, past_state );
+                shift_number, game_view, past_state );
     }
 
 
@@ -152,7 +148,7 @@ public class GameModel {
 
         if ( request.Require_render() ) {
             request.graph = graph;
-            request.levels = Get_unlocked_levels();
+            request.levels = levels;
             game_view.Render( request );
         }
     }
@@ -175,7 +171,23 @@ public class GameModel {
         }
     }
 
+    public ArrayList<Posn> Get_completed_levels() {
+        Player player = Player.Get_instance();
+
+        ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
+        for ( int i = 0; i < levels.size(); ++i ) {
+            if ( player.Is_completed( player.Get_current_world(), i + 1 ) ) {
+                unlocked_levels.add( levels.get( i ) );
+            } else {
+                unlocked_levels.add( null );
+            }
+        }
+        return unlocked_levels;
+    }
+
     public ArrayList<Posn> Get_unlocked_levels() {
+        Player player = Player.Get_instance();
+
         ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
         for ( int i = 0; i < levels.size(); ++i ) {
             if ( player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
