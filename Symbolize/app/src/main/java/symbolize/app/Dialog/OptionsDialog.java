@@ -41,12 +41,12 @@ public class OptionsDialog extends SymbolizeDialog {
     }
 
 
-    // Main method
-    //-------------
+    // Protected methods
+    //-------------------
 
     @Override
-    public Dialog onCreateDialog( Bundle save_instance_state ) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+    protected AlertDialog.Builder get_builder() {
+        final AlertDialog.Builder builder = super.get_builder();
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialog_view = inflater.inflate(R.layout.options_dialog, null);
 
@@ -113,14 +113,11 @@ public class OptionsDialog extends SymbolizeDialog {
             }
         } );
 
-        return builder.create();
+        return builder;
     }
 
-
-    // Protected methods
-    //-------------------
-
-    protected String Get_dialog_id() {
+    @Override
+    protected String get_dialog_id() {
         return SymbolizeActivity.Get_resource_string( R.string.options_dialog_id );
     }
 

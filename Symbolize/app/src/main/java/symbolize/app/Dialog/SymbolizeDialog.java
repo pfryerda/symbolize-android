@@ -1,7 +1,10 @@
 package symbolize.app.Dialog;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.os.Bundle;
 
 import symbolize.app.Common.SymbolizeActivity;
 
@@ -16,12 +19,31 @@ abstract public class SymbolizeDialog extends DialogFragment {
     //----------------
 
     public void Show() {
-        this.show( dialog_manager, Get_dialog_id() );
+        this.show( dialog_manager, get_dialog_id() );
+    }
+
+
+    // Main method
+    //-------------
+
+    @Override
+    public Dialog onCreateDialog( Bundle save_instance_state ) {
+        return get_builder().create();
+
     }
 
 
     // Protected method
     //------------------
 
-    abstract protected String Get_dialog_id();
+    protected AlertDialog.Builder get_builder() {
+        return new AlertDialog.Builder( getActivity() );
+    }
+
+
+
+    // abstract methods
+    //-----------------
+
+    abstract protected String get_dialog_id();
 }
