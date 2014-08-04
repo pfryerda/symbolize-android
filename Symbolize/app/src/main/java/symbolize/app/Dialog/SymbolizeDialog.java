@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.R;
 
 abstract public class SymbolizeDialog extends DialogFragment {
     // Static fields
@@ -19,7 +22,12 @@ abstract public class SymbolizeDialog extends DialogFragment {
     //----------------
 
     public void Show() {
-        this.show( dialog_manager, get_dialog_id() );
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                show( dialog_manager, get_dialog_id() );
+            }
+        } ).start();
     }
 
 
@@ -28,7 +36,9 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog( Bundle save_instance_state ) {
-        return get_builder().create();
+        AlertDialog.Builder builder = get_builder();
+        builder.setView( get_dialog_view() );
+        return builder.create();
 
     }
 
@@ -44,6 +54,8 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
     // abstract methods
     //-----------------
+
+    abstract protected View get_dialog_view();
 
     abstract protected String get_dialog_id();
 }

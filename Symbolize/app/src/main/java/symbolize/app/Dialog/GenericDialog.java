@@ -28,17 +28,14 @@ abstract public class GenericDialog extends SymbolizeDialog {
     //------------------
 
     @Override
-    protected AlertDialog.Builder get_builder() {
-        final AlertDialog.Builder builder = super.get_builder();
+    protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view = inflater.inflate( R.layout.generic_dialog, null );
-
-        builder.setView( dialog_view );
+        final View dialog_view =  inflater.inflate( R.layout.generic_dialog, null );
 
         ( (TextView) dialog_view.findViewById( R.id.Title ) ).setText( title );
         ( (TextView) dialog_view.findViewById( R.id.Message ) ).setText( message );
 
-        return builder;
+        return dialog_view;
     }
 
 
@@ -47,4 +44,5 @@ abstract public class GenericDialog extends SymbolizeDialog {
 
     @Override
     abstract protected String get_dialog_id();
+
 }

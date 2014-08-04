@@ -30,9 +30,6 @@
     <string name="incorrect">You are incorrect</string>
 
     <string name="options_dialog_id">options_dialog</string>
-    <string name="option_grid">Show grid</string>
-    <string name="option_border">Show border</string>
-    <string name="option_snap">Snap</string>
 
     <string name="confirmation_dialog_id">confirmation_dialog</string>
 
