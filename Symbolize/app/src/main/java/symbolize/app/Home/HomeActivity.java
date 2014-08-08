@@ -49,21 +49,6 @@ public class HomeActivity extends SymbolizeActivity
     //-------------------
 
     @Override
-    public void OnToggleGrid() {
-        Options.Toggle_grid();
-    }
-
-    @Override
-    public void OnToggleBorder() {
-        Options.Toggle_border();
-    }
-
-    @Override
-    public void OnToggleSnap() {
-        Options.Is_snap_drawing();
-    }
-
-    @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
@@ -78,10 +63,5 @@ public class HomeActivity extends SymbolizeActivity
             public void OnDialogFail() {}
         } );
         confirmDialog.Show();
-    }
-
-    @Override
-    public void OnEditVolume( int volume ) {
-        Options.Set_volume( volume );
     }
 }

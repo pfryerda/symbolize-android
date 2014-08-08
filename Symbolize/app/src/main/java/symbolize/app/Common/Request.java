@@ -93,7 +93,7 @@ public class Request {
     }
 
     public boolean Is_animation_action() {
-        return Rotate_right <= type && type <= Load_puzzle_right;
+        return Rotate_right <= type && type <= Load_puzzle_right && Options.Show_animations();
     }
 
     public boolean Is_shadow_action() {

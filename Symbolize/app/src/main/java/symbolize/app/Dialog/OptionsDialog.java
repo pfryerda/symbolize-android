@@ -28,17 +28,12 @@ public class OptionsDialog extends SymbolizeDialog {
     //-------------------
 
     public interface OptionsDialogListener {
-        public void OnToggleGrid();
-        public void OnToggleBorder();
-        public void OnToggleSnap();
         public void OnDeleteAllData();
-        public void OnEditVolume( int volume );
     }
 
     @Override
     public void onAttach( Activity activity ){
        super.onAttach( activity );
-       listener = ( OptionsDialogListener ) activity;
     }
 
 
@@ -69,7 +64,7 @@ public class OptionsDialog extends SymbolizeDialog {
         show_graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                listener.OnToggleGrid();
+                Options.Toggle_grid();
                 show_graph.setChecked( !show_graph.isChecked() );
             }
         } );
@@ -79,7 +74,7 @@ public class OptionsDialog extends SymbolizeDialog {
         show_border.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                listener.OnToggleBorder();
+                Options.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
             }
         } );
@@ -89,8 +84,18 @@ public class OptionsDialog extends SymbolizeDialog {
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                listener.OnToggleSnap();
+                Options.Toggle_snap();
                 snap_drawing.setChecked( !snap_drawing.isChecked() );
+            }
+        } );
+
+        final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
+        show_animation.setChecked( Options.Show_animations() );
+        show_animation.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                Options.Toggle_animations();
+                show_animation.setChecked( !show_animation.isChecked() );
             }
         } );
 
@@ -118,7 +123,7 @@ public class OptionsDialog extends SymbolizeDialog {
 
             @Override
             public void onStopTrackingTouch( SeekBar seekBar ) {
-                listener.OnEditVolume( progress_change );
+                Options.Set_volume( progress_change );
             }
         } );
 

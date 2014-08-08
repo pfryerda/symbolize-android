@@ -512,27 +512,6 @@ public class GameActivity extends SymbolizeActivity
     }
 
     @Override
-    public void OnToggleGrid() {
-        Options.Toggle_grid();
-        Request request = new Request( Request.Background_change );
-        game_model.Handle_request( request );
-    }
-
-    @Override
-    public void OnToggleBorder() {
-        Options.Toggle_border();
-        Request request = new Request( Request.Background_change );
-        game_model.Handle_request( request );
-    }
-
-    @Override
-    public void OnToggleSnap() {
-        Options.Toggle_snap();
-        Request request = new Request( Request.Background_change );
-        game_model.Handle_request( request );
-    }
-
-    @Override
     public void OnDeleteAllData() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
@@ -548,13 +527,6 @@ public class GameActivity extends SymbolizeActivity
         } );
         confirmDialog.Show();
     }
-
-    @Override
-    public void OnEditVolume( int volume ) {
-        Options.Set_volume( volume );
-    }
-
-
 
     // Methods used to stop sensors on pause ( save resources )
     //---------------------------------------------------------
