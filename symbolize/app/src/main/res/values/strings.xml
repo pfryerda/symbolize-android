@@ -14,6 +14,7 @@
     <string name="grid_settings">settings_grid</string>
     <string name="border_settings">settings_border</string>
     <string name="snap_settings">settings_snap</string>
+    <string name="animation_settings">settings_animation</string>
     <string name="volume_settings">settings_volume</string>
 
     <string name="world">World</string>
