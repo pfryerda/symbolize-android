@@ -32,8 +32,7 @@ public class GameModel {
     // Constructors
     //--------------
 
-    public GameModel( final LinearLayout foreground, final LinearLayout background,
-                      final Bitmap foreground_bitmap, final Bitmap background_bitmap )
+    public GameModel( final LinearLayout foreground, final LinearLayout background )
     {
         this.graph = new LinkedList<Line>();
         this.levels = new ArrayList<Posn>();
@@ -41,8 +40,7 @@ public class GameModel {
         this.lines_erased = 0;
         this.lines_dragged = 0;
         this.shift_number = 0;
-        this.game_view = new GameView( foreground, background,
-                                       foreground_bitmap, background_bitmap );
+        this.game_view = new GameView( foreground, background );
         this.past_state = null;
     }
 

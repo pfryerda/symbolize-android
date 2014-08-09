@@ -1,17 +1,26 @@
 package symbolize.app.Game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Display;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.android.gms.ads.AdSize;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
@@ -20,6 +29,7 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.R;
 
 
 /*
@@ -29,7 +39,13 @@ public class GameView {
     // Static Fields
     //-------------
 
-    public static final int LINEWIDTH = GameActivity.SCALING / 17;
+    // Main sizes
+    public static final int SCALING = 1000;
+    public static Point SCREEN_SIZE;
+    public static int CANVAS_SIZE;
+
+    // Other sizes
+    public static final int LINEWIDTH = SCALING / 17;
     public static final int POINTWIDTH = ( LINEWIDTH * 7 ) / 4;
     public static final int POINTBORDERWIDTH = POINTWIDTH / 10;
     public static final int TEXTWIDTH = LINEWIDTH;
@@ -48,17 +64,39 @@ public class GameView {
     private final Paint paint;
     private final GameAnimationHandler animation_handler;
 
+    private final Button left_button;
+    private final Button right_button;
+    private final TextView title;
+
+
     // Constructor
     //-------------
 
-    public GameView( final LinearLayout foreground, final LinearLayout background,
-                     final Bitmap foreground_bitmap, final Bitmap background_bitmap )
+    public GameView( final LinearLayout foreground, final LinearLayout background )
     {
-        this.foreground = foreground;
+        this.animation_handler = new GameAnimationHandler();
+
+        // Setup linearlayout's width/height - 'Guarantee a square'
+        background.getLayoutParams().height = CANVAS_SIZE;
+        background.getLayoutParams().width = CANVAS_SIZE;
         this.background = background;
+
+        foreground.getLayoutParams().height = CANVAS_SIZE;
+        foreground.getLayoutParams().width = CANVAS_SIZE;
+        this.foreground = foreground;
+
+        // Set up bitmap's
+        final Bitmap background_bitmap = Bitmap.createScaledBitmap(
+                Bitmap.createBitmap( CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );
+
+        final Bitmap foreground_bitmap = Bitmap.createScaledBitmap(
+                Bitmap.createBitmap( CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );
+
+        // Setup canvas's
         this.foreground_canvas = new Canvas( foreground_bitmap );
         this.background_canvas = new Canvas( background_bitmap );
 
+        // Add bitmap's to linearlayout
         if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
             foreground.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
             background.setBackgroundDrawable( new BitmapDrawable( background_bitmap ) );
@@ -76,7 +114,10 @@ public class GameView {
         paint.setStrokeCap( Paint.Cap.ROUND );
         paint.setTextSize( TEXTWIDTH );
 
-        animation_handler = new GameAnimationHandler();
+        // Set up ui elements that are not static
+        this.left_button = ( Button ) GameActivity.Get_activity().findViewById( R.id.Left );
+        this.right_button = ( Button ) GameActivity.Get_activity().findViewById( R.id.Right );
+        this.title = (TextView) GameActivity.Get_activity().findViewById( R.id.Title );
 
         Render_background();
     }
@@ -112,6 +153,7 @@ public class GameView {
                 foreground.invalidate();
             }
         }
+        update_ui();
     }
 
     /*
@@ -175,12 +217,12 @@ public class GameView {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRIDWIDTH );
 
-            for ( int x = GameActivity.SCALING / 10; x < GameActivity.SCALING; x += GameActivity.SCALING / 10 ) {
-                background_canvas.drawLine( x, 0, x, GameActivity.SCALING, paint );
+            for ( int x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
+                background_canvas.drawLine( x, 0, x, SCALING, paint );
             }
 
-            for ( int y = GameActivity.SCALING / 10; y < GameActivity.SCALING; y += GameActivity.SCALING / 10 ) {
-                background_canvas.drawLine( 0, y, GameActivity.SCALING, y, paint );
+            for ( int y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
+                background_canvas.drawLine( 0, y, SCALING, y, paint );
             }
         }
 
@@ -188,10 +230,10 @@ public class GameView {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BRODERWIDTH );
 
-            background_canvas.drawLine( 0, 0, 0, GameActivity.SCALING, paint );
-            background_canvas.drawLine( 0, 0, GameActivity.SCALING, 0, paint );
-            background_canvas.drawLine( 0, GameActivity.SCALING, GameActivity.SCALING, GameActivity.SCALING, paint );
-            background_canvas.drawLine( GameActivity.SCALING, 0, GameActivity.SCALING, GameActivity.SCALING, paint );
+            background_canvas.drawLine( 0, 0, 0, SCALING, paint );
+            background_canvas.drawLine( 0, 0, SCALING, 0, paint );
+            background_canvas.drawLine( 0, SCALING, SCALING, SCALING, paint );
+            background_canvas.drawLine( SCALING, 0, SCALING, SCALING, paint );
         }
 
         background.invalidate();
@@ -213,5 +255,49 @@ public class GameView {
      */
     private void clear_background() {
         background_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
+    }
+
+    private void update_ui() {
+        Player player = Player.Get_instance();
+        if ( player.Is_in_world_view() ) {
+            title.setText( GameActivity.Get_resource_string( R.string.world ) + ": " + player.Get_current_world() );
+        } else {
+            title.setText( GameActivity.Get_resource_string( R.string.level ) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
+        }
+
+        if ( player.Is_previous_world_unlocked() && player.Is_in_world_view() ) {
+            left_button.setVisibility( View.VISIBLE );
+        } else {
+            left_button.setVisibility( View.GONE );
+        }
+
+        if ( player.Is_next_world_unlocked() && player.Is_in_world_view() ) {
+            right_button.setVisibility( View.VISIBLE );
+        } else {
+            right_button.setVisibility( View.GONE );
+        }
+    }
+
+
+    // Static methods
+    //----------------
+
+    public static void Set_up_sizes() {
+        Activity activity = GameActivity.Get_activity();
+        final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
+        SCREEN_SIZE = new Point();
+        DISPLAY.getSize( SCREEN_SIZE );
+        CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
+
+        int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
+        activity.findViewById(R.id.buttons).getLayoutParams().height = bar_height;
+        activity.findViewById(R.id.topbar).getLayoutParams().height = bar_height;
+
+        int button_width = SCREEN_SIZE.x / 5;
+        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
     }
 }

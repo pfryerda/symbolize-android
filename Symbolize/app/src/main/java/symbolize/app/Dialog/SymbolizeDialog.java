@@ -25,7 +25,12 @@ abstract public class SymbolizeDialog extends DialogFragment {
         new Thread( new Runnable() {
             @Override
             public void run() {
-                show( dialog_manager, get_dialog_id() );
+                SymbolizeActivity.Get_activity().runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       show( dialog_manager, get_dialog_id() );
+                   }
+               } );
             }
         } ).start();
     }

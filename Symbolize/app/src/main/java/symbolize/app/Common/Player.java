@@ -29,6 +29,7 @@ public class Player {
                     Context.MODE_PRIVATE );
     private final SharedPreferences.Editor completed_editor = completed_dao.edit();
 
+    private boolean in_world_view;
     private int current_world;
     private int current_level;
     private boolean draw_enabled;
@@ -45,7 +46,7 @@ public class Player {
     }
 
     private Player() {
-        SharedPreferences settings_dao  = SymbolizeActivity
+        SharedPreferences settings_dao = SymbolizeActivity
                 .Get_context()
                 .getSharedPreferences(SymbolizeActivity.Get_resource_string(R.string.preference_unlocks_key),
                         Context.MODE_PRIVATE );
@@ -53,8 +54,9 @@ public class Player {
         Unlock( 1 );
         Unlock( 1, 1 );
 
-        current_world = settings_dao.getInt( "current_world", 1 );
-        current_level = 0;
+        this.in_world_view = true;
+        this.current_world = settings_dao.getInt( "current_world", 1 );
+        this.current_level = 0;
         this.draw_enabled = true;
     }
 
@@ -63,7 +65,7 @@ public class Player {
     //---------------
 
     /*
-     *
+     * Gets the text of the current world/level formated nicly
      */
     public String Get_current_puzzle_text() {
         if ( current_level == 0 ) {
@@ -168,7 +170,7 @@ public class Player {
 
     public void Delete_all_data() {
         for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
-            unlocks_editor.putBoolean(world + "", false);
+            unlocks_editor.putBoolean( world + "", false );
             for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
                 unlocks_editor.putBoolean( world + "-" + level, false );
             }
@@ -177,6 +179,15 @@ public class Player {
         unlocks_editor.putBoolean( "1", true);
         unlocks_editor.putBoolean( "1-1", true );
         unlocks_editor.commit();
+
+        for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
+            completed_editor.putBoolean( world + "", false );
+            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
+                completed_editor.putBoolean( world + "-" + level, false );
+            }
+        }
+
+        completed_editor.commit();
     }
 
     public void Commit_current_world() {
@@ -210,6 +221,10 @@ public class Player {
         return !draw_enabled;
     }
 
+    public boolean Is_in_world_view() {
+        return in_world_view;
+    }
+
 
     // Setter method
     //--------------
@@ -224,6 +239,10 @@ public class Player {
 
     public void Set_current_level( int new_level ) {
         current_level = new_level;
+    }
+
+    public void Toggle_world_view() {
+        in_world_view = !in_world_view;
     }
 
 

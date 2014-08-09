@@ -1,21 +1,15 @@
 package symbolize.app.Animation;
 
 
-import android.app.Fragment;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
-import java.util.ArrayList;
-import java.util.HashMap;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
-import symbolize.app.Game.GameActivity;
-import symbolize.app.R;
+import symbolize.app.Game.GameView;
+
 
 public class GameAnimationHandler {
     // Static fields
@@ -175,8 +169,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
-                            Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameActivity.SCALING,
-                            Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameActivity.SCALING
+                            Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
+                            Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -184,8 +178,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameActivity.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameActivity.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -196,8 +190,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameActivity.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameActivity.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -205,8 +199,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameActivity.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameActivity.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );

@@ -15,8 +15,7 @@ import symbolize.app.Game.GameActivity;
 import symbolize.app.R;
 
 
-public class HomeActivity extends SymbolizeActivity
-                          implements OptionsDialog.OptionsDialogListener{
+public class HomeActivity extends SymbolizeActivity {
 
     // Main method
     //-------------
@@ -42,26 +41,5 @@ public class HomeActivity extends SymbolizeActivity
     public void On_settings_button_clicked( final View view ){
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Show();
-    }
-
-
-    // Interface methods
-    //-------------------
-
-    @Override
-    public void OnDeleteAllData() {
-        ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
-        confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-            @Override
-            public void OnDialogSuccess() {
-                Player player = Player.Get_instance();
-                player.Delete_all_data();
-            }
-
-            @Override
-            public void OnDialogFail() {}
-        } );
-        confirmDialog.Show();
     }
 }

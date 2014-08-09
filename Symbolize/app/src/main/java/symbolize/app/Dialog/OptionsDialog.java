@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,30 +14,13 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import symbolize.app.Common.Options;
+import symbolize.app.Common.Player;
 import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Game.GameActivity;
+import symbolize.app.Home.HomeActivity;
 import symbolize.app.R;
 
 public class OptionsDialog extends SymbolizeDialog {
-    // Fields
-    //-------
-
-    private OptionsDialogListener listener;
-
-
-    // Interface setup
-    //-------------------
-
-    public interface OptionsDialogListener {
-        public void OnDeleteAllData();
-    }
-
-    @Override
-    public void onAttach( Activity activity ){
-       super.onAttach( activity );
-    }
-
-
     // Protected methods
     //-------------------
 
@@ -104,7 +88,20 @@ public class OptionsDialog extends SymbolizeDialog {
         delete_all_data_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                listener.OnDeleteAllData();
+                final Player player = Player.Get_instance();
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        player.Delete_all_data();
+                        startActivity( new Intent( GameActivity.Get_context().getApplicationContext(), HomeActivity.class ) );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
             }
         } );
 

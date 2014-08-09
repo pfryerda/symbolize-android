@@ -6,6 +6,7 @@ import java.util.Arrays;
 import android.graphics.Color;
 import android.util.SparseIntArray;
 import symbolize.app.Game.GameActivity;
+import symbolize.app.Game.GameView;
 
 public class Line {
     // Flags
@@ -17,8 +18,7 @@ public class Line {
     // Static Fields
     //---------------
 
-    public static final int TAPTHRESHOLD = GameActivity.SCALING / 13;
-    public static final int ERASINGTHRESHOLD = GameActivity.SCALING / 13;
+    public static final int ERASINGTHRESHOLD = GameView.SCALING / 13;
     public static final ArrayList<Integer> COLORARRAY =
             new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW,
                     Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
@@ -117,16 +117,16 @@ public class Line {
      * @param Posn point: point of interest
      */
     public boolean Intersects( final Posn point ) {
-        if( Math.min( p1.x(), p2.x() ) - TAPTHRESHOLD <= point.x() &&
-                point.x() <= Math.max( p1.x(), p2.x() ) + TAPTHRESHOLD &&
-            Math.min( p1.y(), p2.y() ) - TAPTHRESHOLD <= point.y() &&
-                point.y() <= Math.max( p1.y(), p2.y() ) + TAPTHRESHOLD )
+        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() &&
+                point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
+            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() &&
+                point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD )
         {
             if ( ( slope() != Float.POSITIVE_INFINITY ) && ( slope() != 0 ) ) {
                 int x  = Math.round( ( point.y() - y_intercept() ) / slope() );
                 int y = Math.round( slope() * point.x() + y_intercept() );
-                return Math.abs( x - point.x() ) <= TAPTHRESHOLD ||
-                        ( Math.abs( y - point.y() ) <= TAPTHRESHOLD );
+                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||
+                        ( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
             }
             return true;
         }
