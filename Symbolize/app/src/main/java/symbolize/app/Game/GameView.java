@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Options;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
@@ -209,7 +209,7 @@ public class GameView {
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
-        if ( Options.Show_grid() ) {
+        if ( OptionsDataAccess.Show_grid() ) {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRIDWIDTH );
 
@@ -222,7 +222,7 @@ public class GameView {
             }
         }
 
-        if ( Options.Show_border() ) {
+        if ( OptionsDataAccess.Show_border() ) {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BRODERWIDTH );
 

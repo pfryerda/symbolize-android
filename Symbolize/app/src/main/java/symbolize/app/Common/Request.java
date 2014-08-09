@@ -1,13 +1,12 @@
 package symbolize.app.Common;
 
 
-import android.app.FragmentManager;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import symbolize.app.Dialog.HintDialog;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Dialog.SymbolizeDialog;
 import symbolize.app.Game.GameView;
 import symbolize.app.Puzzle.Puzzle;
@@ -93,7 +92,7 @@ public class Request {
     }
 
     public boolean Is_animation_action() {
-        return Rotate_right <= type && type <= Load_puzzle_right && Options.Show_animations();
+        return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
     }
 
     public boolean Is_shadow_action() {

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Options;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
@@ -266,7 +266,7 @@ public class GameActivity extends SymbolizeActivity {
         findViewById( R.id.foreground ).setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
-                if ( Options.Is_snap_drawing() ) {
+                if ( OptionsDataAccess.Is_snap_drawing() ) {
                     line.Snap();
                 }
                 line.Snap_to_levels( game_model.Get_completed_levels() );
@@ -309,7 +309,7 @@ public class GameActivity extends SymbolizeActivity {
             @Override
             public void onFingerMove( final Line line, final Posn point ) {
                 if ( player.In_draw_mode() ) {
-                    if ( Options.Is_snap_drawing() && !player.Is_in_world_view() ) {
+                    if ( OptionsDataAccess.Is_snap_drawing() && !player.Is_in_world_view() ) {
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );
