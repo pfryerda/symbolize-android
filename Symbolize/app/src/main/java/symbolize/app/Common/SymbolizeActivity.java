@@ -1,5 +1,6 @@
 package symbolize.app.Common;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -29,6 +30,11 @@ public class SymbolizeActivity extends FragmentActivity {
 
     public static Context Get_context() {
         return context;
+    }
+
+    // BE CAREFUL WITH THIS METHOD
+    public static Activity Get_activity() {
+        return (Activity) context;
     }
 
     public static String Get_resource_string( int id ) {

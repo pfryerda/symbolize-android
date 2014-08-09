@@ -9,6 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
+import com.google.android.gms.games.Game;
+
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -37,25 +39,18 @@ import symbolize.app.Puzzle.World;
 import symbolize.app.R;
 
 
-public class GameActivity extends SymbolizeActivity
-                          implements OptionsDialog.OptionsDialogListener {
-    // Static fields
-    //---------------
-
-    public static final int SCALING = 1000;
-    public static Point SCREENSIZE;
-    public static final String LUKE = "Awesome";
-
+public class GameActivity extends SymbolizeActivity {
 
     // Fields
     //---------
+
+    private final String LUKE = "Awesome";
 
     private GameModel game_model;
     private Toast toast;
 
     private Player player;
 
-    private boolean in_world_view = true;
     private Puzzle current_puzzle;
 
     private SensorManager sensor_manager;
@@ -90,50 +85,21 @@ public class GameActivity extends SymbolizeActivity
         adView.setAdListener( new AdListener() {} );
         adView.loadAd( ad_request );
 
-
-        // Set up linerlayouts and bitamps
-        final Display DISPLAY = getWindowManager().getDefaultDisplay();
-        SCREENSIZE = new Point();
-        DISPLAY.getSize( SCREENSIZE );
-        int size = ( SCREENSIZE.y > SCREENSIZE.x ) ? SCREENSIZE.x : SCREENSIZE.y;
-
-        LinearLayout background = (LinearLayout) findViewById( R.id.background );
-        background.getLayoutParams().height = size;
-        background.getLayoutParams().width = size;
-
-        LinearLayout foreground = (LinearLayout) findViewById( R.id.canvas );
-        foreground.getLayoutParams().height = size;
-        foreground.getLayoutParams().width = size;
-
-        Bitmap bitMap_fg = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );
-        Bitmap bitMap_bg = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );
-
-        int bar_height = ( SCREENSIZE.y - size - AdSize.BANNER.getHeightInPixels( this ) ) / 2;
-        findViewById( R.id.buttons ).getLayoutParams().height = bar_height;
-        findViewById( R.id.topbar ).getLayoutParams().height = bar_height;
-
-        int button_width = SCREENSIZE.x / 5;
-        findViewById( R.id.Check ).getLayoutParams().width = button_width;
-        findViewById( R.id.Hint ).getLayoutParams().width = button_width;
-        findViewById( R.id.Undo ).getLayoutParams().width = button_width;
-        findViewById( R.id.Draw ).getLayoutParams().width = button_width;
-        findViewById( R.id.Erase ).getLayoutParams().width = button_width;
+        // Set up screen/button/layout sizes
+        GameView.Set_up_sizes();
 
 
         // Set up Game
+        LinearLayout foreground = (LinearLayout) findViewById( R.id.foreground );
         player = Player.Get_instance();
-        game_model = new GameModel( foreground, background, bitMap_fg, bitMap_bg );
-
-        toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
+        game_model = new GameModel( foreground, (LinearLayout) findViewById( R.id.background ) );
 
         current_puzzle = PuzzleDB.Fetch_world( 1 );
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
 
-        update_view();
+        toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
         Set_up_listeners( foreground );
     }
 
@@ -147,7 +113,7 @@ public class GameActivity extends SymbolizeActivity
     }
 
     public void On_back_button_clicked( final View view ) {
-        if ( in_world_view ) {
+        if ( player.Is_in_world_view() ) {
             startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
         } else {
             player.Set_to_world_level();
@@ -179,7 +145,7 @@ public class GameActivity extends SymbolizeActivity
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
                 player.Complete();
 
-                if ( in_world_view && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
+                if ( player.Is_in_world_view() && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
                         player.Unlock( unlock );
                     }
@@ -196,12 +162,12 @@ public class GameActivity extends SymbolizeActivity
                         public void OnDialogFail() {}
                     } );
                     confirmDialog.Show();
-                } else if( in_world_view && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
+                } else if( player.Is_in_world_view() && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
                     InfoDialog info_dialog = new InfoDialog();
                     info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
                                           getString( R.string.game_complete_dialog_msg ) );
                     info_dialog.Show();
-                } else if ( !in_world_view ) {
+                } else if ( !player.Is_in_world_view() ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
                         player.Unlock( player.Get_current_world(), unlock );
                     }
@@ -259,18 +225,16 @@ public class GameActivity extends SymbolizeActivity
      * @param Level level: The level that needs to be loaded
      */
     private void load_world( final World world, int request_type ) {
-        in_world_view = true;
+        player.Toggle_world_view();
         current_puzzle = world;
 
         Request request = new Request( request_type );
         request.puzzle = world;
         game_model.Handle_request( request );
-
-        update_view();
     }
 
     private void load_level( final Level level, final Posn pivot ) {
-        in_world_view = false;
+        player.Toggle_world_view();
         current_puzzle = level;
 
         Request request = new Request( Request.Load_level_via_world );
@@ -283,36 +247,6 @@ public class GameActivity extends SymbolizeActivity
         request.dialog = hint_dialog;
 
         game_model.Handle_request( request );
-
-        update_view();
-    }
-
-    /*
-     * Method used to update button states for switching between world mode and level mode
-     */
-    private void update_view() {
-        if ( in_world_view ) {
-            ( (TextView) findViewById( R.id.Title ) ).setText(
-                    getResources().getString( R.string.world ) + ": " + player.Get_current_world() );
-        } else {
-            ( (TextView) findViewById( R.id.Title ) ).setText(
-                    getResources().getString( R.string.level ) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
-        }
-
-        Button left_button = ( Button ) findViewById( R.id.Left );
-        Button right_button = ( Button ) findViewById( R.id.Right );
-
-        if ( player.Is_previous_world_unlocked() && in_world_view ) {
-            left_button.setVisibility( View.VISIBLE );
-        } else {
-            left_button.setVisibility( View.GONE );
-        }
-
-        if ( player.Is_next_world_unlocked() && in_world_view ) {
-            right_button.setVisibility( View.VISIBLE );
-        } else {
-            right_button.setVisibility( View.GONE );
-        }
     }
 
     /*
@@ -323,25 +257,11 @@ public class GameActivity extends SymbolizeActivity
         game_model.Handle_request( new Request( Request.None ) );
     }
 
-    /*
-    * Display a toast with the given message
-    *
-    * @param: int/String msg: The message we want to output or the id for it in strings.xml
-    */
-    private void Render_toast( final String msg ){
-        if ( toast == null | toast.getView().getWindowVisibility() != View.VISIBLE ) {
-            toast.setText( msg );
-            toast.show();
-        }
-        //Toast.makeText( this, msg, Toast.LENGTH_SHORT ).show();
-    }
-
     private void Render_toast( final int msg_id ) {
         if ( toast == null | toast.getView().getWindowVisibility() != View.VISIBLE ) {
             toast.setText( getResources().getString( msg_id ) );
             toast.show();
         }
-        //Toast.makeText( this, getResources().getString( msg_id ), Toast.LENGTH_SHORT ).show();
     }
 
     /*
@@ -509,23 +429,6 @@ public class GameActivity extends SymbolizeActivity
                 }
             }
         } );
-    }
-
-    @Override
-    public void OnDeleteAllData() {
-        ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
-        confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-            @Override
-            public void OnDialogSuccess() {
-                player.Delete_all_data();
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-            }
-
-            @Override
-            public void OnDialogFail() {}
-        } );
-        confirmDialog.Show();
     }
 
     // Methods used to stop sensors on pause ( save resources )

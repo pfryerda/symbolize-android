@@ -2,12 +2,13 @@ package symbolize.app.Common;
 
 import java.util.ArrayList;
 import symbolize.app.Game.GameActivity;
+import symbolize.app.Game.GameView;
 
 public class Posn {
     // Static field
     //--------------
 
-    public static final int DRAWINGTHRESHOLD = GameActivity.SCALING / 10;
+    public static final int DRAWINGTHRESHOLD = GameView.SCALING / 10;
 
 
     // Fields
@@ -89,18 +90,18 @@ public class Posn {
      * Scale point according to the GameActivity.Scaling
      */
     public void Scale() {
-        first = Math.min( GameActivity.SCALING,
-                Math.max( 0, Math.round( first * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
-        second = Math.min( GameActivity.SCALING,
-                Math.max( 0, Math.round( second * GameActivity.SCALING / GameActivity.SCREENSIZE.x ) ) );
+        first = Math.min( GameView.SCALING,
+                Math.max( 0, Math.round( first * GameView.SCALING / GameView.CANVAS_SIZE ) ) );
+        second = Math.min( GameView.SCALING,
+                Math.max( 0, Math.round( second * GameView.SCALING / GameView.CANVAS_SIZE ) ) );
     }
 
     /*
      * Snap's point to nerest grid points
      */
     public void Snap() {
-        first = first - ( first % ( GameActivity.SCALING / 10 ) );
-        second = second - ( second % ( GameActivity.SCALING / 10 ) );
+        first = first - ( first % ( GameView.SCALING / 10 ) );
+        second = second - ( second % ( GameView.SCALING / 10 ) );
     }
 
     /*
@@ -142,22 +143,22 @@ public class Posn {
         switch ( request_type ) {
             case Request.Rotate_right:
                 tmp = first;
-                first = GameActivity.SCALING - second;
+                first = GameView.SCALING - second;
                 second = tmp;
                 break;
 
             case Request.Rotate_left:
                 tmp = second;
-                second = GameActivity.SCALING - first;
+                second = GameView.SCALING - first;
                 first = tmp;
                 break;
 
             case Request.Flip_horizontally:
-                first = GameActivity.SCALING - first;
+                first = GameView.SCALING - first;
                 break;
 
             case Request.Flip_vertically:
-                second = GameActivity.SCALING - second;
+                second = GameView.SCALING - second;
                 break;
         }
     }
@@ -172,7 +173,7 @@ public class Posn {
      * @param String tag: Whether to print p1, or p2
      */
     public String Print_posn( final String tag ) {
-        int stringLength = ( GameActivity.SCALING + "" ).length();
+        int stringLength = ( GameView.SCALING + "" ).length();
         return "<" + tag + ">" + "<x>" +  String.format( "%1$" + stringLength + "s", first ) + "</x>"
                 + "<y>" + String.format( "%1$" + stringLength + "s", second ) + "</y>" + "</" + tag + ">";
     }

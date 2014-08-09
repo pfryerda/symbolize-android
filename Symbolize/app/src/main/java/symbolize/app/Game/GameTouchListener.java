@@ -174,16 +174,16 @@ public class GameTouchListener implements View.OnTouchListener {
             // Something went wrong bail!
             return false;
         }
-        else if ( ( ( point_one.x() < GameActivity.SCALING/2 && point_two.x() < GameActivity.SCALING/2 && point_two_end.x() > GameActivity.SCALING/2 && point_two_end.x() > GameActivity.SCALING/2 ) ||
-                    ( point_one.x() > GameActivity.SCALING/2 && point_two.x() > GameActivity.SCALING/2 && point_two_end.x() < GameActivity.SCALING/2 && point_two_end.x() < GameActivity.SCALING/2 ) ) &&
+        else if ( ( ( point_one.x() < GameView.SCALING/2 && point_two.x() < GameView.SCALING/2 && point_two_end.x() > GameView.SCALING/2 && point_two_end.x() > GameView.SCALING/2 ) ||
+                    ( point_one.x() > GameView.SCALING/2 && point_two.x() > GameView.SCALING/2 && point_two_end.x() < GameView.SCALING/2 && point_two_end.x() < GameView.SCALING/2 ) ) &&
                     ( point_one_end.y() - FLIPPINGTHRESHOLD <= point_one.y() && point_one.y() <= point_one_end.y() + FLIPPINGTHRESHOLD &&
                       point_two_end.y() - FLIPPINGTHRESHOLD <= point_two.y() && point_two.y() <= point_two_end.y() + FLIPPINGTHRESHOLD ) )
         {
             onFlipHorizontally();
             return true;
         }
-        else if ( ( ( point_one.y() < GameActivity.SCALING/2 && point_two.y() < GameActivity.SCALING/2 && point_two_end.y() > GameActivity.SCALING/2 && point_two_end.y() > GameActivity.SCALING/2 ) ||
-                    ( point_one.y() > GameActivity.SCALING/2 && point_two.y() > GameActivity.SCALING/2 && point_two_end.y() < GameActivity.SCALING/2 && point_two_end.y() < GameActivity.SCALING/2 ) ) &&
+        else if ( ( ( point_one.y() < GameView.SCALING/2 && point_two.y() < GameView.SCALING/2 && point_two_end.y() > GameView.SCALING/2 && point_two_end.y() > GameView.SCALING/2 ) ||
+                    ( point_one.y() > GameView.SCALING/2 && point_two.y() > GameView.SCALING/2 && point_two_end.y() < GameView.SCALING/2 && point_two_end.y() < GameView.SCALING/2 ) ) &&
                     ( point_one_end.x() - FLIPPINGTHRESHOLD <= point_one.x() && point_one.x() <= point_one_end.x() + FLIPPINGTHRESHOLD &&
                       point_two_end.x() - FLIPPINGTHRESHOLD <= point_two.x() && point_two.x() <= point_two_end.x() + FLIPPINGTHRESHOLD ) )
         {
