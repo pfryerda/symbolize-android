@@ -31,6 +31,13 @@
     <string name="incorrect">You are incorrect</string>
 
     <string name="options_dialog_id">options_dialog</string>
+    <string name="options_dialog_title">Options</string>
+    <string name="options_show_grid">Show grid</string>
+    <string name="options_show_border">Show border</string>
+    <string name="options_snap_drawing">Snap drawing</string>
+    <string name="options_show_animations">Show animations</string>
+    <string name="options_volume">Volume</string>
+    <string name="options_delete_all_data">Delete all data</string>
 
     <string name="confirmation_dialog_id">confirmation_dialog</string>
 

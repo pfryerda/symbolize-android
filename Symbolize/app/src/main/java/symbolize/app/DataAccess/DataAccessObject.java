@@ -9,8 +9,8 @@ public class DataAccessObject {
     // Fields
     //---------
 
-    protected final SharedPreferences dao;
-    protected final SharedPreferences.Editor dao_editor;
+    private final SharedPreferences dao;
+    private final SharedPreferences.Editor dao_editor;
 
 
     // Constructor

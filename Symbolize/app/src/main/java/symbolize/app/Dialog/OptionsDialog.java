@@ -1,20 +1,14 @@
 package symbolize.app.Dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
-import symbolize.app.Common.Options;
-import symbolize.app.Common.Player;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
@@ -45,42 +39,42 @@ public class OptionsDialog extends SymbolizeDialog {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialog_view =  inflater.inflate( R.layout.options_dialog, null );
 
-        final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_graph );
-        show_graph.setChecked( Options.Show_grid() );
+        final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid );
+        show_graph.setChecked( OptionsDataAccess.Show_grid() );
         show_graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                Options.Toggle_grid();
+                OptionsDataAccess.Toggle_grid();
                 show_graph.setChecked( !show_graph.isChecked() );
             }
         } );
 
         final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
-        show_border.setChecked( Options.Show_border() );
+        show_border.setChecked( OptionsDataAccess.Show_border() );
         show_border.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                Options.Toggle_border();
+                OptionsDataAccess.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
             }
         } );
 
         final CheckedTextView snap_drawing = (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing );
-        snap_drawing.setChecked( Options.Is_snap_drawing() );
+        snap_drawing.setChecked( OptionsDataAccess.Is_snap_drawing() );
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                Options.Toggle_snap();
+                OptionsDataAccess.Toggle_snap();
                 snap_drawing.setChecked( !snap_drawing.isChecked() );
             }
         } );
 
         final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
-        show_animation.setChecked( Options.Show_animations() );
+        show_animation.setChecked( OptionsDataAccess.Show_animations() );
         show_animation.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                Options.Toggle_animations();
+                OptionsDataAccess.Toggle_animations();
                 show_animation.setChecked( !show_animation.isChecked() );
             }
         } );
@@ -108,7 +102,7 @@ public class OptionsDialog extends SymbolizeDialog {
         } );
 
         final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_seekbar );
-        volume_bar.setProgress( Options.Get_volume() );
+        volume_bar.setProgress( OptionsDataAccess.Get_volume() );
 
         volume_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             int progress_change = 0;
@@ -122,7 +116,7 @@ public class OptionsDialog extends SymbolizeDialog {
 
             @Override
             public void onStopTrackingTouch( SeekBar seekBar ) {
-                Options.Set_volume( progress_change );
+                OptionsDataAccess.Set_volume(progress_change);
             }
         } );
 

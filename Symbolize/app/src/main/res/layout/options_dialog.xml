@@ -8,20 +8,20 @@
         android:id="@+id/Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Options"
+        android:text="@string/options_dialog_title"
         android:textSize="27dp"
         android:textColor="@color/black"
         android:gravity="center"/>
 
     <CheckedTextView
-        android:id="@+id/options_show_graph"
+        android:id="@+id/options_show_grid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:checked="true"
         android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Show graph"/>
+        android:text="@string/options_show_grid"/>
 
     <CheckedTextView
         android:id="@+id/options_show_border"
@@ -31,7 +31,7 @@
         android:checked="false"
         android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Show border"/>
+        android:text="@string/options_show_border"/>
 
     <CheckedTextView
         android:id="@+id/options_snap_drawing"
@@ -41,7 +41,7 @@
         android:checked="false"
         android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Snap drawing"/>
+        android:text="@string/options_snap_drawing"/>
 
     <CheckedTextView
         android:id="@+id/options_show_animation"
@@ -51,14 +51,14 @@
         android:checked="true"
         android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Show animations"/>
+        android:text="@string/options_show_animations"/>
 
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Volume"
+        android:text="@string/options_volume"
         android:textSize="20dp"
         android:textColor="@color/black"/>
     <SeekBar
@@ -73,7 +73,7 @@
         android:id="@+id/options_delete_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete all data"
+        android:text="@string/options_delete_all_data"
         android:layout_gravity="center">
     </Button>
 

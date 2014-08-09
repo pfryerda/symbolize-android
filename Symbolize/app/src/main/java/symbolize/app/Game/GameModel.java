@@ -1,13 +1,10 @@
 package symbolize.app.Game;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
