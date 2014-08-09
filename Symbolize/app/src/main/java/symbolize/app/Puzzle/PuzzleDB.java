@@ -2,6 +2,9 @@ package symbolize.app.Puzzle;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+
+import com.google.android.gms.internal.r;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
@@ -38,33 +41,39 @@ abstract public class PuzzleDB {
 
     public static final int NUMBEROFWORLDS = 7;
     public static final int NUMBEROFLEVELSPERWORLD = 15;
-    public static final int[] XMLMAP = new int[]{ R.xml.world_1, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
-                                                  R.xml.level_1_4, R.xml.level_1_5, R.xml.level_1_6, R.xml.level_1_7,
-                                                  R.xml.level_1_8, R.xml.level_1_9, R.xml.level_1_10, R.xml.level_1_11,
-                                                  R.xml.level_1_12, R.xml.level_1_13, R.xml.level_1_14, R.xml.level_1_15,
-                                                  R.xml.world_2, R.xml.level_2_1, R.xml.level_2_2, R.xml.level_2_3,
-                                                  R.xml.level_2_4, R.xml.level_2_5, R.xml.level_2_6, R.xml.level_2_7,
-                                                  R.xml.level_2_8, R.xml.level_2_9, R.xml.level_2_10, R.xml.level_2_11,
-                                                  R.xml.level_2_12, R.xml.level_2_13, R.xml.level_2_14, R.xml.level_2_15,
-                                                  R.xml.world_3, R.xml.level_3_1, R.xml.level_3_2, R.xml.level_3_3,
-                                                  R.xml.level_3_4, R.xml.level_3_5, R.xml.level_3_6, R.xml.level_3_7,
-                                                  R.xml.level_3_8, R.xml.level_3_9, R.xml.level_3_10, R.xml.level_3_11,
-                                                  R.xml.level_3_12, R.xml.level_3_13, R.xml.level_3_14, R.xml.level_3_15,
-                                                  R.xml.world_4, R.xml.level_4_1, R.xml.level_4_2, R.xml.level_4_3,
-                                                  R.xml.level_4_4, R.xml.level_4_5, R.xml.level_4_6, R.xml.level_4_7,
-                                                  R.xml.level_4_8, R.xml.level_4_9, R.xml.level_4_10, R.xml.level_4_11,
-                                                  R.xml.level_4_12, R.xml.level_4_13, R.xml.level_4_14, R.xml.level_4_15,
-                                                  R.xml.world_5, R.xml.level_5_1, R.xml.level_5_2, R.xml.level_5_3,
-                                                  R.xml.level_5_4, R.xml.level_5_5, R.xml.level_5_6, R.xml.level_5_7,
-                                                  R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10, R.xml.level_5_11,
-                                                  R.xml.level_5_12, R.xml.level_5_13, R.xml.level_5_14, R.xml.level_5_15,
-                                                  R.xml.world_6, R.xml.level_6_1, R.xml.level_6_2, R.xml.level_6_3,
-                                                  R.xml.level_6_4, R.xml.level_6_5, R.xml.level_6_6, R.xml.level_6_7,
-                                                  R.xml.level_6_8, R.xml.level_6_9, R.xml.level_6_10, R.xml.level_6_11,
-                                                  R.xml.level_6_12, R.xml.level_6_13, R.xml.level_6_14, R.xml.level_6_15,
-                                                  R.xml.world_7, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
-                                                  R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
-                                                  R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
+    private static final int[] hint_map = new int[]{ 0,
+        R.array.world_1_hints, R.array.world_2_hints, R.array.world_3_hints,
+        R.array.world_4_hints, R.array.world_5_hints, R.array.world_6_hints,
+        R.array.world_7_hints
+    };
+    private static final int[] xml_map = new int[]{
+        R.xml.world_1, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
+        R.xml.level_1_4, R.xml.level_1_5, R.xml.level_1_6, R.xml.level_1_7,
+        R.xml.level_1_8, R.xml.level_1_9, R.xml.level_1_10, R.xml.level_1_11,
+        R.xml.level_1_12, R.xml.level_1_13, R.xml.level_1_14, R.xml.level_1_15,
+        R.xml.world_2, R.xml.level_2_1, R.xml.level_2_2, R.xml.level_2_3,
+        R.xml.level_2_4, R.xml.level_2_5, R.xml.level_2_6, R.xml.level_2_7,
+        R.xml.level_2_8, R.xml.level_2_9, R.xml.level_2_10, R.xml.level_2_11,
+        R.xml.level_2_12, R.xml.level_2_13, R.xml.level_2_14, R.xml.level_2_15,
+        R.xml.world_3, R.xml.level_3_1, R.xml.level_3_2, R.xml.level_3_3,
+        R.xml.level_3_4, R.xml.level_3_5, R.xml.level_3_6, R.xml.level_3_7,
+        R.xml.level_3_8, R.xml.level_3_9, R.xml.level_3_10, R.xml.level_3_11,
+        R.xml.level_3_12, R.xml.level_3_13, R.xml.level_3_14, R.xml.level_3_15,
+        R.xml.world_4, R.xml.level_4_1, R.xml.level_4_2, R.xml.level_4_3,
+        R.xml.level_4_4, R.xml.level_4_5, R.xml.level_4_6, R.xml.level_4_7,
+        R.xml.level_4_8, R.xml.level_4_9, R.xml.level_4_10, R.xml.level_4_11,
+        R.xml.level_4_12, R.xml.level_4_13, R.xml.level_4_14, R.xml.level_4_15,
+        R.xml.world_5, R.xml.level_5_1, R.xml.level_5_2, R.xml.level_5_3,
+        R.xml.level_5_4, R.xml.level_5_5, R.xml.level_5_6, R.xml.level_5_7,
+        R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10, R.xml.level_5_11,
+        R.xml.level_5_12, R.xml.level_5_13, R.xml.level_5_14, R.xml.level_5_15,
+        R.xml.world_6, R.xml.level_6_1, R.xml.level_6_2, R.xml.level_6_3,
+        R.xml.level_6_4, R.xml.level_6_5, R.xml.level_6_6, R.xml.level_6_7,
+        R.xml.level_6_8, R.xml.level_6_9, R.xml.level_6_10, R.xml.level_6_11,
+        R.xml.level_6_12, R.xml.level_6_13, R.xml.level_6_14, R.xml.level_6_15,
+        R.xml.world_7, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
+        R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
+        R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
 
 
     // Fields
@@ -86,10 +95,11 @@ abstract public class PuzzleDB {
         // Set up temp fields
         world_num = world_number;
         level_num = level_number;
-        xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
-        String hint = "";
+        String hint = SymbolizeActivity.Get_context().getResources().getStringArray(
+                hint_map[world_number] )[level_number];
         int draw_restriction = 0;
         int erase_restriction = 0;
         int drag_restriction = 0;
@@ -118,7 +128,6 @@ abstract public class PuzzleDB {
                 bail_invalid_check( "Level" );
             }
 
-            hint = parse_preamble( "hint" );
             draw_restriction = Integer.parseInt( parse_preamble("draw_restriction").trim());
             erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
             drag_restriction = Integer.parseInt( parse_preamble( "drag_restriction" ).trim() );
@@ -277,10 +286,12 @@ abstract public class PuzzleDB {
         // Set up temp fields
         world_num = world_number;
         level_num = 0;
-        xpp = res.getXml( XMLMAP[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+
 
         // Set up level variables
-        String hint = "";
+        String hint = SymbolizeActivity.Get_context().getResources().getStringArray(
+                hint_map[world_number] )[0];
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
@@ -306,13 +317,12 @@ abstract public class PuzzleDB {
                 bail_invalid_check( "World" );
             }
 
-            hint = parse_preamble( "hint" );
             rotate_enabled = Boolean.valueOf( parse_preamble( "rotate_enabled" ) );
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
 
 
-            // Parse boarsd and solutions
+            // Parse boards and solutions
             for ( int eventType = xpp.getEventType(); eventType != XmlResourceParser.END_DOCUMENT; eventType = xpp.next() ){
                 switch ( eventType ) {
 

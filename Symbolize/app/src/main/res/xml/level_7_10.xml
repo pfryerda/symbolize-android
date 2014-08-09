@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <hint>The 11th letter of the alphabet</hint>
     <draw_restriction>3000</draw_restriction>
     <erase_restriction>3000</erase_restriction>
     <drag_restriction>3000</drag_restriction>
