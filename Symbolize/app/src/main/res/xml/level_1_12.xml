@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <hint>Change this side of a rubik cube into another well known game</hint>
     <draw_restriction>0</draw_restriction>
     <erase_restriction>4</erase_restriction>
     <drag_restriction>0</drag_restriction>

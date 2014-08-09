@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <hint>Make some music</hint>
     <draw_restriction>2</draw_restriction>
     <erase_restriction>5</erase_restriction>
     <drag_restriction>0</drag_restriction>
