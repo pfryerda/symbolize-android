@@ -8,7 +8,7 @@
     <string name="title_activity_levels">LevelsActivity</string>
 
     <string name="preference_unlocks_key">symbolize.app.PREFERENCE_UNLOCKS_KEY</string>
-    <string name="preference_completed_key">symbolize.app.PREFERENCE_COMPLETED_KEY></string>
+    <string name="preference_progress_key">symbolize.app.PREFERENCE_PROGRESS_KEY></string>
 
     <string name="preference_settings_key">symbolize.app.PREFERENCE_SETTINGS_KEY</string>
     <string name="grid_settings">settings_grid</string>

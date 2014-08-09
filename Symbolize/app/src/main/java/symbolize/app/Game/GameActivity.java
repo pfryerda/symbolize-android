@@ -1,24 +1,13 @@
 package symbolize.app.Game;
 
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
-import com.google.android.gms.games.Game;
-
 import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import symbolize.app.Common.Line;
@@ -27,6 +16,8 @@ import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.HintDialog;
 import symbolize.app.Dialog.InfoDialog;
@@ -88,19 +79,21 @@ public class GameActivity extends SymbolizeActivity {
         // Set up screen/button/layout sizes
         GameView.Set_up_sizes();
 
-
         // Set up Game
-        LinearLayout foreground = (LinearLayout) findViewById( R.id.foreground );
-        player = Player.Get_instance();
-        game_model = new GameModel( foreground, (LinearLayout) findViewById( R.id.background ) );
+        UnlocksDataAccess.Unlock( 1 );
+        UnlocksDataAccess.Unlock( 1, 2 );
 
+        player = Player.Get_instance();
+        game_model = new GameModel( (LinearLayout) findViewById( R.id.foreground ), (LinearLayout) findViewById( R.id.background ) );
+
+        // Load las world used or '1' is none was last used
         current_puzzle = PuzzleDB.Fetch_world( 1 );
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
 
         toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
-        Set_up_listeners( foreground );
+        Set_up_listeners();
     }
 
 
@@ -137,17 +130,17 @@ public class GameActivity extends SymbolizeActivity {
         game_model.Handle_request( request );
     }
 
-    public void On_check_button_clicked( final View view) {
+    public void On_check_button_clicked( final View view ) {
         if ( Player.DEVMODE ) {
             game_model.LogGraph();
         } else {
             ConfirmDialog confirmDialog = new ConfirmDialog();
             if ( current_puzzle.Check_correctness( game_model.Get_graph() ) ) {
-                player.Complete();
+                ProgressDataAccess.Complete( player.Get_current_world(), player.Get_current_level() );
 
                 if ( player.Is_in_world_view() && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
-                        player.Unlock( unlock );
+                        UnlocksDataAccess.Unlock( unlock );
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
@@ -169,7 +162,7 @@ public class GameActivity extends SymbolizeActivity {
                     info_dialog.Show();
                 } else if ( !player.Is_in_world_view() ) {
                     for( int unlock : current_puzzle.Get_unlocks() ) {
-                        player.Unlock( player.Get_current_world(), unlock );
+                        UnlocksDataAccess.Unlock( player.Get_current_world(), unlock );
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
@@ -269,8 +262,8 @@ public class GameActivity extends SymbolizeActivity {
      *
      * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
      */
-    private void Set_up_listeners( final LinearLayout foreground ){
-        foreground.setOnTouchListener( new GameTouchListener() {
+    private void Set_up_listeners(){
+        findViewById( R.id.foreground ).setOnTouchListener( new GameTouchListener() {
             @Override
             public void onDraw( Line line ) {
                 if ( Options.Is_snap_drawing() ) {
@@ -316,17 +309,17 @@ public class GameActivity extends SymbolizeActivity {
             @Override
             public void onFingerMove( final Line line, final Posn point ) {
                 if ( player.In_draw_mode() ) {
-                    if ( Options.Is_snap_drawing() ) {
+                    if ( Options.Is_snap_drawing() && !player.Is_in_world_view() ) {
                         line.Snap();
                     }
                     line.Snap_to_levels( game_model.Get_unlocked_levels() );
                     Request request = new Request( Request.Shadow_line );
                     request.request_line = line;
-                    game_model.Handle_request(request);
+                    game_model.Handle_request( request );
                 } else {
                     Request request = new Request( Request.Shadow_point );
                     request.request_point = point;
-                    game_model.Handle_request(request);
+                    game_model.Handle_request( request );
                 }
             }
 
@@ -334,9 +327,10 @@ public class GameActivity extends SymbolizeActivity {
             public void onTap( final Posn point ) {
                 ArrayList<Posn> levels = game_model.Get_levels();
                 int level_found = 0;
+
                 Posn pivot = new Posn();
                 for ( int i = 0; i < levels.size(); ++i ) {
-                    if ( levels.get( i ).Approximately_equals( point ) && player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+                    if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
                         level_found =  i + 1;
                         pivot = levels.get( i );
                     }

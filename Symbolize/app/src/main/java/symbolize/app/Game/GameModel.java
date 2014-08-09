@@ -11,6 +11,8 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Puzzle.Puzzle;
 
 /*
@@ -174,7 +176,7 @@ public class GameModel {
 
         ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( player.Is_completed( player.Get_current_world(), i + 1 ) ) {
+            if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
             } else {
                 unlocked_levels.add( null );
@@ -188,7 +190,7 @@ public class GameModel {
 
         ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+            if ( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
             } else {
                 unlocked_levels.add( null );

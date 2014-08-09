@@ -13,6 +13,7 @@ abstract public class Options {
     private static final SharedPreferences settings_dao = SymbolizeActivity.Get_context()
             .getSharedPreferences( SymbolizeActivity.Get_context().getString( R.string.preference_unlocks_key ),
                     Context.MODE_PRIVATE );
+
     private final static SharedPreferences.Editor settings_editor = settings_dao.edit();
 
 

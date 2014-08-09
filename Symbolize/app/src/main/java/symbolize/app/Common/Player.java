@@ -3,6 +3,7 @@ package symbolize.app.Common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
@@ -17,26 +18,14 @@ public class Player {
     // Fields
     //--------
 
-    private final SharedPreferences unlocks_dao = SymbolizeActivity
-            .Get_context()
-            .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_unlocks_key ),
-                    Context.MODE_PRIVATE );
-    private final SharedPreferences.Editor unlocks_editor = unlocks_dao.edit();
-
-    private final SharedPreferences completed_dao = SymbolizeActivity
-            .Get_context()
-            .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_completed_key ),
-                    Context.MODE_PRIVATE );
-    private final SharedPreferences.Editor completed_editor = completed_dao.edit();
-
     private boolean in_world_view;
     private int current_world;
     private int current_level;
     private boolean draw_enabled;
 
 
-    // Constructor
-    //-------------
+    // Constructor/Get_instance
+    //---------------------------
 
     public static Player Get_instance() {
         if ( instance == null ) {
@@ -50,9 +39,6 @@ public class Player {
                 .Get_context()
                 .getSharedPreferences(SymbolizeActivity.Get_resource_string(R.string.preference_unlocks_key),
                         Context.MODE_PRIVATE );
-
-        Unlock( 1 );
-        Unlock( 1, 1 );
 
         this.in_world_view = true;
         this.current_world = settings_dao.getInt( "current_world", 1 );
@@ -79,14 +65,14 @@ public class Player {
      * Decrease the current world number and will wrap back to last world if at world 1
      */
     public void Decrease_world() {
-        current_world = get_previous_world();
+        current_world = Get_previous_world();
     }
 
     /*
      * Increase the current world number will wrap back to world 1 if at last world
      */
     public void Increase_world() {
-        current_world = get_next_world();
+        current_world = Get_next_world();
     }
 
     /*
@@ -94,100 +80,6 @@ public class Player {
      */
     public void Set_to_world_level() {
         current_level = 0;
-    }
-
-    /*
-     * Returns whether the give level/world is unlocked
-     *
-     * @param int world: The world of interest
-     * @param int level: The level of interest
-     */
-    public boolean Is_unlocked( int world ) {
-        //return true;
-        return unlocks_dao.getBoolean( world + "", false ) || DEVMODE;
-    }
-
-    public boolean Is_unlocked( int world, int level ) {
-        //return true;
-        return unlocks_dao.getBoolean(world + "-" + level, false) || DEVMODE;
-    }
-
-    /*
-     * Methods used to determine is the next/previous worlds are unlocked
-     */
-    public boolean Is_previous_world_unlocked() {
-        return Is_unlocked( get_previous_world() );
-    }
-
-    public boolean Is_next_world_unlocked() {
-        return Is_unlocked( get_next_world() );
-    }
-
-    /*
-     * Set the the given level/world as unlocked
-     *
-     * @param int world: The world of interest
-     * @param int world: The level of interest
-     */
-    public void Unlock( int world ) {
-        unlocks_editor.putBoolean( world + "" , true );
-        unlocks_editor.putBoolean( world + "-" + 1, true );
-        unlocks_editor.commit();
-    }
-
-    public void Unlock( int world, int level ) {
-        unlocks_editor.putBoolean( world + "-" + level, true );
-        unlocks_editor.commit();
-    }
-
-    /*
-     * Returns whether the give level/world is complete
-     *
-     * @param int world: The world of interest
-     * @param int level: The level of interest
-     */
-    public boolean Is_completed( int world ) {
-        //return true;
-        return completed_dao.getBoolean( world + "", false ) || DEVMODE;
-    }
-
-    public boolean Is_completed( int world, int level ) {
-        //return true;
-        return completed_dao.getBoolean(world + "-" + level, false) || DEVMODE;
-    }
-
-    /*
-     * Set the the current level/world as completed
-     */
-    public void Complete() {
-        if( current_level == 0 ) {
-            completed_editor.putBoolean( current_world + "", true );
-        } else {
-            completed_editor.putBoolean( current_world + "-" + current_level, true );
-        }
-        completed_editor.commit();
-    }
-
-    public void Delete_all_data() {
-        for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
-            unlocks_editor.putBoolean( world + "", false );
-            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
-                unlocks_editor.putBoolean( world + "-" + level, false );
-            }
-        }
-
-        unlocks_editor.putBoolean( "1", true);
-        unlocks_editor.putBoolean( "1-1", true );
-        unlocks_editor.commit();
-
-        for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
-            completed_editor.putBoolean( world + "", false );
-            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
-                completed_editor.putBoolean( world + "-" + level, false );
-            }
-        }
-
-        completed_editor.commit();
     }
 
     public void Commit_current_world() {
@@ -206,7 +98,7 @@ public class Player {
     //----------------
 
     public int Get_current_world() {
-        return unlocks_dao.getInt( "current_world", 1 );
+        return current_world;
     }
 
     public int Get_current_level() {
@@ -223,6 +115,14 @@ public class Player {
 
     public boolean Is_in_world_view() {
         return in_world_view;
+    }
+
+    public int Get_next_world() {
+        return ( Get_current_world() % PuzzleDB.NUMBEROFWORLDS ) + 1;
+    }
+
+    public int Get_previous_world() {
+        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBEROFWORLDS : Get_current_world() - 1;
     }
 
 
@@ -243,17 +143,5 @@ public class Player {
 
     public void Toggle_world_view() {
         in_world_view = !in_world_view;
-    }
-
-
-    // Private methods
-    //-----------------
-
-    private int get_next_world() {
-        return ( Get_current_world() % PuzzleDB.NUMBEROFWORLDS ) + 1;
-    }
-
-    private int get_previous_world() {
-        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBEROFWORLDS : Get_current_world() - 1;
     }
 }
