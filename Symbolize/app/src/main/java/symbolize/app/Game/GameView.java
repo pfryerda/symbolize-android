@@ -1,7 +1,6 @@
 package symbolize.app.Game;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,15 +11,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.google.android.gms.ads.AdSize;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
@@ -29,6 +23,8 @@ import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.R;
 
 
@@ -172,10 +168,10 @@ public class GameView {
 
         // Draw level dots
         Player player = Player.Get_instance();
-
         for ( int i = 0; i < levels.size(); ++i ) {
-            if( player.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
-                Posn point = levels.get(i);
+            if( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+                Log.d( "GameView - TEST", (i + 1) + " unlocked");
+                Posn point = levels.get( i );
                 if ( point != null ) {
 
                     // Draw Point
@@ -187,7 +183,7 @@ public class GameView {
                     // Draw 'complete' border
                     paint.setStrokeWidth( POINTBORDERWIDTH );
                     paint.setStyle( Paint.Style.STROKE );
-                    if ( player.Is_completed( player.Get_current_world(), i + 1 ) ) {
+                    if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Color.GREEN );
                     } else {
                         paint.setColor( Color.RED );
@@ -259,19 +255,20 @@ public class GameView {
 
     private void update_ui() {
         Player player = Player.Get_instance();
+
         if ( player.Is_in_world_view() ) {
             title.setText( GameActivity.Get_resource_string( R.string.world ) + ": " + player.Get_current_world() );
         } else {
             title.setText( GameActivity.Get_resource_string( R.string.level ) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
         }
 
-        if ( player.Is_previous_world_unlocked() && player.Is_in_world_view() ) {
+        if ( UnlocksDataAccess.Is_unlocked(player.Get_previous_world()) && player.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
         } else {
             left_button.setVisibility( View.GONE );
         }
 
-        if ( player.Is_next_world_unlocked() && player.Is_in_world_view() ) {
+        if ( UnlocksDataAccess.Is_unlocked(player.Get_next_world()) && player.Is_in_world_view() ) {
             right_button.setVisibility( View.VISIBLE );
         } else {
             right_button.setVisibility( View.GONE );
@@ -284,11 +281,14 @@ public class GameView {
 
     public static void Set_up_sizes() {
         Activity activity = GameActivity.Get_activity();
+
+        // Get screen size and calculate canvas size
         final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
         CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
 
+        // Set the buttons/layout width/height - 'Faster than doing it via xml'
         int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
         activity.findViewById(R.id.buttons).getLayoutParams().height = bar_height;
         activity.findViewById(R.id.topbar).getLayoutParams().height = bar_height;

@@ -16,6 +16,8 @@ import android.widget.SeekBar;
 import symbolize.app.Common.Options;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Game.GameActivity;
 import symbolize.app.Home.HomeActivity;
 import symbolize.app.R;
@@ -88,13 +90,13 @@ public class OptionsDialog extends SymbolizeDialog {
         delete_all_data_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                final Player player = Player.Get_instance();
                 ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
-                        player.Delete_all_data();
+                        UnlocksDataAccess.Remove_all_unlocks();
+                        ProgressDataAccess.Remove_all_progress();
                         startActivity( new Intent( GameActivity.Get_context().getApplicationContext(), HomeActivity.class ) );
                     }
 

@@ -107,7 +107,7 @@ public class Posn {
     /*
      * Method used to snap posn to levels
      */
-    public void Snap_to_levels( final ArrayList<Posn> levels) {
+    public void Snap_to_levels( final ArrayList<Posn> levels ) {
        if ( !levels.isEmpty() ) {
            Posn match = levels.get( 0 );
            for ( Posn point : levels ) {
