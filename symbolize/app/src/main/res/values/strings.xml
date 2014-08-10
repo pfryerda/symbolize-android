@@ -57,7 +57,7 @@
     <string name="mechanics_allowed">Transformations allowed</string>
     <string name="rotate">rotate</string>
     <string name="flip">flip</string>
-    <string name="shift">shit</string>
+    <string name="shift">shift</string>
     <string name="change_color">change color</string>
 
 </resources>

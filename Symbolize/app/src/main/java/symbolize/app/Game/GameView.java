@@ -74,18 +74,18 @@ public class GameView {
     // Constructor
     //-------------
 
-    public GameView( final LinearLayout foreground, final LinearLayout background )
+    public GameView()
     {
         this.animation_handler = new GameAnimationHandler();
 
         // Setup linearlayout's width/height - 'Guarantee a square'
-        background.getLayoutParams().height = CANVAS_SIZE;
-        background.getLayoutParams().width = CANVAS_SIZE;
-        this.background = background;
+        this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
+        this.background.getLayoutParams().height = CANVAS_SIZE;
+        this.background.getLayoutParams().width = CANVAS_SIZE;
 
-        foreground.getLayoutParams().height = CANVAS_SIZE;
-        foreground.getLayoutParams().width = CANVAS_SIZE;
-        this.foreground = foreground;
+        this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
+        this.foreground.getLayoutParams().height = CANVAS_SIZE;
+        this.foreground.getLayoutParams().width = CANVAS_SIZE;
 
         // Set up bitmap's
         final Bitmap background_bitmap = Bitmap.createScaledBitmap(
