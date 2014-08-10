@@ -1,12 +1,7 @@
 package symbolize.app.DataAccess;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import symbolize.app.Common.Player;
-import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
@@ -33,13 +28,13 @@ abstract public class UnlocksDataAccess {
      * @param int level: The level of interest
      */
     public static boolean Is_unlocked( int world ) {
-        //return true;
-        return dao.Get_property(world + "", false) || Player.DEVMODE;
+        return true;
+        //return dao.Get_property(world + "", false) || Player.DEVMODE;
     }
 
     public static boolean Is_unlocked( int world, int level ) {
-        //return true;
-        return dao.Get_property(world + "-" + level, false) || Player.DEVMODE;
+        return true;
+        //return dao.Get_property(world + "-" + level, false) || Player.DEVMODE;
     }
 
     /*

@@ -15,7 +15,7 @@ import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
-import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.ConfirmDialog;
@@ -25,12 +25,12 @@ import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Puzzle.Level;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
-import symbolize.app.Home.HomeActivity;
+import symbolize.app.Home.HomePage;
 import symbolize.app.Puzzle.World;
 import symbolize.app.R;
 
 
-public class GameActivity extends SymbolizeActivity {
+public class GamePage extends Page {
 
     // Fields
     //---------
@@ -38,7 +38,6 @@ public class GameActivity extends SymbolizeActivity {
     private final String LUKE = "Awesome";
 
     private GameModel game_model;
-    private Toast toast;
 
     private Player player;
 
@@ -81,18 +80,16 @@ public class GameActivity extends SymbolizeActivity {
 
         // Set up Game
         UnlocksDataAccess.Unlock( 1 );
-        UnlocksDataAccess.Unlock( 1, 2 );
 
         player = Player.Get_instance();
         game_model = new GameModel( (LinearLayout) findViewById( R.id.foreground ), (LinearLayout) findViewById( R.id.background ) );
 
         // Load las world used or '1' is none was last used
-        current_puzzle = PuzzleDB.Fetch_world( 1 );
+        current_puzzle = PuzzleDB.Fetch_world( player.Get_current_world() );
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
         game_model.Handle_request( request );
 
-        toast = Toast.makeText( this, "", Toast.LENGTH_SHORT );
         Set_up_listeners();
     }
 
@@ -107,9 +104,8 @@ public class GameActivity extends SymbolizeActivity {
 
     public void On_back_button_clicked( final View view ) {
         if ( player.Is_in_world_view() ) {
-            startActivity( new Intent( getApplicationContext(), HomeActivity.class ) );
+            startActivity( new Intent( getApplicationContext(), HomePage.class ) );
         } else {
-            player.Set_to_world_level();
             load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_world_via_level );
         }
     }
@@ -180,7 +176,7 @@ public class GameActivity extends SymbolizeActivity {
                 }
 
             } else {
-                Render_toast( R.string.incorrect );
+                GameView.Render_toast( R.string.incorrect );
             }
         }
     }
@@ -193,7 +189,7 @@ public class GameActivity extends SymbolizeActivity {
 
     public void On_undo_button_clicked( final View view ) {
         if ( game_model.getPastState() == null ) {
-            Render_toast( R.string.nothing_to_undo );
+            GameView.Render_toast( R.string.nothing_to_undo );
         } else {
             undo();
         }
@@ -218,7 +214,7 @@ public class GameActivity extends SymbolizeActivity {
      * @param Level level: The level that needs to be loaded
      */
     private void load_world( final World world, int request_type ) {
-        player.Toggle_world_view();
+        player.Set_to_world();
         current_puzzle = world;
 
         Request request = new Request( request_type );
@@ -227,12 +223,11 @@ public class GameActivity extends SymbolizeActivity {
     }
 
     private void load_level( final Level level, final Posn pivot ) {
-        player.Toggle_world_view();
         current_puzzle = level;
 
         Request request = new Request( Request.Load_level_via_world );
         request.puzzle = level;
-        request.request_point = pivot;
+        player.Set_pivot( pivot );
 
         HintDialog hint_dialog = new HintDialog();
         hint_dialog.Set_attrs( current_puzzle );
@@ -248,13 +243,6 @@ public class GameActivity extends SymbolizeActivity {
     private void undo() {
         game_model = game_model.getPastState();
         game_model.Handle_request( new Request( Request.None ) );
-    }
-
-    private void Render_toast( final int msg_id ) {
-        if ( toast == null | toast.getView().getWindowVisibility() != View.VISIBLE ) {
-            toast.setText( getResources().getString( msg_id ) );
-            toast.show();
-        }
     }
 
     /*
@@ -276,7 +264,7 @@ public class GameActivity extends SymbolizeActivity {
                         request.request_line = line;
                         game_model.Handle_request( request );
                     } else {
-                        Render_toast( R.string.out_of_lines );
+                        GameView.Render_toast( R.string.out_of_lines );
                     }
                 }
             }
@@ -293,7 +281,7 @@ public class GameActivity extends SymbolizeActivity {
                                 request.request_line = line;
                                 game_model.Handle_request( request );
                             } else {
-                                Render_toast( R.string.out_of_erase );
+                                GameView.Render_toast( R.string.out_of_erase );
                             }
                             break;
                         }
@@ -375,7 +363,7 @@ public class GameActivity extends SymbolizeActivity {
                     game_model.Handle_request( request );
                 } else {
                     undo();
-                    Render_toast( R.string.out_of_drag );
+                    GameView.Render_toast( R.string.out_of_drag );
                 }
             }
 

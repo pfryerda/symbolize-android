@@ -3,8 +3,6 @@ package symbolize.app.Puzzle;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 
-import com.google.android.gms.internal.r;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
-import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.Common.Page;
 import symbolize.app.R;
 
 /*
@@ -36,8 +34,8 @@ class InvalidXmlException extends Exception {
  * Class used to parse stored xml files and load them into memory
  */
 abstract public class PuzzleDB {
-    // Static field
-    //--------------
+    // Static fields
+    //---------------
 
     public static final int NUMBEROFWORLDS = 7;
     public static final int NUMBEROFLEVELSPERWORLD = 15;
@@ -75,14 +73,10 @@ abstract public class PuzzleDB {
         R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
         R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
 
-
-    // Fields
-    //--------
-    private static final Resources res = SymbolizeActivity.Get_context().getResources();
+    private static final Resources res = Page.Get_context().getResources();
     private static int world_num;
     private static int level_num;
     private static XmlResourceParser xpp;
-
 
 
     // Methods
@@ -98,7 +92,7 @@ abstract public class PuzzleDB {
         xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
-        String hint = SymbolizeActivity.Get_context().getResources().getStringArray(
+        String hint = Page.Get_context().getResources().getStringArray(
                 hint_map[world_number] )[level_number];
         int draw_restriction = 0;
         int erase_restriction = 0;
@@ -290,7 +284,7 @@ abstract public class PuzzleDB {
 
 
         // Set up level variables
-        String hint = SymbolizeActivity.Get_context().getResources().getStringArray(
+        String hint = Page.Get_context().getResources().getStringArray(
                 hint_map[world_number] )[0];
         boolean rotate_enabled = false;
         boolean flip_enabled = false;

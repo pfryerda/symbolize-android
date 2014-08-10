@@ -1,7 +1,7 @@
 package symbolize.app.Common;
 
 import java.util.ArrayList;
-import symbolize.app.Game.GameActivity;
+
 import symbolize.app.Game.GameView;
 
 public class Posn {

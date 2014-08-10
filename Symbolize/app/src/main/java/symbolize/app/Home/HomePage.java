@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.Common.Page;
 import symbolize.app.Dialog.OptionsDialog;
-import symbolize.app.Game.GameActivity;
+import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
 
-public class HomeActivity extends SymbolizeActivity {
+public class HomePage extends Page {
 
     // Main method
     //-------------
@@ -26,7 +26,7 @@ public class HomeActivity extends SymbolizeActivity {
     //----------------
 
     public void On_start_button_clicked( final View view ) {
-        startActivity( new Intent ( getApplicationContext(), GameActivity.class ) );
+        startActivity( new Intent ( getApplicationContext(), GamePage.class ) );
     }
 
     public void On_mute_button_clicked( final View view ) {

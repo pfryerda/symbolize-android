@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 
-public class SymbolizeActivity extends FragmentActivity {
+public class Page extends FragmentActivity {
     // Static fields
     //---------------
 
@@ -20,8 +20,8 @@ public class SymbolizeActivity extends FragmentActivity {
 
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        SymbolizeActivity.context = this;
-        SymbolizeActivity.fragmentManager = getFragmentManager();
+        Page.context = this;
+        Page.fragmentManager = getFragmentManager();
     }
 
 
@@ -43,6 +43,13 @@ public class SymbolizeActivity extends FragmentActivity {
 
     public static FragmentManager Get_dialog_manager() {
         return fragmentManager;
+    }
+
+
+    // Used to fix bug, bug from API Level > 11
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //No call for super(). Bug on API Level > 11.
     }
 
 }

@@ -5,17 +5,15 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import symbolize.app.Common.SymbolizeActivity;
-import symbolize.app.R;
+import symbolize.app.Common.Page;
 
 abstract public class SymbolizeDialog extends DialogFragment {
     // Static fields
     //--------------
 
-    protected static final FragmentManager dialog_manager = SymbolizeActivity.Get_dialog_manager();
+    protected static final FragmentManager dialog_manager = Page.Get_dialog_manager();
 
 
     // Public methods
@@ -25,7 +23,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
         new Thread( new Runnable() {
             @Override
             public void run() {
-                SymbolizeActivity.Get_activity().runOnUiThread(new Runnable() {
+                Page.Get_activity().runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
                        show( dialog_manager, get_dialog_id() );

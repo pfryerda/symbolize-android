@@ -9,11 +9,11 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
-import symbolize.app.Game.GameActivity;
-import symbolize.app.Home.HomeActivity;
+import symbolize.app.Game.GamePage;
+import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
 public class OptionsDialog extends SymbolizeDialog {
@@ -24,7 +24,7 @@ public class OptionsDialog extends SymbolizeDialog {
     protected AlertDialog.Builder get_builder() {
         final AlertDialog.Builder builder = super.get_builder();
 
-        builder.setNeutralButton( SymbolizeActivity.Get_resource_string( R.string.close ), new DialogInterface.OnClickListener() {
+        builder.setNeutralButton( Page.Get_resource_string(R.string.close), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int id) {
                 OptionsDialog.this.getDialog().dismiss();
@@ -91,7 +91,7 @@ public class OptionsDialog extends SymbolizeDialog {
                     public void OnDialogSuccess() {
                         UnlocksDataAccess.Remove_all_unlocks();
                         ProgressDataAccess.Remove_all_progress();
-                        startActivity( new Intent( GameActivity.Get_context().getApplicationContext(), HomeActivity.class ) );
+                        startActivity( new Intent( GamePage.Get_context().getApplicationContext(), HomePage.class ) );
                     }
 
                     @Override
@@ -125,6 +125,6 @@ public class OptionsDialog extends SymbolizeDialog {
 
     @Override
     protected String get_dialog_id() {
-        return SymbolizeActivity.Get_resource_string( R.string.options_dialog_id );
+        return Page.Get_resource_string(R.string.options_dialog_id);
     }
 }

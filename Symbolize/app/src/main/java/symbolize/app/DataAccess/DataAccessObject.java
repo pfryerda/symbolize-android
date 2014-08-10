@@ -2,7 +2,7 @@ package symbolize.app.DataAccess;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import symbolize.app.Common.SymbolizeActivity;
+import symbolize.app.Common.Page;
 
 
 public class DataAccessObject {
@@ -17,9 +17,9 @@ public class DataAccessObject {
     //-------------
 
      public DataAccessObject( int id ) {
-         dao = SymbolizeActivity
+         dao = Page
                  .Get_context()
-                 .getSharedPreferences( SymbolizeActivity.Get_resource_string( id ),
+                 .getSharedPreferences( Page.Get_resource_string(id),
                          Context.MODE_PRIVATE );
          dao_editor = dao.edit();
      }
