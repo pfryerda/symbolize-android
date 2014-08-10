@@ -54,9 +54,6 @@ public class Request {
     public LinkedList<Line> graph;
     public ArrayList<Posn> levels;
 
-    public LinearLayout linearLayout;
-    public GameView game_view;
-
     public SymbolizeDialog dialog;
 
 
@@ -75,9 +72,6 @@ public class Request {
 
         this.graph = null;
         this.levels = null;
-
-        this.linearLayout = null;
-        this.game_view = null;
 
         this.dialog = null;
     }

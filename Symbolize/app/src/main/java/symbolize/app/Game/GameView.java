@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdSize;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
+import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
@@ -60,25 +61,10 @@ public class GameView {
     //--------------
 
     static {
-        Activity activity = GamePage.Get_activity();
-
-        // Get screen size and calculate canvas size
-        final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
+        final Display DISPLAY = GamePage.Get_activity().getWindowManager().getDefaultDisplay();
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
         CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
-
-        // Set the buttons/layout width/height - 'Faster than doing it via xml'
-        int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
-        activity.findViewById( R.id.buttons ).getLayoutParams().height = bar_height;
-        activity.findViewById( R.id.topbar ).getLayoutParams().height = bar_height;
-
-        int button_width = SCREEN_SIZE.x / 5;
-        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
     }
 
 
@@ -90,7 +76,6 @@ public class GameView {
     private final Canvas foreground_canvas;
     private final Canvas background_canvas;
     private final Paint paint;
-    private final GameAnimationHandler animation_handler;
 
     private final Button left_button;
     private final Button right_button;
@@ -100,7 +85,7 @@ public class GameView {
     // Singleton setup
     //------------------
 
-    private static final GameView instance = new GameView();
+    private static GameView instance;
 
     public static GameView Get_instance() {
         return instance;
@@ -112,16 +97,8 @@ public class GameView {
 
     private GameView()
     {
-        this.animation_handler = new GameAnimationHandler();
-
-        // Setup linearlayout's width/height - 'Guarantee a square'
         this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
-        this.background.getLayoutParams().height = CANVAS_SIZE;
-        this.background.getLayoutParams().width = CANVAS_SIZE;
-
         this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
-        this.foreground.getLayoutParams().height = CANVAS_SIZE;
-        this.foreground.getLayoutParams().width = CANVAS_SIZE;
 
         // Set up bitmap's
         final Bitmap background_bitmap = Bitmap.createScaledBitmap(
@@ -164,28 +141,16 @@ public class GameView {
     // Public methods
     //----------------
 
-    public void Render( final Request request ) {
+    public void Handle_render_request( final Request request ) {
         if ( request.type == Request.Background_change ) {
             Render_background();
         } else if ( request.Is_animation_action() ) {
-            request.linearLayout = foreground;
-            request.game_view = this;
-            animation_handler.Handle_request( request );
+            SymbolizeAnimation animation = handle_get_animation(request);
+            animation.Animate( foreground );
         } else {
             Render_foreground( request.graph, request.levels );
             if( request.Is_shadow_action() ) {
-                paint.setStyle( Paint.Style.STROKE );
-                paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
-                paint.setAlpha( SHADOW );
-                paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINE_WIDTH : POINT_WIDTH );
-
-                if ( request.type == Request.Shadow_line ) {
-                    foreground_canvas.drawLine( request.request_line.Get_p1().x(), request.request_line.Get_p1().y(),
-                                                request.request_line.Get_p2().x(), request.request_line.Get_p2().y(), paint );
-                } else {
-                    foreground_canvas.drawPoint( request.request_point.x(), request.request_point.y(), paint );
-                }
-                foreground.invalidate();
+                handle_render_shadows(request);
             }
         }
         update_ui();
@@ -283,6 +248,21 @@ public class GameView {
     // Private methods
     //----------------
 
+    private void handle_render_shadows( Request request ) {
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
+        paint.setAlpha( SHADOW );
+        paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINE_WIDTH : POINT_WIDTH );
+
+        if ( request.type == Request.Shadow_line ) {
+            foreground_canvas.drawLine( request.request_line.Get_p1().x(), request.request_line.Get_p1().y(),
+                    request.request_line.Get_p2().x(), request.request_line.Get_p2().y(), paint );
+        } else {
+            foreground_canvas.drawPoint( request.request_point.x(), request.request_point.y(), paint );
+        }
+        foreground.invalidate();
+    }
+
     /*
      * Methods used to clear all lines in the foreground
      */
@@ -319,6 +299,43 @@ public class GameView {
         }
     }
 
+    private SymbolizeAnimation handle_get_animation( final Request request ) {
+        SymbolizeAnimation animation = GameAnimationHandler.Handle_request( request );
+        if( request.type == Request.Load_level_via_world ) {
+            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                @Override
+                public void onSymbolizeAnimationClear() {
+                    foreground.clearAnimation();
+                }
+                @Override
+                public void onSymbolizeAnimationMiddle() {
+                    Render_foreground( request.graph, request.levels );
+                }
+                @Override
+                public void onSymbolizeAnimationEnd() {
+                    Render_foreground( request.graph, request.levels );
+                    request.dialog.Show();
+                }
+            } );
+        } else {
+            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+                @Override
+                public void onSymbolizeAnimationClear() {
+                    foreground.clearAnimation();
+                }
+                @Override
+                public void onSymbolizeAnimationMiddle() {
+                    Render_foreground( request.graph, request.levels );
+                }
+                @Override
+                public void onSymbolizeAnimationEnd() {
+                    Render_foreground( request.graph, request.levels );
+                }
+            } );
+        }
+        return animation;
+    }
+
 
     // Static methods
     //----------------
@@ -328,5 +345,28 @@ public class GameView {
             TOAST.setText( Page.Get_context().getResources().getString( msg_id ) );
             TOAST.show();
         }
+    }
+
+    public static void Set_up_view() {
+        Activity activity = GamePage.Get_activity();
+
+        activity.findViewById( R.id.background ).getLayoutParams().height = CANVAS_SIZE;
+        activity.findViewById( R.id.background ).getLayoutParams().width = CANVAS_SIZE;
+        activity.findViewById( R.id.foreground ).getLayoutParams().height = CANVAS_SIZE;
+        activity.findViewById( R.id.foreground ).getLayoutParams().width = CANVAS_SIZE;
+
+        // Set the buttons/layout width/height - 'Faster than doing it via xml'
+        int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
+        activity.findViewById( R.id.buttons ).getLayoutParams().height = bar_height;
+        activity.findViewById( R.id.topbar ).getLayoutParams().height = bar_height;
+
+        int button_width = SCREEN_SIZE.x / 5;
+        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
+
+        instance = new GameView();
     }
 }

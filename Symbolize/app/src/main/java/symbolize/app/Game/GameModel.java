@@ -52,7 +52,6 @@ public class GameModel {
         this.lines_erased = lines_erased;
         this.lines_dragged = lines_dragged;
         this.shift_number = shift_number;
-
         this.past_state = past_state;
     }
 
@@ -74,13 +73,18 @@ public class GameModel {
     //------------------
 
     public void Add_line_via_draw( Line line ) {
-        if ( OptionsDataAccess.Is_snap_drawing() ) {
+        Player player = Player.Get_instance();
+
+        if ( OptionsDataAccess.Is_snap_drawing() && !player.Is_in_world_view() ) {
             line.Snap();
         }
-        line.Snap_to_levels( Get_completed_levels() );
 
-        graph.addLast( line );
-        ++lines_drawn;
+        ArrayList<Posn> completed_levels = Get_completed_levels();
+        if ( !player.Is_in_world_view() || completed_levels.size() > 1 ) {
+            line.Snap_to_levels( completed_levels );
+            graph.addLast( line );
+            ++lines_drawn;
+        }
     }
 
     public void Remove_line_via_erase( Line line ) {
@@ -114,7 +118,7 @@ public class GameModel {
     public void Update_view( Request request ) {
         request.graph = graph;
         request.levels = levels;
-        GameView.Get_instance().Render( request );
+        GameView.Get_instance().Handle_render_request( request );
     }
 
     // Getter methods
@@ -141,8 +145,6 @@ public class GameModel {
         for ( int i = 0; i < levels.size(); ++i ) {
             if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
-            } else {
-                unlocked_levels.add( null );
             }
         }
         return unlocked_levels;
@@ -155,8 +157,6 @@ public class GameModel {
         for ( int i = 0; i < levels.size(); ++i ) {
             if ( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
-            } else {
-                unlocked_levels.add( null );
             }
         }
         return unlocked_levels;
