@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="world_1_hints">
-        <item></item>
+        <item>Twinkle twinkle</item>
         <item>A confused vowel</item>
         <item></item>
         <item>Lucky number</item>
@@ -20,7 +20,7 @@
     </string-array>
 
     <string-array name="world_2_hints">
-        <item></item>
+        <item>A big constellation</item>
         <item>He_ _o wor_d</item>
         <item></item>
         <item></item>

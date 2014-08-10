@@ -10,7 +10,7 @@ public class Player {
     // Static field
     //-------------
 
-    public static final boolean DEVMODE = false;
+    public static final boolean DEV_MODE = false;
 
 
     // Fields

@@ -28,13 +28,13 @@ abstract public class UnlocksDataAccess {
      * @param int level: The level of interest
      */
     public static boolean Is_unlocked( int world ) {
-        return true;
-        //return dao.Get_property(world + "", false) || Player.DEVMODE;
+        //return true;
+        return dao.Get_property(world + "", false) || Player.DEV_MODE;
     }
 
     public static boolean Is_unlocked( int world, int level ) {
-        return true;
-        //return dao.Get_property(world + "-" + level, false) || Player.DEVMODE;
+        //return true;
+        return dao.Get_property(world + "-" + level, false) || Player.DEV_MODE;
     }
 
     /*

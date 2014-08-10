@@ -8,7 +8,8 @@
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
     <unlocks>
-        <unlock>4</unlock>
+        <unlock>5</unlock>
+        <unlock>6</unlock>
     </unlocks>
     <boards>
         <graph>

@@ -30,12 +30,12 @@ abstract public class ProgressDataAccess {
      */
     public static boolean Is_completed( int world ) {
         //return true;
-        return dao.Get_property( world + "", false ) || Player.DEVMODE;
+        return dao.Get_property( world + "", false ) || Player.DEV_MODE;
     }
 
     public static boolean Is_completed( int world, int level ) {
         //return true;
-        return dao.Get_property( world + "-" + level, false ) || Player.DEVMODE;
+        return dao.Get_property( world + "-" + level, false ) || Player.DEV_MODE;
     }
 
     /*
