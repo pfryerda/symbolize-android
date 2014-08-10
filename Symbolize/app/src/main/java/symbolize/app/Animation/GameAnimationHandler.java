@@ -14,7 +14,7 @@ import symbolize.app.Common.Request;
 import symbolize.app.Game.GameView;
 
 
-public class GameAnimationHandler {
+abstract public class GameAnimationHandler {
     // Static fields
     //----------------
 
@@ -31,47 +31,10 @@ public class GameAnimationHandler {
     // Main method
     //-------------
 
-    public void Handle_request( final Request request ) {
+    public static SymbolizeAnimation Handle_request( final Request request ) {
         Player player = Player.Get_instance();
         SymbolizeAnimation animation = new SymbolizeAnimation();
 
-        if( request.type == Request.Load_level_via_world ) {
-            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
-                @Override
-                public void onSymbolizeAnimationClear() {
-                    request.linearLayout.clearAnimation();
-                }
-
-
-                @Override
-                public void onSymbolizeAnimationMiddle() {
-                    request.game_view.Render_foreground( request.graph, request.levels );
-                }
-
-                @Override
-                public void onSymbolizeAnimationEnd() {
-                    request.game_view.Render_foreground( request.graph, request.levels );
-                    request.dialog.Show();
-                }
-            } );
-        } else {
-            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
-                @Override
-                public void onSymbolizeAnimationClear() {
-                    request.linearLayout.clearAnimation();
-                }
-
-                @Override
-                public void onSymbolizeAnimationMiddle() {
-                    request.game_view.Render_foreground( request.graph, request.levels );
-                }
-
-                @Override
-                public void onSymbolizeAnimationEnd() {
-                    request.game_view.Render_foreground( request.graph, request.levels );
-                }
-            } );
-        }
 
         switch ( request.type ) {
             case Request.Rotate_right:
@@ -198,6 +161,6 @@ public class GameAnimationHandler {
                 break;
         }
 
-        animation.Animate( request.linearLayout );
+        return animation;
     }
 }

@@ -76,6 +76,9 @@ public class GamePage extends Page {
         adView.setAdListener( new AdListener() {} );
         adView.loadAd( ad_request );
 
+        // Set up the view
+        GameView.Set_up_view();
+
         // Load las world used or '1' is none was last used
         current_puzzle = PuzzleDB.Fetch_world( Player.Get_instance().Get_current_world() );
 
