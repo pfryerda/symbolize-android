@@ -8,6 +8,7 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Puzzle.Puzzle;
@@ -31,7 +32,7 @@ public class GameModel {
     // Constructors
     //--------------
 
-    public GameModel( final LinearLayout foreground, final LinearLayout background )
+    public GameModel()
     {
         this.graph = new LinkedList<Line>();
         this.levels = new ArrayList<Posn>();
@@ -39,7 +40,7 @@ public class GameModel {
         this.lines_erased = 0;
         this.lines_dragged = 0;
         this.shift_number = 0;
-        this.game_view = new GameView( foreground, background );
+        this.game_view = new GameView();
         this.past_state = null;
     }
 
@@ -75,81 +76,49 @@ public class GameModel {
     // Public methods
     //------------------
 
-    public void Handle_request( final Request request ) {
-        if ( request.Require_undo() ) {
-            push_state();
+    public void Add_line_via_draw( Line line ) {
+        if ( OptionsDataAccess.Is_snap_drawing() ) {
+            line.Snap();
         }
+        line.Snap_to_levels( Get_completed_levels() );
 
-        switch ( request.type ) {
-            case Request.Draw:
-                graph.addLast( request.request_line );
-                ++lines_drawn;
-                break;
+        graph.addLast( line );
+        ++lines_drawn;
+    }
 
-            case Request.Erase:
-                graph.remove( request.request_line );
-                if ( request.request_line.Get_owner() == Line.App ) {
-                    ++lines_erased;
-                } else {
-                    --lines_drawn;
-                }
-                break;
-
-            case Request.Drag_start:
-                graph.remove( request.request_line );
-                ++lines_dragged;
-                break;
-
-            case Request.Drag_end:
-                graph.addLast( request.request_line );
-                break;
-
-            case Request.Change_color:
-                request.request_line.Edit( request.type );
-                break;
-
-            case Request.Shift:
-                shift_number = ( shift_number + 1 ) % request.shift_graphs.size();
-                graph.clear();
-                for ( Line line : request.shift_graphs.get( shift_number ) ) {
-                    graph.addLast( line.clone() );
-                }
-                lines_drawn = 0;
-                lines_erased = 0;
-                break;
-
-            case Request.Rotate_left:
-            case Request.Rotate_right:
-            case Request.Flip_horizontally:
-            case Request.Flip_vertically:
-                for ( Line line : graph ) {
-                    line.Edit( request.type );
-                }
-
-                for ( Posn posn : levels ) {
-                    posn.Edit( request.type );
-                }
-                break;
-
-            case Request.Load_level_via_world:
-            case Request.Load_world_via_level:
-            case Request.Load_puzzle_left:
-            case Request.Load_puzzle_right:
-            case Request.Reset:
-                handle_set_puzzle( request.puzzle );
-                break;
-
-            default:
-                break;
-        }
-
-        if ( request.Require_render() ) {
-            request.graph = graph;
-            request.levels = levels;
-            game_view.Render( request );
+    public void Remove_line_via_erase( Line line ) {
+        graph.remove( line );
+        if ( line.Get_owner() == Line.App ) {
+            ++lines_erased;
+        } else {
+            --lines_drawn;
         }
     }
 
+    public void Add_line_via_drag( Line line ) {
+        graph.addLast( line );
+    }
+
+    public void Remove_line_via_drag( Line line ) {
+        graph.remove( line );
+        ++lines_dragged;
+    }
+
+    public void Shift_graph( ArrayList<LinkedList<Line>> shift_graphs ) {
+        shift_number = ( shift_number + 1 ) % shift_graphs.size();
+        graph.clear();
+        for ( Line line : shift_graphs.get( shift_number ) ) {
+            graph.addLast( line.clone() );
+        }
+        lines_drawn = 0;
+        lines_erased = 0;
+    }
+
+    public void Update_view( Request request ) {
+        request.graph = graph;
+        request.levels = levels;
+        game_view.Render( request );
+    }
 
     // Getter methods
     //---------------
@@ -216,11 +185,7 @@ public class GameModel {
         return past_state;
     }
 
-
-    // Private methods
-    //-----------------
-
-    private void handle_set_puzzle( final Puzzle puzzle ) {
+    public void Set_puzzle( final Puzzle puzzle ) {
         graph.clear();
         levels.clear();
         for ( Line line : puzzle.Get_board() ) {
@@ -234,7 +199,7 @@ public class GameModel {
         past_state = null;
     }
 
-    private void push_state() {
+    public void Push_state() {
         past_state = clone();
     }
 

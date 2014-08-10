@@ -1,6 +1,7 @@
 package symbolize.app.Animation;
 
 
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;

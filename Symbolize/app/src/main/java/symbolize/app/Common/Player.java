@@ -10,7 +10,7 @@ public class Player {
     // Static field
     //-------------
 
-    private static Player instance;
+    private static Player instance = new Player();
     public static final boolean DEVMODE = false;
 
     // Fields
@@ -26,9 +26,6 @@ public class Player {
     //---------------------------
 
     public static Player Get_instance() {
-        if ( instance == null ) {
-            instance = new Player();
-        }
         return instance;
     }
 

@@ -15,25 +15,28 @@ public class Request {
     // Flags
     //-------
 
-    public static final int Drag_start           = 0;
-    public static final int Drag_end             = 1;
-    public static final int None                 = 2;
-    public static final int Reset                = 3;
-    public static final int Background_change    = 4;
-    public static final int Shadow_point         = 5;
-    public static final int Shadow_line          = 6;
-    public static final int Change_color         = 7;
-    public static final int Draw                 = 8;
-    public static final int Erase                = 9;
-    public static final int Rotate_right         = 10;
-    public static final int Rotate_left          = 11;
-    public static final int Flip_horizontally    = 12;
-    public static final int Flip_vertically      = 13;
-    public static final int Shift                = 14;
-    public static final int Load_level_via_world = 15;
-    public static final int Load_world_via_level = 16;
-    public static final int Load_puzzle_left     = 17;
-    public static final int Load_puzzle_right    = 18;
+    public static final int Log                  = -1;
+    public static final int Check_correctness    = 0;
+    public static final int Drag_start           = 1;
+    public static final int Undo                 = 2;
+    public static final int Drag_end             = 3;
+    public static final int None                 = 4;
+    public static final int Reset                = 5;
+    public static final int Background_change    = 6;
+    public static final int Shadow_point         = 7;
+    public static final int Shadow_line          = 8;
+    public static final int Change_color         = 9;
+    public static final int Draw                 = 10;
+    public static final int Erase                = 11;
+    public static final int Rotate_right         = 12;
+    public static final int Rotate_left          = 13;
+    public static final int Flip_horizontally    = 14;
+    public static final int Flip_vertically      = 15;
+    public static final int Shift                = 16;
+    public static final int Load_level_via_world = 17;
+    public static final int Load_world_via_level = 18;
+    public static final int Load_puzzle_left     = 19;
+    public static final int Load_puzzle_right    = 20;
 
 
     // Fields
@@ -84,7 +87,7 @@ public class Request {
     //---------------
 
     public boolean Require_render() {
-        return Drag_end <= type && type <= Load_puzzle_right;
+        return Undo <= type && type <= Load_puzzle_right;
     }
 
     public boolean Require_undo() {
