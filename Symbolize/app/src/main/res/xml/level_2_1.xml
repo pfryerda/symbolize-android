@@ -9,6 +9,7 @@
     <colour_enabled>false</colour_enabled>
     <unlocks>
         <unlock>2</unlock>
+        <unlock>3</unlock>
     </unlocks>
     <boards>
         <graph>

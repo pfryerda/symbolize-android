@@ -43,15 +43,15 @@ abstract public class Puzzle {
     //----------------
 
     public boolean Can_rotate() {
-        return rotate_enabled || Player.DEVMODE;
+        return rotate_enabled || Player.DEV_MODE;
     }
 
     public boolean Can_flip() {
-        return flip_enabled|| Player.DEVMODE;
+        return flip_enabled|| Player.DEV_MODE;
     }
 
     public boolean Can_change_color() {
-        return colour_enabled|| Player.DEVMODE;
+        return colour_enabled|| Player.DEV_MODE;
     }
 
     public boolean Check_correctness( final LinkedList<Line> graph ) {

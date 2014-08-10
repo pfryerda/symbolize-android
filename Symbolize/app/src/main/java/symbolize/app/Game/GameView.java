@@ -48,9 +48,9 @@ public class GameView {
     // Other sizes
     public static final int LINE_WIDTH = SCALING / 17;
     public static final int LINE_BORDER_WIDTH = SCALING / 50;
-    public static final int POINT_WIDTH = ( LINE_WIDTH * 7 ) / 4;
+    public static final int POINT_WIDTH = ( LINE_WIDTH * 13 ) / 8;
     public static final int POINT_BORDER_WIDTH = POINT_WIDTH / 10;
-    public static final int TEXT_WIDTH = LINE_WIDTH;
+    public static final int TEXT_WIDTH = POINT_WIDTH / 2;
     public static final int GRID_WIDTH = LINE_WIDTH / 10;
     public static final int BORDER_WIDTH = LINE_WIDTH;
     public static final int SHADOW = 80;

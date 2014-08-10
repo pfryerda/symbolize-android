@@ -129,7 +129,7 @@ public class GamePage extends Page {
         final Player player = Player.Get_instance();
         final GameController controller = GameController.Get_instance();
 
-        if ( Player.DEVMODE ) {
+        if ( Player.DEV_MODE ) {
             Request request = new Request( Request.Log );
 
             controller.Handle_request( request );

@@ -1,33 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
-        <rotate_enabled>true</rotate_enabled>
+    <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
     <unlocks>
         <unlock>3</unlock>
     </unlocks>
     <levels>
-        <p><x>250</x><y>167</y></p>
-        <p><x>500</x><y>167</y></p>
-        <p><x>750</x><y>167</y></p>
-        <p><x>250</x><y>333</y></p>
-        <p><x>500</x><y>333</y></p>
-        <p><x>750</x><y>333</y></p>
-        <p><x>250</x><y>500</y></p>
-        <p><x>500</x><y>500</y></p>
-        <p><x>750</x><y>500</y></p>
-        <p><x>250</x><y>667</y></p>
-        <p><x>500</x><y>667</y></p>
-        <p><x>750</x><y>667</y></p>
-        <p><x>250</x><y>833</y></p>
-        <p><x>500</x><y>833</y></p>
-        <p><x>750</x><y>833</y></p>
+        <p><x>950</x><y>750</y></p>
+        <p><x>825</x><y>600</y></p>
+        <p><x>700</x><y>700</y></p>
+        <p><x>625</x><y>500</y></p>
+        <p><x>625</x><y>800</y></p>
+        <p><x>500</x><y>650</y></p>
+        <p><x>750</x><y>950</y></p>
+        <p><x>400</x><y>400</y></p>
+        <p><x>300</x><y>500</y></p>
+        <p><x>300</x><y>300</y></p>
+        <p><x>150</x><y>650</y></p>
+        <p><x>225</x><y>200</y></p>
+        <p><x>300</x><y>900</y></p>
+        <p><x>50</x><y>100</y></p>
+        <p><x>50</x><y>900</y></p>
     </levels>
     <solutions>
         <graph>
+            <Line><p1><x>  50</x><y> 100</y></p1><p2><x> 225</x><y> 200</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 225</x><y> 200</y></p1><p2><x> 300</x><y> 300</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 300</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 500</x><y> 650</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 650</y></p1><p2><x> 625</x><y> 500</y></p2><color>-16777216</color></Line>
         </graph>
         <graph>
+            <Line><p1><x>  50</x><y> 100</y></p1><p2><x> 225</x><y> 200</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 225</x><y> 200</y></p1><p2><x> 300</x><y> 300</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 300</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 500</x><y> 650</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 650</y></p1><p2><x> 625</x><y> 500</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 400</x><y> 400</y></p1><p2><x> 625</x><y> 500</y></p2><color>-16777216</color></Line>
+        </graph>
+        <graph>
+            <Line><p1><x>  50</x><y> 100</y></p1><p2><x> 225</x><y> 200</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 225</x><y> 200</y></p1><p2><x> 300</x><y> 300</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 300</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 400</x><y> 400</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 400</x><y> 400</y></p1><p2><x> 625</x><y> 500</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 300</x><y> 500</y></p1><p2><x> 500</x><y> 650</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 650</y></p1><p2><x> 625</x><y> 500</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 150</x><y> 650</y></p1><p2><x> 300</x><y> 500</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 150</x><y> 650</y></p1><p2><x> 300</x><y> 900</y></p2><color>-16777216</color></Line>
+            <Line><p1><x>  50</x><y> 900</y></p1><p2><x> 150</x><y> 650</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 500</x><y> 650</y></p1><p2><x> 700</x><y> 700</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 625</x><y> 500</y></p1><p2><x> 825</x><y> 600</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 700</x><y> 700</y></p1><p2><x> 950</x><y> 750</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 825</x><y> 600</y></p1><p2><x> 950</x><y> 750</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 700</x><y> 700</y></p1><p2><x> 825</x><y> 600</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 625</x><y> 800</y></p1><p2><x> 750</x><y> 950</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 625</x><y> 800</y></p1><p2><x> 700</x><y> 700</y></p2><color>-16777216</color></Line>
         </graph>
     </solutions>
 </World>

@@ -127,7 +127,7 @@ public class GameModel {
     public ArrayList<Posn> Get_levels() { return levels; }
 
     public int Get_lines_drawn() {
-        if ( Player.DEVMODE ) {
+        if ( Player.DEV_MODE ) {
             return -1;
         } else {
             return lines_drawn;
@@ -163,7 +163,7 @@ public class GameModel {
     }
 
     public int Get_lines_erased() {
-        if ( Player.DEVMODE ) {
+        if ( Player.DEV_MODE ) {
             return -1;
         } else {
             return lines_erased;
@@ -171,7 +171,7 @@ public class GameModel {
     }
 
     public int Get_lines_dragged() {
-        if ( Player.DEVMODE ) {
+        if ( Player.DEV_MODE ) {
             return -1;
         } else {
             return lines_dragged;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
-        <rotate_enabled>true</rotate_enabled>
+    <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
     <unlocks>
