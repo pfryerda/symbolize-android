@@ -6,6 +6,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+
+import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 import symbolize.app.Game.GameView;
@@ -25,25 +27,13 @@ public class GameAnimationHandler {
     public static final int TRANSLATEDURATION = 650;
 
 
-    // Fields
-    //-------
-
-    public Posn current_pivot;
-
-    
-    // Constructor
-    //-------------
-
-    public GameAnimationHandler() {
-        current_pivot = new Posn( 0, 0 );
-    }
-
-
     // Main method
     //-------------
 
     public void Handle_request( final Request request ) {
+        Player player = Player.Get_instance();
         SymbolizeAnimation animation = new SymbolizeAnimation();
+
         if( request.type == Request.Load_level_via_world ) {
             animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
                 @Override
@@ -169,8 +159,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
-                            Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
-                            Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
+                            Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
+                            Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -178,8 +168,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -190,8 +180,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );
@@ -199,8 +189,8 @@ public class GameAnimationHandler {
                 animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.x() / GameView.SCALING,
-                                Animation.RELATIVE_TO_SELF, (float) current_pivot.y() / GameView.SCALING
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
+                                Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
                         ZOOMDURATION, true
                 );

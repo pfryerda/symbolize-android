@@ -3,8 +3,6 @@ package symbolize.app.Common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import symbolize.app.DataAccess.UnlocksDataAccess;
-import symbolize.app.Game.GameActivity;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
@@ -18,10 +16,10 @@ public class Player {
     // Fields
     //--------
 
-    private boolean in_world_view;
     private int current_world;
     private int current_level;
     private boolean draw_enabled;
+    private Posn current_pivot;
 
 
     // Constructor/Get_instance
@@ -35,15 +33,15 @@ public class Player {
     }
 
     private Player() {
-        SharedPreferences settings_dao = SymbolizeActivity
+        SharedPreferences settings_dao = Page
                 .Get_context()
-                .getSharedPreferences(SymbolizeActivity.Get_resource_string(R.string.preference_unlocks_key),
+                .getSharedPreferences(Page.Get_resource_string(R.string.preference_unlocks_key),
                         Context.MODE_PRIVATE );
 
-        this.in_world_view = true;
         this.current_world = settings_dao.getInt( "current_world", 1 );
         this.current_level = 0;
         this.draw_enabled = true;
+        this.current_pivot = null;
     }
 
 
@@ -78,14 +76,14 @@ public class Player {
     /*
      * Set current level to 0 implying in a 'world' level
      */
-    public void Set_to_world_level() {
+    public void Set_to_world() {
         current_level = 0;
     }
 
     public void Commit_current_world() {
-        SharedPreferences settings_dao  = SymbolizeActivity
+        SharedPreferences settings_dao  = Page
                 .Get_context()
-                .getSharedPreferences( SymbolizeActivity.Get_resource_string( R.string.preference_unlocks_key ),
+                .getSharedPreferences( Page.Get_resource_string(R.string.preference_unlocks_key),
                         Context.MODE_PRIVATE );
         SharedPreferences.Editor settings_editor = settings_dao.edit();
 
@@ -114,7 +112,7 @@ public class Player {
     }
 
     public boolean Is_in_world_view() {
-        return in_world_view;
+        return current_level == 0;
     }
 
     public int Get_next_world() {
@@ -123,6 +121,10 @@ public class Player {
 
     public int Get_previous_world() {
         return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBEROFWORLDS : Get_current_world() - 1;
+    }
+
+    public Posn Get_current_pivot() {
+        return current_pivot;
     }
 
 
@@ -141,7 +143,7 @@ public class Player {
         current_level = new_level;
     }
 
-    public void Toggle_world_view() {
-        in_world_view = !in_world_view;
+    public void Set_pivot( Posn pivot ) {
+        this.current_pivot = pivot;
     }
 }

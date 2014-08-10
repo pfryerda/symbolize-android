@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import android.graphics.Color;
 import android.util.SparseIntArray;
-import symbolize.app.Game.GameActivity;
+
 import symbolize.app.Game.GameView;
 
 public class Line {

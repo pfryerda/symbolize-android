@@ -1,10 +1,7 @@
 package symbolize.app.DataAccess;
 
 
-import android.content.Context;
-
 import symbolize.app.Common.Player;
-import symbolize.app.Common.SymbolizeActivity;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 

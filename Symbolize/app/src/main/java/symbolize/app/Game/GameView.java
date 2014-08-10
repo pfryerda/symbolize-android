@@ -14,11 +14,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.ads.AdSize;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Line;
+import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
@@ -35,6 +38,8 @@ public class GameView {
     // Static Fields
     //-------------
 
+    private static Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
+
     // Main sizes
     public static final int SCALING = 1000;
     public static Point SCREEN_SIZE;
@@ -42,6 +47,7 @@ public class GameView {
 
     // Other sizes
     public static final int LINEWIDTH = SCALING / 17;
+    public static final int LINE_BORDER_WIDTH = SCALING / 50;
     public static final int POINTWIDTH = ( LINEWIDTH * 7 ) / 4;
     public static final int POINTBORDERWIDTH = POINTWIDTH / 10;
     public static final int TEXTWIDTH = LINEWIDTH;
@@ -97,8 +103,8 @@ public class GameView {
             foreground.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
             background.setBackgroundDrawable( new BitmapDrawable( background_bitmap ) );
         } else {
-            foreground.setBackground( new BitmapDrawable( GameActivity.Get_context().getResources(), foreground_bitmap ) );
-            background.setBackground( new BitmapDrawable( GameActivity.Get_context().getResources(), background_bitmap ) );
+            foreground.setBackground( new BitmapDrawable( GamePage.Get_context().getResources(), foreground_bitmap ) );
+            background.setBackground( new BitmapDrawable( GamePage.Get_context().getResources(), background_bitmap ) );
         }
 
         // Set up paint
@@ -111,9 +117,9 @@ public class GameView {
         paint.setTextSize( TEXTWIDTH );
 
         // Set up ui elements that are not static
-        this.left_button = ( Button ) GameActivity.Get_activity().findViewById( R.id.Left );
-        this.right_button = ( Button ) GameActivity.Get_activity().findViewById( R.id.Right );
-        this.title = (TextView) GameActivity.Get_activity().findViewById( R.id.Title );
+        this.left_button = ( Button ) GamePage.Get_activity().findViewById( R.id.Left );
+        this.right_button = ( Button ) GamePage.Get_activity().findViewById( R.id.Right );
+        this.title = (TextView) GamePage.Get_activity().findViewById( R.id.Title );
 
         Render_background();
     }
@@ -126,9 +132,6 @@ public class GameView {
         if ( request.type == Request.Background_change ) {
             Render_background();
         } else if ( request.Is_animation_action() ) {
-            if( request.type == Request.Load_level_via_world ) {
-                animation_handler.current_pivot = request.request_point;
-            }
             request.linearLayout = foreground;
             request.game_view = this;
             animation_handler.Handle_request( request );
@@ -161,16 +164,21 @@ public class GameView {
 
         // Draw graph lines
         paint.setStrokeWidth( LINEWIDTH );
+        paint.setColor( Color.BLACK );
+        for ( Line line : graph ) {
+            foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
+        }
+
+        paint.setStrokeWidth( LINEWIDTH - LINE_BORDER_WIDTH );
         for ( Line line : graph ) {
             paint.setColor( line.Get_color() );
-            foreground_canvas.drawLine(line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint);
+            foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
         }
 
         // Draw level dots
         Player player = Player.Get_instance();
         for ( int i = 0; i < levels.size(); ++i ) {
             if( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
-                Log.d( "GameView - TEST", (i + 1) + " unlocked");
                 Posn point = levels.get( i );
                 if ( point != null ) {
 
@@ -257,9 +265,9 @@ public class GameView {
         Player player = Player.Get_instance();
 
         if ( player.Is_in_world_view() ) {
-            title.setText( GameActivity.Get_resource_string( R.string.world ) + ": " + player.Get_current_world() );
+            title.setText( GamePage.Get_resource_string(R.string.world) + ": " + player.Get_current_world() );
         } else {
-            title.setText( GameActivity.Get_resource_string( R.string.level ) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
+            title.setText( GamePage.Get_resource_string(R.string.level) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
         }
 
         if ( UnlocksDataAccess.Is_unlocked(player.Get_previous_world()) && player.Is_in_world_view() ) {
@@ -279,8 +287,15 @@ public class GameView {
     // Static methods
     //----------------
 
+    public static void Render_toast( int msg_id ) {
+        if ( TOAST == null || TOAST.getView().getWindowVisibility() != View.VISIBLE ) {
+            TOAST.setText( Page.Get_context().getResources().getString( msg_id ) );
+            TOAST.show();
+        }
+    }
+
     public static void Set_up_sizes() {
-        Activity activity = GameActivity.Get_activity();
+        Activity activity = GamePage.Get_activity();
 
         // Get screen size and calculate canvas size
         final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
