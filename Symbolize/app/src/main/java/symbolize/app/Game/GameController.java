@@ -14,23 +14,24 @@ import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.R;
 
 public class GameController {
-    // Static fields
-    //--------------
-    private static GameController instance = new GameController();
-
-
     // Fields
     //--------
 
     private GameModel game_model;
 
 
-    // Constructor/Get_Instance
-    //--------------------------
+    // Singleton setup
+    //-----------------
+
+    private static GameController instance = new GameController();
 
     public static GameController Get_instance() {
         return instance;
     }
+
+
+    // Constructor/Get_Instance
+    //--------------------------
 
     private GameController() {
         game_model = new GameModel();

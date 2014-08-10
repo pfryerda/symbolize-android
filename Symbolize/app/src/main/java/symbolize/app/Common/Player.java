@@ -10,8 +10,8 @@ public class Player {
     // Static field
     //-------------
 
-    private static Player instance = new Player();
     public static final boolean DEVMODE = false;
+
 
     // Fields
     //--------
@@ -22,17 +22,23 @@ public class Player {
     private Posn current_pivot;
 
 
-    // Constructor/Get_instance
-    //---------------------------
+    // Singleton setup
+    //-----------------
+
+    private static Player instance = new Player();
 
     public static Player Get_instance() {
         return instance;
     }
 
+
+    // Constructor
+    //-------------
+
     private Player() {
         SharedPreferences settings_dao = Page
                 .Get_context()
-                .getSharedPreferences(Page.Get_resource_string(R.string.preference_unlocks_key),
+                .getSharedPreferences( Page.Get_resource_string( R.string.preference_unlocks_key ),
                         Context.MODE_PRIVATE );
 
         this.current_world = settings_dao.getInt( "current_world", 1 );

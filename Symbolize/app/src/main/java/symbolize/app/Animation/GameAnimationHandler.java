@@ -19,13 +19,13 @@ public class GameAnimationHandler {
     //----------------
 
     public static boolean InAnimation = false;
-    public static final int ZOMMSCALING = 4;
+    public static final int ZOOM_SCALING = 4;
 
-    public static final int ROTATEDURATION = 450;
-    public static final int FLIPDURATION = 450;
-    public static final int FADEDURATION = 600;
-    public static final int ZOOMDURATION = 600;
-    public static final int TRANSLATEDURATION = 650;
+    public static final int ROTATE_DURATION = 450;
+    public static final int FLIP_DURATION = 450;
+    public static final int FADE_DURATION = 600;
+    public static final int ZOOM_DURATION = 600;
+    public static final int TRANSLATE_DURATION = 650;
 
 
     // Main method
@@ -80,7 +80,7 @@ public class GameAnimationHandler {
                         new RotateAnimation( 0, 90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        ROTATEDURATION, false
+                        ROTATE_DURATION, false
                 );
                 break;
 
@@ -90,7 +90,7 @@ public class GameAnimationHandler {
                         new RotateAnimation( 0, -90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        ROTATEDURATION, false
+                        ROTATE_DURATION, false
                 );
                 break;
 
@@ -100,7 +100,7 @@ public class GameAnimationHandler {
                         new ScaleAnimation( 1, -1, 1, 1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        FLIPDURATION, false
+                        FLIP_DURATION, false
                 );
                 break;
 
@@ -110,15 +110,15 @@ public class GameAnimationHandler {
                         new ScaleAnimation( 1, 1, 1, -1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        FLIPDURATION, false
+                        FLIP_DURATION, false
                 );
                 break;
 
             case Request.Shift:
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADE_DURATION, true );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADE_DURATION, true );
                 break;
 
             case Request.Load_puzzle_left:
@@ -127,14 +127,14 @@ public class GameAnimationHandler {
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATEDURATION, false
+                    TRANSLATE_DURATION, false
                 );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATEDURATION, true
+                    TRANSLATE_DURATION, true
                 );
                 break;
 
@@ -144,56 +144,56 @@ public class GameAnimationHandler {
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATEDURATION, false
+                    TRANSLATE_DURATION, false
                 );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATEDURATION, true
+                    TRANSLATE_DURATION, true
                 );
                 break;
 
             case Request.Load_level_via_world:
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADE_DURATION, true );
                 animation.Add_animation(
-                        new ScaleAnimation( 1, ZOMMSCALING, 1, ZOMMSCALING,
+                        new ScaleAnimation( 1, ZOOM_SCALING, 1, ZOOM_SCALING,
                             Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
                             Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
-                        ZOOMDURATION, true
+                        ZOOM_DURATION, true
                 );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADE_DURATION, true );
                 animation.Add_animation(
-                        new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        new ScaleAnimation( ZOOM_SCALING, 1, ZOOM_SCALING, 1,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
-                        ZOOMDURATION, true
+                        ZOOM_DURATION, true
                 );
                 break;
 
             case Request.Load_world_via_level:
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), FADE_DURATION, true );
                 animation.Add_animation(
-                        new ScaleAnimation( 1, (float) 1/ZOMMSCALING, 1, (float) 1/ZOMMSCALING,
+                        new ScaleAnimation( 1, (float) 1/ZOOM_SCALING, 1, (float) 1/ZOOM_SCALING,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
-                        ZOOMDURATION, true
+                        ZOOM_DURATION, true
                 );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADEDURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), FADE_DURATION, true );
                 animation.Add_animation(
-                        new ScaleAnimation( ZOMMSCALING, 1, ZOMMSCALING, 1,
+                        new ScaleAnimation( ZOOM_SCALING, 1, ZOOM_SCALING, 1,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().x() / GameView.SCALING,
                                 Animation.RELATIVE_TO_SELF, (float) player.Get_current_pivot().y() / GameView.SCALING
                         ),
-                        ZOOMDURATION, true
+                        ZOOM_DURATION, true
                 );
                 break;
         }

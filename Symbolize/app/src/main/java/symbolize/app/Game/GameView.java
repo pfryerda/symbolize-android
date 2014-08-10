@@ -38,22 +38,48 @@ public class GameView {
     // Static Fields
     //-------------
 
-    private static Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
+    private static final Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
 
     // Main sizes
     public static final int SCALING = 1000;
-    public static Point SCREEN_SIZE;
-    public static int CANVAS_SIZE;
+    public static final Point SCREEN_SIZE;
+    public static final int CANVAS_SIZE;
 
     // Other sizes
-    public static final int LINEWIDTH = SCALING / 17;
+    public static final int LINE_WIDTH = SCALING / 17;
     public static final int LINE_BORDER_WIDTH = SCALING / 50;
-    public static final int POINTWIDTH = ( LINEWIDTH * 7 ) / 4;
-    public static final int POINTBORDERWIDTH = POINTWIDTH / 10;
-    public static final int TEXTWIDTH = LINEWIDTH;
-    public static final int GRIDWIDTH = LINEWIDTH / 10;
-    public static final int BRODERWIDTH = LINEWIDTH;
+    public static final int POINT_WIDTH = ( LINE_WIDTH * 7 ) / 4;
+    public static final int POINT_BORDER_WIDTH = POINT_WIDTH / 10;
+    public static final int TEXT_WIDTH = LINE_WIDTH;
+    public static final int GRID_WIDTH = LINE_WIDTH / 10;
+    public static final int BORDER_WIDTH = LINE_WIDTH;
     public static final int SHADOW = 80;
+
+
+    // Static block
+    //--------------
+
+    static {
+        Activity activity = GamePage.Get_activity();
+
+        // Get screen size and calculate canvas size
+        final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
+        SCREEN_SIZE = new Point();
+        DISPLAY.getSize( SCREEN_SIZE );
+        CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
+
+        // Set the buttons/layout width/height - 'Faster than doing it via xml'
+        int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
+        activity.findViewById( R.id.buttons ).getLayoutParams().height = bar_height;
+        activity.findViewById( R.id.topbar ).getLayoutParams().height = bar_height;
+
+        int button_width = SCREEN_SIZE.x / 5;
+        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
+        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
+    }
 
 
     // Fields
@@ -71,10 +97,20 @@ public class GameView {
     private final TextView title;
 
 
+    // Singleton setup
+    //------------------
+
+    private static final GameView instance = new GameView();
+
+    public static GameView Get_instance() {
+        return instance;
+    }
+
+
     // Constructor
     //-------------
 
-    public GameView()
+    private GameView()
     {
         this.animation_handler = new GameAnimationHandler();
 
@@ -114,7 +150,7 @@ public class GameView {
         paint.setStyle( Paint.Style.STROKE );
         paint.setStrokeJoin( Paint.Join.ROUND );
         paint.setStrokeCap( Paint.Cap.ROUND );
-        paint.setTextSize( TEXTWIDTH );
+        paint.setTextSize( TEXT_WIDTH );
 
         // Set up ui elements that are not static
         this.left_button = ( Button ) GamePage.Get_activity().findViewById( R.id.Left );
@@ -141,7 +177,7 @@ public class GameView {
                 paint.setStyle( Paint.Style.STROKE );
                 paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
                 paint.setAlpha( SHADOW );
-                paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINEWIDTH : POINTWIDTH );
+                paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINE_WIDTH : POINT_WIDTH );
 
                 if ( request.type == Request.Shadow_line ) {
                     foreground_canvas.drawLine( request.request_line.Get_p1().x(), request.request_line.Get_p1().y(),
@@ -163,13 +199,13 @@ public class GameView {
         paint.setStyle( Paint.Style.STROKE );
 
         // Draw graph lines
-        paint.setStrokeWidth( LINEWIDTH );
+        paint.setStrokeWidth( LINE_WIDTH );
         paint.setColor( Color.BLACK );
         for ( Line line : graph ) {
             foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
         }
 
-        paint.setStrokeWidth( LINEWIDTH - LINE_BORDER_WIDTH );
+        paint.setStrokeWidth( LINE_WIDTH - LINE_BORDER_WIDTH );
         for ( Line line : graph ) {
             paint.setColor( line.Get_color() );
             foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
@@ -183,26 +219,26 @@ public class GameView {
                 if ( point != null ) {
 
                     // Draw Point
-                    paint.setStrokeWidth( POINTWIDTH );
+                    paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     paint.setColor( Color.BLACK );
                     foreground_canvas.drawPoint( point.x(), point.y(), paint );
 
                     // Draw 'complete' border
-                    paint.setStrokeWidth( POINTBORDERWIDTH );
+                    paint.setStrokeWidth( POINT_BORDER_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Color.GREEN );
                     } else {
                         paint.setColor( Color.RED );
                     }
-                    foreground_canvas.drawCircle( point.x(), point.y(), POINTWIDTH / 2, paint );
+                    foreground_canvas.drawCircle( point.x(), point.y(), POINT_WIDTH / 2, paint );
 
                     // Draw Number
                     paint.setStyle( Paint.Style.FILL );
                     paint.setColor( Color.WHITE );
-                    foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXTWIDTH / 2 ),
-                            point.y() + ( TEXTWIDTH / 2 ), paint);
+                    foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXT_WIDTH / 2 ),
+                            point.y() + ( TEXT_WIDTH / 2 ), paint);
                 }
             }
         }
@@ -219,7 +255,7 @@ public class GameView {
 
         if ( OptionsDataAccess.Show_grid() ) {
             paint.setColor( Color.LTGRAY );
-            paint.setStrokeWidth( GRIDWIDTH );
+            paint.setStrokeWidth( GRID_WIDTH );
 
             for ( int x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
                 background_canvas.drawLine( x, 0, x, SCALING, paint );
@@ -232,7 +268,7 @@ public class GameView {
 
         if ( OptionsDataAccess.Show_border() ) {
             paint.setColor( Color.BLACK );
-            paint.setStrokeWidth( BRODERWIDTH );
+            paint.setStrokeWidth( BORDER_WIDTH );
 
             background_canvas.drawLine( 0, 0, 0, SCALING, paint );
             background_canvas.drawLine( 0, 0, SCALING, 0, paint );
@@ -292,27 +328,5 @@ public class GameView {
             TOAST.setText( Page.Get_context().getResources().getString( msg_id ) );
             TOAST.show();
         }
-    }
-
-    public static void Set_up_sizes() {
-        Activity activity = GamePage.Get_activity();
-
-        // Get screen size and calculate canvas size
-        final Display DISPLAY = activity.getWindowManager().getDefaultDisplay();
-        SCREEN_SIZE = new Point();
-        DISPLAY.getSize( SCREEN_SIZE );
-        CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
-
-        // Set the buttons/layout width/height - 'Faster than doing it via xml'
-        int bar_height = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
-        activity.findViewById(R.id.buttons).getLayoutParams().height = bar_height;
-        activity.findViewById(R.id.topbar).getLayoutParams().height = bar_height;
-
-        int button_width = SCREEN_SIZE.x / 5;
-        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
     }
 }

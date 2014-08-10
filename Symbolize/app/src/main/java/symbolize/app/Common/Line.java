@@ -15,14 +15,35 @@ public class Line {
     public static final int App = 0;
     public static final int User = 1;
 
+
     // Static Fields
     //---------------
 
     public static final int ERASINGTHRESHOLD = GameView.SCALING / 13;
-    public static final ArrayList<Integer> COLORARRAY =
-            new ArrayList( Arrays.asList(Color.BLACK, Color.RED, Color.YELLOW,
-                    Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA) );
-    public static final SparseIntArray COLORMAP = make_color_map();
+    public static final ArrayList<Integer> COLORARRAY;
+    public static final SparseIntArray COLORMAP;
+
+
+    // Static block
+    //--------------
+
+    static {
+        ArrayList<Integer> color_array = new ArrayList<Integer>();
+        color_array.add( Color.BLACK );
+        color_array.add( Color.RED );
+        color_array.add( Color.YELLOW );
+        color_array.add( Color.GREEN );
+        color_array.add( Color.BLUE );
+        color_array.add( Color.CYAN );
+        color_array.add( Color.MAGENTA );
+        COLORARRAY = color_array;
+
+        SparseIntArray color_map = new SparseIntArray();
+        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
+            color_map.put( COLORARRAY.get(i), i );
+        }
+        COLORMAP = color_map;
+    }
 
 
     // Fields
@@ -214,18 +235,6 @@ public class Line {
     private float y_intercept() {
         int dx = p2.x() - p1.x();
         return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( slope() * p1.x() );
-    }
-
-
-    // Static methods
-    //---------------
-
-    private static SparseIntArray make_color_map() {
-        SparseIntArray color_map = new SparseIntArray();
-        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
-            color_map.put( COLORARRAY.get(i), i );
-        }
-        return color_map;
     }
 
 
