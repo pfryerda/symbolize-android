@@ -25,7 +25,6 @@ public class GameModel {
     private ArrayList<Posn> levels;
     private int lines_drawn, lines_erased, lines_dragged;
     private int shift_number;
-    private final GameView game_view;
     private GameModel past_state;
 
 
@@ -40,13 +39,12 @@ public class GameModel {
         this.lines_erased = 0;
         this.lines_dragged = 0;
         this.shift_number = 0;
-        this.game_view = new GameView();
         this.past_state = null;
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
                       final int lines_drawn, final int lines_erased, final  int lines_dragged,
-                      final int shift_number, final GameView game_view, final GameModel past_state )
+                      final int shift_number, final GameModel past_state )
     {
         this.graph = graph;
         this.levels = levels;
@@ -55,7 +53,6 @@ public class GameModel {
         this.lines_dragged = lines_dragged;
         this.shift_number = shift_number;
 
-        this.game_view = game_view;
         this.past_state = past_state;
     }
 
@@ -69,7 +66,7 @@ public class GameModel {
             clonedGraph.addLast( line.clone() );
         }
         return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, lines_dragged,
-                shift_number, game_view, past_state );
+                shift_number, past_state );
     }
 
 
@@ -117,7 +114,7 @@ public class GameModel {
     public void Update_view( Request request ) {
         request.graph = graph;
         request.levels = levels;
-        game_view.Render( request );
+        GameView.Get_instance().Render( request );
     }
 
     // Getter methods

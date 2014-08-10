@@ -31,15 +31,19 @@ import symbolize.app.R;
 
 
 public class GamePage extends Page {
+    // Static block
+    //--------------
+
+    static {
+        UnlocksDataAccess.Unlock( 1 );
+    }
+
 
     // Fields
     //---------
 
     private final String LUKE = "Awesome";
-
-    private Player player = Player.Get_instance();
     private Puzzle current_puzzle;
-
     private SensorManager sensor_manager;
     private GameShakeDetector shake_detector;
 
@@ -72,18 +76,12 @@ public class GamePage extends Page {
         adView.setAdListener( new AdListener() {} );
         adView.loadAd( ad_request );
 
-        // Set up screen/button/layout sizes
-        GameView.Set_up_sizes();
-
-        // Set up Game
-        UnlocksDataAccess.Unlock( 1 );
-
         // Load las world used or '1' is none was last used
-        current_puzzle = PuzzleDB.Fetch_world( player.Get_current_world() );
+        current_puzzle = PuzzleDB.Fetch_world( Player.Get_instance().Get_current_world() );
+
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
-        GameController controller = GameController.Get_instance();
-        controller.Handle_request( request );
+        GameController.Get_instance().Handle_request( request );
 
         Set_up_listeners();
     }
@@ -93,11 +91,15 @@ public class GamePage extends Page {
     // ---------------
 
     public void On_left_button_clicked( final View view ) {
+        Player player = Player.Get_instance();
+
         player.Decrease_world();
         load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_left );
     }
 
     public void On_back_button_clicked( final View view ) {
+        Player player = Player.Get_instance();
+
         if ( player.Is_in_world_view() ) {
             startActivity( new Intent( getApplicationContext(), HomePage.class ) );
         } else {
@@ -106,6 +108,8 @@ public class GamePage extends Page {
     }
 
     public void On_right_button_clicked( final View view ) {
+        Player player = Player.Get_instance();
+
         player.Increase_world();
         load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
     }
@@ -116,15 +120,14 @@ public class GamePage extends Page {
     }
 
     public void On_reset_button_clicked( final View view ) {
-        GameController controller = GameController.Get_instance();
-
         Request request = new Request( Request.Reset );
         request.puzzle = current_puzzle;
-        controller.Handle_request( request );
+        GameController.Get_instance().Handle_request( request );
     }
 
     public void On_check_button_clicked( final View view ) {
-        GameController controller = GameController.Get_instance();
+        final Player player = Player.Get_instance();
+        final GameController controller = GameController.Get_instance();
 
         if ( Player.DEVMODE ) {
             Request request = new Request( Request.Log );
@@ -197,11 +200,11 @@ public class GamePage extends Page {
     }
 
     public void On_draw_button_clicked( final View view ) {
-        player.Set_draw_mode();
+        Player.Get_instance().Set_draw_mode();
     }
 
     public void On_erase_button_clicked( final View view ) {
-        player.Set_erase_mode();
+        Player.Get_instance().Set_erase_mode();
     }
 
 
@@ -215,7 +218,7 @@ public class GamePage extends Page {
      * @param Level level: The level that needs to be loaded
      */
     private void load_world( final World world, int request_type ) {
-        player.Set_to_world();
+        Player.Get_instance().Set_to_world();
         current_puzzle = world;
 
         Request request = new Request( request_type );
@@ -242,7 +245,8 @@ public class GamePage extends Page {
      *
      * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
      */
-    private void Set_up_listeners(){
+    private void Set_up_listeners() {
+        final Player player = Player.Get_instance();
         final GameController controller = GameController.Get_instance();
 
         findViewById( R.id.foreground ).setOnTouchListener( new GameTouchListener() {
@@ -386,6 +390,6 @@ public class GamePage extends Page {
     protected void onPause() {
         super.onPause();
         sensor_manager.unregisterListener( shake_detector );
-        player.Commit_current_world();
+        Player.Get_instance().Commit_current_world();
     }
 }
