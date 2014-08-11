@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
+
+import symbolize.app.Common.Request;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
+import symbolize.app.Game.GameController;
 import symbolize.app.Game.GamePage;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
@@ -46,16 +49,18 @@ public class OptionsDialog extends SymbolizeDialog {
             public void onClick( View view ) {
                 OptionsDataAccess.Toggle_grid();
                 show_graph.setChecked( !show_graph.isChecked() );
+                GameController.Get_instance().Handle_request( new Request( Request.Background_change ) );
             }
         } );
 
         final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
         show_border.setChecked( OptionsDataAccess.Show_border() );
-        show_border.setOnClickListener(new View.OnClickListener() {
+        show_border.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 OptionsDataAccess.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
+                GameController.Get_instance().Handle_request( new Request( Request.Background_change ) );
             }
         } );
 

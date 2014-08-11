@@ -1,5 +1,6 @@
 package symbolize.app.Dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -13,7 +14,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
     // Static fields
     //--------------
 
-    protected static final FragmentManager dialog_manager = Page.Get_dialog_manager();
+    public static FragmentManager dialog_manager;
 
 
     // Public methods
