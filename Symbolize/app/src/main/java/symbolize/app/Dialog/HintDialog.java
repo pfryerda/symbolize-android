@@ -1,6 +1,9 @@
 package symbolize.app.Dialog;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Page;
@@ -8,7 +11,6 @@ import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
 public class HintDialog extends InfoDialog {
-
     // Public method
     //---------------
 
@@ -35,5 +37,19 @@ public class HintDialog extends InfoDialog {
         }
 
         super.Set_attrs( player.Get_current_puzzle_text(), message );
+    }
+
+
+    // Protected methods
+    //-------------------
+
+    protected View get_dialog_view() {
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialog_view =  inflater.inflate( R.layout.hint_dialog, null );
+
+        ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText( title );
+        ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
+
+        return dialog_view;
     }
 }

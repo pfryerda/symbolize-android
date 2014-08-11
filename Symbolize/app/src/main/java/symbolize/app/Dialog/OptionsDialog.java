@@ -19,23 +19,9 @@ import symbolize.app.Game.GamePage;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
-public class OptionsDialog extends SymbolizeDialog {
+public class OptionsDialog extends InfoDialog {
     // Protected methods
     //-------------------
-
-    @Override
-    protected AlertDialog.Builder get_builder() {
-        final AlertDialog.Builder builder = super.get_builder();
-
-        builder.setNeutralButton( Page.Get_resource_string(R.string.close), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int id) {
-                OptionsDialog.this.getDialog().dismiss();
-            }
-        } );
-
-        return builder;
-    }
 
     @Override
     protected View get_dialog_view() {
