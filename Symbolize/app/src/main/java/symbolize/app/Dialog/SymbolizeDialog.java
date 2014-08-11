@@ -1,14 +1,16 @@
 package symbolize.app.Dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-
-import symbolize.app.Common.Page;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import symbolize.app.R;
 
 abstract public class SymbolizeDialog extends DialogFragment {
     // Static fields
@@ -17,22 +19,11 @@ abstract public class SymbolizeDialog extends DialogFragment {
     public static FragmentManager dialog_manager;
 
 
-    // Public methods
-    //----------------
+    // Fields
+    //-------
 
-    public void Show() {
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                Page.Get_activity().runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       show( dialog_manager, get_dialog_id() );
-                   }
-               } );
-            }
-        } ).start();
-    }
+    protected String title;
+    protected String message;
 
 
     // Main method
@@ -41,25 +32,51 @@ abstract public class SymbolizeDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog( Bundle save_instance_state ) {
         AlertDialog.Builder builder = get_builder();
-        builder.setView( get_dialog_view() );
-        return builder.create();
 
+        AlertDialog dialog = builder.create();
+        dialog.setView( get_dialog_view(), 0, 0, 0, 0 );
+
+        return dialog;
     }
+
+
+    // Public methods
+    //----------------
+
+    public void Show() {
+        show( dialog_manager, get_dialog_id() );
+    }
+
+    public void Set_attrs( String title, String message ) {
+        this.title = title;
+        this.message = message;
+    }
+
 
 
     // Protected method
     //------------------
 
     protected AlertDialog.Builder get_builder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+        builder.setCancelable( true );
         return new AlertDialog.Builder( getActivity() );
+    }
+
+    protected View get_dialog_view() {
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialog_view =  inflater.inflate( R.layout.generic_dialog, null );
+
+        ( (TextView) dialog_view.findViewById( R.id.Title ) ).setText( title );
+        ( (TextView) dialog_view.findViewById( R.id.Message ) ).setText( message );
+
+        return dialog_view;
     }
 
 
 
     // abstract methods
     //-----------------
-
-    abstract protected View get_dialog_view();
 
     abstract protected String get_dialog_id();
 }

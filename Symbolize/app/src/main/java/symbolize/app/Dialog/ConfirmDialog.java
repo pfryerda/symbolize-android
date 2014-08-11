@@ -8,7 +8,7 @@ import symbolize.app.Common.Page;
 import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
-public class ConfirmDialog extends GenericDialog {
+public class ConfirmDialog extends SymbolizeDialog {
     // Fields
     //-------
 

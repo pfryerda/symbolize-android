@@ -280,11 +280,7 @@ public class GameView {
     private void update_ui() {
         Player player = Player.Get_instance();
 
-        if ( player.Is_in_world_view() ) {
-            title.setText( GamePage.Get_resource_string(R.string.world) + ": " + player.Get_current_world() );
-        } else {
-            title.setText( GamePage.Get_resource_string(R.string.level) + ": " + player.Get_current_world() + "-" + player.Get_current_level() );
-        }
+        title.setText( player.Get_current_puzzle_text() );
 
         if ( UnlocksDataAccess.Is_unlocked(player.Get_previous_world()) && player.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
