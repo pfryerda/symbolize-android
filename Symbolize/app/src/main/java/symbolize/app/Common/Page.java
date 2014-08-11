@@ -6,13 +6,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import symbolize.app.Dialog.SymbolizeDialog;
+
 
 public class Page extends FragmentActivity {
     // Static fields
     //---------------
 
     private static Context context;
-    private static FragmentManager fragmentManager;
 
 
     // Main method
@@ -21,7 +22,7 @@ public class Page extends FragmentActivity {
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         Page.context = this;
-        Page.fragmentManager = getFragmentManager();
+        SymbolizeDialog.dialog_manager = getFragmentManager();
     }
 
 
@@ -40,11 +41,6 @@ public class Page extends FragmentActivity {
     public static String Get_resource_string( int id ) {
         return context.getString( id );
     }
-
-    public static FragmentManager Get_dialog_manager() {
-        return fragmentManager;
-    }
-
 
     // Used to fix bug, bug from API Level > 11
     @Override
