@@ -1,5 +1,6 @@
 package symbolize.app.Game;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.Timer;
@@ -9,7 +10,7 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
 
-public class GameTouchListener implements View.OnTouchListener {
+public class GameTouchHandler {
     // Static Fields
     //--------------
 
@@ -22,6 +23,8 @@ public class GameTouchListener implements View.OnTouchListener {
 
     // Fields
     //-------
+
+    private GameTouchListener listener;
 
     private Posn point_one;
     private boolean is_point_one_down;
@@ -45,10 +48,39 @@ public class GameTouchListener implements View.OnTouchListener {
     private boolean in_double_touch;
 
 
+    // Interface
+    //-----------
+
+    interface GameTouchListener extends View.OnTouchListener {
+        public void onDraw( final Line line );
+        public void onErase( final Posn point );
+        public void onFingerUp();
+        public void onFingerMove( final Line line, final Posn point );
+        public void onTap( final Posn point );
+        public Line onDragStart( final Posn point );
+        public void onDragEnd( final Line line );
+        public void onEnterDoubleTouch();
+        public void onRotateRight();
+        public void onRotateLeft();
+        public void onFlipHorizontally();
+        public void onFlipVertically();
+    }
+
+
+    // Singleton setup
+    //-----------------
+
+    private static GameTouchHandler instance = new GameTouchHandler();
+
+    public static GameTouchHandler Get_instance() {
+        return instance;
+    }
+
+
     // Constructor
     //--------------
 
-    public GameTouchListener() {
+    private GameTouchHandler() {
         // Set up timers so initial timer.cancel does not crash
         erase_timer = new Timer();
         drag_timer = new Timer();
@@ -60,7 +92,7 @@ public class GameTouchListener implements View.OnTouchListener {
     // Main method
     //-------------
 
-    public boolean onTouch( final View v, final MotionEvent event ) {
+    public boolean handle_touch( final MotionEvent event ) {
         if ( !GameAnimationHandler.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
@@ -117,6 +149,14 @@ public class GameTouchListener implements View.OnTouchListener {
         } else {
             return true;
         }
+    }
+
+
+    // Public methods
+    //----------------
+
+    public void Set_listener( GameTouchListener listener ) {
+        this.listener = listener;
     }
     
 
@@ -179,7 +219,7 @@ public class GameTouchListener implements View.OnTouchListener {
                     ( point_one_end.y() - FLIPPINGTHRESHOLD <= point_one.y() && point_one.y() <= point_one_end.y() + FLIPPINGTHRESHOLD &&
                       point_two_end.y() - FLIPPINGTHRESHOLD <= point_two.y() && point_two.y() <= point_two_end.y() + FLIPPINGTHRESHOLD ) )
         {
-            onFlipHorizontally();
+            listener.onFlipHorizontally();
             return true;
         }
         else if ( ( ( point_one.y() < GameView.SCALING/2 && point_two.y() < GameView.SCALING/2 && point_two_end.y() > GameView.SCALING/2 && point_two_end.y() > GameView.SCALING/2 ) ||
@@ -187,7 +227,7 @@ public class GameTouchListener implements View.OnTouchListener {
                     ( point_one_end.x() - FLIPPINGTHRESHOLD <= point_one.x() && point_one.x() <= point_one_end.x() + FLIPPINGTHRESHOLD &&
                       point_two_end.x() - FLIPPINGTHRESHOLD <= point_two.x() && point_two.x() <= point_two_end.x() + FLIPPINGTHRESHOLD ) )
         {
-            onFlipVertically();
+            listener.onFlipVertically();
             return true;
         }
         return false;
@@ -206,11 +246,11 @@ public class GameTouchListener implements View.OnTouchListener {
             // Point one is the higher point, point two is the lower
 
             if ( ( point_one.x() >= point_one_end.x() ) && ( point_two.x() <= point_two_end.x() ) ) {
-                onRotateRight();
+                listener.onRotateRight();
                 return true;
             }
             else if ( ( point_one.x() <= point_one_end.x() ) && (  point_two.x() >= point_two_end.x() ) ) {
-                onRotateLeft();
+                listener.onRotateLeft();
                 return true;
             }
 
@@ -218,11 +258,11 @@ public class GameTouchListener implements View.OnTouchListener {
             // Point two is the higher point, point one is the lower
 
             if ( ( point_one.x() <= point_one_end.x() ) && (  point_two.x() >= point_two_end.x() ) ) {
-                onRotateRight();
+                listener.onRotateRight();
                 return true;
             }
             else if ( ( point_one.x() >= point_one_end.x() ) && (  point_two.x() <= point_two_end.x() ) ) {
-                onRotateLeft();
+                listener.onRotateLeft();
                 return true;
             }
 
@@ -261,7 +301,7 @@ public class GameTouchListener implements View.OnTouchListener {
 
             @Override
             public void run() {
-                drag_line = onDragStart( point_one );
+                drag_line = listener.onDragStart( point_one );
                 if ( drag_line != null ) {
                     in_drag_mode = true;
                 }
@@ -285,16 +325,16 @@ public class GameTouchListener implements View.OnTouchListener {
         if ( !in_double_touch ) {
             // End of draw, drag, or tap
 
-            onFingerUp();
+            listener.onFingerUp();
             long end_time = System.currentTimeMillis();
             if ( in_drag_mode ) {
-                onDragEnd( drag_line );
+                listener.onDragEnd( drag_line );
             } else {
                 Line line = new Line( point_one, point_one_end, Line.User );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    onDraw( new Line( point_one, point_one_end, Line.User ) );
+                    listener.onDraw( new Line( point_one, point_one_end, Line.User ) );
                 } else if ( ( end_time - start_time) <= TAPTHRESHOLD ) {
-                    onTap( point_one_end );
+                    listener.onTap( point_one_end );
                 }
 
             }
@@ -312,11 +352,11 @@ public class GameTouchListener implements View.OnTouchListener {
     private void handle_finger_two_down( final MotionEvent event ) {
         if( in_drag_mode ) {
             // Second finger down while drag, cancel to drag!
-            onDragEnd( drag_line );
+            listener.onDragEnd( drag_line );
             reset_vars();
         } else {
             // Set up variables for gesture detection
-            onEnterDoubleTouch();
+            listener.onEnterDoubleTouch();
             point_two = get_point( event );
             is_point_two_down = true;
             in_double_touch = true;
@@ -352,7 +392,7 @@ public class GameTouchListener implements View.OnTouchListener {
      */
     private void handle_drag() {
         drag_line.Translate( current_point.x() - previous_point.x(), current_point.y() - previous_point.y() );
-        onFingerMove( drag_line, null );
+        listener.onFingerMove( drag_line, null );
     }
 
     /*
@@ -363,9 +403,9 @@ public class GameTouchListener implements View.OnTouchListener {
         if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWINGTHRESHOLD * Posn.DRAWINGTHRESHOLD ) ) {
             drag_timer.cancel();
         }
-        onFingerMove( new Line( point_one, current_point, Line.App ), current_point );
+        listener.onFingerMove( new Line( point_one, current_point, Line.App ), current_point );
         if ( is_erase_delay_done ) {
-            onErase( current_point );
+            listener.onErase( current_point );
         }
     }
     
@@ -373,51 +413,6 @@ public class GameTouchListener implements View.OnTouchListener {
     // Methods to be overridden in MainActivity
     //------------------------------------------
 
-    public void onDraw( final Line line ) {
 
-    }
 
-    public void onErase( final Posn point ) {
-
-    }
-
-    public void onFingerUp() {
-
-    }
-
-    public void onFingerMove( final Line line, final Posn point ) {
-
-    }
-
-    public void onTap( final Posn point ) {
-
-    }
-    
-    public Line onDragStart( final Posn point ) {
-        return null;
-    }
-    
-    public void onDragEnd( final Line line ) {
-        
-    }
-
-    public void onEnterDoubleTouch() {
-
-    }
-
-    public void onRotateRight() {
-
-    }
-
-    public void onRotateLeft() {
-
-    }
-
-    public void onFlipHorizontally() {
-
-    }
-
-    public void onFlipVertically() {
-
-    }
 }

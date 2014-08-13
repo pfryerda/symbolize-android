@@ -2,14 +2,14 @@ package symbolize.app.Game;
 
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
 import android.provider.Settings;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-import java.util.ArrayList;
+
 import symbolize.app.Common.Line;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Player;
@@ -30,7 +30,9 @@ import symbolize.app.Puzzle.World;
 import symbolize.app.R;
 
 
-public class GamePage extends Page {
+public class GamePage extends Page
+                      implements GameTouchHandler.GameTouchListener,
+                                 GameShakeHandler.OnShakeListener {
     // Static block
     //--------------
 
@@ -45,8 +47,6 @@ public class GamePage extends Page {
     private final String LUKE = "Awesome";
     private Puzzle current_puzzle;
     private SensorManager sensor_manager;
-    private GameShakeDetector shake_detector;
-
 
 
     // Main method
@@ -65,7 +65,6 @@ public class GamePage extends Page {
 
         // Variable setup
         sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
-        shake_detector =  new GameShakeDetector();
 
         // Ad setup
         AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
@@ -86,7 +85,9 @@ public class GamePage extends Page {
         request.puzzle = current_puzzle;
         GameController.Get_instance().Handle_request( request );
 
-        Set_up_listeners();
+        GameTouchHandler.Get_instance().Set_listener( this );
+        GameShakeHandler.Get_instance().Set_listener( this );
+        findViewById(R.id.foreground).setOnTouchListener( this );
     }
 
 
@@ -243,140 +244,150 @@ public class GamePage extends Page {
         GameController.Get_instance().Handle_request(request);
     }
 
-    /*
-     * Method called to set up event/gesture listeners for game
-     *
-     * @param: Linearlayout foreground: The Linearlayout to apply the event listeners to
-     */
-    private void Set_up_listeners() {
-        final Player player = Player.Get_instance();
-        final GameController controller = GameController.Get_instance();
+    @Override
+    public boolean onTouch( final View v, final MotionEvent event ) {
+        return GameTouchHandler.Get_instance().handle_touch( event );
+    }
 
-        findViewById( R.id.foreground ).setOnTouchListener( new GameTouchListener() {
-            @Override
-            public void onDraw( Line line ) {
-                if ( player.In_draw_mode() ) {
-                    Request request = new Request( Request.Draw );
-                    request.request_line = line;
-                    request.puzzle = current_puzzle;
-                    controller.Handle_request( request );
-                }
+    @Override
+    public void onDraw( Line line ) {
+        if ( Player.Get_instance().In_draw_mode() ) {
+            Request request = new Request( Request.Draw );
+            request.request_line = line;
+            request.puzzle = current_puzzle;
+            GameController.Get_instance().Handle_request(request);
+        }
+    }
+
+    @Override
+    public void onErase( final Posn point ) {
+        if( Player.Get_instance().In_erase_mode() ) {
+            Request request = new Request( Request.Erase );
+            request.request_point = point;
+            request.puzzle = current_puzzle;
+            GameController.Get_instance().Handle_request(request);
+        }
+    }
+
+    @Override
+    public void onFingerUp() {
+        GameController.Get_instance().Handle_request(new Request(Request.None));
+    }
+
+    @Override
+    public void onFingerMove( final Line line, final Posn point ) {
+        Player player = Player.Get_instance();
+        GameController controller = GameController.Get_instance();
+
+        if ( player.In_draw_mode() ) {
+            if ( OptionsDataAccess.Is_snap_drawing() && !player.Is_in_world_view() ) {
+                line.Snap();
             }
+            Request request = new Request( Request.Shadow_line );
+            request.request_line = line;
+            controller.Handle_request( request );
+        } else {
+            Request request = new Request( Request.Shadow_point );
+            request.request_point = point;
+            controller.Handle_request( request );
+        }
+    }
 
-            @Override
-            public void onErase( final Posn point ) {
-                if( player.In_erase_mode() ) {
-                    Request request = new Request( Request.Erase );
-                    request.request_point = point;
-                    request.puzzle = current_puzzle;
-                    controller.Handle_request( request );
-                }
-            }
+    @Override
+    public void onTap( final Posn point ) {
+        Player player = Player.Get_instance();
+        GameController controller = GameController.Get_instance();
 
-            @Override
-            public void onFingerUp() {
-                controller.Handle_request( new Request( Request.None ) );
-            }
+        int level_found = controller.Get_tapped_level( point );
 
-            @Override
-            public void onFingerMove( final Line line, final Posn point ) {
-                if ( player.In_draw_mode() ) {
-                    if ( OptionsDataAccess.Is_snap_drawing() && !player.Is_in_world_view() ) {
-                        line.Snap();
-                    }
-                    Request request = new Request( Request.Shadow_line );
-                    request.request_line = line;
-                    controller.Handle_request( request );
-                } else {
-                    Request request = new Request( Request.Shadow_point );
-                    request.request_point = point;
-                    controller.Handle_request( request );
-                }
-            }
-
-            @Override
-            public void onTap( final Posn point ) {
-                int level_found = controller.Get_tapped_level( point );
-
-                if ( level_found > 0 ) {
-                    player.Set_current_level( level_found );
-                    load_level( PuzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ) );
-                } else {
-                    if ( current_puzzle.Can_change_color() ) {
-                        Request request = new Request( Request.Change_color );
-                        request.request_point = point;
-                        controller.Handle_request( request );
-                    }
-                }
-            }
-
-            @Override
-            public Line onDragStart( Posn point ) {
-                if ( player.In_draw_mode() ) {
-                    Line line = controller.Get_line_of_interest( point );
-                    if ( line != null ) {
-                        Request request = new Request( Request.Drag_start );
-                        request.request_line = line;
-                        controller.Handle_request( request );
-                        return line.clone();
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public void onDragEnd( Line line ) {
-                Request request = new Request( Request.Drag_end );
-                request.request_line = line;
-                request.puzzle = current_puzzle;
+        if ( level_found > 0 ) {
+            player.Set_current_level(level_found);
+            load_level( PuzzleDB.Fetch_level( player.Get_current_world(), player.Get_current_level() ) );
+        } else {
+            if ( current_puzzle.Can_change_color() ) {
+                Request request = new Request( Request.Change_color );
+                request.request_point = point;
                 controller.Handle_request( request );
             }
-
-            @Override
-            public void onEnterDoubleTouch() {
-                controller.Handle_request( new Request( Request.None ) );
-            }
-
-            @Override
-            public void onRotateRight() {
-                if ( current_puzzle.Can_rotate() ) {
-                    controller.Handle_request( new Request( Request.Rotate_right ) );
-                }
-            }
-
-            @Override
-            public void onRotateLeft() {
-                if ( current_puzzle.Can_rotate() ) {
-                    controller.Handle_request( new Request( Request.Rotate_left ) );
-                }
-            }
-
-            @Override
-            public void onFlipHorizontally() {
-                if ( current_puzzle.Can_flip() ) {
-                    controller.Handle_request( new Request( Request.Flip_horizontally ) );
-                }
-            }
-
-            @Override
-            public void onFlipVertically() {
-                if ( current_puzzle.Can_flip() ) {
-                    controller.Handle_request( new Request( Request.Flip_vertically ) );
-                }
-            }
-        } );
-
-        shake_detector.setOnShakeListener( new GameShakeDetector.OnShakeListener() {
-            @Override
-            public void onShake() {
-                if ( current_puzzle.Can_shift() ) {
-                    Request request = new Request( Request.Shift );
-                    request.shift_graphs = current_puzzle.Get_boards();
-                    controller.Handle_request( request );
-                }
-            }
-        } );
+        }
     }
+
+    @Override
+    public Line onDragStart( Posn point ) {
+        GameController controller = GameController.Get_instance();
+
+        if ( Player.Get_instance().In_draw_mode() ) {
+            Line line = controller.Get_line_of_interest( point );
+            if ( line != null ) {
+                Request request = new Request( Request.Drag_start );
+                request.request_line = line;
+                controller.Handle_request( request );
+                return line.clone();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void onDragEnd( Line line ) {
+        Request request = new Request( Request.Drag_end );
+        request.request_line = line;
+        request.puzzle = current_puzzle;
+        GameController.Get_instance().Handle_request(request);
+    }
+
+    @Override
+    public void onEnterDoubleTouch() {
+        GameController.Get_instance().Handle_request(new Request(Request.None));
+    }
+
+    @Override
+    public void onRotateRight() {
+        if ( current_puzzle.Can_rotate() ) {
+            GameController.Get_instance().Handle_request(new Request(Request.Rotate_right));
+        }
+    }
+
+    @Override
+    public void onRotateLeft() {
+        if ( current_puzzle.Can_rotate() ) {
+            GameController.Get_instance().Handle_request(new Request(Request.Rotate_left));
+        }
+    }
+
+    @Override
+    public void onFlipHorizontally() {
+        if ( current_puzzle.Can_flip() ) {
+            GameController.Get_instance().Handle_request(new Request(Request.Flip_horizontally));
+        }
+    }
+
+    @Override
+    public void onFlipVertically() {
+        if ( current_puzzle.Can_flip() ) {
+            GameController.Get_instance().Handle_request(new Request(Request.Flip_vertically));
+        }
+    }
+
+    @Override
+    public void onShake() {
+        if ( current_puzzle.Can_shift() ) {
+            Request request = new Request( Request.Shift );
+            request.shift_graphs = current_puzzle.Get_boards();
+            GameController.Get_instance().Handle_request( request );
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged( final Sensor sensor, final int accuracy ) {}
+
+
+    @Override
+    public void onSensorChanged( final SensorEvent event ) {
+        GameShakeHandler.Get_instance().handle_shake(event);
+    }
+
+
 
     // Methods used to stop sensors on pause ( save resources )
     //---------------------------------------------------------
@@ -384,7 +395,7 @@ public class GamePage extends Page {
     @Override
     protected void onResume() {
         super.onResume();
-        sensor_manager.registerListener( shake_detector,
+        sensor_manager.registerListener( this,
                 sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
     }
@@ -392,7 +403,7 @@ public class GamePage extends Page {
     @Override
     protected void onPause() {
         super.onPause();
-        sensor_manager.unregisterListener( shake_detector );
+        sensor_manager.unregisterListener( this );
         Player.Get_instance().Commit_current_world();
     }
 }
