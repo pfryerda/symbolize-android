@@ -68,10 +68,10 @@ public class Request {
         this.request_line = null;
         this.request_point = null;
 
-        this.shift_graphs = null;
-
         this.graph = null;
         this.levels = null;
+
+        this.shift_graphs = null;
 
         this.dialog = null;
     }
