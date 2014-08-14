@@ -44,12 +44,16 @@ abstract public class UnlocksDataAccess {
      * @param int world: The level of interest
      */
     public static void Unlock( int world ) {
-        dao.Set_property( world + "", true );
-        dao.Set_property( world + "-1", true );
+        if( !Player.DEV_MODE ) {
+            dao.Set_property( world + "", true );
+            dao.Set_property( world + "-1", true );
+        }
     }
 
     public static void Unlock( int world, int level ) {
-        dao.Set_property( world + "-" + level, true );
+        if( !Player.DEV_MODE ) {
+            dao.Set_property( world + "-" + level, true );
+        }
     }
 
     public static void Remove_all_unlocks() {

@@ -3,6 +3,7 @@ package symbolize.app.Common;
 
 import android.widget.LinearLayout;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -16,27 +17,28 @@ public class Request {
     //-------
 
     public static final int Log                  = -1;
-    public static final int Check_correctness    = 0;
-    public static final int Drag_start           = 1;
-    public static final int Undo                 = 2;
-    public static final int Drag_end             = 3;
-    public static final int None                 = 4;
-    public static final int Reset                = 5;
-    public static final int Background_change    = 6;
-    public static final int Shadow_point         = 7;
-    public static final int Shadow_line          = 8;
-    public static final int Change_color         = 9;
-    public static final int Draw                 = 10;
-    public static final int Erase                = 11;
-    public static final int Rotate_right         = 12;
-    public static final int Rotate_left          = 13;
-    public static final int Flip_horizontally    = 14;
-    public static final int Flip_vertically      = 15;
-    public static final int Shift                = 16;
-    public static final int Load_level_via_world = 17;
-    public static final int Load_world_via_level = 18;
-    public static final int Load_puzzle_left     = 19;
-    public static final int Load_puzzle_right    = 20;
+    public static final int Fetch_level          = 0;
+    public static final int Check_correctness    = 1;
+    public static final int Drag_start           = 2;
+    public static final int Undo                 = 3;
+    public static final int Drag_end             = 4;
+    public static final int None                 = 5;
+    public static final int Reset                = 6;
+    public static final int Background_change    = 7;
+    public static final int Shadow_point         = 8;
+    public static final int Shadow_line          = 9;
+    public static final int Change_color         = 10;
+    public static final int Draw                 = 11;
+    public static final int Erase                = 12;
+    public static final int Rotate_right         = 13;
+    public static final int Rotate_left          = 14;
+    public static final int Flip_horizontally    = 15;
+    public static final int Flip_vertically      = 16;
+    public static final int Shift                = 17;
+    public static final int Load_level_via_world = 18;
+    public static final int Load_world_via_level = 19;
+    public static final int Load_puzzle_left     = 20;
+    public static final int Load_puzzle_right    = 21;
 
 
     // Fields
@@ -94,5 +96,9 @@ public class Request {
 
     public boolean Is_shadow_action() {
         return Shadow_point <= type && type <= Shadow_line;
+    }
+
+    public boolean Is_invalid_type() {
+        return type < -1 || type > 21;
     }
 }

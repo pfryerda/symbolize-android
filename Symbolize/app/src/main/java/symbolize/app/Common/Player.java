@@ -10,7 +10,7 @@ public class Player {
     // Static field
     //-------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -84,14 +84,16 @@ public class Player {
     }
 
     public void Commit_current_world() {
-        SharedPreferences settings_dao  = Page
-                .Get_context()
-                .getSharedPreferences( Page.Get_resource_string(R.string.preference_unlocks_key),
-                        Context.MODE_PRIVATE );
-        SharedPreferences.Editor settings_editor = settings_dao.edit();
+        if( !Player.DEV_MODE ) {
+            SharedPreferences settings_dao = Page
+                    .Get_context()
+                    .getSharedPreferences(Page.Get_resource_string( R.string.preference_unlocks_key ),
+                            Context.MODE_PRIVATE);
+            SharedPreferences.Editor settings_editor = settings_dao.edit();
 
-        settings_editor.putInt( "current_world", current_world );
-        settings_editor.commit();
+            settings_editor.putInt( "current_world", current_world );
+            settings_editor.commit();
+        }
     }
 
 

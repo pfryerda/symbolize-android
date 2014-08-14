@@ -102,6 +102,15 @@ public class Line {
     // Public methods
     //-----------------
 
+    public void Edit( final int request_type ) {
+        if ( request_type == Request.Change_color ) {
+            color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
+        } else {
+            p1.Edit( request_type );
+            p2.Edit( request_type );
+        }
+    }
+
     /*
      * Method that calculates euclidean distance squared
      */
@@ -201,19 +210,6 @@ public class Line {
 
     public int Get_owner() {
         return owner;
-    }
-
-
-    // Action Method
-    //----------------
-
-    public void Edit( final int request_type ) {
-        if ( request_type == Request.Change_color ) {
-            color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
-        } else {
-            p1.Edit( request_type );
-            p2.Edit( request_type );
-        }
     }
 
 
