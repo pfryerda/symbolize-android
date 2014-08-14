@@ -70,7 +70,8 @@ public class GameModel {
 
 
     // Public methods
-    //------------------
+    //----------------
+
 
     public void Add_line_via_draw( Line line ) {
         Player player = Player.Get_instance();

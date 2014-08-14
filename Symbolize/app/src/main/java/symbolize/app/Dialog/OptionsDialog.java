@@ -10,6 +10,7 @@ import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 
 import symbolize.app.Common.Request;
+import symbolize.app.Common.Response;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
@@ -35,7 +36,7 @@ public class OptionsDialog extends InfoDialog {
             public void onClick( View view ) {
                 OptionsDataAccess.Toggle_grid();
                 show_graph.setChecked( !show_graph.isChecked() );
-                GameController.Get_instance().Handle_request( new Request( Request.Background_change ) );
+                GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response());
             }
         } );
 
@@ -46,7 +47,7 @@ public class OptionsDialog extends InfoDialog {
             public void onClick( View view ) {
                 OptionsDataAccess.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
-                GameController.Get_instance().Handle_request( new Request( Request.Background_change ) );
+                GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response() );
             }
         } );
 

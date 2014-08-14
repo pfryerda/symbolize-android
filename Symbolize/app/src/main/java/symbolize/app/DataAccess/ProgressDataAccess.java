@@ -42,14 +42,18 @@ abstract public class ProgressDataAccess {
      * Set the the current level/world as completed
      */
     public static void Complete( int world ) {
-        dao.Set_property( world + "", true );
+        if( Player.DEV_MODE ) {
+            dao.Set_property( world + "", true );
+        }
     }
 
     public static void Complete( int world, int level ) {
-        if ( level == 0 ) {
-            Complete( world );
-        } else {
-            dao.Set_property( world + "-" + level, true );
+        if( !Player.DEV_MODE ) {
+            if ( level == 0 ) {
+                Complete( world );
+            } else {
+                dao.Set_property( world + "-" + level, true );
+            }
         }
     }
 

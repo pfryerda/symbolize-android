@@ -9,6 +9,7 @@ import symbolize.app.Common.Line;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
+import symbolize.app.Common.Response;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.R;
@@ -41,7 +42,7 @@ public class GameController {
     // Main method
     //-------------
 
-    public boolean Handle_request( final Request request ) {
+    public boolean Handle_request( final Request request, final Response response ) {
         if( request.Require_render() ) {
             game_model.Update_view( request );
         }
@@ -53,6 +54,20 @@ public class GameController {
         switch ( request.type ) {
             case Request.Log:
                 game_model.LogGraph();
+                break;
+
+            case Request.Fetch_level:
+                Player player = Player.Get_instance();
+                ArrayList<Posn> levels = game_model.Get_levels();
+                int level_found = 0;
+
+                for ( int i = 0; i < levels.size(); ++i ) {
+                    if ( levels.get( i ).Approximately_equals( request.request_point ) && UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+                        level_found =  i + 1;
+                        player.Set_pivot( request.request_point );
+                        response.response_int = level_found;
+                    }
+                }
                 break;
 
             case Request.Check_correctness:
@@ -90,7 +105,13 @@ public class GameController {
                 break;
 
             case Request.Drag_start:
-                game_model.Remove_line_via_drag( request.request_line );
+                for ( Line line : game_model.Get_graph() ) {
+                    if ( line.Intersects( request.request_point ) ) {
+                        response.response_line = line;
+                        game_model.Remove_line_via_drag( line );
+                        break;
+                    }
+                }
                 break;
 
             case Request.Drag_end:
@@ -98,7 +119,7 @@ public class GameController {
                     game_model.Add_line_via_drag( request.request_line );
                 } else {
                     GameView.Render_toast( R.string.out_of_drag );
-                    return Handle_request( new Request( Request.Undo ) );
+                    return Handle_request( new Request( Request.Undo ), new Response() );
                 }
                 break;
 
@@ -140,44 +161,16 @@ public class GameController {
                 request.request_line.Snap_to_levels(game_model.Get_unlocked_levels());
                 break;
 
-            case Request.Shadow_point:
-                break;
-
             default:
-                return false;
+                break;
         }
 
         if ( request.Require_render() ) {
             game_model.Update_view( request );
         }
+        if( request.Is_invalid_type() ) {
+            return false;
+        }
         return true;
-    }
-
-
-    // Public methods
-    //----------------
-
-    public Line Get_line_of_interest( Posn point ) {
-        for ( Line line : game_model.Get_graph() ) {
-            if ( line.Intersects( point ) ) {
-                return line;
-            }
-        }
-        return null;
-    }
-
-    public int Get_tapped_level( Posn point ) {
-        Player player = Player.Get_instance();
-        ArrayList<Posn> levels = game_model.Get_levels();
-        int level_found = 0;
-
-        for ( int i = 0; i < levels.size(); ++i ) {
-            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
-                level_found =  i + 1;
-                player.Set_pivot( point );
-            }
-        }
-
-        return level_found;
     }
 }
