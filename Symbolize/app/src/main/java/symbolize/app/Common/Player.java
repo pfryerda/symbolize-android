@@ -3,6 +3,7 @@ package symbolize.app.Common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
@@ -16,9 +17,13 @@ public class Player {
     // Fields
     //--------
 
+    private Puzzle current_puzzle;
+
     private int current_world;
     private int current_level;
+
     private boolean draw_enabled;
+
     private Posn current_pivot;
 
 
@@ -41,6 +46,7 @@ public class Player {
                 .getSharedPreferences( Page.Get_resource_string( R.string.preference_unlocks_key ),
                         Context.MODE_PRIVATE );
 
+        this.current_puzzle = null;
         this.current_world = settings_dao.getInt( "current_world", 1 );
         this.current_level = 0;
         this.draw_enabled = true;
@@ -100,6 +106,10 @@ public class Player {
     // Getter methods
     //----------------
 
+    public Puzzle Get_current_puzzle() {
+        return current_puzzle;
+    }
+
     public int Get_current_world() {
         return current_world;
     }
@@ -135,6 +145,14 @@ public class Player {
 
     // Setter method
     //--------------
+
+    public void Update_puzzle() {
+        if( Is_in_world_view() ) {
+            current_puzzle = PuzzleDB.Fetch_world( current_world );
+        } else {
+            current_puzzle = PuzzleDB.Fetch_level( current_world, current_level );
+        }
+    }
 
     public void Set_draw_mode() {
         draw_enabled = true;

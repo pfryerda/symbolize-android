@@ -46,7 +46,6 @@ public class GamePage extends Page
     //---------
 
     private final String LUKE = "Awesome";
-    private Puzzle current_puzzle;
     private SensorManager sensor_manager;
 
 
@@ -80,10 +79,9 @@ public class GamePage extends Page
         GameView.Set_up_view();
 
         // Load las world used or '1' is none was last used
-        current_puzzle = PuzzleDB.Fetch_world( Player.Get_instance().Get_current_world() );
+        Player.Get_instance().Update_puzzle();
 
-        Request request = new Request( Request.Reset );
-        request.puzzle = current_puzzle;
+        Request request = new Request( Request.Load_puzzle_start );
         GameController.Get_instance().Handle_request( request, new Response() );
 
         GameTouchHandler.Get_instance().Set_listener( this );
@@ -126,76 +124,76 @@ public class GamePage extends Page
 
     public void On_reset_button_clicked( final View view ) {
         Request request = new Request( Request.Reset );
-        request.puzzle = current_puzzle;
         GameController.Get_instance().Handle_request( request, new Response() );
     }
 
     public void On_check_button_clicked( final View view ) {
         final Player player = Player.Get_instance();
         final GameController controller = GameController.Get_instance();
+        final Puzzle current_puzzle = player.Get_current_puzzle();
 
         if ( Player.DEV_MODE ) {
             Request request = new Request( Request.Log );
 
             controller.Handle_request( request, new Response() );
-        } else {
-            Request request = new Request( Request.Check_correctness );
-            request.puzzle = current_puzzle;
+        }
 
-            ConfirmDialog confirmDialog = new ConfirmDialog();
-            if ( controller.Handle_request( request, new Response() ) ) {
-                ProgressDataAccess.Complete( player.Get_current_world(), player.Get_current_level() );
+        Request request = new Request( Request.Check_correctness );
 
-                if ( player.Is_in_world_view() && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
-                    for( int unlock : current_puzzle.Get_unlocks() ) {
-                        UnlocksDataAccess.Unlock( unlock );
-                    }
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        if ( controller.Handle_request( request, new Response() ) ) {
+            ProgressDataAccess.Complete( player.Get_current_world(), player.Get_current_level() );
 
-                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
-                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-                        @Override
-                        public void OnDialogSuccess() {
-                            player.Increase_world();
-                            load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
-                        }
-
-                        @Override
-                        public void OnDialogFail() {}
-                    } );
-                    confirmDialog.Show();
-                } else if( player.Is_in_world_view() && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
-                    InfoDialog info_dialog = new InfoDialog();
-                    info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
-                                          getString( R.string.game_complete_dialog_msg ) );
-                    info_dialog.Show();
-                } else if ( !player.Is_in_world_view() ) {
-                    for( int unlock : current_puzzle.Get_unlocks() ) {
-                        UnlocksDataAccess.Unlock( player.Get_current_world(), unlock );
-                    }
-
-                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
-                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-                        @Override
-                        public void OnDialogSuccess() {
-                            load_world( PuzzleDB.Fetch_world( player.Get_current_world() ),
-                                    Request.Load_world_via_level );
-                        }
-
-                        @Override
-                        public void OnDialogFail() {}
-                    } );
-                    confirmDialog.Show();
+            if ( player.Is_in_world_view() && player.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
+                for( int unlock : current_puzzle.Get_unlocks() ) {
+                    UnlocksDataAccess.Unlock( unlock );
                 }
 
-            } else {
-                GameView.Render_toast( R.string.incorrect );
+                confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        player.Increase_world();
+                        load_world( PuzzleDB.Fetch_world( player.Get_current_world() ), Request.Load_puzzle_right );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
+            } else if( player.Is_in_world_view() && player.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
+                InfoDialog info_dialog = new InfoDialog();
+                info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
+                                      getString( R.string.game_complete_dialog_msg ) );
+                info_dialog.Show();
+            } else if ( !player.Is_in_world_view() ) {
+                for( int unlock : current_puzzle.Get_unlocks() ) {
+                    UnlocksDataAccess.Unlock( player.Get_current_world(), unlock );
+                }
+
+                confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        load_world( PuzzleDB.Fetch_world( player.Get_current_world() ),
+                                Request.Load_world_via_level );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
             }
+
+        } else {
+            GameView.Render_toast( R.string.incorrect );
         }
+
     }
 
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attrs( current_puzzle );
+        hint_dialog.Set_attrs( Player.Get_instance().Get_current_puzzle() );
         hint_dialog.Show();
     }
 
@@ -227,7 +225,6 @@ public class GamePage extends Page
         if ( Player.Get_instance().In_draw_mode() ) {
             Request request = new Request( Request.Draw );
             request.request_line = line;
-            request.puzzle = current_puzzle;
             GameController.Get_instance().Handle_request( request, new Response());
         }
     }
@@ -237,7 +234,6 @@ public class GamePage extends Page
         if( Player.Get_instance().In_erase_mode() ) {
             Request request = new Request( Request.Erase );
             request.request_point = point;
-            request.puzzle = current_puzzle;
             GameController.Get_instance().Handle_request( request, new Response() );
         }
     }
@@ -278,10 +274,10 @@ public class GamePage extends Page
             controller.Handle_request( request, response );
             if( response.response_int > 0 ) {
                 player.Set_current_level( response.response_int );
-                load_level( PuzzleDB.Fetch_level(player.Get_current_world(), player.Get_current_level() ) );
+                load_level();
             }
         } else {
-            if ( current_puzzle.Can_change_color() ) {
+            if ( player.Get_current_puzzle().Can_change_color() ) {
                 Request request = new Request( Request.Change_color );
                 request.request_point = point;
                 controller.Handle_request( request, new Response() );
@@ -307,7 +303,6 @@ public class GamePage extends Page
     public void onDragEnd( Line line ) {
         Request request = new Request( Request.Drag_end );
         request.request_line = line;
-        request.puzzle = current_puzzle;
         GameController.Get_instance().Handle_request( request, new Response() );
     }
 
@@ -318,28 +313,28 @@ public class GamePage extends Page
 
     @Override
     public void onRotateRight() {
-        if ( current_puzzle.Can_rotate() ) {
+        if ( Player.Get_instance().Get_current_puzzle().Can_rotate() ) {
             GameController.Get_instance().Handle_request( new Request( Request.Rotate_right ), new Response() );
         }
     }
 
     @Override
     public void onRotateLeft() {
-        if ( current_puzzle.Can_rotate() ) {
+        if ( Player.Get_instance().Get_current_puzzle().Can_rotate() ) {
             GameController.Get_instance().Handle_request( new Request( Request.Rotate_left ), new Response() );
         }
     }
 
     @Override
     public void onFlipHorizontally() {
-        if ( current_puzzle.Can_flip() ) {
+        if ( Player.Get_instance().Get_current_puzzle().Can_flip() ) {
             GameController.Get_instance().Handle_request( new Request( Request.Flip_horizontally ), new Response() );
         }
     }
 
     @Override
     public void onFlipVertically() {
-        if ( current_puzzle.Can_flip() ) {
+        if ( Player.Get_instance().Get_current_puzzle().Can_flip() ) {
             GameController.Get_instance().Handle_request( new Request( Request.Flip_vertically ), new Response() );
         }
     }
@@ -352,6 +347,7 @@ public class GamePage extends Page
 
     @Override
     public void onShake() {
+        Puzzle current_puzzle = Player.Get_instance().Get_current_puzzle();
         if ( current_puzzle.Can_shift() ) {
             Request request = new Request( Request.Shift );
             request.shift_graphs = current_puzzle.Get_boards();
@@ -373,22 +369,22 @@ public class GamePage extends Page
      * @param Level level: The level that needs to be loaded
      */
     private void load_world( final World world, int request_type ) {
-        Player.Get_instance().Set_to_world();
-        current_puzzle = world;
+        Player player = Player.Get_instance();
+        player.Set_to_world();
+        player.Update_puzzle();
 
         Request request = new Request( request_type );
-        request.puzzle = world;
         GameController.Get_instance().Handle_request( request, new Response() );
     }
 
-    private void load_level( final Level level ) {
-        current_puzzle = level;
+    private void load_level() {
+        Player player = Player.Get_instance();
+        player.Update_puzzle();
 
         Request request = new Request( Request.Load_level_via_world );
-        request.puzzle = level;
 
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attrs( current_puzzle );
+        hint_dialog.Set_attrs( player.Get_current_puzzle() );
 
         request.dialog = hint_dialog;
 

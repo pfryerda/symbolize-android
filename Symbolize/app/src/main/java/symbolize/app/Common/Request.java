@@ -39,14 +39,13 @@ public class Request {
     public static final int Load_world_via_level = 19;
     public static final int Load_puzzle_left     = 20;
     public static final int Load_puzzle_right    = 21;
+    public static final int Load_puzzle_start    = 22;
 
 
     // Fields
     //--------
 
     public int type;
-
-    public Puzzle puzzle;
 
     public Line request_line;
     public Posn request_point;
@@ -65,8 +64,6 @@ public class Request {
     public Request( int type ) {
         this.type = type;
 
-        this.puzzle = null;
-
         this.request_line = null;
         this.request_point = null;
 
@@ -82,8 +79,12 @@ public class Request {
     // Public Methods
     //---------------
 
-    public boolean Require_render() {
+    public boolean Require_pre_render() {
         return Undo <= type && type <= Load_puzzle_right;
+    }
+
+    public boolean Require_render() {
+        return Undo <= type && type <= Load_puzzle_start;
     }
 
     public boolean Require_undo() {
