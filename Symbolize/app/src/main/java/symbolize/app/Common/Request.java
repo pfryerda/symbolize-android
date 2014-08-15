@@ -50,12 +50,7 @@ public class Request {
     public Line request_line;
     public Posn request_point;
 
-    public ArrayList<LinkedList<Line>> shift_graphs;
-
-    public LinkedList<Line> graph;
-    public ArrayList<Posn> levels;
-
-    public SymbolizeDialog dialog;
+    public ArrayList<LinkedList<Line>> request_graphs;
 
 
     // Constructors
@@ -67,12 +62,7 @@ public class Request {
         this.request_line = null;
         this.request_point = null;
 
-        this.graph = null;
-        this.levels = null;
-
-        this.shift_graphs = null;
-
-        this.dialog = null;
+        this.request_graphs = null;
     }
 
 
@@ -93,10 +83,6 @@ public class Request {
 
     public boolean Is_animation_action() {
         return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
-    }
-
-    public boolean Is_shadow_action() {
-        return Shadow_point <= type && type <= Shadow_line;
     }
 
     public boolean Is_invalid_type() {

@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
@@ -48,7 +49,7 @@ public class GameController {
         Puzzle current_puzzle = player.Get_current_puzzle();
 
         if( request.Require_pre_render() ) {
-            game_model.Update_view( request );
+            game_model.Update_view( false );
         }
 
         if ( request.Require_undo() ) {
@@ -65,7 +66,7 @@ public class GameController {
                 break;
 
             case Request.Check_correctness:
-                return current_puzzle.Check_correctness(game_model.Get_graph());
+                return game_model.Check_correctness();
 
             case Request.Undo:
                 if ( game_model.getPastState() == null ) {
@@ -107,7 +108,7 @@ public class GameController {
                 break;
 
             case Request.Shift:
-                game_model.Shift_graph( request.shift_graphs );
+                game_model.Shift_graph( request.request_graphs );
                 break;
 
             case Request.Rotate_left:
@@ -139,7 +140,16 @@ public class GameController {
         }
 
         if ( request.Require_render() ) {
-            game_model.Update_view( request );
+            if ( request.Is_animation_action() ) {
+                game_model.Update_view( GameAnimationHandler.Handle_request( request ),
+                                        ( request.type == Request.Load_level_via_world ) );
+            } else if ( request.type == Request.Shadow_line ) {
+                game_model.Update_view( request.request_line );
+            } else if ( request.type == Request.Shadow_point ) {
+                game_model.Update_view( request.request_point );
+            } else {
+                game_model.Update_view( request.type == Request.Background_change );
+            }
         }
 
         if( request.Is_invalid_type() ) {

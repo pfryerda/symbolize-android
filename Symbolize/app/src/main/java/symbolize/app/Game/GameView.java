@@ -29,6 +29,7 @@ import symbolize.app.Common.Posn;
 import symbolize.app.Common.Request;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
+import symbolize.app.Dialog.HintDialog;
 import symbolize.app.R;
 
 
@@ -124,32 +125,66 @@ public class GameView {
         this.right_button = ( Button ) GamePage.Get_activity().findViewById( R.id.Right );
         this.title = (TextView) GamePage.Get_activity().findViewById( R.id.Title );
 
-        Render_background();
+        render_background();
     }
 
 
-    // Public methods
-    //----------------
+    // Main methods
+    //--------------
 
-    public void Handle_render_request( final Request request ) {
-        if ( request.type == Request.Background_change ) {
-            Render_background();
-        } else if ( request.Is_animation_action() ) {
-            SymbolizeAnimation animation = handle_get_animation(request);
-            animation.Animate( foreground );
-        } else {
-            Render_foreground( request.graph, request.levels );
-            if( request.Is_shadow_action() ) {
-                handle_render_shadows(request);
-            }
+
+    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final boolean update_background ) {
+        if ( update_background ) {
+            render_background();
         }
+        render_foreground( graph, levels );
         update_ui();
     }
+
+    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels,
+                        final SymbolizeAnimation animation, final boolean requires_hint_box )
+    {
+        animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
+            @Override
+            public void onSymbolizeAnimationClear() {
+                foreground.clearAnimation();
+            }
+            @Override
+            public void onSymbolizeAnimationMiddle() {
+                render_foreground( graph, levels );
+            }
+            @Override
+            public void onSymbolizeAnimationEnd() {
+                Render( graph, levels, false );
+                if( requires_hint_box ) {
+                    HintDialog hint_dialog = new HintDialog();
+                    hint_dialog.Set_attrs( Player.Get_instance().Get_current_puzzle() );
+                    hint_dialog.Show();
+                }
+            }
+        } );
+        animation.Animate( foreground );
+    }
+
+    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final Line shadow_line ) {
+        Render( graph, levels, false );
+        render_shadow( shadow_line );
+    }
+
+    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final Posn shadow_posn ) {
+        Render( graph, levels, false );
+        render_shadow( shadow_posn );
+    }
+
+
+    // Private methods
+    //----------------
+
 
     /*
      * Update the view with the current board in the model
      */
-    public void Render_foreground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
+    private void render_foreground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         clear_foreground();
         paint.setStyle( Paint.Style.STROKE );
 
@@ -204,7 +239,7 @@ public class GameView {
     /*
      * Simple method used to draw a grid in the background
      */
-    public void Render_background() {
+    private void render_background() {
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
@@ -234,22 +269,24 @@ public class GameView {
         background.invalidate();
     }
 
-
-    // Private methods
-    //----------------
-
-    private void handle_render_shadows( Request request ) {
+    private void render_shadow( final Line shadow_line ) {
         paint.setStyle( Paint.Style.STROKE );
-        paint.setColor( ( request.type == Request.Shadow_line ) ? request.request_line.Get_color() : Color.BLACK );
+        paint.setColor( shadow_line.Get_color() );
         paint.setAlpha( SHADOW );
-        paint.setStrokeWidth( ( request.type == Request.Shadow_line ) ? LINE_WIDTH : POINT_WIDTH );
+        paint.setStrokeWidth( LINE_WIDTH );
 
-        if ( request.type == Request.Shadow_line ) {
-            foreground_canvas.drawLine( request.request_line.Get_p1().x(), request.request_line.Get_p1().y(),
-                    request.request_line.Get_p2().x(), request.request_line.Get_p2().y(), paint );
-        } else {
-            foreground_canvas.drawPoint( request.request_point.x(), request.request_point.y(), paint );
-        }
+            foreground_canvas.drawLine( shadow_line.Get_p1().x(), shadow_line.Get_p1().y(),
+                    shadow_line.Get_p2().x(), shadow_line.Get_p2().y(), paint );
+        foreground.invalidate();
+    }
+
+    private void render_shadow( final Posn shadow_point ) {
+        paint.setStyle( Paint.Style.STROKE );
+        paint.setColor( Color.BLACK );
+        paint.setAlpha( SHADOW );
+        paint.setStrokeWidth( POINT_WIDTH );
+
+        foreground_canvas.drawPoint( shadow_point.x(), shadow_point.y(), paint );
         foreground.invalidate();
     }
 
@@ -283,43 +320,6 @@ public class GameView {
         } else {
             right_button.setVisibility( View.GONE );
         }
-    }
-
-    private SymbolizeAnimation handle_get_animation( final Request request ) {
-        SymbolizeAnimation animation = GameAnimationHandler.Handle_request( request );
-        if( request.type == Request.Load_level_via_world ) {
-            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
-                @Override
-                public void onSymbolizeAnimationClear() {
-                    foreground.clearAnimation();
-                }
-                @Override
-                public void onSymbolizeAnimationMiddle() {
-                    Render_foreground( request.graph, request.levels );
-                }
-                @Override
-                public void onSymbolizeAnimationEnd() {
-                    Render_foreground( request.graph, request.levels );
-                    request.dialog.Show();
-                }
-            } );
-        } else {
-            animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
-                @Override
-                public void onSymbolizeAnimationClear() {
-                    foreground.clearAnimation();
-                }
-                @Override
-                public void onSymbolizeAnimationMiddle() {
-                    Render_foreground( request.graph, request.levels );
-                }
-                @Override
-                public void onSymbolizeAnimationEnd() {
-                    Render_foreground( request.graph, request.levels );
-                }
-            } );
-        }
-        return animation;
     }
 
 
