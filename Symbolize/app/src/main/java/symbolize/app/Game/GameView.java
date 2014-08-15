@@ -82,20 +82,10 @@ public class GameView {
     private final TextView title;
 
 
-    // Singleton setup
-    //------------------
-
-    private static GameView instance;
-
-    public static GameView Get_instance() {
-        return instance;
-    }
-
-
     // Constructor
     //-------------
 
-    private GameView()
+    public GameView()
     {
         this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
         this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
@@ -362,7 +352,5 @@ public class GameView {
         activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
         activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
         activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
-
-        instance = new GameView();
     }
 }

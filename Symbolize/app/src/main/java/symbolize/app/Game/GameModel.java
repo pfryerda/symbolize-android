@@ -12,6 +12,7 @@ import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Puzzle.Puzzle;
+import symbolize.app.R;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -25,7 +26,9 @@ public class GameModel {
     private ArrayList<Posn> levels;
     private int lines_drawn, lines_erased, lines_dragged;
     private int shift_number;
+    private GameView game_view;
     private GameModel past_state;
+
 
 
     // Constructors
@@ -39,12 +42,13 @@ public class GameModel {
         this.lines_erased = 0;
         this.lines_dragged = 0;
         this.shift_number = 0;
+        this.game_view = null;
         this.past_state = null;
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
                       final int lines_drawn, final int lines_erased, final  int lines_dragged,
-                      final int shift_number, final GameModel past_state )
+                      final int shift_number, final GameView game_view, final GameModel past_state )
     {
         this.graph = graph;
         this.levels = levels;
@@ -52,6 +56,7 @@ public class GameModel {
         this.lines_erased = lines_erased;
         this.lines_dragged = lines_dragged;
         this.shift_number = shift_number;
+        this.game_view = game_view;
         this.past_state = past_state;
     }
 
@@ -65,12 +70,26 @@ public class GameModel {
             clonedGraph.addLast( line.clone() );
         }
         return new GameModel( clonedGraph, levels, lines_drawn, lines_erased, lines_dragged,
-                shift_number, past_state );
+                shift_number, game_view, past_state );
     }
 
 
     // Public methods
     //----------------
+
+    public Integer Fetch_level_number( Posn point ) {
+        Player player = Player.Get_instance();
+        int level_found;
+
+        for ( int i = 0; i < levels.size(); ++i ) {
+            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+                level_found =  i + 1;
+                player.Set_pivot( point );
+                return level_found;
+            }
+        }
+        return null;
+    }
 
 
     public void Add_line_via_draw( Line line ) {
@@ -88,22 +107,50 @@ public class GameModel {
         }
     }
 
-    public void Remove_line_via_erase( Line line ) {
-        graph.remove( line );
-        if ( line.Get_owner() == Line.App ) {
-            ++lines_erased;
-        } else {
-            --lines_drawn;
+    public boolean Remove_line_via_erase( Posn point ) {
+
+        for ( Line line : graph ) {
+            if ( line.Intersects( point ) ) {
+                if ( ( Get_lines_erased() < Player.Get_instance().Get_current_puzzle().Get_erase_restriction() )
+                        || ( line.Get_owner() == Line.User ) )
+                {
+                    graph.remove( line );
+                    if ( line.Get_owner() == Line.App ) {
+                        ++lines_erased;
+                    } else {
+                        --lines_drawn;
+                    }
+                } else {
+                    return false;
+                }
+                break;
+            }
         }
+        return true;
     }
 
     public void Add_line_via_drag( Line line ) {
         graph.addLast( line );
     }
 
-    public void Remove_line_via_drag( Line line ) {
-        graph.remove( line );
-        ++lines_dragged;
+    public Line Remove_line_via_drag( Posn point ) {
+        for ( Line line : graph ) {
+            if ( line.Intersects( point ) ) {
+                graph.remove( line );
+                ++lines_dragged;
+                return line;
+            }
+        }
+        return null;
+    }
+
+    public void Change_color( Posn point ) {
+        for ( Line line : graph ) {
+            if ( line.Intersects( point ) ) {
+                line.Edit( Request.Change_color );
+                break;
+            }
+        }
     }
 
     public void Shift_graph( ArrayList<LinkedList<Line>> shift_graphs ) {
@@ -116,10 +163,24 @@ public class GameModel {
         lines_erased = 0;
     }
 
+    public void Edit( int request_type ) {
+        for ( Line line : graph ) {
+            line.Edit( request_type );
+        }
+
+        for ( Posn posn : levels ) {
+            posn.Edit( request_type );
+        }
+    }
+
     public void Update_view( Request request ) {
         request.graph = graph;
         request.levels = levels;
-        GameView.Get_instance().Handle_render_request( request );
+        game_view.Handle_render_request(request);
+    }
+
+    public void Refresh_view_object() {
+        this.game_view = new GameView();
     }
 
     // Getter methods
