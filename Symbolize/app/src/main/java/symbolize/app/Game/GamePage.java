@@ -86,7 +86,7 @@ public class GamePage extends Page
 
         GameTouchHandler.Get_instance().Set_listener( this );
         GameShakeHandler.Get_instance().Set_listener( this );
-        findViewById(R.id.foreground).setOnTouchListener( this );
+        findViewById( R.id.foreground ).setOnTouchListener( this );
     }
 
 
@@ -350,7 +350,7 @@ public class GamePage extends Page
         Puzzle current_puzzle = Player.Get_instance().Get_current_puzzle();
         if ( current_puzzle.Can_shift() ) {
             Request request = new Request( Request.Shift );
-            request.shift_graphs = current_puzzle.Get_boards();
+            request.request_graphs = current_puzzle.Get_boards();
             GameController.Get_instance().Handle_request( request, new Response() );
         }
     }
@@ -381,14 +381,7 @@ public class GamePage extends Page
         Player player = Player.Get_instance();
         player.Update_puzzle();
 
-        Request request = new Request( Request.Load_level_via_world );
-
-        HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attrs( player.Get_current_puzzle() );
-
-        request.dialog = hint_dialog;
-
-        GameController.Get_instance().Handle_request( request, new Response() );
+        GameController.Get_instance().Handle_request( new Request( Request.Load_level_via_world ), new Response() );
     }
 
 

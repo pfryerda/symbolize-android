@@ -4,6 +4,8 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
@@ -91,6 +93,10 @@ public class GameModel {
         return null;
     }
 
+    public boolean Check_correctness() {
+        return Player.Get_instance().Get_current_puzzle().Check_correctness( graph );
+    }
+
 
     public void Add_line_via_draw( Line line ) {
         Player player = Player.Get_instance();
@@ -173,24 +179,30 @@ public class GameModel {
         }
     }
 
-    public void Update_view( Request request ) {
-        request.graph = graph;
-        request.levels = levels;
-        game_view.Handle_render_request(request);
+    public void Update_view( final boolean update_background ) {
+        game_view.Render( graph, levels, update_background );
+    }
+
+    public void Update_view( final SymbolizeAnimation animation, final boolean requires_hint_box ) {
+        game_view.Render( graph, levels, animation, requires_hint_box );
+    }
+
+    public void Update_view( final Line shadow_line ) {
+        game_view.Render( graph,levels, shadow_line );
+    }
+
+    public void Update_view( final Posn shadow_posn ) {
+        game_view.Render( graph, levels, shadow_posn );
     }
 
     public void Refresh_view_object() {
         this.game_view = new GameView();
     }
 
+
     // Getter methods
     //---------------
 
-    public LinkedList<Line> Get_graph() {
-        return graph;
-    }
-
-    public ArrayList<Posn> Get_levels() { return levels; }
 
     public int Get_lines_drawn() {
         if ( Player.DEV_MODE ) {
