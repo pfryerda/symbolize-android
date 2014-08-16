@@ -5,7 +5,7 @@ import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
 /*
- * A all static data access API, for save data about which levels you have unlocked
+ * An all static data access API, for save data about which levels you have unlocked
  */
 abstract public class UnlocksDataAccess {
     // Static fields

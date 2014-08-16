@@ -4,7 +4,7 @@ import symbolize.app.Common.Page;
 import symbolize.app.R;
 
 /*
- * A all static data access API, for save data about your settings
+ * An all static data access API, for save data about your settings
  */
 abstract public class OptionsDataAccess {
     // Static fields

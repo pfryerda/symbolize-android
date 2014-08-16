@@ -13,6 +13,7 @@ import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Session;
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Communication.Request;
@@ -403,6 +404,6 @@ public class GamePage extends Page
         super.onPause();
         SensorManager sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         sensor_manager.unregisterListener( this );
-        Session.Get_instance().Commit_current_world();
+        MetaDataAccess.Set_last_world();
     }
 }
