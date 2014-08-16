@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
-
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.DataAccess.OptionsDataAccess;
@@ -31,6 +30,9 @@ public class OptionsDialog extends InfoDialog {
     // Protected methods
     //-------------------
 
+    /*
+     * See SymbolizeDialog::get_dialog_view
+     */
     @Override
     protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -122,6 +124,9 @@ public class OptionsDialog extends InfoDialog {
         return dialog_view;
     }
 
+    /*
+     * See SymbolizeDialog::get_dialog_id
+     */
     @Override
     protected String get_dialog_id() {
         return Page.Get_resource_string( R.string.options_dialog_id );

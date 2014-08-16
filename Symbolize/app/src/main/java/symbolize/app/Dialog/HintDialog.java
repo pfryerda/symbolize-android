@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Page;
-import symbolize.app.Game.GamePage;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
@@ -22,7 +20,7 @@ public class HintDialog extends InfoDialog {
     */
 
 
-    // Public method
+    // Setter methods
     //---------------
 
     public void Set_attrs( Puzzle puzzle ) {

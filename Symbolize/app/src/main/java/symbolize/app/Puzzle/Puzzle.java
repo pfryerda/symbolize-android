@@ -2,7 +2,6 @@ package symbolize.app.Puzzle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Posn;

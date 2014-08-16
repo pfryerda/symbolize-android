@@ -9,7 +9,6 @@ import com.google.android.gms.ads.*;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
-
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Communication.Response;
@@ -29,7 +28,9 @@ import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
-
+/*
+ * The main class in charge of setting up the game as well as sending requests based off client interactions
+ */
 public class GamePage extends Page
                       implements GameTouchHandler.GameTouchListener,
                                  GameShakeHandler.OnShakeListener {
@@ -49,11 +50,6 @@ public class GamePage extends Page
     // Main method
     //--------------
 
-    /*
-     * Main method called once app is ready
-     *
-     * @parama Bundle savedInstanceState: A mapping from String values to various Parcelable types
-     */
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
         // Basic setup
@@ -367,7 +363,7 @@ public class GamePage extends Page
     //--------------------------
 
     /*
-     * Method used for loading new levels, called once on game startup and again for any later
+     * Methods used for loading new levels/worlds, called once on game startup and again for any later
      * new level changes. Sets up GameModel, removes old data, and renders board to the screen
      *
      * @param Level level: The level that needs to be loaded

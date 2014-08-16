@@ -2,13 +2,11 @@ package symbolize.app.Puzzle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
 /*
- * Class used to store all the information about a given puzzle
- * and a method to check to see if your guess is correct.
+ * Class used to store all the information about a given puzzle.
  */
 public class Level extends Puzzle {
     // Inherited fields

@@ -46,6 +46,16 @@ public class GameShakeHandler {
     private GameShakeHandler() {}
 
 
+    // Setter methods
+    //----------------
+
+    public void Set_listener( final OnShakeListener shake_listener ) {
+        this.shake_listener = shake_listener;
+        this.last_update = System.currentTimeMillis();
+        this.shaking = false;
+    }
+
+
     // Main Method
     //--------------
 
@@ -71,15 +81,5 @@ public class GameShakeHandler {
                 shake_listener.onShake();
             }
         }
-    }
-
-
-    // Public methods
-    //----------------
-
-    public void Set_listener( final OnShakeListener shake_listener ) {
-        this.shake_listener = shake_listener;
-        this.last_update = System.currentTimeMillis();
-        this.shaking = false;
     }
 }

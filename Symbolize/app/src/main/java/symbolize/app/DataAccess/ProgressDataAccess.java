@@ -1,10 +1,12 @@
 package symbolize.app.DataAccess;
 
-
 import symbolize.app.Common.Session;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
+/*
+ * A all static data access API for storing save data about what levels you have completed
+ */
 abstract public class ProgressDataAccess {
     // Static fields
     //--------------
@@ -12,15 +14,9 @@ abstract public class ProgressDataAccess {
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
 
 
-    // Public methods
+    // Getter methods
     //----------------
 
-    /*
-     * Returns whether the give level/world is complete
-     *
-     * @param int world: The world of interest
-     * @param int level: The level of interest
-     */
     public static boolean Is_completed( int world ) {
         //return true;
         return dao.Get_property( world + "", false ) || Session.DEV_MODE;
@@ -31,9 +27,10 @@ abstract public class ProgressDataAccess {
         return dao.Get_property( world + "-" + level, false ) || Session.DEV_MODE;
     }
 
-    /*
-     * Set the the current level/world as completed
-     */
+
+    // Setter methods
+    //----------------
+
     public static void Complete( int world ) {
         if( !Session.DEV_MODE ) {
             dao.Set_property( world + "", true );
@@ -50,6 +47,13 @@ abstract public class ProgressDataAccess {
         }
     }
 
+
+    // Public methods
+    //----------------
+
+    /*
+     * Removes all saved data, i.e. levels completed
+     */
     public static void Remove_all_progress() {
         for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             dao.Set_property( world + "", false, false );

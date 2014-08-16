@@ -1,12 +1,9 @@
 package symbolize.app.Common;
 
 import java.lang.Math;
-import java.security.acl.Owner;
 import java.util.ArrayList;
-
 import android.graphics.Color;
 import android.util.SparseIntArray;
-
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Game.GameView;
 
@@ -92,7 +89,7 @@ public class Line {
     }
 
 
-    // Geter methods
+    // Getter methods
     //---------------
 
     public Posn Get_p1() {
@@ -115,6 +112,11 @@ public class Line {
     // Public methods
     //-----------------
 
+    /*
+     * Generic method that edits a line based off the request type
+     *
+     * @param int request_type: The type of the request which determine how the line should edit its target
+     */
     public void Edit( final int request_type ) {
         if ( request_type == Request.Change_color ) {
             color = COLOR_ARRAY.get( ( COLOR_MAP.get(color) + 1 ) % COLOR_ARRAY.size() );

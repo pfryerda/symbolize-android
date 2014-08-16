@@ -3,13 +3,14 @@ package symbolize.app.Home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import symbolize.app.Common.Page;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
-
+/*
+ * The main class in charge of setting up the home page as well as responding to client interactions on the home page
+ */
 public class HomePage extends Page {
 
     // Main method

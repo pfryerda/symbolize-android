@@ -1,6 +1,5 @@
 package symbolize.app.Game;
 
-
 import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Communication.Request;
@@ -8,6 +7,9 @@ import symbolize.app.Common.Communication.Response;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
+/*
+ * A singleton class, the main game controllers updates the game based off the requests sent from the game page
+ */
 public class GameController {
     // Fields
     //--------
@@ -40,7 +42,7 @@ public class GameController {
         Session session = Session.Get_instance();
         Puzzle current_puzzle = session.Get_current_puzzle();
 
-        if( request.Require_pre_render() ) {
+        if( request.Is_animation_action() ) {
             game_model.Update_view( false );
         }
 
@@ -100,7 +102,7 @@ public class GameController {
                 break;
 
             case Request.Shift:
-                game_model.Shift_graph( current_puzzle.Get_boards() );
+                game_model.Shift_graph();
                 break;
 
             case Request.Rotate_left:

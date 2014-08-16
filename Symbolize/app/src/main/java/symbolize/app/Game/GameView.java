@@ -14,11 +14,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdSize;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Page;
@@ -130,6 +128,9 @@ public class GameView {
     //--------------
 
 
+    /*
+     * Render the game =D
+     */
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final boolean update_background ) {
         if ( update_background ) {
             render_background();
@@ -265,6 +266,12 @@ public class GameView {
         background.invalidate();
     }
 
+    /*
+     * Render a shadow to the view
+     *
+     * @param Line shadow_line: The line you wish to draw a shadow for
+     * @param Posn shadow_point: The point you wish to draw a shdow for
+     */
     private void render_shadow( final Line shadow_line ) {
         paint.setStyle( Paint.Style.STROKE );
         paint.setColor( shadow_line.Get_color() );
@@ -300,6 +307,9 @@ public class GameView {
         background_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 
+    /*
+     * Update ui elements on the screen accordingly i.e. - level change, change from world to level
+     */
     private void update_ui() {
         Session session = Session.Get_instance();
 
@@ -322,6 +332,9 @@ public class GameView {
     // Static methods
     //----------------
 
+    /*
+     * Methods use to temporarily show a small message at the bottom of the screen
+     */
     public static void Render_toast( int msg_id ) {
         if ( TOAST == null || TOAST.getView().getWindowVisibility() != View.VISIBLE ) {
             TOAST.setText( Page.Get_context().getResources().getString( msg_id ) );
@@ -329,6 +342,9 @@ public class GameView {
         }
     }
 
+    /*
+     * Calls this on game start to set up dimension, this is faster than doing it in xml
+     */
     public static void Set_up_view() {
         Activity activity = GamePage.Get_activity();
 

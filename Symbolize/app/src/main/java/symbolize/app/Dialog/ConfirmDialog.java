@@ -1,13 +1,14 @@
 package symbolize.app.Dialog;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
 import symbolize.app.Common.Page;
 import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
+/*
+ * A generic dialog with two buttons at the bottom one for yes, and one for no
+ */
 public class ConfirmDialog extends SymbolizeDialog {
     // Inherited fields
     //------------------
@@ -44,6 +45,9 @@ public class ConfirmDialog extends SymbolizeDialog {
     // Protected method
     //------------------
 
+    /*
+     * See SymbolizeDialog::AlertDialog.Builder get_builder
+     */
     @Override
     public AlertDialog.Builder get_builder() {
         final AlertDialog.Builder builder = super.get_builder();
@@ -64,6 +68,9 @@ public class ConfirmDialog extends SymbolizeDialog {
         return builder;
     }
 
+    /*
+     * See SymbolizeDialog::get_dialog_id
+     */
     @Override
     protected String get_dialog_id() {
         return Page.Get_resource_string( R.string.confirmation_dialog_id );
