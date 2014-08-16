@@ -1,11 +1,13 @@
 package symbolize.app.Common;
 
 import java.lang.Math;
+import java.security.acl.Owner;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import android.graphics.Color;
 import android.util.SparseIntArray;
 
+import symbolize.app.Common.Communication.Request;
 import symbolize.app.Game.GameView;
 
 public class Line {
@@ -19,9 +21,9 @@ public class Line {
     // Static Fields
     //---------------
 
-    public static final int ERASINGTHRESHOLD = GameView.SCALING / 13;
-    public static final ArrayList<Integer> COLORARRAY;
-    public static final SparseIntArray COLORMAP;
+    public static final int ERASING_THRESHOLD = GameView.SCALING / 13;
+    public static final ArrayList<Integer> COLOR_ARRAY;
+    public static final SparseIntArray COLOR_MAP;
 
 
     // Static block
@@ -36,13 +38,13 @@ public class Line {
         color_array.add( Color.BLUE );
         color_array.add( Color.CYAN );
         color_array.add( Color.MAGENTA );
-        COLORARRAY = color_array;
+        COLOR_ARRAY = color_array;
 
         SparseIntArray color_map = new SparseIntArray();
-        for ( int i = 0; i < COLORARRAY.size(); ++i ) {
-            color_map.put( COLORARRAY.get(i), i );
+        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
+            color_map.put( COLOR_ARRAY.get(i), i );
         }
-        COLORMAP = color_map;
+        COLOR_MAP = color_map;
     }
 
 
@@ -50,7 +52,7 @@ public class Line {
     //--------
 
     private Posn p1, p2;
-    private int color;
+    private Integer color;
     private final int owner;
 
 
@@ -58,23 +60,14 @@ public class Line {
     //--------------
 
     public Line() {
-        p1 = null;
-        p2 = null;
-        color = 0;
-        owner = 0;
+        this.p1 = null;
+        this.p2 = null;
+        this.color = Color.BLACK;
+        this.owner = Line.App;
     }
 
     public Line( final Posn pt1, final Posn pt2, final int creator ) {
-        if ( pt1.Less_than( pt2 ) ) {
-            p1 = pt1;
-            p2 = pt2;
-        } else {
-            p1 = pt2;
-            p2 = pt1;
-        }
-
-        color = Color.BLACK;
-        owner = creator;
+        this( pt1, pt2, Color.BLACK, creator );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int hue, final int creator ) {
@@ -91,11 +84,31 @@ public class Line {
     }
 
 
-    // Copy Consturctor
+    // Copy Constructor
     //------------------
 
     public Line clone() {
         return new Line( p1.clone(), p2.clone(), color, owner );
+    }
+
+
+    // Geter methods
+    //---------------
+
+    public Posn Get_p1() {
+        return p1;
+    }
+
+    public Posn Get_p2() {
+        return p2;
+    }
+
+    public int Get_color() {
+        return color;
+    }
+
+    public int Get_owner() {
+        return owner;
     }
 
 
@@ -104,7 +117,7 @@ public class Line {
 
     public void Edit( final int request_type ) {
         if ( request_type == Request.Change_color ) {
-            color = COLORARRAY.get( ( COLORMAP.get(color) + 1 ) % COLORARRAY.size() );
+            color = COLOR_ARRAY.get( ( COLOR_MAP.get(color) + 1 ) % COLOR_ARRAY.size() );
         } else {
             p1.Edit( request_type );
             p2.Edit( request_type );
@@ -147,16 +160,16 @@ public class Line {
      * @param Posn point: point of interest
      */
     public boolean Intersects( final Posn point ) {
-        if( Math.min( p1.x(), p2.x() ) - ERASINGTHRESHOLD <= point.x() &&
-                point.x() <= Math.max( p1.x(), p2.x() ) + ERASINGTHRESHOLD &&
-            Math.min( p1.y(), p2.y() ) - ERASINGTHRESHOLD <= point.y() &&
-                point.y() <= Math.max( p1.y(), p2.y() ) + ERASINGTHRESHOLD )
+        if( Math.min( p1.x(), p2.x() ) - ERASING_THRESHOLD <= point.x() &&
+                point.x() <= Math.max( p1.x(), p2.x() ) + ERASING_THRESHOLD &&
+            Math.min( p1.y(), p2.y() ) - ERASING_THRESHOLD <= point.y() &&
+                point.y() <= Math.max( p1.y(), p2.y() ) + ERASING_THRESHOLD )
         {
             if ( ( slope() != Float.POSITIVE_INFINITY ) && ( slope() != 0 ) ) {
                 int x  = Math.round( ( point.y() - y_intercept() ) / slope() );
                 int y = Math.round( slope() * point.x() + y_intercept() );
-                return Math.abs( x - point.x() ) <= ERASINGTHRESHOLD ||
-                        ( Math.abs( y - point.y() ) <= ERASINGTHRESHOLD );
+                return Math.abs( x - point.x() ) <= ERASING_THRESHOLD ||
+                        ( Math.abs( y - point.y() ) <= ERASING_THRESHOLD );
             }
             return true;
         }
@@ -193,26 +206,6 @@ public class Line {
     }
 
 
-    // Geter methods
-    //---------------
-
-    public Posn Get_p1() {
-        return p1;
-    }
-
-    public Posn Get_p2() {
-        return p2;
-    }
-
-    public int Get_color() {
-        return color;
-    }
-
-    public int Get_owner() {
-        return owner;
-    }
-
-
     // Private methods
     //----------------
 
@@ -234,8 +227,8 @@ public class Line {
     }
 
 
-    // Developer method
-    //-----------------
+    // Developer methods
+    //------------------
 
     /*
      * Method used to print the xml code to construct a line

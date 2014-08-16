@@ -1,7 +1,7 @@
 package symbolize.app.DataAccess;
 
 
-import symbolize.app.Common.Player;
+import symbolize.app.Common.Session;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
@@ -11,12 +11,6 @@ abstract public class UnlocksDataAccess {
 
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_unlocks_key );
 
-    // Inherited methods
-    //-------------------
-    /*
-        protected static SharedPreferences dao;
-        protected static SharedPreferences.Editor dao_editor;
-     */
 
     // Public methods
     //----------------
@@ -29,12 +23,12 @@ abstract public class UnlocksDataAccess {
      */
     public static boolean Is_unlocked( int world ) {
         //return true;
-        return dao.Get_property(world + "", false) || Player.DEV_MODE;
+        return dao.Get_property(world + "", false) || Session.DEV_MODE;
     }
 
     public static boolean Is_unlocked( int world, int level ) {
         //return true;
-        return dao.Get_property(world + "-" + level, false) || Player.DEV_MODE;
+        return dao.Get_property(world + "-" + level, false) || Session.DEV_MODE;
     }
 
     /*
@@ -44,14 +38,14 @@ abstract public class UnlocksDataAccess {
      * @param int world: The level of interest
      */
     public static void Unlock( int world ) {
-        if( !Player.DEV_MODE ) {
+        if( !Session.DEV_MODE ) {
             dao.Set_property( world + "", true );
             dao.Set_property( world + "-1", true );
         }
     }
 
     public static void Unlock( int world, int level ) {
-        if( !Player.DEV_MODE ) {
+        if( !Session.DEV_MODE ) {
             dao.Set_property( world + "-" + level, true );
         }
     }

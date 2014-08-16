@@ -7,11 +7,31 @@ package symbolize.app;
  */
 
 public class ReadMe /* extends BaseClass */ /* implements Interface */ {
+    //Flags
+    //-----
+
+    /*
+     * Flags go here
+     */
+
+
     // Static Field(s)
     //---------------
 
     /*
      * Static field(s) go here
+     */
+
+
+    // Static block
+    //--------------
+
+    /*
+     * static {
+     *
+     *  static block code
+     *
+     * }
      */
 
 
@@ -31,27 +51,49 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      */
 
 
+    // Interface setup
+    //----------------
+
+    /*
+    interface Interface {
+
+        interface methods
+
+    }
+    */
+
+
+    // Singleton setup
+    //-----------------
+
+    /*
+     * private Object instance = new Object();
+     *
+     * public Object Get_instance() { return instance; }
+     */
+
+
     // Constructor(s)
     //----------------
 
     /*
-     * Constructor(s) go here
+     * public Object(...) {
+     *
+     *  constructor code
+     *
+     * }
      */
 
 
-    // Main method
-    //--------------
+    // Copy constructor ( clone )
+    //----------------------------
 
     /*
-     * Main method goes here
-     */
-
-
-    // Public method(s)
-    //----------------
-
-    /*
-     * Public method(s) that don't belong in the bellow categories go here (usually include comments)
+     * public Object clone() {
+     *
+     *  copy constructor code goes here
+     *
+     * }
      */
 
 
@@ -71,19 +113,19 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      */
 
 
-    // Button method(s)
-    //------------------
+    // Main method
+    //--------------
 
     /*
-     * Button method(s) go here
+     * Main method goes here
      */
 
 
-    // Action method(s)
-    //-------------------
+    // Public method(s)
+    //----------------
 
     /*
-     * Action method(s) go here
+     * Public method(s) that don't belong in the bellow categories go here (usually include comments)
      */
 
 

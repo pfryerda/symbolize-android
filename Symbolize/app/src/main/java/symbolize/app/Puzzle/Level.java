@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Player;
 import symbolize.app.Common.Posn;
-import symbolize.app.Puzzle.Puzzle;
 
 /*
  * Class used to store all the information about a given puzzle
@@ -16,11 +14,13 @@ public class Level extends Puzzle {
     // Inherited fields
     //------------------
 
-    //private final String hint;
-    //private final boolean rotate_enabled;
-    //private final boolean flip_enabled;
-    //private final boolean colour_enabled;
-    //private final ArrayList<LinkedList<Line>> solutions;
+    /*
+    private final String hint;
+    private final boolean rotate_enabled;
+    private final boolean flip_enabled;
+    private final boolean colour_enabled;
+    private final ArrayList<LinkedList<Line>> solutions;
+    */
 
 
     // Fields
@@ -47,15 +47,8 @@ public class Level extends Puzzle {
         this.boards = boards;
     }
 
-    // Public method
-    //---------------
 
-    public boolean Can_shift() {
-        return ( boards.size() > 1 );
-    }
-
-
-    // Geter methods
+    // Getter methods
     //----------------
 
     public ArrayList<Posn> Get_levels() {
@@ -82,4 +75,11 @@ public class Level extends Puzzle {
         return drag_restriction;
     }
 
+
+    // Public method
+    //---------------
+
+    public boolean Can_shift() {
+        return ( boards.size() > 1 );
+    }
 }

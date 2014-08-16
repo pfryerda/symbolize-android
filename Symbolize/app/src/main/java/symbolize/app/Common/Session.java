@@ -7,7 +7,7 @@ import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
-public class Player {
+public class Session {
     // Static field
     //-------------
 
@@ -17,10 +17,11 @@ public class Player {
     // Fields
     //--------
 
-    private Puzzle current_puzzle;
 
     private int current_world;
     private int current_level;
+
+    private Puzzle current_puzzle;
 
     private boolean draw_enabled;
 
@@ -30,9 +31,9 @@ public class Player {
     // Singleton setup
     //-----------------
 
-    private static Player instance = new Player();
+    private static Session instance = new Session();
 
-    public static Player Get_instance() {
+    public static Session Get_instance() {
         return instance;
     }
 
@@ -40,66 +41,20 @@ public class Player {
     // Constructor
     //-------------
 
-    private Player() {
+    private Session() {
         SharedPreferences settings_dao = Page
                 .Get_context()
                 .getSharedPreferences( Page.Get_resource_string( R.string.preference_unlocks_key ),
                         Context.MODE_PRIVATE );
 
-        this.current_puzzle = null;
+
         this.current_world = settings_dao.getInt( "current_world", 1 );
         this.current_level = 0;
+
+        this.current_puzzle = null;
+
         this.draw_enabled = true;
         this.current_pivot = null;
-    }
-
-
-    // Public methods
-    //---------------
-
-    /*
-     * Gets the text of the current world/level formated nicly
-     */
-    public String Get_current_puzzle_text() {
-        if ( current_level == 0 ) {
-            return "World: " + current_world;
-        } else {
-            return "Level: " + current_world + "-" + current_level;
-        }
-    }
-
-    /*
-     * Decrease the current world number and will wrap back to last world if at world 1
-     */
-    public void Decrease_world() {
-        current_world = Get_previous_world();
-    }
-
-    /*
-     * Increase the current world number will wrap back to world 1 if at last world
-     */
-    public void Increase_world() {
-        current_world = Get_next_world();
-    }
-
-    /*
-     * Set current level to 0 implying in a 'world' level
-     */
-    public void Set_to_world() {
-        current_level = 0;
-    }
-
-    public void Commit_current_world() {
-        if( !Player.DEV_MODE ) {
-            SharedPreferences settings_dao = Page
-                    .Get_context()
-                    .getSharedPreferences(Page.Get_resource_string( R.string.preference_unlocks_key ),
-                            Context.MODE_PRIVATE);
-            SharedPreferences.Editor settings_editor = settings_dao.edit();
-
-            settings_editor.putInt( "current_world", current_world );
-            settings_editor.commit();
-        }
     }
 
 
@@ -147,11 +102,7 @@ public class Player {
     //--------------
 
     public void Update_puzzle() {
-        if( Is_in_world_view() ) {
-            current_puzzle = PuzzleDB.Fetch_world( current_world );
-        } else {
-            current_puzzle = PuzzleDB.Fetch_level( current_world, current_level );
-        }
+        current_puzzle = PuzzleDB.Fetch_puzzle();
     }
 
     public void Set_draw_mode() {
@@ -168,5 +119,57 @@ public class Player {
 
     public void Set_pivot( Posn pivot ) {
         this.current_pivot = pivot;
+    }
+
+
+    // Public methods
+    //---------------
+
+    /*
+     * Gets the text of the current world/level formated nicly
+     */
+    public String Get_current_puzzle_text() {
+        if ( current_level == 0 ) {
+            return "World: " + current_world;
+        } else {
+            return "Level: " + current_world + "-" + current_level;
+        }
+    }
+
+    /*
+     * Decrease the current world number and will wrap back to last world if at world 1
+     */
+    public void Decrease_world() {
+        current_world = Get_previous_world();
+        current_puzzle = PuzzleDB.Fetch_puzzle();
+    }
+
+    /*
+     * Increase the current world number will wrap back to world 1 if at last world
+     */
+    public void Increase_world() {
+        current_world = Get_next_world();
+        current_puzzle = PuzzleDB.Fetch_puzzle();
+    }
+
+    /*
+     * Set current level to 0 implying in a 'world' level
+     */
+    public void Set_to_world() {
+        current_level = 0;
+        current_puzzle = PuzzleDB.Fetch_puzzle();
+    }
+
+    public void Commit_current_world() {
+        if( !Session.DEV_MODE ) {
+            SharedPreferences settings_dao = Page
+                    .Get_context()
+                    .getSharedPreferences(Page.Get_resource_string( R.string.preference_unlocks_key ),
+                            Context.MODE_PRIVATE);
+            SharedPreferences.Editor settings_editor = settings_dao.edit();
+
+            settings_editor.putInt( "current_world", current_world );
+            settings_editor.commit();
+        }
     }
 }

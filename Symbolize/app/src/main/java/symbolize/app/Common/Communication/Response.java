@@ -1,8 +1,10 @@
-package symbolize.app.Common;
+package symbolize.app.Common.Communication;
 
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import symbolize.app.Common.Line;
 
 public class Response {
     // Fields

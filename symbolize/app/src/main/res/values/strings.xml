@@ -51,6 +51,7 @@
 
     <string name="info_dialog_id">info_dialog</string>
 
+    <string name="hint_dialog_id">hint_dialog</string>
     <string name="draws_allowed">Draws allowed: </string>
     <string name="drags_allowed">Moves allowed: </string>
     <string name="erase_allowed">Erase allowed: </string>

@@ -2,30 +2,30 @@ package symbolize.app.Common;
 
 import java.util.ArrayList;
 
+import symbolize.app.Common.Communication.Request;
 import symbolize.app.Game.GameView;
 
 public class Posn {
     // Static field
     //--------------
 
-    public static final int DRAWINGTHRESHOLD = GameView.SCALING / 10;
+    public static final int DRAWING_THRESHOLD = GameView.SCALING / 10;
 
 
     // Fields
     //-------
 
-    private int first, second;
+    private Integer first, second;
 
 
     // Constructors
     //--------------
 
     public Posn() {
-        first = -1;
-        second = -1;
+        this( null, null );
     }
 
-    public Posn( int x0, int y0 ) {
+    public Posn( Integer x0, Integer y0 ) {
         first = x0;
         second = y0;
     }
@@ -36,6 +36,18 @@ public class Posn {
 
     public Posn clone() {
         return  new Posn( first, second );
+    }
+
+
+    // Getter Methods
+    //---------------
+
+    public int x() {
+        return first;
+    }
+
+    public int y() {
+        return second;
     }
 
 
@@ -57,14 +69,14 @@ public class Posn {
      * Method that sees if the given posn is approximately equal to this posn
      */
     public boolean Approximately_equals( final Posn point ) {
-        return ( ( ( first - DRAWINGTHRESHOLD ) <= point.x() ) &&
-                    ( point.x() <= ( first + DRAWINGTHRESHOLD ) ) &&
-                 ( ( second - DRAWINGTHRESHOLD ) <= point.y() ) &&
-                    ( point.y() <= ( second + DRAWINGTHRESHOLD ) ) );
+        return ( ( ( first - DRAWING_THRESHOLD ) <= point.x() ) &&
+                    ( point.x() <= ( first + DRAWING_THRESHOLD ) ) &&
+                 ( ( second - DRAWING_THRESHOLD ) <= point.y() ) &&
+                    ( point.y() <= ( second + DRAWING_THRESHOLD ) ) );
     }
 
     /*
-     * A lexigraphical less than
+     * A lexicographical less than
      *
      * @param Posn point: the point you are comparing against
      */
@@ -97,7 +109,7 @@ public class Posn {
     }
 
     /*
-     * Snap's point to nerest grid points
+     * Snap's point to nearest grid points
      */
     public void Snap() {
         first = first - ( first % ( GameView.SCALING / 10 ) );
@@ -121,22 +133,6 @@ public class Posn {
            second = match.y();
        }
    }
-
-
-    // Geter Methods
-    //---------------
-
-    public int x() {
-        return first;
-    }
-
-    public int y() {
-        return second;
-    }
-
-
-    // Action method
-    //--------------
 
     public void Edit( final int request_type ) {
         int tmp;

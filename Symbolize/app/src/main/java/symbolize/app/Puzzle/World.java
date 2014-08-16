@@ -10,11 +10,13 @@ public class World extends Puzzle {
     // Inherited fields
     //------------------
 
-    //private final String hint;
-    //private final boolean rotate_enabled;
-    //private final boolean flip_enabled;
-    //private final boolean colour_enabled;
-    //private final ArrayList<LinkedList<Line>> solutions;
+    /*
+    private final String hint;
+    private final boolean rotate_enabled;
+    private final boolean flip_enabled;
+    private final boolean colour_enabled;
+    private final ArrayList<LinkedList<Line>> solutions;
+    */
 
 
     // Fields
@@ -32,12 +34,6 @@ public class World extends Puzzle {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
         this.levels = levels;
     }
-
-
-    // Public method
-    //----------------
-
-    public boolean Can_shift() { return false; }
 
 
     // Getter methods
@@ -61,4 +57,10 @@ public class World extends Puzzle {
     public int Get_drag_restriction() {
         return 0;
     }
+
+
+    // Public method
+    //----------------
+
+    public boolean Can_shift() { return false; }
 }

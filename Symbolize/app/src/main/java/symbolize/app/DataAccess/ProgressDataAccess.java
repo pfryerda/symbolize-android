@@ -1,7 +1,7 @@
 package symbolize.app.DataAccess;
 
 
-import symbolize.app.Common.Player;
+import symbolize.app.Common.Session;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
@@ -10,13 +10,6 @@ abstract public class ProgressDataAccess {
     //--------------
 
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
-
-    // Inherited methods
-    //-------------------
-    /*
-        protected static SharedPreferences dao;
-        protected static SharedPreferences.Editor dao_editor;
-     */
 
 
     // Public methods
@@ -30,25 +23,25 @@ abstract public class ProgressDataAccess {
      */
     public static boolean Is_completed( int world ) {
         //return true;
-        return dao.Get_property( world + "", false ) || Player.DEV_MODE;
+        return dao.Get_property( world + "", false ) || Session.DEV_MODE;
     }
 
     public static boolean Is_completed( int world, int level ) {
         //return true;
-        return dao.Get_property( world + "-" + level, false ) || Player.DEV_MODE;
+        return dao.Get_property( world + "-" + level, false ) || Session.DEV_MODE;
     }
 
     /*
      * Set the the current level/world as completed
      */
     public static void Complete( int world ) {
-        if( Player.DEV_MODE ) {
+        if( !Session.DEV_MODE ) {
             dao.Set_property( world + "", true );
         }
     }
 
     public static void Complete( int world, int level ) {
-        if( !Player.DEV_MODE ) {
+        if( !Session.DEV_MODE ) {
             if ( level == 0 ) {
                 Complete( world );
             } else {

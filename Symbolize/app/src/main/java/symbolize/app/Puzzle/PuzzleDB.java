@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Page;
+import symbolize.app.Common.Session;
 import symbolize.app.R;
 
 /*
@@ -20,12 +21,12 @@ class InvalidXmlException extends Exception {
     // Constructors
     //--------------
 
-    public InvalidXmlException( final int linenum, final int world_num, final int level_num, final String expected, final String actual ) {
-        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
+    public InvalidXmlException( final int line_number, final int world_num, final int level_num, final String expected, final String actual ) {
+        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + line_number + ". Expected: <" + expected + "> Actual: " + ( ( actual == null ) ? "Not a Tag!" : "<" + actual + ">" ) );
     }
 
-    public InvalidXmlException( final int linenum, final int world_num, final int level_num, final String invalid_text, final boolean isTag ) {
-        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + linenum + ". Given an unexpected " + ( ( isTag ) ? "tag: <" + invalid_text + ">" : "text:" + invalid_text ) );
+    public InvalidXmlException( final int line_number, final int world_num, final int level_num, final String invalid_text, final boolean isTag ) {
+        super( "Error in xml for level_" + world_num + "_" + level_num + ".xml::Line:" + line_number + ". Given an unexpected " + ( ( isTag ) ? "tag: <" + invalid_text + ">" : "text:" + invalid_text ) );
     }
 }
 
@@ -74,26 +75,32 @@ abstract public class PuzzleDB {
         R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
 
     private static final Resources res = Page.Get_context().getResources();
-    private static int world_num;
-    private static int level_num;
     private static XmlResourceParser xpp;
 
 
-    // Methods
-    //---------
+    // Main methods
+    //--------------
+
+    public static Puzzle Fetch_puzzle() {
+        if( Session.Get_instance().Is_in_world_view() ) {
+            return fetch_world();
+        } else {
+            return fetch_level();
+        }
+    }
 
     /*
      * Method used to get level from xml resource files
      */
-    public static Level Fetch_level( final int world_number, final int level_number ) {
+    private static Level fetch_level() {
         // Set up temp fields
-        world_num = world_number;
-        level_num = level_number;
+        final int world_num = Session.Get_instance().Get_current_world();
+        final int level_num = Session.Get_instance().Get_current_level();
         xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
-                hint_map[world_number] )[level_number];
+                hint_map[world_num] )[level_num];
         int draw_restriction = 0;
         int erase_restriction = 0;
         int drag_restriction = 0;
@@ -276,16 +283,16 @@ abstract public class PuzzleDB {
     /*
      * Method used to get level from xml resource files
      */
-    public static World Fetch_world( final int world_number ) {
+    public static World fetch_world() {
         // Set up temp fields
-        world_num = world_number;
-        level_num = 0;
+        final int world_num = Session.Get_instance().Get_current_world();
+        final int level_num = 0;
         xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
 
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
-                hint_map[world_number] )[0];
+                hint_map[world_num] )[0];
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
@@ -481,19 +488,22 @@ abstract public class PuzzleDB {
     //---------------
 
     private static void bail_invalid_check( final String actual ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, xpp.getName(), actual );
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(),session.Get_current_world(), session.Get_current_level(), xpp.getName(), actual );
     }
 
     private static void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_tag, true );
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_tag, true );
     }
 
     private static void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
-        throw new InvalidXmlException( xpp.getLineNumber(), world_num, level_num, invalid_text, false );
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_text, false );
     }
 
     private static String parse_preamble( final String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
-        String returnval = "";
+        String returnval;
         xpp.next();
         if ( !xpp.getName().equals( expected ) ) {
             bail_invalid_check( expected );

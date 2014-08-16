@@ -8,6 +8,12 @@ import java.util.ArrayList;
 
 
 public class SymbolizeAnimation {
+    // Static fields
+    //--------------
+
+    public static boolean InAnimation = false;
+
+
     // Fields
     //--------
 
@@ -37,19 +43,19 @@ public class SymbolizeAnimation {
     //--------------
 
     public void Animate( final LinearLayout linearLayout ) {
-        if ( animations.size() >= 0 && !GameAnimationHandler.InAnimation ) {
+        if ( animations.size() >= 0 && !InAnimation ) {
             if ( animations.size() == 1 ) {
                 animations.get( 0 ).setAnimationListener( new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart( Animation animation ) {
-                        GameAnimationHandler.InAnimation = true;
+                        InAnimation = true;
                     }
 
                     @Override
                     public void onAnimationEnd( Animation animation ) {
                         linearLayout.clearAnimation();
                         listener.onSymbolizeAnimationEnd();
-                        GameAnimationHandler.InAnimation = false;
+                        InAnimation = false;
                     }
 
                     @Override
@@ -59,7 +65,7 @@ public class SymbolizeAnimation {
                 animations.get( 0 ).setAnimationListener( new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-                        GameAnimationHandler.InAnimation = true;
+                        InAnimation = true;
                     }
 
                     @Override
@@ -102,7 +108,7 @@ public class SymbolizeAnimation {
                     public void onAnimationEnd( Animation animation ) {
                         linearLayout.clearAnimation();
                         listener.onSymbolizeAnimationEnd();
-                        GameAnimationHandler.InAnimation = false;
+                        InAnimation = false;
                     }
 
                     @Override

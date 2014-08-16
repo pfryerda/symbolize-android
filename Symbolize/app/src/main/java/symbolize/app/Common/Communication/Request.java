@@ -1,4 +1,4 @@
-package symbolize.app.Common;
+package symbolize.app.Common.Communication;
 
 
 import android.widget.LinearLayout;
@@ -7,6 +7,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import symbolize.app.Common.Line;
+import symbolize.app.Common.Posn;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Dialog.SymbolizeDialog;
 import symbolize.app.Game.GameView;
@@ -50,8 +52,6 @@ public class Request {
     public Line request_line;
     public Posn request_point;
 
-    public ArrayList<LinkedList<Line>> request_graphs;
-
 
     // Constructors
     //-------------
@@ -61,8 +61,6 @@ public class Request {
 
         this.request_line = null;
         this.request_point = null;
-
-        this.request_graphs = null;
     }
 
 
