@@ -2,7 +2,6 @@ package symbolize.app.Puzzle;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
@@ -82,6 +81,9 @@ abstract public class PuzzleDB {
     // Main methods
     //--------------
 
+    /*
+     * Fetches the current level according to the session
+     */
     public static Puzzle Fetch_puzzle() {
         if( Session.Get_instance().Is_in_world_view() ) {
             return fetch_world();
@@ -488,21 +490,12 @@ abstract public class PuzzleDB {
     // Private methods
     //---------------
 
-    private static void bail_invalid_check( final String actual ) throws InvalidXmlException {
-        Session session = Session.Get_instance();
-        throw new InvalidXmlException( xpp.getLineNumber(),session.Get_current_world(), session.Get_current_level(), xpp.getName(), actual );
-    }
-
-    private static void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
-        Session session = Session.Get_instance();
-        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_tag, true );
-    }
-
-    private static void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
-        Session session = Session.Get_instance();
-        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_text, false );
-    }
-
+    /*
+     * Method used when parsing simple xml blobs like <exmaple>value</exmaple>
+     *
+     * @param String expected: The expected tag name
+     * @return String: The parsed value from <exmaple>value</exmaple>
+     */
     private static String parse_preamble( final String expected ) throws XmlPullParserException, IOException, InvalidXmlException {
         String returnval;
         xpp.next();
@@ -516,5 +509,35 @@ abstract public class PuzzleDB {
             bail_invalid_check( "/" + expected );
         }
         return returnval;
+    }
+
+    /*
+     * Method used for xml error handling, call this when you get an unexpected tag
+     *
+     * @param String actual: The tag gotten
+     */
+    private static void bail_invalid_check( final String actual ) throws InvalidXmlException {
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(),session.Get_current_world(), session.Get_current_level(), xpp.getName(), actual );
+    }
+
+    /*
+     * Method used for xml error handling, call this when you get a tag when you didn't expect to0
+     *
+     * @param String invalid_tag: The unexpected tag
+     */
+    private static void bail_invalid_tag( final String invalid_tag ) throws InvalidXmlException {
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_tag, true );
+    }
+
+    /*
+     * Method used for xml error handling, call this when you get a text when you didn't expect too
+     *
+     * @param String invalid_text: The unexpected text
+     */
+    private static void bail_invalid_text( final String invalid_text ) throws InvalidXmlException {
+        Session session = Session.Get_instance();
+        throw new InvalidXmlException( xpp.getLineNumber(), session.Get_current_world(), session.Get_current_level(), invalid_text, false );
     }
 }

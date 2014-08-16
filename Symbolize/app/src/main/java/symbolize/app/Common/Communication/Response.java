@@ -1,10 +1,10 @@
 package symbolize.app.Common.Communication;
 
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import symbolize.app.Common.Line;
+
+/*
+ * A wrapper of common types that is update after sending a request to report data back
+ */
 
 public class Response {
     // Fields

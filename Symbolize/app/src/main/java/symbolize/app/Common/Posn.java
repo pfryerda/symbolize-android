@@ -1,7 +1,6 @@
 package symbolize.app.Common;
 
 import java.util.ArrayList;
-
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Game.GameView;
 
@@ -134,6 +133,11 @@ public class Posn {
        }
    }
 
+    /*
+     * Generic method that edits the posn based off the request type
+     *
+     * @param int request_type: The type of request which determines how to edit the line
+     */
     public void Edit( final int request_type ) {
         int tmp;
         switch ( request_type ) {

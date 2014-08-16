@@ -2,11 +2,13 @@ package symbolize.app.Common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
+/*
+ * A singleton class that keeps track of the game's current state.
+ */
 public class Session {
     // Static field
     //-------------
@@ -160,6 +162,9 @@ public class Session {
         current_puzzle = PuzzleDB.Fetch_puzzle();
     }
 
+    /*
+     * Use this when the game closes to save your current world for the next you play
+     */
     public void Commit_current_world() {
         if( !Session.DEV_MODE ) {
             SharedPreferences settings_dao = Page

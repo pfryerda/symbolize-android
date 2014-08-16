@@ -1,11 +1,12 @@
-// An example of the typical structure of a module in symbolize ( does not include Activities )
-
 package symbolize.app;
 
 /*
  * Import statements
  */
 
+/*
+ * Class description - An example of the typical structure of a module in symbolize ( does not include Activities )
+ */
 public class ReadMe /* extends BaseClass */ /* implements Interface */ {
     //Flags
     //-----

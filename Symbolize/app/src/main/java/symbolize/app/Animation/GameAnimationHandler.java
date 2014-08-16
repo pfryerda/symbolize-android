@@ -1,17 +1,17 @@
 package symbolize.app.Animation;
 
-
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Game.GameView;
 
-
+/*
+ * An all static class used for getting an animation given a request type
+ */
 abstract public class GameAnimationHandler {
     // Static fields
     //----------------

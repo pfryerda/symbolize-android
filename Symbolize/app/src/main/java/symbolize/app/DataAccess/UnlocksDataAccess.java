@@ -1,10 +1,12 @@
 package symbolize.app.DataAccess;
 
-
 import symbolize.app.Common.Session;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
+/*
+ * A all static data access API, for save data about which levels you have unlocked
+ */
 abstract public class UnlocksDataAccess {
     // Static fields
     //--------------
@@ -12,31 +14,21 @@ abstract public class UnlocksDataAccess {
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_unlocks_key );
 
 
-    // Public methods
+    // Getter methods
     //----------------
 
-    /*
-     * Returns whether the give level/world is unlocked
-     *
-     * @param int world: The world of interest
-     * @param int level: The level of interest
-     */
     public static boolean Is_unlocked( int world ) {
-        //return true;
         return dao.Get_property(world + "", false) || Session.DEV_MODE;
     }
 
     public static boolean Is_unlocked( int world, int level ) {
-        //return true;
         return dao.Get_property(world + "-" + level, false) || Session.DEV_MODE;
     }
 
-    /*
-     * Set the the given level/world as unlocked
-     *
-     * @param int world: The world of interest
-     * @param int world: The level of interest
-     */
+
+    // Setter methods
+    //----------------
+
     public static void Unlock( int world ) {
         if( !Session.DEV_MODE ) {
             dao.Set_property( world + "", true );
@@ -50,6 +42,13 @@ abstract public class UnlocksDataAccess {
         }
     }
 
+
+    // Public methods
+    //-----------------
+
+    /*
+     * Removes all unlocked levels expect for world 1, and level 1-1
+     */
     public static void Remove_all_unlocks() {
         for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             dao.Set_property( world + "", false, false );

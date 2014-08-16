@@ -1,19 +1,12 @@
 package symbolize.app.Common.Communication;
 
-
-import android.widget.LinearLayout;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.Dialog.SymbolizeDialog;
-import symbolize.app.Game.GameView;
-import symbolize.app.Puzzle.Puzzle;
 
+/*
+ * A wrapper of common types that are sent along with a request, along with a request type
+ */
 public class Request {
     // Flags
     //-------
@@ -67,22 +60,31 @@ public class Request {
     // Public Methods
     //---------------
 
-    public boolean Require_pre_render() {
-        return Undo <= type && type <= Load_puzzle_right;
-    }
-
+    /*
+     * @return boolean: true if the request requires an render after updating the model
+     */
     public boolean Require_render() {
         return Undo <= type && type <= Load_puzzle_start;
     }
 
+    /*
+     * @return boolean: true if the request requires the model keep a backup for undo
+     */
     public boolean Require_undo() {
         return ( Change_color <= type && type <= Shift ) || type == Drag_start;
     }
 
+    /*
+     * @return boolean: true if the request should perform the appropriate animation from
+     * GameAnimationHandler before render
+     */
     public boolean Is_animation_action() {
         return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
     }
 
+    /*
+     * @returns whether the request is not one of the flags defined above
+     */
     public boolean Is_invalid_type() {
         return type < -1 || type > 21;
     }

@@ -1,12 +1,14 @@
 package symbolize.app.Animation;
 
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 
-
+/*
+ * A Generic animation class that contains a list of animationsets to be played one after another,
+ * where an animationset is a set of animations to be played together
+ */
 public class SymbolizeAnimation {
     // Static fields
     //--------------
@@ -36,6 +38,14 @@ public class SymbolizeAnimation {
 
     public SymbolizeAnimation() {
         animations = new ArrayList<AnimationSet>();
+    }
+
+
+    // Setter methods
+    //----------------
+
+    public void SetSymbolizeAnimationListener( final SymbolizeAnimationListener listener ) {
+        this.listener = listener;
     }
 
 
@@ -125,11 +135,15 @@ public class SymbolizeAnimation {
     // Public methods
     //----------------
 
-    public void SetSymbolizeAnimationListener( SymbolizeAnimationListener listener ) {
-        this.listener = listener;
-    }
-
-    public void Add_animation( final Animation animation, int duration, boolean fill_after ) {
+    /*
+     * Adds an animation to the current animation set to played along side the other
+     * animations also in the set
+     *
+     * @param Animation animation: The animation you wish to add
+     * @param int duration: The duration of the animation
+     * @param boolean fill_after: Whether the affects of the animation should stay on the element afterwards
+     */
+    public void Add_animation( final Animation animation, final int duration, final boolean fill_after ) {
         animation.setDuration( duration );
         animation.setFillAfter( fill_after );
         animation.setAnimationListener( new Animation.AnimationListener() {
@@ -149,6 +163,10 @@ public class SymbolizeAnimation {
         animationSet.addAnimation( animation );
     }
 
+    /*
+     * Start a new animation set to start adding animations too, this new set will be played
+     * immediately following the previous animation set.
+     */
     public void Start_new_set() {
         AnimationSet animationSet = new AnimationSet( true );
         this.animations.add( animationSet );

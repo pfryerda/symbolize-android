@@ -1,16 +1,16 @@
 package symbolize.app.Game;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
-import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
-
+/*
+ * A class in charge of interpreting client touch interactions
+ */
 public class GameTouchHandler {
     // Static Fields
     //--------------
@@ -91,6 +91,14 @@ public class GameTouchHandler {
     }
 
 
+    // Setter methods
+    //----------------
+
+    public void Set_listener( GameTouchListener listener ) {
+        this.listener = listener;
+    }
+
+
     // Main method
     //-------------
 
@@ -153,14 +161,6 @@ public class GameTouchHandler {
         }
     }
 
-
-    // Public methods
-    //----------------
-
-    public void Set_listener( GameTouchListener listener ) {
-        this.listener = listener;
-    }
-    
 
     // Private Methods
     //-----------------
