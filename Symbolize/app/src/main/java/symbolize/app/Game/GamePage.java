@@ -374,8 +374,7 @@ public class GamePage extends Page
         session.Set_to_world();
         session.Update_puzzle();
 
-        Request request = new Request( request_type );
-        GameController.Get_instance().Handle_request( request, new Response() );
+        GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }
 
     private void load_level( int level ) {

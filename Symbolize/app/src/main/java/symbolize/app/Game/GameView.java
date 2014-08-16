@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -318,13 +319,13 @@ public class GameView {
         if ( UnlocksDataAccess.Is_unlocked(session.Get_previous_world()) && session.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
         } else {
-            left_button.setVisibility( View.GONE );
+            left_button.setVisibility( View.INVISIBLE );
         }
 
         if ( UnlocksDataAccess.Is_unlocked(session.Get_next_world()) && session.Is_in_world_view() ) {
             right_button.setVisibility( View.VISIBLE );
         } else {
-            right_button.setVisibility( View.GONE );
+            right_button.setVisibility( View.INVISIBLE );
         }
     }
 
@@ -358,11 +359,21 @@ public class GameView {
         activity.findViewById( R.id.buttons ).getLayoutParams().height = bar_height;
         activity.findViewById( R.id.topbar ).getLayoutParams().height = bar_height;
 
-        int button_width = SCREEN_SIZE.x / 5;
-        activity.findViewById( R.id.Check ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Hint ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Undo ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Draw ).getLayoutParams().width = button_width;
-        activity.findViewById( R.id.Erase ).getLayoutParams().width = button_width;
+        int bottom_button_width = SCREEN_SIZE.x / 5;
+        activity.findViewById( R.id.Check ).getLayoutParams().width = bottom_button_width;
+        activity.findViewById( R.id.Hint ).getLayoutParams().width = bottom_button_width;
+        activity.findViewById( R.id.Undo ).getLayoutParams().width = bottom_button_width;
+        activity.findViewById( R.id.Draw ).getLayoutParams().width = bottom_button_width;
+        activity.findViewById( R.id.Erase ).getLayoutParams().width = bottom_button_width;
+
+        int top_button_width = bottom_button_width / 2;
+        activity.findViewById( R.id.Left ).getLayoutParams().width = top_button_width;
+        activity.findViewById( R.id.Back ).getLayoutParams().width = top_button_width;
+        activity.findViewById( R.id.Right ).getLayoutParams().width = top_button_width;
+        activity.findViewById( R.id.Reset ).getLayoutParams().width = top_button_width;
+        activity.findViewById( R.id.Settings ).getLayoutParams().width = top_button_width;
+
+        activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * top_button_width );
+        ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
     }
 }
