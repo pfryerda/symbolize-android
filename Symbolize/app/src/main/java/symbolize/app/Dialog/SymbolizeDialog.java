@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import symbolize.app.Common.Page;
+import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
 abstract public class SymbolizeDialog extends DialogFragment {
@@ -53,8 +57,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
     }
 
 
-
-    // Protected method
+    // Protected methods
     //------------------
 
     protected AlertDialog.Builder get_builder() {
@@ -65,15 +68,13 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
     protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view =  inflater.inflate( R.layout.generic_dialog, null );
+        final View dialog_view =  inflater.inflate( R.layout.generic_dialog, new LinearLayout( Page.Get_context() ) );
 
         ( (TextView) dialog_view.findViewById( R.id.Title ) ).setText( title );
         ( (TextView) dialog_view.findViewById( R.id.Message ) ).setText( message );
 
         return dialog_view;
     }
-
-
 
     // abstract methods
     //-----------------

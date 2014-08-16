@@ -30,7 +30,7 @@ public class HomePage extends Page {
     }
 
     public void On_mute_button_clicked( final View view ) {
-
+        // TODO
     }
 
     public void On_settings_button_clicked( final View view ){

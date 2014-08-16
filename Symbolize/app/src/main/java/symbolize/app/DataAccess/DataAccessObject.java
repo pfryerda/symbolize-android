@@ -57,13 +57,11 @@ public class DataAccessObject {
     }
 
     public void Set_property( String key, int value ) {
-        dao_editor.putInt( key, value );
-        dao_editor.commit();
+        Set_property( key, value, true );
     }
 
     public void Set_property( String key, boolean value ) {
-        dao_editor.putBoolean( key, value );
-        dao_editor.commit();
+        Set_property( key, value, true );
     }
 
     public void Commit() {

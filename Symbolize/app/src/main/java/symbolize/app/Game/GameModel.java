@@ -1,20 +1,19 @@
 package symbolize.app.Game;
 
 import android.util.Log;
-import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Player;
+import symbolize.app.Common.Session;
 import symbolize.app.Common.Posn;
-import symbolize.app.Common.Request;
+import symbolize.app.Common.Communication.Request;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Puzzle.Puzzle;
-import symbolize.app.R;
 
 /*
  * The main game method contains information about whats on the board, what mode you are in,
@@ -36,16 +35,8 @@ public class GameModel {
     // Constructors
     //--------------
 
-    public GameModel()
-    {
-        this.graph = new LinkedList<Line>();
-        this.levels = new ArrayList<Posn>();
-        this.lines_drawn = 0;
-        this.lines_erased = 0;
-        this.lines_dragged = 0;
-        this.shift_number = 0;
-        this.game_view = null;
-        this.past_state = null;
+    public GameModel()  {
+        this( new LinkedList<Line>(), new ArrayList<Posn>(), 0, 0, 0, 0, null, null );
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
@@ -76,17 +67,88 @@ public class GameModel {
     }
 
 
+    // Getter methods
+    //---------------
+
+
+    public int Get_lines_drawn() {
+        if ( Session.DEV_MODE ) {
+            return -1;
+        } else {
+            return lines_drawn;
+        }
+    }
+
+    public ArrayList<Posn> Get_completed_levels() {
+        Session session = Session.Get_instance();
+
+        ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
+        for ( int i = 0; i < levels.size(); ++i ) {
+            if ( ProgressDataAccess.Is_completed( session.Get_current_world(), i + 1 ) ) {
+                unlocked_levels.add( levels.get( i ) );
+            }
+        }
+        return unlocked_levels;
+    }
+
+    public ArrayList<Posn> Get_unlocked_levels() {
+        Session session = Session.Get_instance();
+
+        ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
+        for ( int i = 0; i < levels.size(); ++i ) {
+            if ( UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
+                unlocked_levels.add( levels.get( i ) );
+            }
+        }
+        return unlocked_levels;
+    }
+
+    public int Get_lines_erased() {
+        if ( Session.DEV_MODE ) {
+            return -1;
+        } else {
+            return lines_erased;
+        }
+    }
+
+    public int Get_lines_dragged() {
+        if ( Session.DEV_MODE ) {
+            return -1;
+        } else {
+            return lines_dragged;
+        }
+    }
+
+    public GameModel getPastState() {
+        return past_state;
+    }
+
+    public void Set_puzzle( final Puzzle puzzle ) {
+        graph.clear();
+        levels.clear();
+        for ( Line line : puzzle.Get_board() ) {
+            graph.addLast( line.clone() );
+        }
+        for ( Posn point : puzzle.Get_levels() ) {
+            levels.add( point.clone() );
+        }
+        lines_drawn = 0;
+        lines_erased = 0;
+        past_state = null;
+    }
+
+
     // Public methods
     //----------------
 
     public Integer Fetch_level_number( Posn point ) {
-        Player player = Player.Get_instance();
+        Session session = Session.Get_instance();
         int level_found;
 
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 level_found =  i + 1;
-                player.Set_pivot( point );
+                session.Set_pivot( point );
                 return level_found;
             }
         }
@@ -94,19 +156,19 @@ public class GameModel {
     }
 
     public boolean Check_correctness() {
-        return Player.Get_instance().Get_current_puzzle().Check_correctness( graph );
+        return Session.Get_instance().Get_current_puzzle().Check_correctness( graph );
     }
 
 
     public void Add_line_via_draw( Line line ) {
-        Player player = Player.Get_instance();
+        Session session = Session.Get_instance();
 
-        if ( OptionsDataAccess.Is_snap_drawing() && !player.Is_in_world_view() ) {
+        if ( OptionsDataAccess.Is_snap_drawing() && !session.Is_in_world_view() ) {
             line.Snap();
         }
 
         ArrayList<Posn> completed_levels = Get_completed_levels();
-        if ( !player.Is_in_world_view() || completed_levels.size() > 1 ) {
+        if ( !session.Is_in_world_view() || completed_levels.size() > 1 ) {
             line.Snap_to_levels( completed_levels );
             graph.addLast( line );
             ++lines_drawn;
@@ -117,7 +179,7 @@ public class GameModel {
 
         for ( Line line : graph ) {
             if ( line.Intersects( point ) ) {
-                if ( ( Get_lines_erased() < Player.Get_instance().Get_current_puzzle().Get_erase_restriction() )
+                if ( ( Get_lines_erased() < Session.Get_instance().Get_current_puzzle().Get_erase_restriction() )
                         || ( line.Get_owner() == Line.User ) )
                 {
                     graph.remove( line );
@@ -197,77 +259,6 @@ public class GameModel {
 
     public void Refresh_view_object() {
         this.game_view = new GameView();
-    }
-
-
-    // Getter methods
-    //---------------
-
-
-    public int Get_lines_drawn() {
-        if ( Player.DEV_MODE ) {
-            return -1;
-        } else {
-            return lines_drawn;
-        }
-    }
-
-    public ArrayList<Posn> Get_completed_levels() {
-        Player player = Player.Get_instance();
-
-        ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
-        for ( int i = 0; i < levels.size(); ++i ) {
-            if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
-                unlocked_levels.add( levels.get( i ) );
-            }
-        }
-        return unlocked_levels;
-    }
-
-    public ArrayList<Posn> Get_unlocked_levels() {
-        Player player = Player.Get_instance();
-
-        ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
-        for ( int i = 0; i < levels.size(); ++i ) {
-            if ( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
-                unlocked_levels.add( levels.get( i ) );
-            }
-        }
-        return unlocked_levels;
-    }
-
-    public int Get_lines_erased() {
-        if ( Player.DEV_MODE ) {
-            return -1;
-        } else {
-            return lines_erased;
-        }
-    }
-
-    public int Get_lines_dragged() {
-        if ( Player.DEV_MODE ) {
-            return -1;
-        } else {
-            return lines_dragged;
-        }
-    }
-
-    public GameModel getPastState() {
-        return past_state;
-    }
-
-    public void Set_puzzle( final Puzzle puzzle ) {
-        graph.clear();
-        levels.clear();
-        for ( Line line : puzzle.Get_board() ) {
-            graph.addLast( line.clone() );
-        }
-        for ( Posn point : puzzle.Get_levels() ) {
-            levels.add( point.clone() );
-        }
-        lines_drawn = 0;
-        lines_erased = 0;
-        past_state = null;
     }
 
     public void Push_state() {

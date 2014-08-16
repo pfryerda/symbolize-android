@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Player;
+import symbolize.app.Common.Session;
 import symbolize.app.Common.Posn;
 
 /*
@@ -39,19 +39,31 @@ abstract public class Puzzle {
     }
 
 
+    // Getter methods
+    //----------------
+
+    public String Get_hint() {
+        return hint;
+    }
+
+    public ArrayList<Integer> Get_unlocks() {
+        return unlocks;
+    }
+
+
     // Public methods
     //----------------
 
     public boolean Can_rotate() {
-        return rotate_enabled || Player.DEV_MODE;
+        return rotate_enabled || Session.DEV_MODE;
     }
 
     public boolean Can_flip() {
-        return flip_enabled|| Player.DEV_MODE;
+        return flip_enabled|| Session.DEV_MODE;
     }
 
     public boolean Can_change_color() {
-        return colour_enabled|| Player.DEV_MODE;
+        return colour_enabled|| Session.DEV_MODE;
     }
 
     public boolean Check_correctness( final LinkedList<Line> graph ) {
@@ -84,19 +96,6 @@ abstract public class Puzzle {
         }
         return false;
     }
-
-
-    // Getter methods
-    //----------------
-
-    public String Get_hint() {
-        return hint;
-    }
-
-    public ArrayList<Integer> Get_unlocks() {
-        return unlocks;
-    }
-
 
     // Abstract methods
     //------------------

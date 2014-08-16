@@ -9,6 +9,15 @@ import symbolize.app.Game.GamePage;
 import symbolize.app.R;
 
 public class InfoDialog extends SymbolizeDialog {
+    // Inherited fields
+    //------------------
+
+    /*
+    protected String title;
+    protected String message;
+    */
+
+
     // Protected method
     //------------------
 
@@ -28,7 +37,7 @@ public class InfoDialog extends SymbolizeDialog {
 
     @Override
     protected String get_dialog_id() {
-        return Page.Get_resource_string(R.string.info_dialog_id);
+        return Page.Get_resource_string( R.string.info_dialog_id );
     }
 
 }

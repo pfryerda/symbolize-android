@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -19,14 +18,13 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdSize;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import symbolize.app.Animation.GameAnimationHandler;
+
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.Common.Player;
+import symbolize.app.Common.Session;
 import symbolize.app.Common.Posn;
-import symbolize.app.Common.Request;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.HintDialog;
@@ -86,8 +84,7 @@ public class GameView {
     // Constructor
     //-------------
 
-    public GameView()
-    {
+    public GameView() {
         this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
         this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
 
@@ -158,7 +155,7 @@ public class GameView {
                 Render( graph, levels, false );
                 if( requires_hint_box ) {
                     HintDialog hint_dialog = new HintDialog();
-                    hint_dialog.Set_attrs( Player.Get_instance().Get_current_puzzle() );
+                    hint_dialog.Set_attrs( Session.Get_instance().Get_current_puzzle() );
                     hint_dialog.Show();
                 }
             }
@@ -179,7 +176,6 @@ public class GameView {
 
     // Private methods
     //----------------
-
 
     /*
      * Update the view with the current board in the model
@@ -202,9 +198,9 @@ public class GameView {
         }
 
         // Draw level dots
-        Player player = Player.Get_instance();
+        Session session = Session.Get_instance();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if( UnlocksDataAccess.Is_unlocked( player.Get_current_world(), i + 1 ) ) {
+            if( UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
 
@@ -217,7 +213,7 @@ public class GameView {
                     // Draw 'complete' border
                     paint.setStrokeWidth( POINT_BORDER_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
-                    if ( ProgressDataAccess.Is_completed( player.Get_current_world(), i + 1 ) ) {
+                    if ( ProgressDataAccess.Is_completed( session.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Color.GREEN );
                     } else {
                         paint.setColor( Color.RED );
@@ -305,17 +301,17 @@ public class GameView {
     }
 
     private void update_ui() {
-        Player player = Player.Get_instance();
+        Session session = Session.Get_instance();
 
-        title.setText( player.Get_current_puzzle_text() );
+        title.setText( session.Get_current_puzzle_text() );
 
-        if ( UnlocksDataAccess.Is_unlocked(player.Get_previous_world()) && player.Is_in_world_view() ) {
+        if ( UnlocksDataAccess.Is_unlocked(session.Get_previous_world()) && session.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
         } else {
             left_button.setVisibility( View.GONE );
         }
 
-        if ( UnlocksDataAccess.Is_unlocked(player.Get_next_world()) && player.Is_in_world_view() ) {
+        if ( UnlocksDataAccess.Is_unlocked(session.Get_next_world()) && session.Is_in_world_view() ) {
             right_button.setVisibility( View.VISIBLE );
         } else {
             right_button.setVisibility( View.GONE );

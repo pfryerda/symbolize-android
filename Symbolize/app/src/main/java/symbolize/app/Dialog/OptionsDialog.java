@@ -1,7 +1,5 @@
 package symbolize.app.Dialog;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +7,8 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 
-import symbolize.app.Common.Request;
-import symbolize.app.Common.Response;
+import symbolize.app.Common.Communication.Request;
+import symbolize.app.Common.Communication.Response;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
@@ -21,6 +19,15 @@ import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
 public class OptionsDialog extends InfoDialog {
+    // Inherited fields
+    //------------------
+
+    /*
+    protected String title;
+    protected String message;
+    */
+
+
     // Protected methods
     //-------------------
 
@@ -117,6 +124,6 @@ public class OptionsDialog extends InfoDialog {
 
     @Override
     protected String get_dialog_id() {
-        return Page.Get_resource_string(R.string.options_dialog_id);
+        return Page.Get_resource_string( R.string.options_dialog_id );
     }
 }

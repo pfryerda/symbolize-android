@@ -1,18 +1,10 @@
 package symbolize.app.Game;
 
 
-import android.widget.LinearLayout;
-
-import java.util.ArrayList;
-
 import symbolize.app.Animation.GameAnimationHandler;
-import symbolize.app.Common.Line;
-import symbolize.app.Common.Player;
-import symbolize.app.Common.Posn;
-import symbolize.app.Common.Request;
-import symbolize.app.Common.Response;
-import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.DataAccess.UnlocksDataAccess;
+import symbolize.app.Common.Session;
+import symbolize.app.Common.Communication.Request;
+import symbolize.app.Common.Communication.Response;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
@@ -33,8 +25,8 @@ public class GameController {
     }
 
 
-    // Constructor/Get_Instance
-    //--------------------------
+    // Constructor
+    //-------------
 
     private GameController() {
         game_model = new GameModel();
@@ -45,8 +37,8 @@ public class GameController {
     //-------------
 
     public boolean Handle_request( final Request request, final Response response ) {
-        Player player = Player.Get_instance();
-        Puzzle current_puzzle = player.Get_current_puzzle();
+        Session session = Session.Get_instance();
+        Puzzle current_puzzle = session.Get_current_puzzle();
 
         if( request.Require_pre_render() ) {
             game_model.Update_view( false );
@@ -77,7 +69,7 @@ public class GameController {
                 break;
 
             case Request.Draw:
-                if ( game_model.Get_lines_drawn() < player.Get_current_puzzle().Get_draw_restriction() ) {
+                if ( game_model.Get_lines_drawn() < session.Get_current_puzzle().Get_draw_restriction() ) {
                     game_model.Add_line_via_draw( request.request_line );
                 } else {
                     GameView.Render_toast( R.string.out_of_lines );
@@ -108,7 +100,7 @@ public class GameController {
                 break;
 
             case Request.Shift:
-                game_model.Shift_graph( request.request_graphs );
+                game_model.Shift_graph( current_puzzle.Get_boards() );
                 break;
 
             case Request.Rotate_left:
@@ -123,7 +115,7 @@ public class GameController {
             case Request.Load_puzzle_left:
             case Request.Load_puzzle_right:
             case Request.Reset:
-                game_model.Set_puzzle( player.Get_current_puzzle() );
+                game_model.Set_puzzle( session.Get_current_puzzle() );
                 break;
 
             case Request.Shadow_line:
@@ -131,7 +123,7 @@ public class GameController {
                 break;
 
             case Request.Load_puzzle_start:
-                game_model.Set_puzzle( player.Get_current_puzzle() );
+                game_model.Set_puzzle( session.Get_current_puzzle() );
                 game_model.Refresh_view_object();
                 break;
 

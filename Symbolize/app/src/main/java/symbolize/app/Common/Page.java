@@ -33,7 +33,6 @@ public class Page extends FragmentActivity {
         return context;
     }
 
-    // BE CAREFUL WITH THIS METHOD
     public static Activity Get_activity() {
         return (Activity) context;
     }
@@ -42,7 +41,9 @@ public class Page extends FragmentActivity {
         return context.getString( id );
     }
 
-    // Used to fix bug, bug from API Level > 11
+    /*
+       Used to fix bug, bug from API Level > 11
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //No call for super(). Bug on API Level > 11.

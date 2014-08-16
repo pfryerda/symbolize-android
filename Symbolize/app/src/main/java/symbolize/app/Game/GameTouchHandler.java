@@ -6,6 +6,7 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 import symbolize.app.Animation.GameAnimationHandler;
+import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
 
@@ -84,6 +85,7 @@ public class GameTouchHandler {
         // Set up timers so initial timer.cancel does not crash
         erase_timer = new Timer();
         drag_timer = new Timer();
+
         // Set variables to default
         reset_vars();
     }
@@ -93,7 +95,7 @@ public class GameTouchHandler {
     //-------------
 
     public boolean handle_touch( final MotionEvent event ) {
-        if ( !GameAnimationHandler.InAnimation ) {
+        if ( !SymbolizeAnimation.InAnimation ) {
             switch ( event.getActionMasked() ) {
 
                 case MotionEvent.ACTION_DOWN: {
@@ -270,10 +272,6 @@ public class GameTouchHandler {
         return false;
     }
 
-    
-    // Handle Methods
-    //---------------
-
     /*
      * Controls how the states change based off the first finger down, and informs the Game
      * controller/activity accordingly.
@@ -400,7 +398,7 @@ public class GameTouchHandler {
      * controller/activity accordingly
      */
     private void handle_finger_move() {
-        if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWINGTHRESHOLD * Posn.DRAWINGTHRESHOLD ) ) {
+        if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWING_THRESHOLD * Posn.DRAWING_THRESHOLD ) ) {
             drag_timer.cancel();
         }
         listener.onFingerMove( new Line( point_one, current_point, Line.App ), current_point );
@@ -408,11 +406,4 @@ public class GameTouchHandler {
             listener.onErase( current_point );
         }
     }
-    
-
-    // Methods to be overridden in MainActivity
-    //------------------------------------------
-
-
-
 }
