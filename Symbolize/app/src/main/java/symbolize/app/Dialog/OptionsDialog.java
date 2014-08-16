@@ -8,6 +8,7 @@ import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
@@ -92,6 +93,7 @@ public class OptionsDialog extends InfoDialog {
                     public void OnDialogSuccess() {
                         UnlocksDataAccess.Remove_all_unlocks();
                         ProgressDataAccess.Remove_all_progress();
+                        MetaDataAccess.Reset_last_world();
                         startActivity( new Intent( GamePage.Get_context().getApplicationContext(), HomePage.class ) );
                     }
 

@@ -5,7 +5,7 @@ import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
 
 /*
- * A all static data access API for storing save data about what levels you have completed
+ * An all static data access API for storing save data about what levels you have completed
  */
 abstract public class ProgressDataAccess {
     // Static fields

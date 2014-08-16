@@ -2,6 +2,8 @@ package symbolize.app.Common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
@@ -13,7 +15,7 @@ public class Session {
     // Static field
     //-------------
 
-    public static final boolean DEV_MODE = true;
+    public static final boolean DEV_MODE = false;
 
 
     // Fields
@@ -44,13 +46,8 @@ public class Session {
     //-------------
 
     private Session() {
-        SharedPreferences settings_dao = Page
-                .Get_context()
-                .getSharedPreferences( Page.Get_resource_string( R.string.preference_unlocks_key ),
-                        Context.MODE_PRIVATE );
 
-
-        this.current_world = settings_dao.getInt( "current_world", 1 );
+        this.current_world = MetaDataAccess.Get_last_world();
         this.current_level = 0;
 
         this.current_puzzle = null;
