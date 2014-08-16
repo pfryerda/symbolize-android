@@ -9,6 +9,8 @@ import com.google.android.gms.ads.*;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
+
+import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Session;
@@ -86,27 +88,33 @@ public class GamePage extends Page
     // ---------------
 
     public void On_left_button_clicked( final View view ) {
-        Session session = Session.Get_instance();
+        if ( !SymbolizeAnimation.InAnimation ) {
+            Session session = Session.Get_instance();
 
-        session.Decrease_world();
-        load_world( Request.Load_puzzle_left );
+            session.Decrease_world();
+            load_world( Request.Load_puzzle_left );
+        }
     }
 
     public void On_back_button_clicked( final View view ) {
-        Session session = Session.Get_instance();
+        if ( !SymbolizeAnimation.InAnimation ) {
+            Session session = Session.Get_instance();
 
-        if ( session.Is_in_world_view() ) {
-            startActivity( new Intent( getApplicationContext(), HomePage.class ) );
-        } else {
-            load_world( Request.Load_world_via_level );
+            if ( session.Is_in_world_view() ) {
+                startActivity( new Intent( getApplicationContext(), HomePage.class ) );
+            } else {
+                load_world( Request.Load_world_via_level );
+            }
         }
     }
 
     public void On_right_button_clicked( final View view ) {
-        Session session = Session.Get_instance();
+        if ( !SymbolizeAnimation.InAnimation ) {
+            Session session = Session.Get_instance();
 
-        session.Increase_world();
-        load_world( Request.Load_puzzle_right );
+            session.Increase_world();
+            load_world( Request.Load_puzzle_right );
+        }
     }
 
     public void On_settings_button_clicked( final View view ) {
@@ -115,71 +123,76 @@ public class GamePage extends Page
     }
 
     public void On_reset_button_clicked( final View view ) {
-        Request request = new Request( Request.Reset );
-        GameController.Get_instance().Handle_request( request, new Response() );
+        if ( !SymbolizeAnimation.InAnimation ) {
+            Request request = new Request( Request.Reset );
+            GameController.Get_instance().Handle_request( request, new Response() );
+        }
     }
 
     public void On_check_button_clicked( final View view ) {
-        final Session session = Session.Get_instance();
-        final GameController controller = GameController.Get_instance();
-        final Puzzle current_puzzle = session.Get_current_puzzle();
+        if ( !SymbolizeAnimation.InAnimation ) {
+            final Session session = Session.Get_instance();
+            final GameController controller = GameController.Get_instance();
+            final Puzzle current_puzzle = session.Get_current_puzzle();
 
-        if ( Session.DEV_MODE ) {
-            Request request = new Request( Request.Log );
+            if ( Session.DEV_MODE ) {
+                Request request = new Request( Request.Log );
 
-            controller.Handle_request( request, new Response() );
-        }
-
-        Request request = new Request( Request.Check_correctness );
-
-        ConfirmDialog confirmDialog = new ConfirmDialog();
-        if ( controller.Handle_request( request, new Response() ) ) {
-            ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
-
-            if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBEROFWORLDS ) {
-                for( int unlock : current_puzzle.Get_unlocks() ) {
-                    UnlocksDataAccess.Unlock( unlock );
-                }
-
-                confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
-                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-                    @Override
-                    public void OnDialogSuccess() {
-                        session.Increase_world();
-                        load_world( Request.Load_puzzle_right );
-                    }
-
-                    @Override
-                    public void OnDialogFail() {}
-                } );
-                confirmDialog.Show();
-            } else if( session.Is_in_world_view() && session.Get_current_world() > PuzzleDB.NUMBEROFWORLDS ) {
-                InfoDialog info_dialog = new InfoDialog();
-                info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
-                                      getString( R.string.game_complete_dialog_msg ) );
-                info_dialog.Show();
-            } else if ( !session.Is_in_world_view() ) {
-                for( int unlock : current_puzzle.Get_unlocks() ) {
-                    UnlocksDataAccess.Unlock( session.Get_current_world(), unlock );
-                }
-
-                confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
-                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
-                    @Override
-                    public void OnDialogSuccess() {
-                        load_world( Request.Load_world_via_level );
-                    }
-
-                    @Override
-                    public void OnDialogFail() {}
-                } );
-                confirmDialog.Show();
+                controller.Handle_request( request, new Response() );
             }
 
-        } else {
-            GameView.Render_toast( R.string.incorrect );
-        }
+            Request request = new Request( Request.Check_correctness );
 
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            if ( controller.Handle_request( request, new Response() ) ) {
+                ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
+
+                if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
+                    for ( int unlock : current_puzzle.Get_unlocks() ) {
+                        UnlocksDataAccess.Unlock( unlock );
+                    }
+
+                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
+                    confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
+                        @Override
+                        public void OnDialogSuccess() {
+                            session.Increase_world();
+                            load_world( Request.Load_puzzle_right );
+                        }
+
+                        @Override
+                        public void OnDialogFail() {
+                        }
+                    });
+                    confirmDialog.Show();
+                } else if ( session.Is_in_world_view() && session.Get_current_world() > PuzzleDB.NUMBER_OF_WORLDS ) {
+                    InfoDialog info_dialog = new InfoDialog();
+                    info_dialog.Set_attrs( getString(R.string.puzzle_complete_dialog_title ),
+                            getString( R.string.game_complete_dialog_msg ) );
+                    info_dialog.Show();
+                } else if ( !session.Is_in_world_view() ) {
+                    for ( int unlock : current_puzzle.Get_unlocks() ) {
+                        UnlocksDataAccess.Unlock( session.Get_current_world(), unlock );
+                    }
+
+                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
+                    confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
+                        @Override
+                        public void OnDialogSuccess() {
+                            load_world( Request.Load_world_via_level );
+                        }
+
+                        @Override
+                        public void OnDialogFail() {
+                        }
+                    });
+                    confirmDialog.Show();
+                }
+
+            } else {
+                GameView.Render_toast( R.string.incorrect );
+            }
+        }
     }
 
     public void On_hint_button_clicked( final View view ) {
@@ -189,8 +202,10 @@ public class GamePage extends Page
     }
 
     public void On_undo_button_clicked( final View view ) {
-        Request request = new Request( Request.Undo );
-        GameController.Get_instance().Handle_request( request, new Response() );
+        if ( !SymbolizeAnimation.InAnimation ) {
+            Request request = new Request( Request.Undo );
+            GameController.Get_instance().Handle_request( request, new Response() );
+        }
     }
 
     public void On_draw_button_clicked( final View view ) {

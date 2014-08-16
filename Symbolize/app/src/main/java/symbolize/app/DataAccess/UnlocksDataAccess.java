@@ -51,9 +51,9 @@ abstract public class UnlocksDataAccess {
     }
 
     public static void Remove_all_unlocks() {
-        for ( int world  = 1; world <= PuzzleDB.NUMBEROFWORLDS; ++world ) {
+        for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             dao.Set_property( world + "", false, false );
-            for ( int level = 1; level <= PuzzleDB.NUMBEROFLEVELSPERWORLD; ++level ) {
+            for ( int level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
                 dao.Set_property( world + "-" + level, false, false );
             }
         }

@@ -11,7 +11,7 @@ public class Session {
     // Static field
     //-------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -86,11 +86,11 @@ public class Session {
     }
 
     public int Get_next_world() {
-        return ( Get_current_world() % PuzzleDB.NUMBEROFWORLDS ) + 1;
+        return ( Get_current_world() % PuzzleDB.NUMBER_OF_WORLDS ) + 1;
     }
 
     public int Get_previous_world() {
-        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBEROFWORLDS : Get_current_world() - 1;
+        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBER_OF_WORLDS : Get_current_world() - 1;
     }
 
     public Posn Get_current_pivot() {
