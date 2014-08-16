@@ -48,7 +48,7 @@ public class World extends Puzzle {
     public LinkedList<Line> Get_board() { return new LinkedList<Line>(); }
 
     public int Get_draw_restriction() {
-        int number_of_vertices = PuzzleDB.NUMBEROFLEVELSPERWORLD;
+        int number_of_vertices = PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
         return ( number_of_vertices * ( number_of_vertices - 1 ) ) / 2;
     }
 

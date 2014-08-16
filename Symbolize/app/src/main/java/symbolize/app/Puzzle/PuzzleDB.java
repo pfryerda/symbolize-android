@@ -38,8 +38,9 @@ abstract public class PuzzleDB {
     // Static fields
     //---------------
 
-    public static final int NUMBEROFWORLDS = 7;
-    public static final int NUMBEROFLEVELSPERWORLD = 15;
+    public static final int NUMBER_OF_WORLDS = 7;
+    public static final int NUMBER_OF_LEVELS_PER_WORLD = 15;
+
     private static final int[] hint_map = new int[]{ 0,
         R.array.world_1_hints, R.array.world_2_hints, R.array.world_3_hints,
         R.array.world_4_hints, R.array.world_5_hints, R.array.world_6_hints,
@@ -72,7 +73,7 @@ abstract public class PuzzleDB {
         R.xml.level_6_12, R.xml.level_6_13, R.xml.level_6_14, R.xml.level_6_15,
         R.xml.world_7, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
         R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
-        R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
+        R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10, R.xml.level_7_11 };
 
     private static final Resources res = Page.Get_context().getResources();
     private static XmlResourceParser xpp;
@@ -96,7 +97,7 @@ abstract public class PuzzleDB {
         // Set up temp fields
         final int world_num = Session.Get_instance().Get_current_world();
         final int level_num = Session.Get_instance().Get_current_level();
-        xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        xpp = res.getXml( xml_map[( NUMBER_OF_LEVELS_PER_WORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
@@ -287,7 +288,7 @@ abstract public class PuzzleDB {
         // Set up temp fields
         final int world_num = Session.Get_instance().Get_current_world();
         final int level_num = 0;
-        xpp = res.getXml( xml_map[( NUMBEROFLEVELSPERWORLD + 1 ) * ( world_num - 1 ) + level_num] );
+        xpp = res.getXml( xml_map[( NUMBER_OF_LEVELS_PER_WORLD + 1 ) * ( world_num - 1 ) + level_num] );
 
 
         // Set up level variables
