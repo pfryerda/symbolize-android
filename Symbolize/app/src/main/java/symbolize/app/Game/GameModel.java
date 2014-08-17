@@ -189,31 +189,17 @@ public class GameModel {
     }
 
     /*
-     * Checks if the given point is roughly on a line, and removes it from the graph
+     * Removes a line from the game and updates lines erased accordingly
      *
      * @param Posn point: The point to check is interesting
-     * @return boolean: true if the user added the line of it didn't interest, false if it intersected but didn't have enough erases
      */
-    public boolean Remove_line_via_erase( Posn point ) {
-
-        for ( Line line : graph ) {
-            if ( line.Intersects( point ) ) {
-                if ( ( Get_lines_erased() < Session.Get_instance().Get_current_puzzle().Get_erase_restriction() )
-                        || ( line.Get_owner() == Line.User ) )
-                {
-                    graph.remove( line );
-                    if ( line.Get_owner() == Line.App ) {
-                        ++lines_erased;
-                    } else {
-                        --lines_drawn;
-                    }
-                } else {
-                    return false;
-                }
-                break;
-            }
+    public void Remove_line_via_erase( Line line ) {
+        if ( line.Get_owner() == Line.App ) {
+            ++lines_erased;
+        } else {
+            --lines_drawn;
         }
-        return true;
+        graph.remove( line );
     }
 
     /*
@@ -301,7 +287,7 @@ public class GameModel {
     }
 
     public void Update_view( final Line shadow_line ) {
-        game_view.Render( graph,levels, shadow_line );
+        game_view.Render( graph, levels, shadow_line );
     }
 
     public void Update_view( final Posn shadow_posn ) {
@@ -320,6 +306,15 @@ public class GameModel {
      */
     public void Push_state() {
         past_state = clone();
+    }
+
+    public Line Get_intersecting_line( Posn point ) {
+        for ( Line line : graph ) {
+            if ( line.Intersects( point ) ) {
+                return line;
+            }
+        }
+        return null;
     }
 
 

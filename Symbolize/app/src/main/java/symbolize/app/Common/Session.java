@@ -15,7 +15,7 @@ public class Session {
     // Static field
     //-------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -46,13 +46,12 @@ public class Session {
     //-------------
 
     private Session() {
-
         this.current_world = MetaDataAccess.Get_last_world();
         this.current_level = 0;
 
         this.current_puzzle = null;
 
-        this.draw_enabled = true;
+        this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
         this.current_pivot = null;
     }
 

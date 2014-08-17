@@ -86,6 +86,6 @@ public class Request {
      * @returns whether the request is not one of the flags defined above
      */
     public boolean Is_invalid_type() {
-        return type < -1 || type > 21;
+        return type < -1 || type > 22;
     }
 }
