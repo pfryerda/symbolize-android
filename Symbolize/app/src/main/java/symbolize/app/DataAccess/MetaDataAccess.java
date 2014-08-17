@@ -18,7 +18,11 @@ abstract public class MetaDataAccess {
     //---------------
 
     public static int Get_last_world() {
-        return dao.Get_property( Page.Get_context().getString( R.string.last_world ), 1 );
+        return dao.Get_property( Page.Get_resource_string( R.string.last_world ), 1 );
+    }
+
+    public static boolean Get_last_draw_enabled() {
+        return dao.Get_property( Page.Get_resource_string( R.string.last_draw ), true );
     }
 
 
@@ -28,6 +32,11 @@ abstract public class MetaDataAccess {
     public static void Set_last_world() {
         dao.Set_property( Page.Get_context().getString( R.string.last_world ),
                           Session.Get_instance().Get_current_world() );
+    }
+
+    public static void Set_last_draw_enabled() {
+        dao.Set_property( Page.Get_context().getString( R.string.last_draw ),
+                Session.Get_instance().In_draw_mode() );
     }
 
 

@@ -2,6 +2,7 @@ package symbolize.app.Common;
 
 import java.util.ArrayList;
 import symbolize.app.Common.Communication.Request;
+import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;
 
 public class Posn {
@@ -102,9 +103,9 @@ public class Posn {
      */
     public void Scale() {
         first = Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( first * GameView.SCALING / GameView.CANVAS_SIZE ) ) );
+                Math.max( 0, Math.round( first * GameView.SCALING / GameUIView.CANVAS_SIZE ) ) );
         second = Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( second * GameView.SCALING / GameView.CANVAS_SIZE ) ) );
+                Math.max( 0, Math.round( second * GameView.SCALING / GameUIView.CANVAS_SIZE ) ) );
     }
 
     /*

@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import symbolize.app.Animation.SymbolizeAnimation;
@@ -66,8 +67,8 @@ public class GamePage extends Page
         adView.setAdListener( new AdListener() {} );
         adView.loadAd( ad_request );
 
-        // Set up the view
-        GameView.Set_up_view();
+        // Set ui dimensions - faster than xml
+        GameUIView.Set_ui_dimensions();
 
         // Load las world used or '1' is none was last used
         Session.Get_instance().Update_puzzle();
@@ -139,9 +140,11 @@ public class GamePage extends Page
             }
 
             Request request = new Request( Request.Check_correctness );
+            Response response = new Response();
+            controller.Handle_request( request,response );
 
-            ConfirmDialog confirmDialog = new ConfirmDialog();
-            if ( controller.Handle_request( request, new Response() ) ) {
+            if ( response.response_boolean  ) {
+                ConfirmDialog confirmDialog = new ConfirmDialog();
                 ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
 
                 if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
@@ -186,8 +189,6 @@ public class GamePage extends Page
                     confirmDialog.Show();
                 }
 
-            } else {
-                GameView.Render_toast( R.string.incorrect );
             }
         }
     }
@@ -404,5 +405,6 @@ public class GamePage extends Page
         SensorManager sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         sensor_manager.unregisterListener( this );
         MetaDataAccess.Set_last_world();
+        MetaDataAccess.Set_last_draw_enabled();
     }
 }

@@ -11,6 +11,7 @@ public class Response {
     //--------
 
     public Integer response_int;
+    public Boolean response_boolean;
     public Line response_line;
 
     // Constructors
@@ -18,6 +19,7 @@ public class Response {
 
     public Response( ) {
         this.response_int = null;
+        this.response_boolean = null;
         this.response_line = null;
     }
 }

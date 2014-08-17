@@ -20,6 +20,7 @@
     <string name="animation_settings">settings_animation</string>
     <string name="volume_settings">settings_volume</string>
     <string name="last_world">last_world</string>
+    <string name="last_draw">last_draw</string>
     <string name="options_dialog_id">options_dialog</string>
     <string name="info_dialog_id">info_dialog</string>
     <string name="hint_dialog_id">hint_dialog</string>
