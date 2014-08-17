@@ -133,7 +133,7 @@ public class GameView {
                 Render( graph, levels, false );
                 if( requires_hint_box ) {
                     HintDialog hint_dialog = new HintDialog();
-                    hint_dialog.Set_attrs( Session.Get_instance().Get_current_puzzle() );
+                    hint_dialog.Set_attrs();
                     hint_dialog.Show();
                 }
             }

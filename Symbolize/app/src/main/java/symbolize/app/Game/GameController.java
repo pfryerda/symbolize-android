@@ -64,6 +64,7 @@ public class GameController {
 
                 case Request.Check_correctness:
                     response.response_boolean = true;
+                    break;
 
                 case Request.Undo:
                     game_model = game_model.getPastState();

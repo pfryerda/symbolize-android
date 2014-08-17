@@ -16,6 +16,7 @@ import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Page;
 import symbolize.app.Common.Session;
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.R;
 
@@ -34,6 +35,8 @@ public class GameUIView {
     public static final int BOTTOM_BUTTON_WIDTH;
     public static final int TOP_BUTTON_WIDTH;
 
+    private static Button draw_button;
+    private static Button erase_button;
     private static Button left_button;
     private static Button right_button;
     private static TextView title;
@@ -75,6 +78,12 @@ public class GameUIView {
         } else {
             right_button.setVisibility( View.INVISIBLE );
         }
+
+        if ( ( session.Get_current_puzzle().Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
+            erase_button.setVisibility( View.VISIBLE );
+        } else {
+            erase_button.setVisibility( View.INVISIBLE );
+        }
     }
 
 
@@ -88,9 +97,11 @@ public class GameUIView {
         final Activity activity = GamePage.Get_activity();
 
         // Reset variable
-        left_button = (Button) GamePage.Get_activity().findViewById( R.id.Left );
-        right_button = (Button) GamePage.Get_activity().findViewById( R.id.Right );
-        title = (TextView) GamePage.Get_activity().findViewById( R.id.Title );
+        draw_button = (Button) activity.findViewById( R.id.Draw );
+        erase_button = (Button) activity.findViewById( R.id.Erase );
+        left_button = (Button) activity.findViewById( R.id.Left );
+        right_button = (Button) activity.findViewById(R.id.Right);
+        title = (TextView) activity.findViewById(R.id.Title);
 
         // Set canvas heights
         activity.findViewById( R.id.background ).getLayoutParams().height = CANVAS_SIZE;
