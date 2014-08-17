@@ -146,6 +146,7 @@ public class GamePage extends Page
             if ( response.response_boolean  ) {
                 ConfirmDialog confirmDialog = new ConfirmDialog();
                 ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
+                MetaDataAccess.Update_mechanics_seen();
 
                 if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
                     for ( int unlock : current_puzzle.Get_unlocks() ) {
@@ -195,7 +196,7 @@ public class GamePage extends Page
 
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attrs( Session.Get_instance().Get_current_puzzle() );
+        hint_dialog.Set_attrs();
         hint_dialog.Show();
     }
 

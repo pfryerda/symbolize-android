@@ -19,12 +19,22 @@
     <string name="snap_settings">settings_snap</string>
     <string name="animation_settings">settings_animation</string>
     <string name="volume_settings">settings_volume</string>
-    <string name="last_world">last_world</string>
-    <string name="last_draw">last_draw</string>
     <string name="options_dialog_id">options_dialog</string>
     <string name="info_dialog_id">info_dialog</string>
     <string name="hint_dialog_id">hint_dialog</string>
     <string name="confirmation_dialog_id">confirmation_dialog</string>
+    <string name="last_world">last_world</string>
+    <string name="last_draw">last_draw</string>
+    <string name="seen_world">seen_world</string>
+    <string name="seen_draw">seen_draw</string>
+    <string name="seen_rotate">seen_rotate</string>
+    <string name="seen_erase">seen_erase</string>
+    <string name="seen_flip">seen_flip</string>
+    <string name="seen_shift">seen_shift</string>
+    <string name="seen_drag">seen_drag</string>
+    <string name="seen_color_change">seen_color_change</string>
+    <string name="seen_special">seen_special</string>
+
 
     <!-- Common strings -->
     <string name="world">World</string>
@@ -69,5 +79,21 @@
     <string name="flip">flip</string>
     <string name="shift">shift</string>
     <string name="change_color">change color</string>
+
+    <!-- Tutorial messages -->
+    <string name="world_tutorial">Connect the dots to solve the puzzle</string>
+    <string name="draw_tutorial">Push your finger down to start the draw,
+        let go in order to end the draw</string>
+    <string name="rotate_tutorial">Using two fingers rotate your left finger to the
+        left and your right finger to right to right to rotate the graph to the right.
+        Rotate your left finder right and your right finger left to roate left</string>
+    <string name="erase_tutorial">Hit the erase button in the bottom right corner to
+        enter erase mode and drag your finger over the desired line you wish to erase</string>
+    <string name="flip_tutorial">Using two finger start on one of the screen and drag them to the
+        other side to flip the graph horizontal. Do the same going down or up to flip vertically</string>
+    <string name="shift_tutorial">Do one hard shake of your device to shift the current graph to the next graph</string>
+    <string name="drag_tutorial">Tap and hold to select a line to move</string>
+    <string name="change_color_tutorial">Tap one of the lines in the graph to cycle through possible colors</string>
+    <string name="special_tutorial">Double tap away from one the graph for a surprise</string>
 
 </resources>

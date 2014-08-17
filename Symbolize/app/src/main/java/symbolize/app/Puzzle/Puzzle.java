@@ -53,6 +53,10 @@ abstract public class Puzzle {
     // Public methods
     //----------------
 
+    public boolean Has_mechanics() {
+        return Can_rotate() || Can_flip() || Can_shift() || Can_change_color();
+    }
+
     public boolean Can_rotate() {
         return rotate_enabled || Session.DEV_MODE;
     }
