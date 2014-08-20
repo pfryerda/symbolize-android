@@ -68,13 +68,32 @@ public class GameModel {
     // Getter methods
     //---------------
 
-
     public int Get_lines_drawn() {
         if ( Session.DEV_MODE ) {
             return -1;
         } else {
             return lines_drawn;
         }
+    }
+
+    public int Get_lines_erased() {
+        if ( Session.DEV_MODE ) {
+            return -1;
+        } else {
+            return lines_erased;
+        }
+    }
+
+    public int Get_lines_dragged() {
+        if ( Session.DEV_MODE ) {
+            return -1;
+        } else {
+            return lines_dragged;
+        }
+    }
+
+    public GameModel Get_past_state() {
+        return past_state;
     }
 
     public ArrayList<Posn> Get_completed_levels() {
@@ -101,25 +120,13 @@ public class GameModel {
         return unlocked_levels;
     }
 
-    public int Get_lines_erased() {
-        if ( Session.DEV_MODE ) {
-            return -1;
-        } else {
-            return lines_erased;
-        }
+    public LinkedList<Line> Get_simplified_graph() {
+        return simplify_graph( (LinkedList<Line> ) graph.clone() );
     }
 
-    public int Get_lines_dragged() {
-        if ( Session.DEV_MODE ) {
-            return -1;
-        } else {
-            return lines_dragged;
-        }
-    }
 
-    public GameModel getPastState() {
-        return past_state;
-    }
+    // Setter methods
+    //----------------
 
     public void Set_puzzle( final Puzzle puzzle ) {
         graph.clear();
@@ -165,7 +172,7 @@ public class GameModel {
      * @return boolean: true if correct false otherwise
      */
     public boolean Check_correctness() {
-        return Session.Get_instance().Get_current_puzzle().Check_correctness( graph );
+        return Session.Get_instance().Get_current_puzzle().Check_correctness( Get_simplified_graph() );
     }
 
     /*
@@ -216,14 +223,12 @@ public class GameModel {
      * @return Line: Return the that was removes, if no line intersected return null
      */
     public Line Remove_line_via_drag( Posn point ) {
-        for ( Line line : graph ) {
-            if ( line.Intersects( point ) ) {
-                graph.remove( line );
-                ++lines_dragged;
-                return line;
-            }
+        Line line = Get_intersecting_line( point );
+        if( line != null ) {
+            graph.remove( line );
+            ++lines_dragged;
         }
-        return null;
+        return line;
     }
 
     /*
@@ -232,11 +237,9 @@ public class GameModel {
      * @param Posn point: The point of interest
      */
     public void Change_color( Posn point ) {
-        for ( Line line : graph ) {
-            if ( line.Intersects( point ) ) {
-                line.Edit( Request.Change_color );
-                break;
-            }
+        Line line = Get_intersecting_line( point );
+        if ( line != null ) {
+            line.Edit( Request.Change_color );
         }
     }
 
@@ -318,6 +321,51 @@ public class GameModel {
     }
 
 
+    // Private methods
+    //-----------------
+
+    /*
+     * given a graph will find two lines that intersect with similar
+     * slopes and merges them, then recurses
+     *
+     * @param LinkedList<Line> graph: The graph wanting to simplify
+     * @return LinkedList<Line>: Returns the simplified graph
+     */
+    private LinkedList<Line> simplify_graph( LinkedList<Line> cloned_graph ) {
+        if ( cloned_graph.size() != 0 ) {
+            for ( Line line_1 : cloned_graph ) {
+                for ( Line line_2 : cloned_graph ) {
+                    if ( line_1.Mergeable( line_2 ) ) {
+                        // Remove old lines
+                        cloned_graph.remove( line_1 );
+                        cloned_graph.remove( line_2 );
+
+                        // Find new line and add it
+                        LinkedList<Line> guesses = new LinkedList<Line>();
+                        guesses.add( new Line( line_1.Get_p1(), line_2.Get_p1() ) );
+                        guesses.add( new Line( line_1.Get_p1(), line_2.Get_p2() ) );
+                        guesses.add( new Line( line_1.Get_p2(), line_2.Get_p1() ) );
+                        guesses.add( new Line( line_1.Get_p2(), line_2.Get_p2() ) );
+
+                        Line merged_line = guesses.get( 0 );
+
+                        for ( Line guess : guesses ) {
+                            if ( merged_line.Distance_squared() < guess.Distance_squared() ) {
+                                merged_line = guess;
+                            }
+                        }
+
+                        cloned_graph.add( merged_line );
+
+                        return simplify_graph( cloned_graph );
+                    }
+                }
+            }
+        }
+       return cloned_graph;
+    }
+
+
     // Developer method
     //-----------------
 
@@ -327,7 +375,7 @@ public class GameModel {
     public void LogGraph() {
         String graph_string = "Xml for current graph";
         graph_string += "\n<graph>";
-        for ( Line line : graph ) {
+        for ( Line line : Get_simplified_graph() ) {
             graph_string += "\n" + line.Print_line();
         }
         graph_string += "\n</graph>";

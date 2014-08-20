@@ -1,7 +1,6 @@
 package symbolize.app.Game;
 
 import android.util.Log;
-
 import symbolize.app.Animation.GameAnimationHandler;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Session;
@@ -67,7 +66,7 @@ public class GameController {
                     break;
 
                 case Request.Undo:
-                    game_model = game_model.getPastState();
+                    game_model = game_model.Get_past_state();
                     break;
 
                 case Request.Draw:
@@ -152,7 +151,7 @@ public class GameController {
                 return response.response_boolean;
 
             case Request.Undo:
-                return game_model.getPastState() != null;
+                return game_model.Get_past_state() != null;
 
             case Request.Draw:
                 return game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction();

@@ -22,12 +22,17 @@ public class Posn {
     //--------------
 
     public Posn() {
-        this( null, null );
+        this( (Integer) null, null );
     }
 
     public Posn( Integer x0, Integer y0 ) {
         first = x0;
         second = y0;
+    }
+
+    public Posn( Float x0, Float y0 ) {
+        first = Math.round( x0 );
+        second = Math.round( y0 );
     }
 
 
@@ -86,6 +91,39 @@ public class Posn {
         } else {
             return second < point.y();
         }
+    }
+
+    /*
+     * Subtract two points
+     *
+     * @param Posn point_2: Point you are subtracting
+     * @return Posn: The resulting subtracted point
+     */
+    public Posn Subtract( final Posn posn_2 ) {
+        return new Posn( first - posn_2.first, second - posn_2.second );
+    }
+
+    /*
+     * Treat the posn's as vectors and calculate the dot product of the two points
+     *
+     * @param Posn vector: the 'vector' you are dot producting against
+     * @return int: The dot product
+     */
+    public int Dot( final Posn vector ) {
+        return first * vector.first + second * vector.second;
+    }
+
+    /*
+     * Treates the posn's as vectors and gets the angle between them
+     *
+     * @param Posn vector: The 'vector' you are getting the angle with
+     * @return double: The angle in degrees
+     */
+    public double Angle( final Posn vector ) {
+        return Math.toDegrees( Math.atan(
+                ( (float) ( first * vector.second - second * vector.first ) /
+                        Dot( vector ) + 360 ) % 360
+        ) );
     }
 
     /*
