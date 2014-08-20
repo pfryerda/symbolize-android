@@ -19,6 +19,8 @@ public class Line {
     //---------------
 
     public static final int ERASING_THRESHOLD = GameView.SCALING / 13;
+    public static final int ANGLE_THRESHOLD_1 = 10;
+    public static final int ANGLE_THRESHOLD_2 = 5;
     public static final ArrayList<Integer> COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;
 
@@ -61,6 +63,10 @@ public class Line {
         this.p2 = null;
         this.color = Color.BLACK;
         this.owner = Line.App;
+    }
+
+    public Line( final Posn pt1, final Posn pt2 ) {
+        this( pt1, pt2, Color.BLACK, Line.App );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int creator ) {
@@ -127,6 +133,51 @@ public class Line {
     }
 
     /*
+     * Checks to see if two lines are so close that they could be merged
+     *
+     * @paran Line line_2: The line you are checking against
+     * @return boolean: true if they are mergable, flase otherwise
+     */
+    public boolean Mergeable( Line line_2 ) {
+        if ( this == line_2 ) {
+            return false;
+        }
+
+        Posn intersecting_point = Get_intersecting_point( line_2 );
+        if ( intersecting_point != null ) {
+            Posn vector_1 = p2.Subtract( intersecting_point );
+            Posn vector_2 = line_2.p2.Subtract( intersecting_point );
+            Posn vector_3 = p1.Subtract( intersecting_point );
+            Posn vector_4 = line_2.p1.Subtract( intersecting_point );
+
+            double[] angles = new double[4];
+            angles[0] = vector_1.Angle( vector_2 );
+            angles[1] = vector_3.Angle( vector_4 );
+            angles[2] = vector_1.Angle( vector_4 );
+            angles[3] = vector_2.Angle( vector_3 );
+
+            double angle = angles[0];
+            //boolean is_x_shaped = ( angle - ANGLE_THRESHOLD_2 ) <= 90 && 90 <= ( angle + ANGLE_THRESHOLD_2 );
+            for ( int i = 1; i < angles.length; ++i ) {
+                if( angles[i] == angles[i] ) {  // if angles[i] != NaN
+                    //is_x_shaped = is_x_shaped && ( angles[i] - ANGLE_THRESHOLD_2 ) <= 90 && 90 <= ( angles[i] + ANGLE_THRESHOLD_2 );
+                    if ( angle != angle ) {     // if angle == NaN
+                        angle = angles[i];
+                    } else {
+                        angle = Math.min( angle, angles[i] );
+                    }
+                } else {
+                    //is_x_shaped = false;
+                }
+            }
+
+            return angle <= ANGLE_THRESHOLD_1; /*||
+                    ( ( angle - ANGLE_THRESHOLD_2 ) <= 90 && 90 <= ( angle + ANGLE_THRESHOLD_2 ) && !is_x_shaped ) ;*/
+        }
+        return false;
+    }
+
+    /*
      * Method that calculates euclidean distance squared
      */
     public int Distance_squared() {
@@ -176,6 +227,57 @@ public class Line {
             return true;
         }
         return false;
+    }
+
+    /*
+     * Method to get the intersecting point of two lines
+     *
+     * @param Line line_2: The other line in question
+     * @return Posn: The intersecting point
+     */
+    public Posn Get_intersecting_point( final Line line_2 ) {
+        Float x;
+        Float y;
+
+        float m1 = slope();
+        float m2 = line_2.slope();
+
+        if( m1 == Float.POSITIVE_INFINITY ) {
+            if ( Math.min( line_2.p1.x(), line_2.p2.x() ) <= p1.x() && p1.x() <= Math.max( line_2.p1.x(), line_2.p2.x() ) ) {
+                x = (float) p1.x();
+                y = m2 * x + line_2.y_intercept();
+                return new Posn( x, y );
+            }
+        } else if( m2 == Float.POSITIVE_INFINITY ) {
+            if ( Math.min( p1.x(), p2.x() ) <= line_2.p1.x() && line_2.p1.x() <= Math.max( p1.x(), p2.x() ) ) {
+                x = (float) line_2.p1.x();
+                y = m1 * x + y_intercept();
+                return new Posn( x, y );
+            }
+        } else if ( m1 != m2 ) {
+            x = ( line_2.y_intercept() - y_intercept() ) / ( m1 - m2 );
+            y = m1 * x + y_intercept();
+
+            if ( Math.min( p1.x(), p2.x() ) <= x && x <= Math.max( p1.x(), p2.x() ) &&
+                 Math.min( p1.y(), p2.y() ) <= y && y <= Math.max( p1.y(), p2.y() ) &&
+                 Math.min( line_2.p1.x(), line_2.p2.x() ) <= x && x <= Math.max( line_2.p1.x(), line_2.p2.x() ) &&
+                 Math.min( line_2.p1.y(), line_2.p2.y() ) <= y && y <= Math.max( line_2.p1.x(), line_2.p2.x() ) )
+            {
+                return new Posn( x, y );
+            }
+        }
+
+        if( Intersects( line_2.Get_p1() ) ) {
+            return line_2.Get_p1();
+        } else if ( Intersects( line_2.Get_p2() ) ) {
+            return line_2.Get_p2();
+        } else if ( line_2.Intersects( p1 ) ) {
+            return p1;
+        } else if( line_2.Intersects( p2 ) ) {
+            return p2;
+        }
+
+        return null;
     }
 
     /*

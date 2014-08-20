@@ -138,6 +138,7 @@ public class GameUIView {
         switch ( request_type ) {
             case Request.Check_correctness:
                 render_toast( R.string.incorrect );
+                break;
 
             case Request.Undo:
                 render_toast( R.string.nothing_to_undo );
