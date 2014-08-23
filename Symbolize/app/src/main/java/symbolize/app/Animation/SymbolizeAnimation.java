@@ -5,6 +5,8 @@ import android.view.animation.AnimationSet;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 
+import symbolize.app.R;
+
 /*
  * A Generic animation class that contains a list of animationsets to be played one after another,
  * where an animationset is a set of animations to be played together
@@ -58,6 +60,7 @@ public class SymbolizeAnimation {
                 animations.get( 0 ).setAnimationListener( new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart( Animation animation ) {
+                        linearLayout.findViewById( R.id.game_adspace ).clearAnimation();
                         InAnimation = true;
                     }
 

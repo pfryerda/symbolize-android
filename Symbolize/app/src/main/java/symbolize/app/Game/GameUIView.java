@@ -100,14 +100,16 @@ public class GameUIView {
         draw_button = (Button) activity.findViewById( R.id.Draw );
         erase_button = (Button) activity.findViewById( R.id.Erase );
         left_button = (Button) activity.findViewById( R.id.Left );
-        right_button = (Button) activity.findViewById(R.id.Right);
-        title = (TextView) activity.findViewById(R.id.Title);
+        right_button = (Button) activity.findViewById( R.id.Right );
+        title = (TextView) activity.findViewById( R.id.Title );
 
         // Set canvas heights
-        activity.findViewById( R.id.background ).getLayoutParams().height = CANVAS_SIZE;
-        activity.findViewById( R.id.background ).getLayoutParams().width = CANVAS_SIZE;
-        activity.findViewById( R.id.foreground ).getLayoutParams().height = CANVAS_SIZE;
-        activity.findViewById( R.id.foreground ).getLayoutParams().width = CANVAS_SIZE;
+        //activity.findViewById( R.id.background ).getLayoutParams().height = CANVAS_SIZE;
+        //activity.findViewById( R.id.background ).getLayoutParams().width = CANVAS_SIZE;
+        //activity.findViewById( R.id.foreground ).getLayoutParams().height = CANVAS_SIZE;
+        //activity.findViewById( R.id.foreground ).getLayoutParams().width = CANVAS_SIZE;
+        activity.findViewById( R.id.fake_canvas ).getLayoutParams().height = CANVAS_SIZE;
+        activity.findViewById( R.id.fake_canvas ).setVisibility( View.INVISIBLE );
 
         // Set the buttons/layout width/height - 'Faster than doing it via xml'
         activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
