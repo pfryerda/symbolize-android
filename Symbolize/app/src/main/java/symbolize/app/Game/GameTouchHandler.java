@@ -45,6 +45,9 @@ public class GameTouchHandler {
     private boolean in_drag_mode;
     private Timer drag_timer;
 
+    private boolean single_tap_complete;
+    private Timer double_tap_timer;
+
     private long start_time;
     private boolean in_double_touch;
 
@@ -58,6 +61,7 @@ public class GameTouchHandler {
         public void onFingerUp();
         public void onFingerMove( final Line line, final Posn point );
         public void onTap( final Posn point );
+        public void onDoubleTap( final Posn point );
         public Line onDragStart( final Posn point );
         public void onDragEnd( final Line line );
         public void onEnterDoubleTouch();
@@ -85,6 +89,9 @@ public class GameTouchHandler {
         // Set up timers so initial timer.cancel does not crash
         erase_timer = new Timer();
         drag_timer = new Timer();
+        double_tap_timer = new Timer();
+
+        single_tap_complete = false;
 
         // Set variables to default
         reset_vars();
@@ -330,11 +337,24 @@ public class GameTouchHandler {
             } else {
                 Line line = new Line( point_one, point_one_end, Line.User );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    listener.onDraw( new Line( point_one, point_one_end, Line.User ) );
+                    listener.onDraw(new Line(point_one, point_one_end, Line.User));
+                } else if ( single_tap_complete ) {
+                    listener.onDoubleTap( point_one_end );
+                    single_tap_complete = false;
+                    double_tap_timer.cancel();
+                    double_tap_timer = new Timer();
                 } else if ( ( end_time - start_time) <= TAPTHRESHOLD ) {
                     listener.onTap( point_one_end );
+                    single_tap_complete = true;
+                    double_tap_timer.cancel();
+                    double_tap_timer = new Timer();
+                    double_tap_timer.schedule( new TimerTask() {
+                        @Override
+                        public void run() {
+                            single_tap_complete = false;
+                        }
+                    }, TAPTHRESHOLD );
                 }
-
             }
             start_time = end_time;
             reset_vars();

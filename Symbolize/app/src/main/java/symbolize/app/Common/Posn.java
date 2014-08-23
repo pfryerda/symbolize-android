@@ -56,6 +56,14 @@ public class Posn {
     }
 
 
+    // Setter methods
+    //---------------
+
+    public void Set_x( int x ) { first = x; }
+
+    public void Set_y( int y ) { second = y; }
+
+
     // Public Methods
     //----------------
 

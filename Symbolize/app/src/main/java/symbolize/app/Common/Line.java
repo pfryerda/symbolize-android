@@ -125,7 +125,15 @@ public class Line {
      */
     public void Edit( final int request_type ) {
         if ( request_type == Request.Change_color ) {
-            color = COLOR_ARRAY.get( ( COLOR_MAP.get(color) + 1 ) % COLOR_ARRAY.size() );
+            color = COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
+        } else if ( request_type == Request.SPECIAL_SLOPE_ZERO ) {
+            Posn mid_point = mid_point();
+            p1.Set_y( mid_point.y() );
+            p2.Set_y( mid_point.y() );
+        } else if ( request_type == Request.SPECIAL_SLOPE_INF ) {
+            Posn mid_point = mid_point();
+            p1.Set_x( mid_point.x() );
+            p2.Set_x( mid_point.x() );
         } else {
             p1.Edit( request_type );
             p2.Edit( request_type );
@@ -328,6 +336,13 @@ public class Line {
     private float y_intercept() {
         int dx = p2.x() - p1.x();
         return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( slope() * p1.x() );
+    }
+
+    /*
+     * Calculate the midpoint of the line
+     */
+    private Posn mid_point() {
+        return new Posn( ( p1.x() + p2.x() ) / 2, ( p1.y() + p2.y() ) / 2 );
     }
 
 

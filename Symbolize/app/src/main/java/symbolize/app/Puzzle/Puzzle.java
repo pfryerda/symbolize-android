@@ -69,6 +69,10 @@ abstract public class Puzzle {
         return colour_enabled|| Session.DEV_MODE;
     }
 
+    public boolean Is_special_enabled() {
+        return Get_special_type() != 0;
+    }
+
     public boolean Check_correctness( final LinkedList<Line> graph ) {
         for( LinkedList<Line> s : solutions ) {
             if ( s.size() == graph.size() ) {
