@@ -16,6 +16,7 @@ public class GameTouchHandler {
     //--------------
 
     public static final int TAPTHRESHOLD = 250;
+    public static final int DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
     public static final int FLIPPINGTHRESHOLD = 140;
     public static final int MINLINESIZESQR = 10000;
     public static final int ERASEDELAY = 250;
@@ -353,7 +354,7 @@ public class GameTouchHandler {
                         public void run() {
                             single_tap_complete = false;
                         }
-                    }, TAPTHRESHOLD );
+                    }, DOUBLETAPTHRESHOLD );
                 }
             }
             start_time = end_time;
