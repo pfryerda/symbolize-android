@@ -1,87 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="#FFFFFFFF"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
-    android:id="@+id/background">
+    android:id="@+id/game_page">
 
-    <FrameLayout
-        android:id="@+id/foreground"
+    <LinearLayout
+        android:id="@+id/background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="#80FFFFFF" >
-
+        android:layout_alignParentTop="true">
         <LinearLayout
-            android:id="@+id/topbar"
+            android:id="@+id/foreground"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/Left"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_left_button_clicked"
-                android:text="L"/>
-            <Button
-                android:id="@+id/Back"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_back_button_clicked"
-                android:text="B"/>
-            <Button
-                android:id="@+id/Right"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_right_button_clicked"
-                android:text="R"/>
-
-            <TextView
-                android:id="@+id/Title"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:textSize="30dp"
-                android:textColor="@color/black"
-                android:gravity="center"/>
-
-            <Button
-                android:id="@+id/Reset"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_reset_button_clicked"
-                android:text="R"/>
-
-            <Button
-                android:id="@+id/Settings"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_settings_button_clicked"
-                android:text="S" />
-
-            </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fake_canvas"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:background="#80FFFFFF">
-            </LinearLayout>
+            android:layout_gravity="center">
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/Left"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:onClick="On_left_button_clicked"
+            android:text="L"/>
+        <Button
+            android:id="@+id/Back"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:onClick="On_back_button_clicked"
+            android:text="B"/>
+        <Button
+            android:id="@+id/Right"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:onClick="On_right_button_clicked"
+            android:text="R"/>
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textSize="30dp"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/Reset"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:onClick="On_reset_button_clicked"
+            android:text="R"/>
+
+        <Button
+            android:id="@+id/Settings"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:onClick="On_settings_button_clicked"
+            android:text="S" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/bottom_bar"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:id="@+id/buttons"
@@ -89,54 +96,54 @@
             android:layout_height="0dp"
             android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/Check"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_check_button_clicked"
-                android:text="C"/>
-            <Button
-                android:id="@+id/Hint"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_hint_button_clicked"
-                android:text="H"/>
-            <Button
-                android:id="@+id/Undo"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_undo_button_clicked"
-                android:text="U"/>
-            <Button
-                android:id="@+id/Draw"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_draw_button_clicked"
-                android:text="D" />
-            <Button
-                android:id="@+id/Erase"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:onClick="On_erase_button_clicked"
-                android:text="E"/>
-        </LinearLayout>
+                <Button
+                    android:id="@+id/Check"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:onClick="On_check_button_clicked"
+                    android:text="C"/>
+                <Button
+                    android:id="@+id/Hint"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:onClick="On_hint_button_clicked"
+                    android:text="H"/>
+                <Button
+                    android:id="@+id/Undo"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:onClick="On_undo_button_clicked"
+                    android:text="U"/>
+                <Button
+                    android:id="@+id/Draw"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:onClick="On_draw_button_clicked"
+                    android:text="D" />
+                <Button
+                    android:id="@+id/Erase"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:onClick="On_erase_button_clicked"
+                    android:text="E"/>
+            </LinearLayout>
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/game_adspace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ads:adUnitId="ca-app-pub-1155399458000973/5500786240"
-            ads:adSize="BANNER"/>
-    </FrameLayout>
-</FrameLayout>
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/game_adspace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adUnitId="ca-app-pub-1155399458000973/5500786240"
+                ads:adSize="BANNER"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -15,6 +15,7 @@ import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Game.GameController;
 import symbolize.app.Game.GamePage;
+import symbolize.app.Game.GameUIView;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
@@ -58,6 +59,7 @@ public class OptionsDialog extends InfoDialog {
                 OptionsDataAccess.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
                 GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response() );
+                GameUIView.Update_ui();
             }
         } );
 

@@ -1,12 +1,14 @@
 package symbolize.app.Game;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Page;
 import symbolize.app.Common.Session;
 import symbolize.app.DataAccess.MetaDataAccess;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.R;
 
@@ -32,9 +35,12 @@ public class GameUIView {
     public static final Point SCREEN_SIZE;
     public static final int CANVAS_SIZE;
     public static final int BAR_HEIGHT;
+    public static final int AD_HEIGHT;
     public static final int BOTTOM_BUTTON_WIDTH;
     public static final int TOP_BUTTON_WIDTH;
 
+    private static LinearLayout top_bar;
+    private static LinearLayout bottom_bar;
     private static Button draw_button;
     private static Button erase_button;
     private static Button left_button;
@@ -52,8 +58,9 @@ public class GameUIView {
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
 
+        AD_HEIGHT = AdSize.BANNER.getHeightInPixels( activity );
         CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
-        BAR_HEIGHT = ( SCREEN_SIZE.y - CANVAS_SIZE - AdSize.BANNER.getHeightInPixels( activity ) ) / 2;
+        BAR_HEIGHT = ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2;
         BOTTOM_BUTTON_WIDTH = SCREEN_SIZE.x / 5;
         TOP_BUTTON_WIDTH = BOTTOM_BUTTON_WIDTH / 2;
     }
@@ -84,6 +91,14 @@ public class GameUIView {
         } else {
             erase_button.setVisibility( View.INVISIBLE );
         }
+
+        if ( OptionsDataAccess.Show_border() ) {
+            top_bar.setBackgroundColor( Color.WHITE );
+            bottom_bar.setBackgroundColor( Color.WHITE );
+        } else {
+            top_bar.setBackgroundColor( Color.TRANSPARENT );
+            bottom_bar.setBackgroundColor( Color.TRANSPARENT );
+        }
     }
 
 
@@ -97,6 +112,8 @@ public class GameUIView {
         final Activity activity = GamePage.Get_activity();
 
         // Reset variable
+        top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
+        bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
         draw_button = (Button) activity.findViewById( R.id.Draw );
         erase_button = (Button) activity.findViewById( R.id.Erase );
         left_button = (Button) activity.findViewById( R.id.Left );
@@ -104,16 +121,14 @@ public class GameUIView {
         title = (TextView) activity.findViewById( R.id.Title );
 
         // Set canvas heights
-        //activity.findViewById( R.id.background ).getLayoutParams().height = CANVAS_SIZE;
-        //activity.findViewById( R.id.background ).getLayoutParams().width = CANVAS_SIZE;
-        //activity.findViewById( R.id.foreground ).getLayoutParams().height = CANVAS_SIZE;
-        //activity.findViewById( R.id.foreground ).getLayoutParams().width = CANVAS_SIZE;
-        activity.findViewById( R.id.fake_canvas ).getLayoutParams().height = CANVAS_SIZE;
-        activity.findViewById( R.id.fake_canvas ).setVisibility( View.INVISIBLE );
+        //activity.findViewById( R.id.background ).getLayoutParams().height = SCREEN_SIZE.y;
+        //activity.findViewById( R.id.background ).getLayoutParams().width = SCREEN_SIZE.x;
+        //activity.findViewById( R.id.foreground ).getLayoutParams().height = SCREEN_SIZE.y;
+        //activity.findViewById( R.id.foreground ).getLayoutParams().width = SCREEN_SIZE.x;
 
         // Set the buttons/layout width/height - 'Faster than doing it via xml'
+        activity.findViewById( R.id.top_bar ).getLayoutParams().height = BAR_HEIGHT;
         activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
-        activity.findViewById( R.id.topbar ).getLayoutParams().height = BAR_HEIGHT;
 
         activity.findViewById( R.id.Check ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         activity.findViewById( R.id.Hint ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;

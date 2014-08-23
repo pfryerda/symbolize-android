@@ -60,7 +60,6 @@ public class SymbolizeAnimation {
                 animations.get( 0 ).setAnimationListener( new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart( Animation animation ) {
-                        linearLayout.findViewById( R.id.game_adspace ).clearAnimation();
                         InAnimation = true;
                     }
 

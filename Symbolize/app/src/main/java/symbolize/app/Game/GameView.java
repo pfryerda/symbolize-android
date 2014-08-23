@@ -39,9 +39,9 @@ public class GameView {
     //-------------
 
     public static final int SCALING = 1000;
-    public static final int LINE_WIDTH = SCALING / 17;
-    public static final int LINE_BORDER_WIDTH = SCALING / 50;
-    public static final int POINT_WIDTH = ( LINE_WIDTH * 13 ) / 8;
+    public static final int LINE_WIDTH = GameUIView.CANVAS_SIZE / 17;
+    public static final int LINE_BORDER_WIDTH = LINE_WIDTH / 3;
+    public static final int POINT_WIDTH = ( LINE_WIDTH * 7 ) / 4;
     public static final int POINT_BORDER_WIDTH = POINT_WIDTH / 10;
     public static final int TEXT_WIDTH = POINT_WIDTH / 2;
     public static final int GRID_WIDTH = LINE_WIDTH / 10;
@@ -70,11 +70,11 @@ public class GameView {
 
         // Set up bitmap's
         /*final Bitmap background_bitmap = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( GameUIView.CANVAS_SIZE, GameUIView.CANVAS_SIZE, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );*/
+                Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 ), GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, true );*/
         final Bitmap background_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
 
         /*final Bitmap foreground_bitmap = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( GameUIView.CANVAS_SIZE, GameUIView.CANVAS_SIZE, Bitmap.Config.ARGB_8888 ), SCALING, SCALING, true );*/
+                Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 ), GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, true );*/
         final Bitmap foreground_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
 
         // Setup canvas's
@@ -168,14 +168,12 @@ public class GameView {
         paint.setStrokeWidth( LINE_WIDTH );
         paint.setColor( Color.BLACK );
         for ( Line line : graph ) {
-            //foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
             render_line( foreground_canvas, line );
         }
 
         paint.setStrokeWidth( LINE_WIDTH - LINE_BORDER_WIDTH );
         for ( Line line : graph ) {
             paint.setColor( line.Get_color() );
-            //foreground_canvas.drawLine( line.Get_p1().x(), line.Get_p1().y(), line.Get_p2().x(), line.Get_p2().y(), paint );
             render_line( foreground_canvas, line );
         }
 
@@ -185,29 +183,26 @@ public class GameView {
             if( UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
-
-                    // Draw Point
-                    paint.setStrokeWidth( POINT_WIDTH );
-                    paint.setStyle( Paint.Style.STROKE );
-                    paint.setColor( Color.BLACK );
-                    //foreground_canvas.drawPoint( point.x(), point.y(), paint );
-                    render_point( foreground_canvas, point );
-
                     // Draw 'complete' border
-                    paint.setStrokeWidth( POINT_BORDER_WIDTH );
+                    paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Is_completed( session.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Color.GREEN );
                     } else {
                         paint.setColor( Color.RED );
                     }
-                    //foreground_canvas.drawCircle( point.x(), point.y(), POINT_WIDTH / 2, paint ); TODO FIX THIS
+                    render_point( foreground_canvas, point );
+
+                    // Draw Point
+                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH );
+                    paint.setStyle( Paint.Style.STROKE );
+                    paint.setColor( Color.BLACK );
+                    render_point( foreground_canvas, point );
 
                     // Draw Number
                     paint.setStyle( Paint.Style.FILL );
                     paint.setColor( Color.WHITE );
-                    /*foreground_canvas.drawText( Integer.toString( i + 1 ), point.x() - ( TEXT_WIDTH / 2 ),
-                            point.y() + ( TEXT_WIDTH / 2 ), paint);*/ //TODO FIX THIS
+                    render_text( foreground_canvas, point, Integer.toString( i + 1 ) );
                 }
             }
         }
@@ -227,12 +222,10 @@ public class GameView {
             paint.setStrokeWidth( GRID_WIDTH );
 
             for ( int x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
-                //background_canvas.drawLine( x, 0, x, SCALING, paint );
                 render_line( background_canvas, new Line( new Posn( x, 0 ), new Posn( x, SCALING ) ) );
             }
 
             for ( int y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
-                //background_canvas.drawLine( 0, y, SCALING, y, paint );
                 render_line( background_canvas, new Line( new Posn( 0, y ), new Posn( SCALING, y ) ) );
             }
         }
@@ -241,12 +234,6 @@ public class GameView {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 
-            /*
-            background_canvas.drawLine( 0, 0, 0, SCALING, paint );
-            background_canvas.drawLine( 0, 0, SCALING, 0, paint );
-            background_canvas.drawLine( 0, SCALING, SCALING, SCALING, paint );
-            background_canvas.drawLine( SCALING, 0, SCALING, SCALING, paint );
-            */
             render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( 0, SCALING ) ) );
             render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( SCALING, 0 ) ) );
             render_line( background_canvas, new Line( new Posn( 0, SCALING ), new Posn( SCALING, SCALING ) ) );
@@ -263,6 +250,10 @@ public class GameView {
 
     private void render_point( final Canvas canvas, final Posn point ) {
         canvas.drawPoint( point.Unscale().x(), point.Unscale().y(), paint );
+    }
+
+    private void render_text( final Canvas canvas, final Posn point, final String text ) {
+        canvas.drawText( text, point.Unscale().x() - (float) TEXT_WIDTH / 2, point.Unscale().y() + (float) TEXT_WIDTH / 2, paint );
     }
 
     /*
@@ -305,6 +296,6 @@ public class GameView {
      * Methods used to clear all lines in the foreground
      */
     private void clear_background() {
-        background_canvas.drawColor( Color.WHITE );
+        background_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 }
