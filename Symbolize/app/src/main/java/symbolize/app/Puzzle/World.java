@@ -41,28 +41,36 @@ public class World extends Puzzle {
     // Getter methods
     //---------------
 
+    @Override
     public ArrayList<Posn> Get_levels() {
         return levels;
     }
 
+    @Override
     public ArrayList<LinkedList<Line>> Get_boards() { return new ArrayList<LinkedList<Line>>(); }
 
+    @Override
     public LinkedList<Line> Get_board() { return new LinkedList<Line>(); }
 
+    @Override
     public int Get_draw_restriction() {
         int number_of_vertices = PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
         return ( number_of_vertices * ( number_of_vertices - 1 ) ) / 2;
     }
 
+    @Override
     public int Get_erase_restriction() { return 0; }
 
+    @Override
     public int Get_drag_restriction() {
         return 0;
     }
 
-
-    // Public method
-    //----------------
-
+    @Override
     public boolean Can_shift() { return false; }
+
+    @Override
+    public int Get_special_type() {
+        return Level.SPECIAL_NONE;
+    }
 }

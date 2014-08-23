@@ -107,6 +107,7 @@ abstract public class PuzzleDB {
         int draw_restriction = 0;
         int erase_restriction = 0;
         int drag_restriction = 0;
+        int special_type = 0;
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
@@ -138,6 +139,7 @@ abstract public class PuzzleDB {
             rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
+            special_type = Integer.valueOf( parse_preamble( "special" ) );
 
 
             // Parse boarsd and solutions
@@ -280,7 +282,8 @@ abstract public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, rotate_enabled, flip_enabled, colour_enabled, boards, solutions, unlocks );
+        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, special_type,
+                          rotate_enabled, flip_enabled, colour_enabled, boards, solutions, unlocks );
     }
 
     /*

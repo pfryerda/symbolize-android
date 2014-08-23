@@ -116,4 +116,6 @@ abstract public class Puzzle {
     abstract public int Get_drag_restriction();
 
     abstract public boolean Can_shift();
+
+    abstract public int Get_special_type();
 }
