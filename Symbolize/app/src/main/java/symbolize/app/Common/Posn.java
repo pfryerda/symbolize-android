@@ -151,7 +151,15 @@ public class Posn {
         first = Math.min( GameView.SCALING,
                 Math.max( 0, Math.round( first * GameView.SCALING / GameUIView.CANVAS_SIZE ) ) );
         second = Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( second * GameView.SCALING / GameUIView.CANVAS_SIZE ) ) );
+                Math.max( 0, Math.round( second * GameView.SCALING / GameUIView.CANVAS_SIZE - GameUIView.BAR_HEIGHT ) ) );
+    }
+
+    /*
+     * Return an unscaled version of the point according to the GameActivity.Scaling
+     */
+    public Posn Unscale() {
+        return new Posn( first * GameUIView.CANVAS_SIZE / GameView.SCALING,
+                         second * GameUIView.CANVAS_SIZE /  GameView.SCALING + GameUIView.BAR_HEIGHT );
     }
 
     /*
