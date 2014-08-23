@@ -97,7 +97,9 @@ public class GameController {
                 case Request.Rotate_right:
                 case Request.Flip_horizontally:
                 case Request.Flip_vertically:
-                    game_model.Edit(request.type);
+                case Request.SPECIAL_SLOPE_ZERO:
+                case Request.SPECIAL_SLOPE_INF:
+                    game_model.Edit( request.type );
                     break;
 
                 case Request.Load_level_via_world:

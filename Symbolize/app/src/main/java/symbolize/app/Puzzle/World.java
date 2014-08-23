@@ -71,6 +71,6 @@ public class World extends Puzzle {
 
     @Override
     public int Get_special_type() {
-        return Level.SPECIAL_NONE;
+        return 0;
     }
 }

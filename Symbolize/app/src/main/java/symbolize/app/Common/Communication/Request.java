@@ -36,6 +36,10 @@ public class Request {
     public static final int Load_puzzle_right    = 21;
     public static final int Load_puzzle_start    = 22;
 
+    public static final int SPECIAL_NONE         = 100;
+    public static final int SPECIAL_SLOPE_ZERO   = 101;
+    public static final int SPECIAL_SLOPE_INF    = 102;
+
 
     // Fields
     //--------
@@ -64,14 +68,17 @@ public class Request {
      * @return boolean: true if the request requires an render after updating the model
      */
     public boolean Require_render() {
-        return Undo <= type && type <= Load_puzzle_start;
+        return ( Undo <= type && type <= Load_puzzle_start )
+            || ( SPECIAL_NONE <= type && type <= SPECIAL_SLOPE_INF );
     }
 
     /*
      * @return boolean: true if the request requires the model keep a backup for undo
      */
     public boolean Require_undo() {
-        return ( Change_color <= type && type <= Shift ) || type == Drag_start;
+        return ( Change_color <= type && type <= Shift )
+            || ( SPECIAL_SLOPE_ZERO <= type && type <= SPECIAL_SLOPE_INF )
+            || type == Drag_start;
     }
 
     /*
@@ -86,6 +93,20 @@ public class Request {
      * @returns whether the request is not one of the flags defined above
      */
     public boolean Is_invalid_type() {
-        return type < -1 || type > 22;
+        return type < -1 || ( type > 22 && type < 100 ) || type > 102;
+    }
+
+
+    // Static methods
+    //----------------
+
+    /*
+     * Given a Level.SPECIAL_TYPE returns the corresponding Request.SPECIAL_TYPE
+     *
+     * @param int level_special_type: The Level.SPECIAL_TYPE
+     * @return the Request.SPECIAL_TYPE
+     */
+    public static int Get_request_type_from_special( int level_special_type ) {
+        return level_special_type + 100;
     }
 }

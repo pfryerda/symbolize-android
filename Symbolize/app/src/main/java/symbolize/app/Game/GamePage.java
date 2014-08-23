@@ -290,6 +290,18 @@ public class GamePage extends Page
     }
 
     @Override
+    public void onDoubleTap( final Posn point ) {
+        Puzzle current_puzzle = Session.Get_instance().Get_current_puzzle();
+        if ( current_puzzle.Is_special_enabled() ) {
+            Request request = new Request( Request.Get_request_type_from_special( current_puzzle.Get_special_type() ) );
+            request.request_point = point;
+            GameController.Get_instance().Handle_request( request, new Response() );
+        } else {
+            onTap( point );
+        }
+    }
+
+    @Override
     public Line onDragStart( Posn point ) {
         GameController controller = GameController.Get_instance();
 

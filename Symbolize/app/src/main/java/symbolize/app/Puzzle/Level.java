@@ -9,13 +9,6 @@ import symbolize.app.Common.Posn;
  * Class used to store all the information about a given puzzle.
  */
 public class Level extends Puzzle {
-    // Flags
-    //-------
-
-    public static final int SPECIAL_NONE = 0;
-    public static final int SPECIAL_SLOPE_ZERO = 1;
-
-
     // Inherited fields
     //------------------
 
