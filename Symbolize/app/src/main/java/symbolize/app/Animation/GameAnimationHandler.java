@@ -69,7 +69,7 @@ abstract public class GameAnimationHandler {
                 animation.Start_new_set();
                 animation.Add_animation(
                         new ScaleAnimation( 1, 1, 1, -1,
-                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
                         FLIP_DURATION, false
                 );

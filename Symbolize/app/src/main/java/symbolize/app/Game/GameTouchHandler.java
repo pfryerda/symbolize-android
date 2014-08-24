@@ -17,8 +17,8 @@ public class GameTouchHandler {
 
     public static final int TAPTHRESHOLD = 250;
     public static final int DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
-    public static final int FLIPPINGTHRESHOLD = 140;
-    public static final int MINLINESIZESQR = 10000;
+    public static final int FLIPPINGTHRESHOLD = GameView.SCALING / 7;
+    public static final int MINLINESIZESQR = 10 * GameView.SCALING;
     public static final int ERASEDELAY = 250;
     public static final int DRAGDELAY = 600;
 
@@ -181,7 +181,7 @@ public class GameTouchHandler {
      */
     private Posn get_point( final MotionEvent event ) {
         // Scale point and return it
-        Posn point = new Posn( event.getRawX(), event.getRawY() );
+        Posn point = new Posn( event.getX( event.getActionIndex() ), event.getY( event.getActionIndex() ) );
         point.Scale();
         return point;
     }
@@ -334,7 +334,7 @@ public class GameTouchHandler {
             } else {
                 Line line = new Line( point_one, point_one_end, Line.User );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    listener.onDraw(new Line(point_one, point_one_end, Line.User));
+                    listener.onDraw( new Line( point_one, point_one_end, Line.User ) );
                 } else if ( single_tap_complete ) {
                     listener.onDoubleTap( point_one_end );
                     single_tap_complete = false;
