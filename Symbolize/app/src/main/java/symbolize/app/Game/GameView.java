@@ -117,6 +117,7 @@ public class GameView {
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels,
                         final SymbolizeAnimation animation, final boolean requires_hint_box )
     {
+        GameUIView.Update_ui();
         animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
             @Override
             public void onSymbolizeAnimationClear() {
