@@ -38,7 +38,7 @@ public class GameView {
     // Static Fields
     //-------------
 
-    public static final int SCALING = 1000;
+    public static final int SCALING = 10000;
     public static final int LINE_WIDTH = GameUIView.CANVAS_SIZE / 17;
     public static final int LINE_BORDER_WIDTH = LINE_WIDTH / 3;
     public static final int POINT_WIDTH = ( LINE_WIDTH * 7 ) / 4;

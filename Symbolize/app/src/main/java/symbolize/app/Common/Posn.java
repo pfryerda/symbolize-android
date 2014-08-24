@@ -151,7 +151,7 @@ public class Posn {
         first = Math.min( GameView.SCALING,
                 Math.max( 0, Math.round( first * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
         second = Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( second * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) - GameUIView.BAR_HEIGHT ) ) );
+                Math.max( 0, Math.round( ( second - GameUIView.BAR_HEIGHT ) * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
     }
 
     /*
