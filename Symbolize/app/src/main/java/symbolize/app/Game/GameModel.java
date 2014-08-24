@@ -282,19 +282,35 @@ public class GameModel {
      * @param Posn shadow_posn: the shadow point to render after rebdering - for erasing
      */
     public void Update_view( final boolean update_background ) {
-        game_view.Render( Get_simplified_graph(), levels, update_background );
+        if ( Session.DEV_MODE ) {
+            game_view.Render( Get_simplified_graph(), levels, update_background );
+        } else {
+            game_view.Render( graph, levels, update_background );
+        }
     }
 
     public void Update_view( final SymbolizeAnimation animation, final boolean requires_hint_box ) {
-        game_view.Render( Get_simplified_graph(), levels, animation, requires_hint_box );
+        if ( Session.DEV_MODE ) {
+            game_view.Render( Get_simplified_graph(), levels, animation, requires_hint_box );
+        } else {
+            game_view.Render( graph, levels, animation, requires_hint_box );
+        }
     }
 
     public void Update_view( final Line shadow_line ) {
-        game_view.Render( Get_simplified_graph(), levels, shadow_line );
+        if ( Session.DEV_MODE ) {
+            game_view.Render( Get_simplified_graph(), levels, shadow_line );
+        } else {
+            game_view.Render( graph, levels, shadow_line );
+        }
     }
 
     public void Update_view( final Posn shadow_posn ) {
-        game_view.Render( Get_simplified_graph(), levels, shadow_posn );
+        if ( Session.DEV_MODE ) {
+            game_view.Render( Get_simplified_graph(), levels, shadow_posn );
+        } else {
+            game_view.Render( graph, levels, shadow_posn );
+        }
     }
 
     /*

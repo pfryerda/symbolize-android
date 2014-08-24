@@ -44,7 +44,7 @@ public class GameController {
 
         if( is_valid_request( request, response ) ) {
 
-            if ( request.Is_animation_action() ) {
+            if ( request.require_pre_render() ) {
                 game_model.Update_view( false );
             }
 

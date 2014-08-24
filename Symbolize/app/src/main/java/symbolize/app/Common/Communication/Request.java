@@ -82,11 +82,18 @@ public class Request {
     }
 
     /*
+     * @return boolean: true if require a cleanup of the board before rendering
+     */
+    public boolean require_pre_render() {
+        return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
+    }
+
+    /*
      * @return boolean: true if the request should perform the appropriate animation from
      * GameAnimationHandler before render
      */
     public boolean Is_animation_action() {
-        return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
+        return Rotate_right <= type && type <= Load_puzzle_start && OptionsDataAccess.Show_animations();
     }
 
     /*
