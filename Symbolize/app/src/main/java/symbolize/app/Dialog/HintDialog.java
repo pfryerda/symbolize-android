@@ -58,6 +58,9 @@ public class HintDialog extends InfoDialog {
             if ( puzzle.Can_change_color() ) {
                 message += "\n" + context.getString(R.string.change_color);
             }
+            if ( puzzle.Is_special_enabled() ) {
+                message += "\n" + context.getString( R.string.special );
+            }
         }
 
         super.Set_attrs( session.Get_current_puzzle_text(), message );
@@ -115,9 +118,9 @@ public class HintDialog extends InfoDialog {
             tutorial_text.setText( Page.Get_resource_string( R.string.drag_tutorial ) );
         } else if ( current_puzzle.Can_change_color() && !MetaDataAccess.Has_seen_drag() ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.change_color_tutorial ) );
-        } /*else if ( current_puzzle.Special_type != None && !MetaDataAccess.Has_seen_special() ) {
+        } else if ( current_puzzle.Is_special_enabled() && !MetaDataAccess.Has_seen_special() ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.special_tutorial ) );
-        }*/ else {
+        } else {
             tutorial_text.setText( "" );
         }
     }
