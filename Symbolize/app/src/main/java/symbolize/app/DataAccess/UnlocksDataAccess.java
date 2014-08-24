@@ -29,14 +29,14 @@ abstract public class UnlocksDataAccess {
     // Setter methods
     //----------------
 
-    public static void Unlock( int world ) {
+    public static void Unlock( final byte world ) {
         if( !Session.DEV_MODE ) {
             dao.Set_property( world + "", true );
             dao.Set_property( world + "-1", true );
         }
     }
 
-    public static void Unlock( int world, int level ) {
+    public static void Unlock( final byte world, final byte level ) {
         if( !Session.DEV_MODE ) {
             dao.Set_property( world + "-" + level, true );
         }

@@ -19,7 +19,7 @@ abstract public class Puzzle {
     private final boolean flip_enabled;
     private final boolean colour_enabled;
     private final ArrayList<LinkedList<Line>> solutions;
-    private final ArrayList<Integer> unlocks;
+    private final ArrayList<Byte> unlocks;
 
 
     // Constructors
@@ -27,7 +27,7 @@ abstract public class Puzzle {
 
 
     public Puzzle( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
-                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
+                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
         this.hint = hint;
         this.rotate_enabled = rotate_enabled;
@@ -45,7 +45,7 @@ abstract public class Puzzle {
         return hint;
     }
 
-    public ArrayList<Integer> Get_unlocks() {
+    public ArrayList<Byte> Get_unlocks() {
         return unlocks;
     }
 
@@ -113,13 +113,13 @@ abstract public class Puzzle {
 
     abstract public LinkedList<Line> Get_board();
 
-    abstract public int Get_draw_restriction();
+    abstract public byte Get_draw_restriction();
 
-    abstract public int Get_erase_restriction();
+    abstract public byte Get_erase_restriction();
 
-    abstract public int Get_drag_restriction();
+    abstract public byte Get_drag_restriction();
 
     abstract public boolean Can_shift();
 
-    abstract public int Get_special_type();
+    abstract public byte Get_special_type();
 }

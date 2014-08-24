@@ -110,10 +110,10 @@ public class OptionsDialog extends InfoDialog {
         volume_bar.setProgress( OptionsDataAccess.Get_volume() );
 
         volume_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
-            int progress_change = 0;
+            byte progress_change = 0;
             @Override
             public void onProgressChanged( SeekBar seekBar, int progress, boolean fromUser ) {
-                progress_change = progress;
+                progress_change = (byte) progress;
             }
 
             @Override

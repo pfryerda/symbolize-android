@@ -15,15 +15,15 @@ public class Session {
     // Static field
     //-------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
     //--------
 
 
-    private int current_world;
-    private int current_level;
+    private byte current_world;
+    private byte current_level;
 
     private Puzzle current_puzzle;
 
@@ -63,11 +63,11 @@ public class Session {
         return current_puzzle;
     }
 
-    public int Get_current_world() {
+    public byte Get_current_world() {
         return current_world;
     }
 
-    public int Get_current_level() {
+    public byte Get_current_level() {
         return current_level;
     }
 
@@ -83,12 +83,12 @@ public class Session {
         return current_level == 0;
     }
 
-    public int Get_next_world() {
-        return ( Get_current_world() % PuzzleDB.NUMBER_OF_WORLDS ) + 1;
+    public byte Get_next_world() {
+        return (byte) ( ( Get_current_world() % PuzzleDB.NUMBER_OF_WORLDS ) + 1 );
     }
 
-    public int Get_previous_world() {
-        return ( Get_current_world() == 1 ) ? PuzzleDB.NUMBER_OF_WORLDS : Get_current_world() - 1;
+    public byte Get_previous_world() {
+        return (byte) ( ( Get_current_world() == 1 ) ? PuzzleDB.NUMBER_OF_WORLDS : Get_current_world() - 1 );
     }
 
     public Posn Get_current_pivot() {
@@ -111,7 +111,7 @@ public class Session {
         draw_enabled = false;
     }
 
-    public void Set_current_level( int new_level ) {
+    public void Set_current_level( byte new_level ) {
         current_level = new_level;
     }
 

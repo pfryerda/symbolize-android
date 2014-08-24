@@ -24,10 +24,10 @@ public class Level extends Puzzle {
     // Fields
     //--------
 
-    private final int draw_restriction;
-    private final int erase_restriction;
-    private final int drag_restriction;
-    private final int special_type;
+    private final byte draw_restriction;
+    private final byte erase_restriction;
+    private final byte drag_restriction;
+    private final byte special_type;
     protected final ArrayList<LinkedList<Line>> boards;
 
 
@@ -35,9 +35,9 @@ public class Level extends Puzzle {
     //-------------
 
 
-    public Level( final String hint, final int draw_restriction, final int erase_restriction, final int drag_restriction,
-                  final int special_type, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
-                  final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
+    public Level( final String hint, final byte draw_restriction, final byte erase_restriction, final byte drag_restriction,
+                  final byte special_type, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
+                  final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
         this.draw_restriction = draw_restriction;
@@ -67,22 +67,22 @@ public class Level extends Puzzle {
     }
 
     @Override
-    public int Get_draw_restriction() {
+    public byte Get_draw_restriction() {
         return draw_restriction;
     }
 
     @Override
-    public int Get_erase_restriction() {
+    public byte Get_erase_restriction() {
         return erase_restriction;
     }
 
     @Override
-    public int Get_drag_restriction() {
+    public byte Get_drag_restriction() {
         return drag_restriction;
     }
 
     @Override
-    public int Get_special_type() {
+    public byte Get_special_type() {
         return special_type;
     }
 

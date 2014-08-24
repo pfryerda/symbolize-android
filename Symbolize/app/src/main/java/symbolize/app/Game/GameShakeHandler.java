@@ -9,9 +9,9 @@ public class GameShakeHandler {
     // Static Fields
     //---------------
 
-    public static final int SHAKETHRESHOLD = 8;
+    public static final byte SHAKETHRESHOLD = 8;
     public static final double SHAKEIDLETHRESHOLD = 1.15;
-    public static final int SHAKESEPARATIONTIME = 500;
+    public static final short SHAKESEPARATIONTIME = 500;
 
 
     // Fields

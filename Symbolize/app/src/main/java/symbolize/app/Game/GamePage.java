@@ -45,7 +45,7 @@ public class GamePage extends Page
     //--------------
 
     static {
-        UnlocksDataAccess.Unlock( 1 );
+        UnlocksDataAccess.Unlock( (byte) 1 );
     }
 
 
@@ -149,7 +149,7 @@ public class GamePage extends Page
                 MetaDataAccess.Update_mechanics_seen();
 
                 if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
-                    for ( int unlock : current_puzzle.Get_unlocks() ) {
+                    for ( byte unlock : current_puzzle.Get_unlocks() ) {
                         UnlocksDataAccess.Unlock( unlock );
                     }
 
@@ -172,7 +172,7 @@ public class GamePage extends Page
                             getString( R.string.game_complete_dialog_msg ) );
                     info_dialog.Show();
                 } else if ( !session.Is_in_world_view() ) {
-                    for ( int unlock : current_puzzle.Get_unlocks() ) {
+                    for ( byte unlock : current_puzzle.Get_unlocks() ) {
                         UnlocksDataAccess.Unlock( session.Get_current_world(), unlock );
                     }
 
@@ -278,7 +278,7 @@ public class GamePage extends Page
             Response response = new Response();
             controller.Handle_request( request, response );
             if( response.response_int != null && response.response_int > 0 ) {
-                load_level( response.response_int );
+                load_level( (byte) (int) response.response_int );
             }
         } else {
             if ( session.Get_current_puzzle().Can_change_color() ) {
@@ -387,7 +387,7 @@ public class GamePage extends Page
      *
      * @param Level level: The level that needs to be loaded
      */
-    private void load_world( int request_type ) {
+    private void load_world( byte request_type ) {
         Session session = Session.Get_instance();
         session.Set_to_world();
         session.Update_puzzle();
@@ -395,7 +395,7 @@ public class GamePage extends Page
         GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }
 
-    private void load_level( int level ) {
+    private void load_level( byte level ) {
         Session session = Session.Get_instance();
         session.Set_current_level( level );
         session.Update_puzzle();

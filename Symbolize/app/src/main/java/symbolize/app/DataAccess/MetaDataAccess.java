@@ -18,8 +18,8 @@ abstract public class MetaDataAccess {
     // Getter methods
     //---------------
 
-    public static int Get_last_world() {
-        return dao.Get_property( Page.Get_resource_string( R.string.last_world ), 1 );
+    public static byte Get_last_world() {
+        return (byte) dao.Get_property( Page.Get_resource_string( R.string.last_world ), 1 );
     }
 
     public static boolean Get_last_draw_enabled() {

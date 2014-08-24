@@ -19,8 +19,8 @@ public class Line {
     // Static Fields
     //---------------
 
-    public static final int ERASING_THRESHOLD = GameView.SCALING / 14;
-    public static final int ANGLE_THRESHOLD_1 = 5; // Degrees
+    public static final short ERASING_THRESHOLD = GameView.SCALING / 14;
+    public static final byte ANGLE_THRESHOLD_1 = 5; // Degrees
     public static final ArrayList<Integer> COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;
 
@@ -198,7 +198,7 @@ public class Line {
      * @param int x: The value you wish to translate horizontally
      * @param int y: The value you wish to translate vertically
      */
-    public void Translate( int x, int y ) {
+    public void Translate( short x, short y ) {
         p1.Translate( x, y );
         p2.Translate( x, y );
     }

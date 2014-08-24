@@ -24,7 +24,7 @@ public class GameModel {
     private LinkedList<Line> graph;
     private ArrayList<Posn> levels;
     private int lines_drawn, lines_erased, lines_dragged;
-    private int shift_number;
+    private byte shift_number;
     private GameView game_view;
     private GameModel past_state;
 
@@ -34,12 +34,12 @@ public class GameModel {
     //--------------
 
     public GameModel()  {
-        this( new LinkedList<Line>(), new ArrayList<Posn>(), 0, 0, 0, 0, null, null );
+        this( new LinkedList<Line>(), new ArrayList<Posn>(), 0, 0, 0, (byte) 0, null, null );
     }
 
     public GameModel( final LinkedList<Line> graph, final ArrayList<Posn> levels,
                       final int lines_drawn, final int lines_erased, final  int lines_dragged,
-                      final int shift_number, final GameView game_view, final GameModel past_state )
+                      final byte shift_number, final GameView game_view, final GameModel past_state )
     {
         this.graph = graph;
         this.levels = levels;
@@ -248,7 +248,7 @@ public class GameModel {
      */
     public void Shift_graph() {
         ArrayList<LinkedList<Line>> shift_graphs = Session.Get_instance().Get_current_puzzle().Get_boards();
-        shift_number = ( shift_number + 1 ) % shift_graphs.size();
+        shift_number = (byte) ( ( shift_number + 1 ) % shift_graphs.size() );
         graph.clear();
         for ( Line line : shift_graphs.get( shift_number ) ) {
             graph.addLast( line.clone() );

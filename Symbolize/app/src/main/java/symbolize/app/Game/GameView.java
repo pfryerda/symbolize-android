@@ -38,15 +38,15 @@ public class GameView {
     // Static Fields
     //-------------
 
-    public static final int SCALING = 10000;
-    public static final int LINE_WIDTH = GameUIView.CANVAS_SIZE / 17;
-    public static final int LINE_BORDER_WIDTH = LINE_WIDTH / 3;
-    public static final int POINT_WIDTH = ( LINE_WIDTH * 7 ) / 4;
-    public static final int POINT_BORDER_WIDTH = POINT_WIDTH / 10;
-    public static final int TEXT_WIDTH = POINT_WIDTH / 2;
-    public static final int GRID_WIDTH = LINE_WIDTH / 10;
-    public static final int BORDER_WIDTH = LINE_WIDTH;
-    public static final int SHADOW = 80;
+    public static final short SCALING = 10000;
+    public static final short LINE_WIDTH = (short) ( GameUIView.CANVAS_SIZE / 17 );
+    public static final short LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
+    public static final short POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
+    public static final short POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 10 );
+    public static final short TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
+    public static final short GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
+    public static final short BORDER_WIDTH = LINE_WIDTH;
+    public static final byte SHADOW = 80;
 
 
     // Fields
@@ -218,12 +218,12 @@ public class GameView {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRID_WIDTH );
 
-            for ( int x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
-                render_line( background_canvas, new Line( new Posn( x, 0 ), new Posn( x, SCALING ) ) );
+            for ( short x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
+                render_line( background_canvas, new Line( new Posn( x, (short) 0 ), new Posn( x, SCALING ) ) );
             }
 
-            for ( int y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
-                render_line( background_canvas, new Line( new Posn( 0, y ), new Posn( SCALING, y ) ) );
+            for ( short y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
+                render_line( background_canvas, new Line( new Posn( (short) 0, y ), new Posn( SCALING, y ) ) );
             }
         }
 
@@ -231,10 +231,10 @@ public class GameView {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 
-            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( 0, SCALING ) ) );
-            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( SCALING, 0 ) ) );
-            render_line( background_canvas, new Line( new Posn( 0, SCALING ), new Posn( SCALING, SCALING ) ) );
-            render_line( background_canvas, new Line( new Posn( SCALING, 0 ), new Posn( SCALING, SCALING ) ) );
+            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( (short) 0, SCALING ) ) );
+            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( SCALING, (short) 0 ) ) );
+            render_line( background_canvas, new Line( new Posn( (short) 0, SCALING ), new Posn( SCALING, SCALING ) ) );
+            render_line( background_canvas, new Line( new Posn( SCALING, (short) 0 ), new Posn( SCALING, SCALING ) ) );
         }
 
         background.invalidate();

@@ -37,8 +37,8 @@ abstract public class PuzzleDB {
     // Static fields
     //---------------
 
-    public static final int NUMBER_OF_WORLDS = 7;
-    public static final int NUMBER_OF_LEVELS_PER_WORLD = 15;
+    public static final byte NUMBER_OF_WORLDS = 7;
+    public static final byte NUMBER_OF_LEVELS_PER_WORLD = 15;
 
     private static final int[] hint_map = new int[]{ 0,
         R.array.world_1_hints, R.array.world_2_hints, R.array.world_3_hints,
@@ -104,14 +104,14 @@ abstract public class PuzzleDB {
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
                 hint_map[world_num] )[level_num];
-        int draw_restriction = 0;
-        int erase_restriction = 0;
-        int drag_restriction = 0;
-        int special_type = 0;
+        byte draw_restriction = 0;
+        byte erase_restriction = 0;
+        byte drag_restriction = 0;
+        byte special_type = 0;
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         boolean colour_enabled = false;
-        ArrayList<Integer> unlocks = null;
+        ArrayList<Byte> unlocks = null;
         ArrayList<LinkedList<Line>> boards = new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
         ArrayList<LinkedList<Line>> solutions =  new ArrayList<LinkedList<Line>>( new LinkedList<LinkedList<Line>>() );
 
@@ -133,13 +133,13 @@ abstract public class PuzzleDB {
                 bail_invalid_check( "Level" );
             }
 
-            draw_restriction = Integer.parseInt( parse_preamble("draw_restriction").trim());
-            erase_restriction = Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
-            drag_restriction = Integer.parseInt( parse_preamble( "drag_restriction" ).trim() );
+            draw_restriction = (byte) Integer.parseInt( parse_preamble("draw_restriction").trim());
+            erase_restriction = (byte) Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
+            drag_restriction = (byte) Integer.parseInt( parse_preamble( "drag_restriction" ).trim() );
             rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
             colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
-            special_type = Integer.valueOf( parse_preamble( "special" ) );
+            special_type = (byte) Integer.parseInt( parse_preamble( "special" ) );
 
 
             // Parse boarsd and solutions
@@ -154,7 +154,7 @@ abstract public class PuzzleDB {
                                 if ( unlocks != null || tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
-                                unlocks = new ArrayList<Integer>();
+                                unlocks = new ArrayList<Byte>();
                             } else if ( topTag.equals( "boards" ) || topTag.equals( "solutions" ) ) {
                                 if ( unlocks == null || tmpArray != null || tmpList != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
@@ -187,7 +187,7 @@ abstract public class PuzzleDB {
                                 if ( tmpArray != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
-                                unlocks.add( Integer.valueOf( xpp.getText().trim() ) );
+                                unlocks.add( (byte) Integer.parseInt( xpp.getText().trim() ) );
                             } else if ( topTag.equals( "x" ) ) {
                                 if ( tmpArray == null || tmpList == null || tmpLine == null || ( tmpP1 == null && tmpP2 == null ) || tmpX != null ) {
                                     bail_invalid_tag( topTag );
@@ -304,7 +304,7 @@ abstract public class PuzzleDB {
         boolean colour_enabled = false;
         ArrayList<Posn> levels = null;
         ArrayList<LinkedList<Line>> solutions = null;
-        ArrayList<Integer> unlocks = null;
+        ArrayList<Byte> unlocks = null;
 
         try {
             // Set up temp variables
@@ -340,7 +340,7 @@ abstract public class PuzzleDB {
                                 if ( unlocks != null || levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
-                                unlocks = new ArrayList<Integer>();
+                                unlocks = new ArrayList<Byte>();
                             } else if( topTag.equals( "levels" ) ) {
                                 if ( unlocks == null || levels != null || solutions != null || tmpList != null || tmpLine != null || tmpP != null || tmpP1 != null || tmpP2 != null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
@@ -384,7 +384,7 @@ abstract public class PuzzleDB {
                                 if ( levels != null || solutions != null || tmpLine != null || tmpP1 != null || tmpP2 != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
-                                unlocks.add( Integer.valueOf( xpp.getText().trim() ) );
+                                unlocks.add( (byte) Integer.parseInt( xpp.getText().trim() ) );
                             } else if ( topTag.equals( "x" ) ) {
                                 if ( ( levels == null && solutions == null )  || ( tmpP1 == null && tmpP2 == null && tmpP == null ) || tmpX != null ) {
                                     bail_invalid_tag( topTag );
