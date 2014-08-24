@@ -84,9 +84,8 @@
     <string name="world_tutorial">Connect the dots to solve the puzzle</string>
     <string name="draw_tutorial">Push your finger down to start the draw,
         let go in order to end the draw</string>
-    <string name="rotate_tutorial">Using two fingers rotate your left finger to the
-        left and your right finger to right to right to rotate the graph to the right.
-        Rotate your left finder right and your right finger left to roate left</string>
+    <string name="rotate_tutorial">Using two fingers one on either side rotate your
+        finger in the direction you wish to roate</string>
     <string name="erase_tutorial">Hit the erase button in the bottom right corner to
         enter erase mode and drag your finger over the desired line you wish to erase</string>
     <string name="flip_tutorial">Using two finger start on one of the screen and drag them to the
