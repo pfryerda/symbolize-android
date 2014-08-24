@@ -95,7 +95,7 @@ public class OptionsDialog extends InfoDialog {
                     public void OnDialogSuccess() {
                         UnlocksDataAccess.Remove_all_unlocks();
                         ProgressDataAccess.Remove_all_progress();
-                        MetaDataAccess.Reset_last_world();
+                        MetaDataAccess.Reset_meta_data_access();
                         startActivity( new Intent( GamePage.Get_context().getApplicationContext(), HomePage.class ) );
                     }
 

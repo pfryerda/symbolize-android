@@ -69,12 +69,7 @@ public class GameView {
         this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
 
         // Set up bitmap's
-        /*final Bitmap background_bitmap = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 ), GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, true );*/
         final Bitmap background_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
-
-        /*final Bitmap foreground_bitmap = Bitmap.createScaledBitmap(
-                Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 ), GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, true );*/
         final Bitmap foreground_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
 
         // Setup canvas's
@@ -98,6 +93,7 @@ public class GameView {
         paint.setStrokeJoin( Paint.Join.ROUND );
         paint.setStrokeCap( Paint.Cap.ROUND );
         paint.setTextSize( TEXT_WIDTH );
+        paint.setTextAlign( Paint.Align.CENTER );
 
         render_background();
     }
@@ -243,6 +239,9 @@ public class GameView {
         background.invalidate();
     }
 
+    /*
+     * Unsclaes a line/point and then draws it on the canvas
+     */
     private void render_line( final Canvas canvas, final Line line ) {
         canvas.drawLine( line.Get_p1().Unscale().x(), line.Get_p1().Unscale().y(),
                          line.Get_p2().Unscale().x(), line.Get_p2().Unscale().y(), paint );
@@ -253,7 +252,7 @@ public class GameView {
     }
 
     private void render_text( final Canvas canvas, final Posn point, final String text ) {
-        canvas.drawText( text, point.Unscale().x() - (float) TEXT_WIDTH / 2, point.Unscale().y() + (float) TEXT_WIDTH / 2, paint );
+        canvas.drawText( text, point.Unscale().x(), point.Unscale().y() + ( TEXT_WIDTH / 2 ), paint );
     }
 
     /*
@@ -268,8 +267,6 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINE_WIDTH );
 
-        /*foreground_canvas.drawLine( shadow_line.Get_p1().x(), shadow_line.Get_p1().y(),
-                    shadow_line.Get_p2().x(), shadow_line.Get_p2().y(), paint );*/
         render_line( foreground_canvas, shadow_line );
         foreground.invalidate();
     }
@@ -280,7 +277,6 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( POINT_WIDTH );
 
-        //foreground_canvas.drawPoint( shadow_point.x(), shadow_point.y(), paint );
         render_point( foreground_canvas, shadow_point );
         foreground.invalidate();
     }

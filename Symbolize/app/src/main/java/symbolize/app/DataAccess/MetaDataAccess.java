@@ -27,39 +27,39 @@ abstract public class MetaDataAccess {
     }
 
     public static boolean Has_seen_world() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_world ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_world ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_draw() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_draw ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_draw ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_rotate() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_rotate ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_rotate ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_erase() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_erase ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_erase ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_flip() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_flip ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_flip ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_shift() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_shift ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_shift ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_drag() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_drag ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_drag ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_color_change() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_color_change ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_color_change ), false ) || Session.DEV_MODE;
     }
 
     public static boolean Has_seen_special() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_special ), false );
+        return dao.Get_property( Page.Get_resource_string( R.string.seen_special ), false ) || Session.DEV_MODE;
     }
 
 
@@ -83,13 +83,6 @@ abstract public class MetaDataAccess {
 
     // Public methods
     //----------------
-
-    /*
-     * Method used to reset the last world back to 1, for deleting all data
-     */
-    public static void Reset_last_world() {
-        dao.Set_property( Page.Get_context().getString( R.string.last_world ), 1 );
-    }
 
     /*
      * Updates the 'Has_seen_xxx' now that a level has been finished
@@ -130,11 +123,24 @@ abstract public class MetaDataAccess {
                 dao.Set_property( Page.Get_resource_string( R.string.seen_color_change ), true );
             }
 
-            /*
-            if( current_puzzle.special_type != None && !Has_seen_special() ) {
+            if( finished_puzzle.Is_special_enabled() && !Has_seen_special() ) {
                 dao.Set_property( Page.Get_resource_string( R.string.seen_special ), true );
             }
-            */
         }
+    }
+
+    public static void Reset_meta_data_access() {
+        dao.Set_property( Page.Get_context().getString( R.string.last_world ), 1 );
+        dao.Set_property( Page.Get_context().getString( R.string.last_draw ), true );
+
+        dao.Set_property( Page.Get_resource_string(R.string.seen_world ), false);
+        dao.Set_property(Page.Get_resource_string(R.string.seen_draw ), false);
+        dao.Set_property( Page.Get_resource_string( R.string.seen_rotate ), false );
+        dao.Set_property( Page.Get_resource_string(R.string.seen_erase  ), false );
+        dao.Set_property( Page.Get_resource_string(R.string.seen_flip ), false);
+        dao.Set_property( Page.Get_resource_string(R.string.seen_shift ), false);
+        dao.Set_property( Page.Get_resource_string(R.string.seen_drag ), false );
+        dao.Set_property( Page.Get_resource_string( R.string.seen_color_change ), false );
+        dao.Set_property( Page.Get_resource_string( R.string.seen_special ), false );
     }
 }

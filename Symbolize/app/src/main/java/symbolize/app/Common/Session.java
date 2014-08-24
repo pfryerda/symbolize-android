@@ -124,7 +124,7 @@ public class Session {
     //---------------
 
     /*
-     * Gets the text of the current world/level formated nicly
+     * Gets the text of the current world/level and formats it nicely
      */
     public String Get_current_puzzle_text() {
         if ( current_level == 0 ) {

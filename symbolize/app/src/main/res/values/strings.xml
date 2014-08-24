@@ -78,6 +78,7 @@
     <string name="flip">flip</string>
     <string name="shift">shift</string>
     <string name="change_color">change color</string>
+    <string name="special">special</string>
 
     <!-- Tutorial messages -->
     <string name="world_tutorial">Connect the dots to solve the puzzle</string>
