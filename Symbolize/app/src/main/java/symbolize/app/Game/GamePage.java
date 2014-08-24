@@ -277,7 +277,7 @@ public class GamePage extends Page
             request.request_point = point;
             Response response = new Response();
             controller.Handle_request( request, response );
-            if( response.response_int > 0 ) {
+            if( response.response_int != null && response.response_int > 0 ) {
                 load_level( response.response_int );
             }
         } else {
@@ -310,7 +310,11 @@ public class GamePage extends Page
             request.request_point = point;
             Response response = new Response();
             controller.Handle_request( request, response );
-            return response.response_line.clone();
+            if ( response.response_line == null ) {
+                return null;
+            } else {
+                return response.response_line.clone();
+            }
         }
         return null;
     }

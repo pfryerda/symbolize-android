@@ -180,12 +180,8 @@ public class GameTouchHandler {
      * @param: MotionEvent event: The motion event that contains information about where the user touched
      */
     private Posn get_point( final MotionEvent event ) {
-        // Get point off of screen
-        float touchX = event.getX( event.getActionIndex() );
-        float touchY = event.getY( event.getActionIndex() );
-
         // Scale point and return it
-        Posn point = new Posn( Math.round( touchX ), Math.round( touchY ) );
+        Posn point = new Posn( event.getRawX(), event.getRawY() );
         point.Scale();
         return point;
     }
