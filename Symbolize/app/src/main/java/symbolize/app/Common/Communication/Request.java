@@ -11,40 +11,40 @@ public class Request {
     // Flags
     //-------
 
-    public static final int Log                  = -1;
-    public static final int Fetch_level          = 0;
-    public static final int Check_correctness    = 1;
-    public static final int Drag_start           = 2;
-    public static final int Undo                 = 3;
-    public static final int Drag_end             = 4;
-    public static final int None                 = 5;
-    public static final int Reset                = 6;
-    public static final int Background_change    = 7;
-    public static final int Shadow_point         = 8;
-    public static final int Shadow_line          = 9;
-    public static final int Change_color         = 10;
-    public static final int Draw                 = 11;
-    public static final int Erase                = 12;
-    public static final int Rotate_right         = 13;
-    public static final int Rotate_left          = 14;
-    public static final int Flip_horizontally    = 15;
-    public static final int Flip_vertically      = 16;
-    public static final int Shift                = 17;
-    public static final int Load_level_via_world = 18;
-    public static final int Load_world_via_level = 19;
-    public static final int Load_puzzle_left     = 20;
-    public static final int Load_puzzle_right    = 21;
-    public static final int Load_puzzle_start    = 22;
+    public static final byte Log                  = -1;
+    public static final byte Fetch_level          = 0;
+    public static final byte Check_correctness    = 1;
+    public static final byte Drag_start           = 2;
+    public static final byte Undo                 = 3;
+    public static final byte Drag_end             = 4;
+    public static final byte None                 = 5;
+    public static final byte Reset                = 6;
+    public static final byte Background_change    = 7;
+    public static final byte Shadow_point         = 8;
+    public static final byte Shadow_line          = 9;
+    public static final byte Change_color         = 10;
+    public static final byte Draw                 = 11;
+    public static final byte Erase                = 12;
+    public static final byte Rotate_right         = 13;
+    public static final byte Rotate_left          = 14;
+    public static final byte Flip_horizontally    = 15;
+    public static final byte Flip_vertically      = 16;
+    public static final byte Shift                = 17;
+    public static final byte Load_level_via_world = 18;
+    public static final byte Load_world_via_level = 19;
+    public static final byte Load_puzzle_left     = 20;
+    public static final byte Load_puzzle_right    = 21;
+    public static final byte Load_puzzle_start    = 22;
 
-    public static final int SPECIAL_NONE         = 100;
-    public static final int SPECIAL_SLOPE_ZERO   = 101;
-    public static final int SPECIAL_SLOPE_INF    = 102;
+    public static final byte SPECIAL_NONE         = 100;
+    public static final byte SPECIAL_SLOPE_ZERO   = 101;
+    public static final byte SPECIAL_SLOPE_INF    = 102;
 
 
     // Fields
     //--------
 
-    public int type;
+    public byte type;
 
     public Line request_line;
     public Posn request_point;
@@ -53,7 +53,7 @@ public class Request {
     // Constructors
     //-------------
 
-    public Request( int type ) {
+    public Request( byte type ) {
         this.type = type;
 
         this.request_line = null;
@@ -113,7 +113,7 @@ public class Request {
      * @param int level_special_type: The Level.SPECIAL_TYPE
      * @return the Request.SPECIAL_TYPE
      */
-    public static int Get_request_type_from_special( int level_special_type ) {
-        return level_special_type + 100;
+    public static byte Get_request_type_from_special( byte level_special_type ) {
+        return (byte) ( level_special_type + 100 );
     }
 }

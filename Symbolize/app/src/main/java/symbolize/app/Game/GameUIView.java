@@ -33,11 +33,11 @@ public class GameUIView {
     private static final Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
 
     public static final Point SCREEN_SIZE;
-    public static final int CANVAS_SIZE;
-    public static final int BAR_HEIGHT;
-    public static final int AD_HEIGHT;
-    public static final int BOTTOM_BUTTON_WIDTH;
-    public static final int TOP_BUTTON_WIDTH;
+    public static final short CANVAS_SIZE;
+    public static final short BAR_HEIGHT;
+    public static final short AD_HEIGHT;
+    public static final short BOTTOM_BUTTON_WIDTH;
+    public static final short TOP_BUTTON_WIDTH;
 
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
@@ -58,11 +58,11 @@ public class GameUIView {
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
 
-        AD_HEIGHT = AdSize.BANNER.getHeightInPixels( activity );
-        CANVAS_SIZE = ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y;
-        BAR_HEIGHT = ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2;
-        BOTTOM_BUTTON_WIDTH = SCREEN_SIZE.x / 5;
-        TOP_BUTTON_WIDTH = BOTTOM_BUTTON_WIDTH / 2;
+        AD_HEIGHT = (short) AdSize.BANNER.getHeightInPixels( activity );
+        CANVAS_SIZE = (short) ( ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y );
+        BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2 );
+        BOTTOM_BUTTON_WIDTH = (short) ( SCREEN_SIZE.x / 5 );
+        TOP_BUTTON_WIDTH = (short) ( BOTTOM_BUTTON_WIDTH / 2 );
     }
 
 

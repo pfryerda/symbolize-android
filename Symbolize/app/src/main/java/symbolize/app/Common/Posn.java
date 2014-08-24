@@ -9,30 +9,33 @@ public class Posn {
     // Static field
     //--------------
 
-    public static final int DRAWING_THRESHOLD = GameView.SCALING / 10;
+    public static final short DRAWING_THRESHOLD = GameView.SCALING / 10;
 
 
     // Fields
     //-------
 
-    private Integer first, second;
+    private Short first, second;
 
 
     // Constructors
     //--------------
 
     public Posn() {
-        this( (Integer) null, null );
+        this( (Short) null, null );
     }
 
-    public Posn( Integer x0, Integer y0 ) {
+    public Posn( Short x0, Short y0 ) {
         first = x0;
         second = y0;
     }
 
+    public Posn( Integer x0, Integer y0 ) {
+        this( (short) (int) x0, (short) (int) y0 );
+    }
+
     public Posn( Float x0, Float y0 ) {
-        first = Math.round( x0 );
-        second = Math.round( y0 );
+        this( (short) Math.round( x0 ), (short) Math.round( y0 ) );
     }
 
 
@@ -47,11 +50,11 @@ public class Posn {
     // Getter Methods
     //---------------
 
-    public int x() {
+    public short x() {
         return first;
     }
 
-    public int y() {
+    public short y() {
         return second;
     }
 
@@ -59,9 +62,9 @@ public class Posn {
     // Setter methods
     //---------------
 
-    public void Set_x( int x ) { first = x; }
+    public void Set_x( short x ) { first = x; }
 
-    public void Set_y( int y ) { second = y; }
+    public void Set_y( short y ) { second = y; }
 
 
     // Public Methods
@@ -73,9 +76,9 @@ public class Posn {
      * @param int x: The value you wish to translate horizontally
      * @param int y: The value you wish to translate vertically
      */
-    public void Translate( int x, int y ) {
-        first += x;
-        second += y;
+    public void Translate( short x, short y ) {
+        first = (short) ( first + x );
+        second = (short) ( second + y );
     }
 
     /*
@@ -148,9 +151,9 @@ public class Posn {
      * Scale point according to the GameActivity.Scaling
      */
     public void Scale() {
-        first = Math.min( GameView.SCALING,
+        first = (short) Math.min( GameView.SCALING,
                 Math.max( 0, Math.round( first * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
-        second = Math.min( GameView.SCALING,
+        second = (short) Math.min( GameView.SCALING,
                 Math.max( 0, Math.round( ( second - GameUIView.BAR_HEIGHT ) * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
     }
 
@@ -166,8 +169,8 @@ public class Posn {
      * Snap's point to nearest grid points
      */
     public void Snap() {
-        first = first - ( first % ( GameView.SCALING / 10 ) );
-        second = second - ( second % ( GameView.SCALING / 10 ) );
+        first = (short) ( first - ( first % ( GameView.SCALING / 10 ) ) );
+        second = (short) ( second - ( second % ( GameView.SCALING / 10 ) ) );
     }
 
     /*
@@ -194,26 +197,26 @@ public class Posn {
      * @param int request_type: The type of request which determines how to edit the line
      */
     public void Edit( final int request_type ) {
-        int tmp;
+        short tmp;
         switch ( request_type ) {
             case Request.Rotate_right:
                 tmp = first;
-                first = GameView.SCALING - second;
+                first = (short) ( GameView.SCALING - second );
                 second = tmp;
                 break;
 
             case Request.Rotate_left:
                 tmp = second;
-                second = GameView.SCALING - first;
+                second = (short) ( GameView.SCALING - first );
                 first = tmp;
                 break;
 
             case Request.Flip_horizontally:
-                first = GameView.SCALING - first;
+                first = (short) ( GameView.SCALING - first );
                 break;
 
             case Request.Flip_vertically:
-                second = GameView.SCALING - second;
+                second = (short) ( GameView.SCALING - second );
                 break;
         }
     }

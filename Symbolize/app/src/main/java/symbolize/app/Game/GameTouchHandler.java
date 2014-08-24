@@ -15,12 +15,12 @@ public class GameTouchHandler {
     // Static Fields
     //--------------
 
-    public static final int TAPTHRESHOLD = 250;
-    public static final int DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
-    public static final int FLIPPINGTHRESHOLD = GameView.SCALING / 7;
+    public static final short TAPTHRESHOLD = 250;
+    public static final short DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
+    public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
     public static final int MINLINESIZESQR = 10 * GameView.SCALING;
-    public static final int ERASEDELAY = 250;
-    public static final int DRAGDELAY = 600;
+    public static final short ERASEDELAY = 250;
+    public static final short DRAGDELAY = 600;
 
 
     // Fields
@@ -406,7 +406,8 @@ public class GameTouchHandler {
      * he Game controller/activity accordingly
      */
     private void handle_drag() {
-        drag_line.Translate( current_point.x() - previous_point.x(), current_point.y() - previous_point.y() );
+        drag_line.Translate( (short) ( current_point.x() - previous_point.x() ),
+                             (short) ( current_point.y() - previous_point.y() ) );
         listener.onFingerMove( drag_line, null );
     }
 

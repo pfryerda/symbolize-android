@@ -17,13 +17,13 @@ abstract public class GameAnimationHandler {
     // Static fields
     //----------------
 
-    public static final int ZOOM_SCALING = 4;
+    public static final byte ZOOM_SCALING = 4;
 
-    public static final int ROTATE_DURATION = 450;
-    public static final int FLIP_DURATION = 450;
-    public static final int SHIFT_DURATION = 600;
-    public static final int ZOOM_DURATION = 600;
-    public static final int TRANSLATE_DURATION = 650;
+    public static final short ROTATE_DURATION = 450;
+    public static final short FLIP_DURATION = 450;
+    public static final short SHIFT_DURATION = 600;
+    public static final short ZOOM_DURATION = 600;
+    public static final short TRANSLATE_DURATION = 650;
 
 
     // Main method

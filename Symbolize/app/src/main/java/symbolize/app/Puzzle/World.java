@@ -31,7 +31,7 @@ public class World extends Puzzle {
     //-------------
 
     public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
-                  final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Integer> unlocks )
+                  final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
         super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
         this.levels = levels;
@@ -53,16 +53,16 @@ public class World extends Puzzle {
     public LinkedList<Line> Get_board() { return new LinkedList<Line>(); }
 
     @Override
-    public int Get_draw_restriction() {
+    public byte Get_draw_restriction() {
         int number_of_vertices = PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
-        return ( number_of_vertices * ( number_of_vertices - 1 ) ) / 2;
+        return (byte) ( ( number_of_vertices * ( number_of_vertices - 1 ) ) / 2 );
     }
 
     @Override
-    public int Get_erase_restriction() { return 0; }
+    public byte Get_erase_restriction() { return 0; }
 
     @Override
-    public int Get_drag_restriction() {
+    public byte Get_drag_restriction() {
         return 0;
     }
 
@@ -70,7 +70,7 @@ public class World extends Puzzle {
     public boolean Can_shift() { return false; }
 
     @Override
-    public int Get_special_type() {
+    public byte Get_special_type() {
         return 0;
     }
 }

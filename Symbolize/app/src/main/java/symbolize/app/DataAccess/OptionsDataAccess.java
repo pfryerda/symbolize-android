@@ -36,8 +36,8 @@ abstract public class OptionsDataAccess {
                 Page.Get_context().getString( R.string.animation_settings ), true );
     }
 
-    public static int Get_volume() {
-        return dao.Get_property(
+    public static byte Get_volume() {
+        return (byte) dao.Get_property(
                 Page.Get_context().getString( R.string.volume_settings ), 100 );
     }
 
