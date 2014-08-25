@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <draw_restriction>3000</draw_restriction>
-    <erase_restriction>3000</erase_restriction>
-    <drag_restriction>3000</drag_restriction>
+    <draw_restriction>127</draw_restriction>
+    <erase_restriction>127</erase_restriction>
+    <drag_restriction>127</drag_restriction>
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>

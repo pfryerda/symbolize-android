@@ -131,10 +131,9 @@ public class Posn {
      * @return double: The angle in degrees
      */
     public double Angle( final Posn vector ) {
-        return Math.toDegrees( Math.atan(
+        return ( Math.toDegrees( Math.atan(
                 ( (float) ( first * vector.second - second * vector.first ) /
-                        Dot( vector ) + 360 ) % 360
-        ) );
+                        Dot( vector )  ) ) ) + 360 ) % 360;
     }
 
     /*
