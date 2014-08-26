@@ -6,8 +6,8 @@ import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;
 
 public class Posn {
-    // Static field
-    //--------------
+    // Constants
+    //-----------
 
     public static final short DRAWING_THRESHOLD = GameView.SCALING / 10;
 

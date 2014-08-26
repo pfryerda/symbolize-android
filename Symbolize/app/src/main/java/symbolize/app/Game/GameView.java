@@ -36,7 +36,7 @@ import symbolize.app.R;
  */
 public class GameView {
     // Static Fields
-    //-------------
+    //---------------
 
     public static final short SCALING = 10000;
     public static final short LINE_WIDTH = (short) ( GameUIView.CANVAS_SIZE / 17 );
@@ -57,8 +57,6 @@ public class GameView {
     private final Canvas foreground_canvas;
     private final Canvas background_canvas;
     private final Paint paint;
-
-
 
 
     // Constructor

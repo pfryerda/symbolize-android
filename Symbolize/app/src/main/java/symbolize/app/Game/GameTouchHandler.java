@@ -12,8 +12,8 @@ import symbolize.app.Common.Posn;
  * A class in charge of interpreting client touch interactions
  */
 public class GameTouchHandler {
-    // Static Fields
-    //--------------
+    // Constants
+    //-----------
 
     public static final short TAPTHRESHOLD = 250;
     public static final short DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;

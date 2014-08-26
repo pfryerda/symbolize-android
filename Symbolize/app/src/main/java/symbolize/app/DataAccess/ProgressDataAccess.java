@@ -11,7 +11,7 @@ abstract public class ProgressDataAccess {
     // Static fields
     //--------------
 
-    private static DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
+    private static final DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
 
 
     // Getter methods

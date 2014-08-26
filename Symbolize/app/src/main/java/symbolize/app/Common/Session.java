@@ -12,8 +12,8 @@ import symbolize.app.R;
  * A singleton class that keeps track of the game's current state.
  */
 public class Session {
-    // Static field
-    //-------------
+    // Constants
+    //-----------
 
     public static final boolean DEV_MODE = false;
 
