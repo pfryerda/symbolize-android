@@ -6,12 +6,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 public class GameShakeHandler {
-    // Static Fields
-    //---------------
+    // Constants
+    //-----------
 
-    public static final byte SHAKETHRESHOLD = 8;
-    public static final double SHAKEIDLETHRESHOLD = 1.15;
-    public static final short SHAKESEPARATIONTIME = 500;
+    public static final byte SHAKE_THRESHOLD = 8;
+    public static final double SHAKE_IDLE_THRESHOLD = 1.15;
+    public static final short SHAKE_SEPARATION_TIME = 500;
 
 
     // Fields
@@ -70,13 +70,13 @@ public class GameShakeHandler {
                     (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH));
             long current_time = event.timestamp;
 
-            if ((acceleration_square_root >= SHAKETHRESHOLD) && !shaking) {
-                if ((current_time - last_update) < SHAKESEPARATIONTIME) {
+            if ((acceleration_square_root >= SHAKE_THRESHOLD) && !shaking) {
+                if ((current_time - last_update) < SHAKE_SEPARATION_TIME) {
                     return;
                 }
                 shaking = true;
                 last_update = current_time;
-            } else if ((acceleration_square_root <= SHAKEIDLETHRESHOLD) && shaking) {
+            } else if ((acceleration_square_root <= SHAKE_IDLE_THRESHOLD) && shaking) {
                 shaking = false;
                 shake_listener.onShake();
             }

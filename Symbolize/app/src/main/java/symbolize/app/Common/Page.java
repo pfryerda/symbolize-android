@@ -12,20 +12,10 @@ import symbolize.app.Dialog.SymbolizeDialog;
  * methods to get commonly used elements like an activity, string, or context
  */
 public class Page extends FragmentActivity {
-    // Static fields
-    //---------------
+    // Constants
+    //------------
 
     private static Context context;
-
-
-    // Main method
-    //-------------
-
-    protected void onCreate( final Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        Page.context = this;
-        SymbolizeDialog.dialog_manager = getFragmentManager();
-    }
 
 
     // Static methods
@@ -60,4 +50,13 @@ public class Page extends FragmentActivity {
         //No call for super(). Bug on API Level > 11.
     }
 
+
+    // Main method
+    //-------------
+
+    protected void onCreate( final Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        Page.context = this;
+        SymbolizeDialog.dialog_manager = getFragmentManager();
+    }
 }

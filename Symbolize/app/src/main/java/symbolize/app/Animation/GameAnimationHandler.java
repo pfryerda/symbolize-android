@@ -15,8 +15,8 @@ import symbolize.app.Game.GameView;
  * An all static class used for getting an animation given a request type
  */
 abstract public class GameAnimationHandler {
-    // Static fields
-    //----------------
+    // Constants
+    //-----------
 
     public static final byte ZOOM_SCALING = 4;
 

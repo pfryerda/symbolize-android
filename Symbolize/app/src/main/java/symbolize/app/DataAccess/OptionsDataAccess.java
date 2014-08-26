@@ -10,7 +10,7 @@ abstract public class OptionsDataAccess {
     // Static fields
     //--------------
 
-    private static DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
+    private static final DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
 
 
     // Getter methods

@@ -36,10 +36,11 @@ import symbolize.app.R;
 public class GamePage extends Page
                       implements GameTouchHandler.GameTouchListener,
                                  GameShakeHandler.OnShakeListener {
-    // Static fields
-    //---------------
+    // Constants
+    //-----------
 
     public final static String Luke = "AWESOME";
+
 
     // Static block
     //--------------

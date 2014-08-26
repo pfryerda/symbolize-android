@@ -11,19 +11,7 @@ abstract public class UnlocksDataAccess {
     // Static fields
     //--------------
 
-    private static DataAccessObject dao = new DataAccessObject( R.string.preference_unlocks_key );
-
-
-    // Getter methods
-    //----------------
-
-    public static boolean Is_unlocked( int world ) {
-        return dao.Get_property(world + "", false) || Session.DEV_MODE;
-    }
-
-    public static boolean Is_unlocked( int world, int level ) {
-        return dao.Get_property(world + "-" + level, false) || Session.DEV_MODE;
-    }
+    private static final DataAccessObject dao = new DataAccessObject( R.string.preference_unlocks_key );
 
 
     // Setter methods
@@ -40,6 +28,18 @@ abstract public class UnlocksDataAccess {
         if( !Session.DEV_MODE ) {
             dao.Set_property( world + "-" + level, true );
         }
+    }
+
+
+    // Getter methods
+    //----------------
+
+    public static boolean Is_unlocked( int world ) {
+        return dao.Get_property(world + "", false) || Session.DEV_MODE;
+    }
+
+    public static boolean Is_unlocked( int world, int level ) {
+        return dao.Get_property(world + "-" + level, false) || Session.DEV_MODE;
     }
 
 

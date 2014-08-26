@@ -16,8 +16,8 @@ public class Line {
     public static final int User = 1;
 
 
-    // Static Fields
-    //---------------
+    // Constants
+    //------------
 
     public static final short ERASING_THRESHOLD = GameView.SCALING / 14;
     public static final byte ANGLE_THRESHOLD_1 = 5; // Degrees

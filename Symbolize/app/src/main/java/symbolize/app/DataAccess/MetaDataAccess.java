@@ -9,8 +9,8 @@ import symbolize.app.R;
  *  An all static data access API, for save metadata about the user
  */
 abstract public class MetaDataAccess {
-    // Static fields
-    //--------------
+    // Constants
+    //-----------
 
     public static final byte ANIMATION_DECREASE_THRESHOLD = 1;
 

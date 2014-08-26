@@ -41,6 +41,20 @@ public class Request {
     public static final byte SPECIAL_SLOPE_INF    = 102;
 
 
+    // Static methods
+    //----------------
+
+    /*
+     * Given a Level.SPECIAL_TYPE returns the corresponding Request.SPECIAL_TYPE
+     *
+     * @param int level_special_type: The Level.SPECIAL_TYPE
+     * @return the Request.SPECIAL_TYPE
+     */
+    public static byte Get_request_type_from_special( byte level_special_type ) {
+        return (byte) ( level_special_type + 100 );
+    }
+
+
     // Fields
     //--------
 
@@ -101,19 +115,5 @@ public class Request {
      */
     public boolean Is_invalid_type() {
         return type < -1 || ( type > 22 && type < 100 ) || type > 102;
-    }
-
-
-    // Static methods
-    //----------------
-
-    /*
-     * Given a Level.SPECIAL_TYPE returns the corresponding Request.SPECIAL_TYPE
-     *
-     * @param int level_special_type: The Level.SPECIAL_TYPE
-     * @return the Request.SPECIAL_TYPE
-     */
-    public static byte Get_request_type_from_special( byte level_special_type ) {
-        return (byte) ( level_special_type + 100 );
     }
 }

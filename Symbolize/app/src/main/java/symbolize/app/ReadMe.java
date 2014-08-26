@@ -8,11 +8,19 @@ package symbolize.app;
  * Class description - An example of the typical structure of a module in symbolize ( does not include Activities )
  */
 public class ReadMe /* extends BaseClass */ /* implements Interface */ {
-    //Flags
-    //-----
+    // Flags
+    //-------
 
     /*
      * Flags go here
+     */
+
+
+    // Constants
+    //-----
+
+    /*
+     * Constants go here
      */
 
 
@@ -33,6 +41,14 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      *  static block code
      *
      * }
+     */
+
+
+    // Static method(s)
+    //-----------------
+
+    /*
+     * Static method(s) go here
      */
 
 
@@ -146,25 +162,10 @@ public class ReadMe /* extends BaseClass */ /* implements Interface */ {
      */
 
 
-    // Static method(s)
-    //-----------------
-
-    /*
-     * Static method(s) go here
-     */
-
-
     // Developer method(s)
     //---------------------
 
     /*
      * Developer method(s) go here
-     */
-
-    // Misc/other method(s)
-    //----------------------
-
-    /*
-     * Misc/other method(s) go here
      */
 }

@@ -34,8 +34,8 @@ class InvalidXmlException extends Exception {
  * Class used to parse stored xml files and load them into memory
  */
 abstract public class PuzzleDB {
-    // Static fields
-    //---------------
+    // Constants
+    //-----------
 
     public static final byte NUMBER_OF_WORLDS = 7;
     public static final byte NUMBER_OF_LEVELS_PER_WORLD = 15;
@@ -75,6 +75,11 @@ abstract public class PuzzleDB {
         R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10, R.xml.level_7_11 };
 
     private static final Resources res = Page.Get_context().getResources();
+
+
+    // Fields
+    //--------
+
     private static XmlResourceParser xpp;
 
 

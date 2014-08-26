@@ -26,9 +26,9 @@ import symbolize.app.R;
 /*
  * An all static class used to update the game's ui elements as well as set up their dimensions on start up
  */
-public class GameUIView {
-    // Static fields
-    //--------------
+abstract public class GameUIView {
+    // Constants
+    //-----------
 
     private static final Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
 
@@ -38,6 +38,10 @@ public class GameUIView {
     public static final short AD_HEIGHT;
     public static final short BOTTOM_BUTTON_WIDTH;
     public static final short TOP_BUTTON_WIDTH;
+
+
+    // Fields
+    //--------
 
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
@@ -87,8 +91,10 @@ public class GameUIView {
         }
 
         if ( ( session.Get_current_puzzle().Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
+            draw_button.setVisibility( View.VISIBLE );
             erase_button.setVisibility( View.VISIBLE );
         } else {
+            draw_button.setVisibility( View.INVISIBLE );
             erase_button.setVisibility( View.INVISIBLE );
         }
 
