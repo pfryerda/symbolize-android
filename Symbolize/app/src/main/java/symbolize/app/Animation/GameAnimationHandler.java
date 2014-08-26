@@ -7,6 +7,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Communication.Request;
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;
 
@@ -18,12 +19,6 @@ abstract public class GameAnimationHandler {
     //----------------
 
     public static final byte ZOOM_SCALING = 4;
-
-    public static final short ROTATE_DURATION = 450;
-    public static final short FLIP_DURATION = 450;
-    public static final short SHIFT_DURATION = 600;
-    public static final short ZOOM_DURATION = 600;
-    public static final short TRANSLATE_DURATION = 650;
 
 
     // Main method
@@ -41,7 +36,7 @@ abstract public class GameAnimationHandler {
                         new RotateAnimation( 0, 90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        ROTATE_DURATION, false
+                        MetaDataAccess.Get_rotate_duration(), false
                 );
                 break;
 
@@ -51,7 +46,7 @@ abstract public class GameAnimationHandler {
                         new RotateAnimation( 0, -90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        ROTATE_DURATION, false
+                        MetaDataAccess.Get_rotate_duration(), false
                 );
                 break;
 
@@ -61,7 +56,7 @@ abstract public class GameAnimationHandler {
                         new ScaleAnimation( 1, -1, 1, 1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        FLIP_DURATION, false
+                        MetaDataAccess.Get_flip_duration(), false
                 );
                 break;
 
@@ -71,107 +66,113 @@ abstract public class GameAnimationHandler {
                         new ScaleAnimation( 1, 1, 1, -1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        FLIP_DURATION, false
+                        MetaDataAccess.Get_flip_duration(), false
                 );
                 break;
 
             case Request.Shift:
+                short shift_duration = MetaDataAccess.Get_shift_duration();
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), SHIFT_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), shift_duration, true );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), SHIFT_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), shift_duration, true );
                 break;
 
             case Request.Load_puzzle_left:
+                short translate_duration = MetaDataAccess.Get_translate_duration();
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATE_DURATION, false
+                    translate_duration, false
                 );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATE_DURATION, true
+                    translate_duration, true
                 );
                 break;
 
             case Request.Load_puzzle_right:
+                translate_duration = MetaDataAccess.Get_translate_duration();
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATE_DURATION, false
+                        translate_duration, false
                 );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0,
                             Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
                     ),
-                    TRANSLATE_DURATION, true
+                    translate_duration, true
                 );
                 break;
 
             case Request.Load_level_via_world:
+                short zoom_duration = MetaDataAccess.Get_zoom_duration();
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), ZOOM_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), zoom_duration, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, ZOOM_SCALING, 1, ZOOM_SCALING,
                             Animation.ABSOLUTE, session.Get_current_pivot().Unscale().x(),
                             Animation.ABSOLUTE, session.Get_current_pivot().Unscale().y()
                         ),
-                        ZOOM_DURATION, true
+                        zoom_duration, true
                 );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), ZOOM_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), zoom_duration, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOOM_SCALING, 1, ZOOM_SCALING, 1,
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().x(),
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().y()
                         ),
-                        ZOOM_DURATION, true
+                        zoom_duration, true
                 );
                 break;
 
             case Request.Load_world_via_level:
+                zoom_duration = MetaDataAccess.Get_zoom_duration();
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), ZOOM_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), zoom_duration, true );
                 animation.Add_animation(
                         new ScaleAnimation( 1, (float) 1/ZOOM_SCALING, 1, (float) 1/ZOOM_SCALING,
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().x(),
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().y()
                         ),
-                        ZOOM_DURATION, true
+                        zoom_duration, true
                 );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), ZOOM_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), zoom_duration, true );
                 animation.Add_animation(
                         new ScaleAnimation( ZOOM_SCALING, 1, ZOOM_SCALING, 1,
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().x(),
                                 Animation.ABSOLUTE, session.Get_current_pivot().Unscale().y()
                         ),
-                        ZOOM_DURATION, true
+                        zoom_duration, true
                 );
                 break;
 
             case Request.Load_puzzle_start:
+                translate_duration = MetaDataAccess.Get_translate_duration();
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 1, 0 ), TRANSLATE_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 1, 0 ), translate_duration, true );
                 animation.Add_animation( new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
                                 Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -0.1f
                         ),
-                        TRANSLATE_DURATION, true
+                        translate_duration, true
                 );
                 animation.Start_new_set();
-                animation.Add_animation( new AlphaAnimation( 0, 1 ), TRANSLATE_DURATION, true );
+                animation.Add_animation( new AlphaAnimation( 0, 1 ), translate_duration, true );
                 animation.Add_animation( new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
                                 Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0
                         ),
-                        TRANSLATE_DURATION, true
+                        translate_duration, true
                 );
                 break;
         }
