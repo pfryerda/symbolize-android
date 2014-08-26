@@ -34,6 +34,11 @@
     <string name="seen_drag">seen_drag</string>
     <string name="seen_color_change">seen_color_change</string>
     <string name="seen_special">seen_special</string>
+    <string name="rotate_duration">rotate_duration</string>
+    <string name="flip_duration">flip_duration</string>
+    <string name="shift_duration">shift_duration</string>
+    <string name="zoom_duration">zoom_duration</string>
+    <string name="translate_duration">translate_duration</string>
 
     <!-- Common strings -->
     <string name="world">World</string>
