@@ -305,8 +305,11 @@ public class GamePage extends Page
     @Override
     public Line onDragStart( Posn point ) {
         GameController controller = GameController.Get_instance();
+        Session session = Session.Get_instance();
 
-        if ( Session.Get_instance().In_draw_mode() ) {
+        if ( ( MetaDataAccess.Has_seen_drag() || session.Get_current_puzzle().Get_drag_restriction() > 0 )
+            && session.In_draw_mode() )
+        {
             Request request = new Request( Request.Drag_start );
             request.request_point = point;
             Response response = new Response();
