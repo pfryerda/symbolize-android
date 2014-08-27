@@ -332,9 +332,9 @@ public class GameTouchHandler {
             if ( in_drag_mode ) {
                 listener.onDragEnd( drag_line );
             } else {
-                Line line = new Line( point_one, point_one_end, Line.User );
+                Line line = new Line( point_one, point_one_end, Line.User_drawn );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    listener.onDraw( new Line( point_one, point_one_end, Line.User ) );
+                    listener.onDraw( new Line( point_one, point_one_end, Line.User_drawn ) );
                 } else if ( single_tap_complete ) {
                     listener.onDoubleTap( point_one_end );
                     single_tap_complete = false;
@@ -419,7 +419,7 @@ public class GameTouchHandler {
         if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWING_THRESHOLD * Posn.DRAWING_THRESHOLD ) ) {
             drag_timer.cancel();
         }
-        listener.onFingerMove( new Line( point_one, current_point, Line.App ), current_point );
+        listener.onFingerMove( new Line( point_one, current_point, Line.App_drawn ), current_point );
         if ( is_erase_delay_done ) {
             listener.onErase( current_point );
         }

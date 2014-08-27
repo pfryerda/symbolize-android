@@ -82,7 +82,7 @@ public class GameController {
                     break;
 
                 case Request.Drag_end:
-                    game_model.Add_line_via_drag(request.request_line);
+                    game_model.Add_line_via_drag( request.request_line );
                     break;
 
                 case Request.Change_color:
@@ -165,10 +165,15 @@ public class GameController {
                     request.type = Request.None; // If not actually intersecting a line then suppress the error toast
                     return false;
                 }
-                return game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction();
+                return ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
+                    || ( line.Get_owner() == Line.User_drawn )
+                    || ( line.Get_owner() == Line.User_dragged );
 
             case Request.Drag_end:
-                return game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction();
+                line = request.request_line;
+                return ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() )
+                    || ( line.Get_owner() == Line.User_drawn )
+                    || ( line.Get_owner() == Line.User_dragged );
 
             default:
                 return !request.Is_invalid_type();

@@ -12,8 +12,9 @@ public class Line {
     // Flags
     //-------
 
-    public static final int App = 0;
-    public static final int User = 1;
+    public static final int App_drawn = 0;
+    public static final int User_drawn = 1;
+    public static final int User_dragged = 2;
 
 
     // Constants
@@ -62,11 +63,11 @@ public class Line {
         this.p1 = null;
         this.p2 = null;
         this.color = Color.BLACK;
-        this.owner = Line.App;
+        this.owner = App_drawn;
     }
 
     public Line( final Posn pt1, final Posn pt2 ) {
-        this( pt1, pt2, Color.BLACK, Line.App );
+        this( pt1, pt2, Color.BLACK, Line.App_drawn );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int creator ) {

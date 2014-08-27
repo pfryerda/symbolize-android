@@ -201,10 +201,18 @@ public class GameModel {
      * @param Posn point: The point to check is interesting
      */
     public void Remove_line_via_erase( Line line ) {
-        if ( line.Get_owner() == Line.App ) {
-            ++lines_erased;
-        } else {
-            --lines_drawn;
+        switch ( line.Get_owner() ) {
+            case Line.App_drawn:
+                ++lines_erased;
+                break;
+
+            case Line.User_drawn:
+                --lines_drawn;
+                break;
+
+            case Line.User_dragged:
+                --lines_dragged;
+                break;
         }
         graph.remove( line );
     }
@@ -226,7 +234,9 @@ public class GameModel {
         Line line = Get_intersecting_line( point );
         if( line != null ) {
             graph.remove( line );
-            ++lines_dragged;
+            if ( line.Get_owner() == Line.App_drawn ) {
+                ++lines_dragged;
+            }
         }
         return line;
     }
