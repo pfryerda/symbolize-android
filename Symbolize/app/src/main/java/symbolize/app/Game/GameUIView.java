@@ -2,13 +2,16 @@ package symbolize.app.Game;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Point;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ abstract public class GameUIView {
     // Fields
     //--------
 
+    private static RelativeLayout game_page;
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
     private static Button draw_button;
@@ -118,6 +122,7 @@ abstract public class GameUIView {
         final Activity activity = GamePage.Get_activity();
 
         // Reset variable
+        game_page = (RelativeLayout) activity.findViewById( R.id.game_page );
         top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
         draw_button = (Button) activity.findViewById( R.id.Draw );
@@ -125,12 +130,6 @@ abstract public class GameUIView {
         left_button = (Button) activity.findViewById( R.id.Left );
         right_button = (Button) activity.findViewById( R.id.Right );
         title = (TextView) activity.findViewById( R.id.Title );
-
-        // Set canvas heights
-        //activity.findViewById( R.id.background ).getLayoutParams().height = SCREEN_SIZE.y;
-        //activity.findViewById( R.id.background ).getLayoutParams().width = SCREEN_SIZE.x;
-        //activity.findViewById( R.id.foreground ).getLayoutParams().height = SCREEN_SIZE.y;
-        //activity.findViewById( R.id.foreground ).getLayoutParams().width = SCREEN_SIZE.x;
 
         // Set the buttons/layout width/height - 'Faster than doing it via xml'
         activity.findViewById( R.id.top_bar ).getLayoutParams().height = BAR_HEIGHT;
@@ -150,6 +149,17 @@ abstract public class GameUIView {
 
         activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
+    }
+
+    /*
+     * @return LinearGradient: the linear gradient used for the vertical grid lines
+     */
+    public static LinearGradient Get_grid_gradient() {
+        int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
+        float[] positions = new float[]{ 0.0f,
+                (float) ( BAR_HEIGHT + CANVAS_SIZE / 2) / SCREEN_SIZE.y,
+                ( 2.0f * BAR_HEIGHT + CANVAS_SIZE ) / SCREEN_SIZE.y };
+        return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
     /*
