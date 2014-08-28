@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Display;
@@ -216,13 +218,21 @@ public class GameView {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRID_WIDTH );
 
-            for ( short x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
-                render_line( background_canvas, new Line( new Posn( x, (short) 0 ), new Posn( x, SCALING ) ) );
-            }
-
             for ( short y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
                 render_line( background_canvas, new Line( new Posn( (short) 0, y ), new Posn( SCALING, y ) ) );
             }
+
+            if ( !OptionsDataAccess.Show_border() ) {
+                paint.setShader( GameUIView.Get_grid_gradient() );
+            }
+
+            short bar_height_scaled = (short) ( GameUIView.BAR_HEIGHT * SCALING / GameUIView.CANVAS_SIZE );
+            for ( short x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
+                render_line( background_canvas, new Line( new Posn( x, (short) ( -1 * bar_height_scaled ) ),
+                                                          new Posn( x, (short) ( SCALING + bar_height_scaled ) ) ) );
+            }
+
+            paint.setShader( null );
         }
 
         if ( OptionsDataAccess.Show_border() ) {
@@ -234,8 +244,6 @@ public class GameView {
             render_line( background_canvas, new Line( new Posn( (short) 0, SCALING ), new Posn( SCALING, SCALING ) ) );
             render_line( background_canvas, new Line( new Posn( SCALING, (short) 0 ), new Posn( SCALING, SCALING ) ) );
         }
-
-        background.invalidate();
     }
 
     /*
