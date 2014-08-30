@@ -75,8 +75,7 @@ public class HintDialog extends InfoDialog {
      */
     @Override
     protected View get_dialog_view() {
-        final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view =  inflater.inflate( R.layout.hint_dialog,  new LinearLayout( Page.Get_context() ) );
+        final View dialog_view = super.get_dialog_view();
 
         ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText( title );
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
@@ -87,11 +86,19 @@ public class HintDialog extends InfoDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_string_id
+     */
+    @Override
+    protected String get_dialog_string_id() {
+        return Page.Get_resource_string( R.string.hint_dialog_id );
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override
-    protected String get_dialog_id() {
-        return Page.Get_resource_string( R.string.hint_dialog_id );
+    protected int get_dialog_id() {
+        return R.layout.hint_dialog;
     }
 
     /*

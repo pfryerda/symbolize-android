@@ -2,6 +2,9 @@ package symbolize.app.Dialog;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.View;
+import android.widget.Button;
+
 import symbolize.app.Common.Page;
 import symbolize.app.Game.GamePage;
 import symbolize.app.R;
@@ -46,33 +49,46 @@ public class ConfirmDialog extends SymbolizeDialog {
     //------------------
 
     /*
-     * See SymbolizeDialog::AlertDialog.Builder get_builder
+     * See SymbolizeDialog::get_dialog_view
      */
     @Override
-    public AlertDialog.Builder get_builder() {
-        final AlertDialog.Builder builder = super.get_builder();
+    protected View get_dialog_view() {
+        final View dialog_view = super.get_dialog_view();
 
-        builder.setPositiveButton( GamePage.Get_resource_string( R.string.yes ), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick( DialogInterface dialogInterface, int id ) {
-                        listener.OnDialogSuccess();
-                    }
-                } )
-                .setNegativeButton( GamePage.Get_resource_string( R.string.no ), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.OnDialogFail();
-                    }
-                } );
+        Button positive_button = (Button) dialog_view.findViewById( R.id.Yes );
+        positive_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                listener.OnDialogSuccess();
+                ConfirmDialog.this.getDialog().dismiss();
+            }
+        } );
 
-        return builder;
+        Button negative_button = (Button) dialog_view.findViewById( R.id.No );
+        negative_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                listener.OnDialogFail();
+                ConfirmDialog.this.getDialog().dismiss();
+            }
+        } );
+
+        return dialog_view;
+    }
+
+    /*
+     * See SymbolizeDialog::get_dialog_string_id
+     */
+    @Override
+    protected String get_dialog_string_id() {
+        return Page.Get_resource_string( R.string.confirmation_dialog_id );
     }
 
     /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override
-    protected String get_dialog_id() {
-        return Page.Get_resource_string( R.string.confirmation_dialog_id );
+    protected int get_dialog_id() {
+        return R.layout.confirmation_dialog;
     }
 }

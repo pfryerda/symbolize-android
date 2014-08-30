@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import symbolize.app.Common.Page;
+import symbolize.app.Game.GameUIView;
 import symbolize.app.R;
 
 /*
@@ -61,7 +62,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
      * Display the dialog onto the page
      */
     public void Show() {
-        show( dialog_manager, get_dialog_id() );
+        show( dialog_manager, get_dialog_string_id() );
     }
 
 
@@ -86,10 +87,17 @@ abstract public class SymbolizeDialog extends DialogFragment {
      */
     protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view =  inflater.inflate( R.layout.generic_dialog, new LinearLayout( Page.Get_context() ) );
+        final View dialog_view =  inflater.inflate( get_dialog_id(), new LinearLayout( Page.Get_context() ) );
 
-        ( (TextView) dialog_view.findViewById( R.id.Title ) ).setText( title );
-        ( (TextView) dialog_view.findViewById( R.id.Message ) ).setText( message );
+        TextView title_view = (TextView) dialog_view.findViewById( R.id.Title );
+        if ( title_view != null ) {
+            title_view.setText( title );
+        }
+
+        TextView message_view = (TextView) dialog_view.findViewById( R.id.Message );
+        if ( message_view != null ) {
+            message_view.setText( message );
+        }
 
         return dialog_view;
     }
@@ -102,5 +110,10 @@ abstract public class SymbolizeDialog extends DialogFragment {
      *
      * @return String: The id of interest
      */
-    abstract protected String get_dialog_id();
+    abstract protected String get_dialog_string_id();
+
+    /*
+     * Get dialog id
+     */
+    abstract protected int get_dialog_id();
 }
