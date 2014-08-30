@@ -37,8 +37,7 @@ public class OptionsDialog extends InfoDialog {
      */
     @Override
     protected View get_dialog_view() {
-        final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialog_view =  inflater.inflate( R.layout.options_dialog, null );
+        final View dialog_view = super.get_dialog_view();
 
         final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid );
         show_graph.setChecked( OptionsDataAccess.Show_grid() );
@@ -88,7 +87,7 @@ public class OptionsDialog extends InfoDialog {
         delete_all_data_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                ConfirmDialog confirmDialog = new ConfirmDialog();
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
@@ -129,10 +128,18 @@ public class OptionsDialog extends InfoDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_string_id
+     */
+    @Override
+    protected String get_dialog_string_id() {
+        return Page.Get_resource_string( R.string.options_dialog_id );
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override
-    protected String get_dialog_id() {
-        return Page.Get_resource_string( R.string.options_dialog_id );
+    protected int get_dialog_id() {
+        return R.layout.options_dialog;
     }
 }

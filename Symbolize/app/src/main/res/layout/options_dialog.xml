@@ -3,10 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:minWidth="300dp">
+
     <TextView
-        android:id="@+id/Title"
-        android:layout_width="fill_parent"
+        android:id="@+id/Options"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/options_dialog_title"
         android:textSize="27dp"
@@ -15,7 +17,7 @@
 
     <CheckedTextView
         android:id="@+id/options_show_grid"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:checked="true"
@@ -25,7 +27,7 @@
 
     <CheckedTextView
         android:id="@+id/options_show_border"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:checked="false"
@@ -35,7 +37,7 @@
 
     <CheckedTextView
         android:id="@+id/options_snap_drawing"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:checked="false"
@@ -45,7 +47,7 @@
 
     <CheckedTextView
         android:id="@+id/options_show_animation"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:checked="true"
@@ -55,7 +57,7 @@
 
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/options_volume"
@@ -63,7 +65,7 @@
         android:textColor="@color/black"/>
     <SeekBar
         android:id="@+id/options_seekbar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:progress="100">
@@ -76,5 +78,16 @@
         android:text="@string/options_delete_all_data"
         android:layout_gravity="center">
     </Button>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/Close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/close"/>
+    </LinearLayout>
 
 </LinearLayout>

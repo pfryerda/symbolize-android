@@ -145,7 +145,7 @@ public class GamePage extends Page
             controller.Handle_request( request,response );
 
             if ( response.response_boolean  ) {
-                ConfirmDialog confirmDialog = new ConfirmDialog();
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
                 ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
                 MetaDataAccess.Update_mechanics_seen();
 
@@ -155,7 +155,7 @@ public class GamePage extends Page
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
-                    confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
+                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
                             session.Increase_world();
@@ -163,8 +163,7 @@ public class GamePage extends Page
                         }
 
                         @Override
-                        public void OnDialogFail() {
-                        }
+                        public void OnDialogFail() {}
                     });
                     confirmDialog.Show();
                 } else if ( session.Is_in_world_view() && session.Get_current_world() > PuzzleDB.NUMBER_OF_WORLDS ) {
