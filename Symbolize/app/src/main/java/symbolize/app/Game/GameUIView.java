@@ -4,21 +4,17 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.graphics.Shader;
-import android.util.Log;
+import android.graphics.drawable.GradientDrawable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdSize;
-
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Page;
@@ -119,13 +115,26 @@ abstract public class GameUIView {
             erase_button.setVisibility( View.INVISIBLE );
         }
 
-        if ( OptionsDataAccess.Show_border() ) {
+        /*if ( OptionsDataAccess.Show_border() ) {
             top_bar.setBackgroundColor( Color.WHITE );
             bottom_bar.setBackgroundColor( Color.WHITE );
         } else {
             top_bar.setBackgroundColor( Color.TRANSPARENT );
             bottom_bar.setBackgroundColor( Color.TRANSPARENT );
-        }
+        }*/
+
+        int[] colors = new int[2];
+        colors[0] = GamePage.Get_activity().getResources().getColor( R.color.green );
+        colors[1] = ( OptionsDataAccess.Show_border() ) ? Color.WHITE : Color.TRANSPARENT;
+
+        GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
+        gradient.setCornerRadius( 0f );
+        top_bar.setBackgroundDrawable( gradient );
+
+        gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
+        gradient.setCornerRadius( 0f );
+        bottom_bar.setBackgroundDrawable( gradient );
+
     }
 
 
@@ -171,6 +180,12 @@ abstract public class GameUIView {
 
         activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
+    }
+
+    private static LinearGradient get_top_gradient() {
+        int[] colors = new int[]{ GamePage.Get_activity().getResources().getColor( R.color.green ), Color.WHITE };
+        float[] positions = new float[]{ 0.0f, BAR_HEIGHT / 2 };
+        return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
     /*
