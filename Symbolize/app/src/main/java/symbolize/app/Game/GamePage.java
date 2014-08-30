@@ -255,9 +255,6 @@ public class GamePage extends Page
         GameController controller = GameController.Get_instance();
 
         if ( session.In_draw_mode() ) {
-            if ( OptionsDataAccess.Is_snap_drawing() && !session.Is_in_world_view() ) {
-                line.Snap();
-            }
             Request request = new Request( Request.Shadow_line );
             request.request_line = line;
             controller.Handle_request( request, new Response() );

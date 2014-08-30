@@ -59,7 +59,7 @@ public class OptionsDialog extends InfoDialog {
                 OptionsDataAccess.Toggle_border();
                 show_border.setChecked( !show_border.isChecked() );
                 GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response() );
-                GameUIView.Update_ui();
+                GameUIView.Update_ui( null );
             }
         } );
 

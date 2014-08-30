@@ -277,14 +277,6 @@ public class Line {
     }
 
     /*
-     * Snaps line to nearest grid points
-     */
-   public void Snap() {
-       p1.Snap();
-       p2.Snap();
-   }
-
-    /*
      * Method used to snap line to level dot
      *
      * @param ArrayList<Posn> levels: Array of lines wanting to snap to

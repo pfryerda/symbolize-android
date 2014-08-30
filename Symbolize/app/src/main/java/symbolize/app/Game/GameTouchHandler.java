@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
+import symbolize.app.DataAccess.OptionsDataAccess;
 
 /*
  * A class in charge of interpreting client touch interactions
@@ -20,7 +21,7 @@ public class GameTouchHandler {
     public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
     public static final int MINLINESIZESQR = 10 * GameView.SCALING;
     public static final short ERASEDELAY = 250;
-    public static final short DRAGDELAY = 600;
+    public static final short DRAGDELAY = 500;
 
 
     // Fields
@@ -332,9 +333,14 @@ public class GameTouchHandler {
             if ( in_drag_mode ) {
                 listener.onDragEnd( drag_line );
             } else {
-                Line line = new Line( point_one, point_one_end, Line.User_drawn );
+                Line line;
+                if ( OptionsDataAccess.Is_snap_drawing() ) {
+                    line = new Line( point_one.Snap( true ), point_one_end.Snap( false ), Line.User_drawn );
+                } else {
+                    line = new Line( point_one, point_one_end, Line.User_drawn );
+                }
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
-                    listener.onDraw( new Line( point_one, point_one_end, Line.User_drawn ) );
+                    listener.onDraw( line );
                 } else if ( single_tap_complete ) {
                     listener.onDoubleTap( point_one_end );
                     single_tap_complete = false;
@@ -419,7 +425,13 @@ public class GameTouchHandler {
         if ( point_one.Distance_squared( current_point ) > ( Posn.DRAWING_THRESHOLD * Posn.DRAWING_THRESHOLD ) ) {
             drag_timer.cancel();
         }
-        listener.onFingerMove( new Line( point_one, current_point, Line.App_drawn ), current_point );
+        Line line;
+        if ( OptionsDataAccess.Is_snap_drawing() ) {
+            line = new Line( point_one.Snap( true ), current_point.Snap( false ), Line.App_drawn );
+        } else {
+            line = new Line( point_one, current_point, Line.App_drawn );
+        }
+        listener.onFingerMove( line, current_point );
         if ( is_erase_delay_done ) {
             listener.onErase( current_point );
         }

@@ -167,9 +167,15 @@ public class Posn {
     /*
      * Snap's point to nearest grid points
      */
-    public void Snap() {
-        first = (short) ( first - ( first % ( GameView.SCALING / 10 ) ) );
-        second = (short) ( second - ( second % ( GameView.SCALING / 10 ) ) );
+    public Posn Snap( boolean round ) {
+        short scale_factor = GameView.SCALING / 10;
+        if ( round ) {
+            return new Posn( Math.round( first / scale_factor ) * scale_factor,
+                             Math.round( second / scale_factor ) * scale_factor );
+        } else {
+            return new Posn( first - ( first % scale_factor ),
+                             second - ( second % scale_factor ) );
+        }
     }
 
     /*

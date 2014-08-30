@@ -92,6 +92,8 @@ public class GameModel {
         }
     }
 
+    public boolean Can_undo() { return past_state != null; }
+
     public GameModel Get_past_state() {
         return past_state;
     }
@@ -182,10 +184,6 @@ public class GameModel {
      */
     public void Add_line_via_draw( Line line ) {
         Session session = Session.Get_instance();
-
-        if ( OptionsDataAccess.Is_snap_drawing() && !session.Is_in_world_view() ) {
-            line.Snap();
-        }
 
         ArrayList<Posn> completed_levels = Get_completed_levels();
         if ( !session.Is_in_world_view() || completed_levels.size() > 1 ) {
@@ -292,6 +290,7 @@ public class GameModel {
      * @param Posn shadow_posn: the shadow point to render after rebdering - for erasing
      */
     public void Update_view( final boolean update_background ) {
+        GameUIView.Update_ui( Can_undo() );
         if ( Session.DEV_MODE ) {
             game_view.Render( Get_simplified_graph(), levels, update_background );
         } else {
@@ -300,6 +299,7 @@ public class GameModel {
     }
 
     public void Update_view( final SymbolizeAnimation animation, final boolean requires_hint_box ) {
+        GameUIView.Update_ui( Can_undo() );
         if ( Session.DEV_MODE ) {
             game_view.Render( Get_simplified_graph(), levels, animation, requires_hint_box );
         } else {
@@ -308,6 +308,7 @@ public class GameModel {
     }
 
     public void Update_view( final Line shadow_line ) {
+        GameUIView.Update_ui( Can_undo() );
         if ( Session.DEV_MODE ) {
             game_view.Render( Get_simplified_graph(), levels, shadow_line );
         } else {
@@ -316,6 +317,7 @@ public class GameModel {
     }
 
     public void Update_view( final Posn shadow_posn ) {
+        GameUIView.Update_ui( Can_undo() );
         if ( Session.DEV_MODE ) {
             game_view.Render( Get_simplified_graph(), levels, shadow_posn );
         } else {
