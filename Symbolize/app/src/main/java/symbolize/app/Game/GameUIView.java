@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Shader;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import symbolize.app.Common.Session;
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
+import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;
 
 /*
@@ -47,12 +50,17 @@ abstract public class GameUIView {
     //--------
 
     private static RelativeLayout game_page;
+
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
+
+    private static Button undo_button;
     private static Button draw_button;
     private static Button erase_button;
+
     private static Button left_button;
     private static Button right_button;
+
     private static TextView title;
 
 
@@ -77,8 +85,9 @@ abstract public class GameUIView {
     // Main method
     //-------------
 
-    public static void Update_ui() {
+    public static void Update_ui( Boolean can_undo ) {
         Session session = Session.Get_instance();
+        Puzzle current_puzzle = session.Get_current_puzzle();
 
         title.setText( session.Get_current_puzzle_text() );
 
@@ -94,7 +103,15 @@ abstract public class GameUIView {
             right_button.setVisibility( View.INVISIBLE );
         }
 
-        if ( ( session.Get_current_puzzle().Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
+        if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
+            if ( can_undo ) {
+                //undo_button.setColorFilter( 0xA6A6A6A6, PorterDuff.Mode.SRC_ATOP );
+            } else {
+                //undo_button.setColorFilter( null );
+            }
+        }
+
+        if ( ( current_puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
             draw_button.setVisibility( View.VISIBLE );
             erase_button.setVisibility( View.VISIBLE );
         } else {
@@ -123,12 +140,17 @@ abstract public class GameUIView {
 
         // Reset variable
         game_page = (RelativeLayout) activity.findViewById( R.id.game_page );
+
         top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
+
+        undo_button = (Button) activity.findViewById( R.id.Undo );
         draw_button = (Button) activity.findViewById( R.id.Draw );
         erase_button = (Button) activity.findViewById( R.id.Erase );
+
         left_button = (Button) activity.findViewById( R.id.Left );
         right_button = (Button) activity.findViewById( R.id.Right );
+
         title = (TextView) activity.findViewById( R.id.Title );
 
         // Set the buttons/layout width/height - 'Faster than doing it via xml'

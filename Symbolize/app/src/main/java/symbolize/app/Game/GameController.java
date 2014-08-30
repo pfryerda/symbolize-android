@@ -153,7 +153,7 @@ public class GameController {
                 return response.response_boolean;
 
             case Request.Undo:
-                return game_model.Get_past_state() != null;
+                return game_model.Can_undo();
 
             case Request.Draw:
                 return game_model.Get_lines_drawn() < current_puzzle.Get_draw_restriction();
