@@ -82,18 +82,19 @@ abstract public class GameUIView {
     //-------------
 
     public static void Update_ui( Boolean can_undo ) {
-        Session session = Session.Get_instance();
-        Puzzle current_puzzle = session.Get_current_puzzle();
+        final Session session = Session.Get_instance();
+        final Puzzle current_puzzle = session.Get_current_puzzle();
+        final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
         title.setText( session.Get_current_puzzle_text() );
 
-        if ( UnlocksDataAccess.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view() ) {
+        if ( unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
         } else {
             left_button.setVisibility( View.INVISIBLE );
         }
 
-        if ( UnlocksDataAccess.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view() ) {
+        if ( unlocks_dao.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view() ) {
             right_button.setVisibility( View.VISIBLE );
         } else {
             right_button.setVisibility( View.INVISIBLE );
@@ -107,7 +108,8 @@ abstract public class GameUIView {
             }
         }
 
-        if ( ( current_puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
+        if ( ( current_puzzle.Get_erase_restriction() > 0 )
+           || MetaDataAccess.Get_instance().Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
             draw_button.setVisibility( View.VISIBLE );
             erase_button.setVisibility( View.VISIBLE );
         } else {
@@ -125,7 +127,7 @@ abstract public class GameUIView {
 
         int[] colors = new int[2];
         colors[0] = GamePage.Get_activity().getResources().getColor( R.color.green );
-        colors[1] = ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )
+        colors[1] = ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )
                 ? Color.WHITE : Color.TRANSPARENT;
 
         GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
@@ -181,12 +183,6 @@ abstract public class GameUIView {
 
         activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
-    }
-
-    private static LinearGradient get_top_gradient() {
-        int[] colors = new int[]{ GamePage.Get_activity().getResources().getColor( R.color.green ), Color.WHITE };
-        float[] positions = new float[]{ 0.0f, BAR_HEIGHT / 2 };
-        return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
     /*

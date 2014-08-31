@@ -7,19 +7,45 @@ import symbolize.app.R;
 /*
  * An all static data access API, for save data about which levels you have unlocked
  */
-abstract public class UnlocksDataAccess {
-    // Static fields
+public class UnlocksDataAccess {
+    // Static field
     //--------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_unlocks_key );
 
-    private static boolean[][] unlocked = new boolean[PuzzleDB.NUMBER_OF_WORLDS][PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD + 1];
+
+    // Static methods
+    //----------------
+
+    /*
+     * Commit changes to disk
+     */
+    public static void Commit() {
+        dao.Commit();
+    }
 
 
-    // Static block
+
+    // Field
+    //--------
+
+    private boolean[][] unlocked = new boolean[PuzzleDB.NUMBER_OF_WORLDS][PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD + 1];
+
+
+    // Singleton setup
+    //-----------------
+
+    private static final UnlocksDataAccess instance = new UnlocksDataAccess();
+
+    public static UnlocksDataAccess Get_instance() {
+        return instance;
+    }
+
+
+    // Constructor
     //-------------
 
-    static {
+    private UnlocksDataAccess() {
         for ( byte world = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             unlocked[world - 1][0] = dao.Get_property(world + "", false);
             for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
@@ -29,14 +55,15 @@ abstract public class UnlocksDataAccess {
     }
 
 
+
     // Getter methods
     //----------------
 
-    public static boolean Is_unlocked( int world ) {
+    public boolean Is_unlocked( int world ) {
         return Is_unlocked( world, 0 );
     }
 
-    public static boolean Is_unlocked( int world, int level ) {
+    public boolean Is_unlocked( int world, int level ) {
         return unlocked[world - 1][level] || Session.DEV_MODE;
     }
 
@@ -44,7 +71,7 @@ abstract public class UnlocksDataAccess {
     // Setter methods
     //----------------
 
-    public static void Unlock( final byte world ) {
+    public void Unlock( final byte world ) {
         if( !Session.DEV_MODE ) {
             unlocked[world - 1][0] = true;
             unlocked[world - 1][1] = true;
@@ -54,7 +81,7 @@ abstract public class UnlocksDataAccess {
         }
     }
 
-    public static void Unlock( final byte world, final byte level ) {
+    public void Unlock( final byte world, final byte level ) {
         if( !Session.DEV_MODE ) {
             unlocked[world - 1][level] = true;
             dao.Set_property( world + "-" + level, true );
@@ -68,7 +95,7 @@ abstract public class UnlocksDataAccess {
     /*
      * Removes all unlocked levels expect for world 1, and level 1-1
      */
-    public static void Remove_all_unlocks() {
+    public void Remove_all_unlocks() {
         for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             unlocked[world - 1][0] = false;
             dao.Set_property( world + "", false );
@@ -79,12 +106,5 @@ abstract public class UnlocksDataAccess {
         }
 
         Unlock( (byte) 1 );
-    }
-
-    /*
-     * Commit changes to disk
-     */
-    public static void Commit() {
-        dao.Commit();
     }
 }

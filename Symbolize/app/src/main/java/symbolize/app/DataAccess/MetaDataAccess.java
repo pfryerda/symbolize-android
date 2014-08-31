@@ -8,7 +8,7 @@ import symbolize.app.R;
 /*
  *  An all static data access API, for save metadata about the user
  */
-abstract public class MetaDataAccess {
+public class MetaDataAccess {
     // Flags
     //------
 
@@ -54,12 +54,8 @@ abstract public class MetaDataAccess {
     //---------------
 
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_meta_key );
-
     private static final int[] duration_id_map = new int[5];
     private static final short[] min_duration_map = new short[5];
-
-    private static boolean[] seens = new boolean[9];
-    private static short[] durations = new short[5];
 
 
     // Static block
@@ -77,7 +73,55 @@ abstract public class MetaDataAccess {
         min_duration_map[DURATION_SHIFT] = SHIFT_DURATION_MIN;
         min_duration_map[DURATION_ZOOM] = ZOOM_DURATION_MIN;
         min_duration_map[DURATION_TRANSLATE] = TRANSLATE_DURATION_MIN;
+    }
 
+
+    // Static methods
+    //----------------
+
+    /*
+     * Get the last world the user was in last time they played
+     */
+    public static byte Get_last_world() {
+        return (byte) dao.Get_property( Page.Get_resource_string( R.string.last_world ), 1 );
+    }
+
+    /*
+     * Get whether the user was in draw mode last time they played
+     */
+    public static boolean Get_last_draw_enabled() {
+        return dao.Get_property( Page.Get_resource_string( R.string.last_draw ), true );
+    }
+
+    /*
+     * Commit changes to disk
+     */
+    public static void Commit() {
+        dao.Commit();
+    }
+
+
+    // Fields
+    //-------
+
+    private boolean[] seens = new boolean[9];
+    private short[] durations = new short[5];
+
+
+    // Singleton setup
+    //----------------
+
+    private static final MetaDataAccess instance = new MetaDataAccess();
+
+    public static MetaDataAccess Get_instance() {
+        return instance;
+    }
+
+
+    // Constructor
+    //------------
+
+    private MetaDataAccess() {
         seens[SEEN_WORLD] = dao.Get_property( Page.Get_resource_string( R.string.seen_world ), false );
         seens[SEEN_DRAW] = dao.Get_property( Page.Get_resource_string( R.string.seen_draw ), false );
         seens[SEEN_ROTATE] = dao.Get_property( Page.Get_resource_string( R.string.seen_rotate ), false );
@@ -99,19 +143,11 @@ abstract public class MetaDataAccess {
     // Getter methods
     //---------------
 
-    public static byte Get_last_world() {
-        return (byte) dao.Get_property( Page.Get_resource_string( R.string.last_world ), 1 );
-    }
-
-    public static boolean Get_last_draw_enabled() {
-        return dao.Get_property( Page.Get_resource_string( R.string.last_draw ), true );
-    }
-
-    public static boolean Has_seen( final byte seen ) {
+    public boolean Has_seen( final byte seen ) {
         return seens[seen] || Session.DEV_MODE;
     }
 
-    public static short Get_duration( final byte duration_type ) {
+    public short Get_duration( final byte duration_type ) {
         final short duration_min = min_duration_map[duration_type];
         if ( Session.DEV_MODE ) {
             return duration_min;
@@ -130,14 +166,14 @@ abstract public class MetaDataAccess {
     // Setter methods
     //----------------
 
-    public static void Set_last_world() {
+    public void Set_last_world() {
         if ( !Session.DEV_MODE ) {
             dao.Set_property( Page.Get_context().getString( R.string.last_world ),
                     Session.Get_instance().Get_current_world() );
         }
     }
 
-    public static void Set_last_draw_enabled() {
+    public void Set_last_draw_enabled() {
         if ( !Session.DEV_MODE ) {
             dao.Set_property( Page.Get_context().getString( R.string.last_draw ),
                     Session.Get_instance().In_draw_mode() );
@@ -151,7 +187,7 @@ abstract public class MetaDataAccess {
     /*
      * Updates the 'Has_seen_xxx' now that a level has been finished
      */
-    public static void Update_mechanics_seen() {
+    public void Update_mechanics_seen() {
         if ( !Session.DEV_MODE ) {
             final Puzzle finished_puzzle = Session.Get_instance().Get_current_puzzle();
 
@@ -202,7 +238,7 @@ abstract public class MetaDataAccess {
         }
     }
 
-    public static void Reset_meta_data_access() {
+    public void Reset_meta_data_access() {
         dao.Set_property( Page.Get_context().getString( R.string.last_world ), 1 );
         dao.Set_property( Page.Get_context().getString( R.string.last_draw ), true );
 
@@ -221,12 +257,5 @@ abstract public class MetaDataAccess {
         dao.Set_property( Page.Get_resource_string( R.string.shift_duration ), SHIFT_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.zoom_duration ), ZOOM_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.translate_duration ), TRANSLATE_DURATION_MAX );
-    }
-
-    /*
-     * Commit changes to disk
-     */
-    public static void Commit() {
-        dao.Commit();
     }
 }

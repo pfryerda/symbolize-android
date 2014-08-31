@@ -42,9 +42,9 @@ public class DataOptionsDialog extends InfoDialog {
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
-                        UnlocksDataAccess.Remove_all_unlocks();
-                        ProgressDataAccess.Remove_all_progress();
-                        MetaDataAccess.Reset_meta_data_access();
+                        UnlocksDataAccess.Get_instance().Remove_all_unlocks();
+                        ProgressDataAccess.Get_instance().Remove_all_progress();
+                        MetaDataAccess.Get_instance().Reset_meta_data_access();
                         startActivity( new Intent( GamePage.Get_context().getApplicationContext(), HomePage.class ) );
                     }
 
