@@ -36,11 +36,11 @@ public class HintDialog extends InfoDialog {
 
         message += "\n" + context.getString( R.string.draws_allowed ) + puzzle.Get_draw_restriction();
 
-        if ( ( puzzle.Get_drag_restriction() > 0 ) || MetaDataAccess.Has_seen_drag() ) {
+        if ( ( puzzle.Get_drag_restriction() > 0 ) || MetaDataAccess.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
             message += "\n" + context.getString(R.string.drags_allowed) + puzzle.Get_drag_restriction();
         }
 
-        if ( ( puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
+        if ( ( puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
             message += "\n" + context.getString(R.string.erase_allowed) + puzzle.Get_erase_restriction();
         }
 
@@ -109,23 +109,23 @@ public class HintDialog extends InfoDialog {
         Puzzle current_puzzle = session.Get_current_puzzle();
         TextView tutorial_text = (TextView) dialog_view.findViewById( R.id.Tutorial_text );
 
-        if ( session.Is_in_world_view() && !MetaDataAccess.Has_seen_world() ) {
+        if ( session.Is_in_world_view() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_WORLD ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.world_tutorial ) );
-        } else if ( ( current_puzzle.Get_draw_restriction() > 0 ) && !MetaDataAccess.Has_seen_draw() ) {
+        } else if ( ( current_puzzle.Get_draw_restriction() > 0 ) && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_DRAW ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.draw_tutorial ) );
-        } else if ( current_puzzle.Can_rotate() && !MetaDataAccess.Has_seen_rotate() ) {
+        } else if ( current_puzzle.Can_rotate() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_ROTATE ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.rotate_tutorial ) );
-        } else if ( ( current_puzzle.Get_erase_restriction() > 0 ) && !MetaDataAccess.Has_seen_erase() ) {
+        } else if ( ( current_puzzle.Get_erase_restriction() > 0 ) && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.erase_tutorial ) );
-        } else if ( current_puzzle.Can_flip() && !MetaDataAccess.Has_seen_flip() ) {
+        } else if ( current_puzzle.Can_flip() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_FLIP ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.flip_tutorial ) );
-        } else if ( current_puzzle.Can_shift() && !MetaDataAccess.Has_seen_shift() ) {
+        } else if ( current_puzzle.Can_shift() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_SHIFT ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.shift_tutorial ) );
-        } else if ( ( current_puzzle.Get_drag_restriction() > 0 ) && !MetaDataAccess.Has_seen_drag() ) {
+        } else if ( ( current_puzzle.Get_drag_restriction() > 0 ) && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.drag_tutorial ) );
-        } else if ( current_puzzle.Can_change_color() && !MetaDataAccess.Has_seen_drag() ) {
+        } else if ( current_puzzle.Can_change_color() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_CHANGE_COLOR ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.change_color_tutorial ) );
-        } else if ( current_puzzle.Is_special_enabled() && !MetaDataAccess.Has_seen_special() ) {
+        } else if ( current_puzzle.Is_special_enabled() && !MetaDataAccess.Has_seen( MetaDataAccess.SEEN_SPECIAL ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.special_tutorial ) );
         } else {
             tutorial_text.setText( "" );

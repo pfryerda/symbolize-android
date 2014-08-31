@@ -99,7 +99,8 @@ public class Request {
      * @return boolean: true if require a cleanup of the board before rendering
      */
     public boolean require_pre_render() {
-        return Rotate_right <= type && type <= Load_puzzle_right && OptionsDataAccess.Show_animations();
+        return Rotate_right <= type && type <= Load_puzzle_right
+            && OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
     }
 
     /*
@@ -107,7 +108,8 @@ public class Request {
      * GameAnimationHandler before render
      */
     public boolean Is_animation_action() {
-        return Rotate_right <= type && type <= Load_puzzle_start && OptionsDataAccess.Show_animations();
+        return Rotate_right <= type && type <= Load_puzzle_start
+            && OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
     }
 
     /*

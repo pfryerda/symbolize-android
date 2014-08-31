@@ -13,18 +13,33 @@ abstract public class ProgressDataAccess {
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
 
+    private static final boolean[][] progress =
+            new boolean[PuzzleDB.NUMBER_OF_WORLDS][PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD + 1];
+
+
+    // Static block
+    //-------------
+
+    static {
+        for ( byte world = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
+            progress[world - 1][0] = dao.Get_property( world + "", false );
+            for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
+                progress[world - 1][level] = dao.Get_property( world + "-" + level, false );
+            }
+        }
+    }
+
 
     // Getter methods
     //----------------
 
     public static boolean Is_completed( int world ) {
-        //return true;
-        return dao.Get_property( world + "", false ) || Session.DEV_MODE;
+        return Is_completed( world, 0 );
     }
 
     public static boolean Is_completed( int world, int level ) {
         //return true;
-        return dao.Get_property( world + "-" + level, false ) || Session.DEV_MODE;
+        return progress[world - 1][level] || Session.DEV_MODE;
     }
 
 
@@ -33,6 +48,7 @@ abstract public class ProgressDataAccess {
 
     public static void Complete( int world ) {
         if( !Session.DEV_MODE ) {
+            progress[world - 1][0] = true;
             dao.Set_property( world + "", true );
         }
     }
@@ -42,6 +58,7 @@ abstract public class ProgressDataAccess {
             if ( level == 0 ) {
                 Complete( world );
             } else {
+                progress[world - 1][level] = true;
                 dao.Set_property( world + "-" + level, true );
             }
         }
@@ -56,12 +73,19 @@ abstract public class ProgressDataAccess {
      */
     public static void Remove_all_progress() {
         for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
-            dao.Set_property( world + "", false, false );
+            progress[world -1][0] = false;
+            dao.Set_property( world + "", false );
             for ( int level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
-                dao.Set_property( world + "-" + level, false, false );
+                progress[world -1 ][level] = false;
+                dao.Set_property( world + "-" + level, false );
             }
         }
+    }
 
+    /*
+     * Commit changes to disk
+     */
+    public static void Commit() {
         dao.Commit();
     }
 }

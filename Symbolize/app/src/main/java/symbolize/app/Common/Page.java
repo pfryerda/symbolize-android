@@ -2,9 +2,15 @@ package symbolize.app.Common;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import symbolize.app.DataAccess.MetaDataAccess;
+import symbolize.app.DataAccess.OptionsDataAccess;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.SymbolizeDialog;
 
 /*
@@ -58,5 +64,22 @@ public class Page extends FragmentActivity {
         super.onCreate( savedInstanceState );
         Page.context = this;
         SymbolizeDialog.dialog_manager = getFragmentManager();
+    }
+
+
+    // Method for pausing/resuming the game
+    //---------------------------------------
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MetaDataAccess.Set_last_world();
+        MetaDataAccess.Set_last_draw_enabled();
+
+        MetaDataAccess.Commit();
+        OptionsDataAccess.Commit();
+        ProgressDataAccess.Commit();
+        UnlocksDataAccess.Commit();
     }
 }

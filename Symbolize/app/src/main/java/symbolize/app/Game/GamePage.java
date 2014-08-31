@@ -302,7 +302,7 @@ public class GamePage extends Page
         GameController controller = GameController.Get_instance();
         Session session = Session.Get_instance();
 
-        if ( ( MetaDataAccess.Has_seen_drag() || session.Get_current_puzzle().Get_drag_restriction() > 0 )
+        if ( ( MetaDataAccess.Has_seen( MetaDataAccess.SEEN_DRAG ) || session.Get_current_puzzle().Get_drag_restriction() > 0 )
             && session.In_draw_mode() )
         {
             Request request = new Request( Request.Drag_start );
@@ -420,7 +420,5 @@ public class GamePage extends Page
         super.onPause();
         SensorManager sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         sensor_manager.unregisterListener( this );
-        MetaDataAccess.Set_last_world();
-        MetaDataAccess.Set_last_draw_enabled();
     }
 }

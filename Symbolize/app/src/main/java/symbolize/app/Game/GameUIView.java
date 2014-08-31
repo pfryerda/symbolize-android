@@ -107,7 +107,7 @@ abstract public class GameUIView {
             }
         }
 
-        if ( ( current_puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen_erase() ) {
+        if ( ( current_puzzle.Get_erase_restriction() > 0 ) || MetaDataAccess.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
             draw_button.setVisibility( View.VISIBLE );
             erase_button.setVisibility( View.VISIBLE );
         } else {
@@ -125,7 +125,8 @@ abstract public class GameUIView {
 
         int[] colors = new int[2];
         colors[0] = GamePage.Get_activity().getResources().getColor( R.color.green );
-        colors[1] = ( OptionsDataAccess.Show_border() ) ? Color.WHITE : Color.TRANSPARENT;
+        colors[1] = ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )
+                ? Color.WHITE : Color.TRANSPARENT;
 
         GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
         gradient.setCornerRadius( 0f );

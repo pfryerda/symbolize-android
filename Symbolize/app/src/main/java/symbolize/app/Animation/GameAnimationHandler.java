@@ -36,7 +36,7 @@ abstract public class GameAnimationHandler {
                         new RotateAnimation( 0, 90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        MetaDataAccess.Get_rotate_duration(), false
+                        MetaDataAccess.Get_duration( MetaDataAccess.DURATION_ROTATE ), false
                 );
                 break;
 
@@ -46,7 +46,7 @@ abstract public class GameAnimationHandler {
                         new RotateAnimation( 0, -90,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        MetaDataAccess.Get_rotate_duration(), false
+                        MetaDataAccess.Get_duration( MetaDataAccess.DURATION_ROTATE ), false
                 );
                 break;
 
@@ -56,7 +56,7 @@ abstract public class GameAnimationHandler {
                         new ScaleAnimation( 1, -1, 1, 1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                         ),
-                        MetaDataAccess.Get_flip_duration(), false
+                        MetaDataAccess.Get_duration( MetaDataAccess.DURATION_FLIP ), false
                 );
                 break;
 
@@ -66,12 +66,12 @@ abstract public class GameAnimationHandler {
                         new ScaleAnimation( 1, 1, 1, -1,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
                         ),
-                        MetaDataAccess.Get_flip_duration(), false
+                        MetaDataAccess.Get_duration( MetaDataAccess.DURATION_FLIP ), false
                 );
                 break;
 
             case Request.Shift:
-                short shift_duration = MetaDataAccess.Get_shift_duration();
+                short shift_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_SHIFT );
                 animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), shift_duration, true );
                 animation.Start_new_set();
@@ -79,7 +79,7 @@ abstract public class GameAnimationHandler {
                 break;
 
             case Request.Load_puzzle_left:
-                short translate_duration = MetaDataAccess.Get_translate_duration();
+                short translate_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_TRANSLATE );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
@@ -97,7 +97,7 @@ abstract public class GameAnimationHandler {
                 break;
 
             case Request.Load_puzzle_right:
-                translate_duration = MetaDataAccess.Get_translate_duration();
+                translate_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_TRANSLATE );
                 animation.Start_new_set();
                 animation.Add_animation(
                     new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
@@ -115,7 +115,7 @@ abstract public class GameAnimationHandler {
                 break;
 
             case Request.Load_level_via_world:
-                short zoom_duration = MetaDataAccess.Get_zoom_duration();
+                short zoom_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_ZOOM );
                 animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), zoom_duration, true );
                 animation.Add_animation(
@@ -137,7 +137,7 @@ abstract public class GameAnimationHandler {
                 break;
 
             case Request.Load_world_via_level:
-                zoom_duration = MetaDataAccess.Get_zoom_duration();
+                zoom_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_ZOOM );
                 animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), zoom_duration, true );
                 animation.Add_animation(
@@ -159,7 +159,7 @@ abstract public class GameAnimationHandler {
                 break;
 
             case Request.Load_puzzle_start:
-                translate_duration = MetaDataAccess.Get_translate_duration();
+                translate_duration = MetaDataAccess.Get_duration( MetaDataAccess.DURATION_TRANSLATE );
                 animation.Start_new_set();
                 animation.Add_animation( new AlphaAnimation( 1, 0 ), translate_duration, true );
                 animation.Add_animation( new TranslateAnimation( Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
