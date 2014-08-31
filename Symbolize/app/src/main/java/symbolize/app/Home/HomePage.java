@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import symbolize.app.Common.Page;
+import symbolize.app.Dialog.GameOptionsDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GamePage;
 import symbolize.app.R;

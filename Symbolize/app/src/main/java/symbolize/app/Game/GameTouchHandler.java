@@ -130,7 +130,7 @@ public class GameTouchHandler {
                     // Handle finger up
                     if ( ( event.getActionIndex() == 1 ) || !is_point_one_down ) {
                         handle_finger_two_up( event );
-                    } else {
+                    } else if ( ( event.getActionIndex() == 0 ) || !is_point_two_down ) {
                         handle_finger_one_up( event );
                     }
                     

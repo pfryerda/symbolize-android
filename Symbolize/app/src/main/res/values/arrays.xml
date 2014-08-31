@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="audio_output_options">
+        <item>@string/auto</item>
+        <item>@string/speakers</item>
+        <item>@string/headphones</item>
+    </string-array>
+</resources>

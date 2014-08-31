@@ -20,6 +20,11 @@
     <string name="animation_settings">settings_animation</string>
     <string name="volume_settings">settings_volume</string>
     <string name="options_dialog_id">options_dialog</string>
+    <string name="game_options_dialog_id">game_options_dialog</string>
+    <string name="video_options_dialog_id">video_options_dialog</string>
+    <string name="audio_options_dialog_id">audio_options_dialog</string>
+    <string name="data_options_dialog_id">data_options_dialog</string>
+    <string name="about_options_dialog_id">about_options_dialog</string>
     <string name="info_dialog_id">info_dialog</string>
     <string name="hint_dialog_id">hint_dialog</string>
     <string name="confirmation_dialog_id">confirmation_dialog</string>
@@ -47,6 +52,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="close">close</string>
+    <string name="back">back</string>
 
     <!-- Toasts -->
     <string name="out_of_lines">Cannot draw any more lines</string>
@@ -57,11 +63,30 @@
 
     <!-- Options dialog text -->
     <string name="options_dialog_title">Options</string>
+    <string name="game_dialog_title">Game Options</string>
+    <string name="video_dialog_title">Video Options</string>
+    <string name="audio_dialog_title">Audio Options</string>
+    <string name="data_dialog_title">Data</string>
+    <string name="about_dialog_title">About</string>
+
     <string name="options_show_grid">Show grid</string>
     <string name="options_show_border">Show border</string>
     <string name="options_snap_drawing">Snap drawing</string>
     <string name="options_show_animations">Show animations</string>
+
+    <string name="options_brightness">Brightness</string>
+    <string name="options_contrast">Contrast</string>
+
+    <string name="options_audio_output">Output</string>
+    <string name="auto">Auto</string>
+    <string name="speakers">Speakers</string>
+    <string name="headphones">Headphones</string>
+
+    <string name="worlds_complete">World complete </string>
+    <string name="levels_complete">Levels complete </string>
+
     <string name="options_volume">Volume</string>
+
     <string name="options_delete_all_data">Delete all data</string>
 
     <!-- Delete all data dialog text -->
