@@ -28,7 +28,7 @@ public class AudioOptionsDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
 
         final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );
-        volume_bar.setProgress( OptionsDataAccess.Get_volume() );
+        volume_bar.setProgress( OptionsDataAccess.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
 
         volume_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             byte progress_change = 0;
@@ -42,7 +42,7 @@ public class AudioOptionsDialog extends InfoDialog {
 
             @Override
             public void onStopTrackingTouch( SeekBar seekBar ) {
-                OptionsDataAccess.Set_volume(progress_change);
+                OptionsDataAccess.Set_short_option( OptionsDataAccess.OPTION_VOLUME, progress_change);
             }
         } );
 

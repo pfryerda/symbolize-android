@@ -40,22 +40,22 @@ public class GameOptionsDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
 
         final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid );
-        show_graph.setChecked( OptionsDataAccess.Show_grid() );
+        show_graph.setChecked( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) );
         show_graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                OptionsDataAccess.Toggle_grid();
+                OptionsDataAccess.Toggle_boolean_option( OptionsDataAccess.OPTION_GRID );
                 show_graph.setChecked( !show_graph.isChecked() );
                 GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response());
             }
         } );
 
         final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
-        show_border.setChecked( OptionsDataAccess.Show_border() );
+        show_border.setChecked( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) );
         show_border.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                OptionsDataAccess.Toggle_border();
+                OptionsDataAccess.Toggle_boolean_option( OptionsDataAccess.OPTION_BORDER );
                 show_border.setChecked( !show_border.isChecked() );
                 GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response() );
                 GameUIView.Update_ui( null );
@@ -63,21 +63,21 @@ public class GameOptionsDialog extends InfoDialog {
         } );
 
         final CheckedTextView snap_drawing = (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing );
-        snap_drawing.setChecked( OptionsDataAccess.Is_snap_drawing() );
+        snap_drawing.setChecked( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) );
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                OptionsDataAccess.Toggle_snap();
+                OptionsDataAccess.Toggle_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING );
                 snap_drawing.setChecked( !snap_drawing.isChecked() );
             }
         } );
 
         final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
-        show_animation.setChecked( OptionsDataAccess.Show_animations() );
+        show_animation.setChecked( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
         show_animation.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                OptionsDataAccess.Toggle_animations();
+                OptionsDataAccess.Toggle_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
                 show_animation.setChecked( !show_animation.isChecked() );
             }
         } );

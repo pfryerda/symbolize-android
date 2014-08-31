@@ -212,7 +212,7 @@ public class GameView {
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
-        if ( OptionsDataAccess.Show_grid() ) {
+        if ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) ) {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRID_WIDTH );
 
@@ -220,7 +220,7 @@ public class GameView {
                 render_line( background_canvas, new Line( new Posn( (short) 0, y ), new Posn( SCALING, y ) ) );
             }
 
-            if ( !OptionsDataAccess.Show_border() ) {
+            if ( !OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
                 paint.setShader( GameUIView.Get_grid_gradient() );
             }
 
@@ -233,7 +233,7 @@ public class GameView {
             paint.setShader( null );
         }
 
-        if ( OptionsDataAccess.Show_border() ) {
+        if ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 

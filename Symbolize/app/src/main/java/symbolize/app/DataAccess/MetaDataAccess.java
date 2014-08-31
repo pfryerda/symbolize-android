@@ -9,27 +9,91 @@ import symbolize.app.R;
  *  An all static data access API, for save metadata about the user
  */
 abstract public class MetaDataAccess {
+    // Flags
+    //------
+
+    public static final byte SEEN_WORLD        = 0;
+    public static final byte SEEN_DRAW         = 1;
+    public static final byte SEEN_ROTATE       = 2;
+    public static final byte SEEN_ERASE        = 3;
+    public static final byte SEEN_FLIP         = 4;
+    public static final byte SEEN_SHIFT        = 5;
+    public static final byte SEEN_DRAG         = 6;
+    public static final byte SEEN_CHANGE_COLOR = 7;
+    public static final byte SEEN_SPECIAL      = 8;
+
+    public static final byte DURATION_ROTATE    = 0;
+    public static final byte DURATION_FLIP      = 1;
+    public static final byte DURATION_SHIFT     = 2;
+    public static final byte DURATION_ZOOM      = 3;
+    public static final byte DURATION_TRANSLATE = 4;
+
+
     // Constants
     //-----------
 
-    public static final byte ANIMATION_DECREASE_THRESHOLD = 1;
+    private static final byte ANIMATION_DECREASE_THRESHOLD = 1;
 
-    public static final short ROTATE_DURATION_MAX = 500;
-    public static final short ROTATE_DURATION_MIN = 340;
+    private static final short ROTATE_DURATION_MAX = 500;
+    private static final short ROTATE_DURATION_MIN = 340;
 
-    public static final short FLIP_DURATION_MAX = 500;
-    public static final short FLIP_DURATION_MIN = 340;
+    private static final short FLIP_DURATION_MAX = 500;
+    private static final short FLIP_DURATION_MIN = 340;
 
-    public static final short SHIFT_DURATION_MAX = 626;
-    public static final short SHIFT_DURATION_MIN = 464;
+    private static final short SHIFT_DURATION_MAX = 626;
+    private static final short SHIFT_DURATION_MIN = 464;
 
-    public static final short ZOOM_DURATION_MAX = 646;
-    public static final short ZOOM_DURATION_MIN = 484;
+    private static final short ZOOM_DURATION_MAX = 646;
+    private static final short ZOOM_DURATION_MIN = 484;
 
-    public static final short TRANSLATE_DURATION_MAX = 774;
-    public static final short TRANSLATE_DURATION_MIN = 616;
+    private static final short TRANSLATE_DURATION_MAX = 774;
+    private static final short TRANSLATE_DURATION_MIN = 616;
+
+
+    // Static fields
+    //---------------
 
     private static DataAccessObject dao = new DataAccessObject( R.string.preference_meta_key );
+
+    private static final int[] duration_id_map = new int[5];
+    private static final short[] min_duration_map = new short[5];
+
+    private static boolean[] seens = new boolean[9];
+    private static short[] durations = new short[5];
+
+
+    // Static block
+    //-------------
+
+    static {
+        duration_id_map[DURATION_ROTATE] = R.string.rotate_duration;
+        duration_id_map[DURATION_FLIP] = R.string.flip_duration;
+        duration_id_map[DURATION_SHIFT] = R.string.shift_duration;
+        duration_id_map[DURATION_ZOOM] = R.string.zoom_duration;
+        duration_id_map[DURATION_TRANSLATE] = R.string.translate_duration;
+
+        min_duration_map[DURATION_ROTATE] = ROTATE_DURATION_MIN;
+        min_duration_map[DURATION_FLIP] = FLIP_DURATION_MIN;
+        min_duration_map[DURATION_SHIFT] = SHIFT_DURATION_MIN;
+        min_duration_map[DURATION_ZOOM] = ZOOM_DURATION_MIN;
+        min_duration_map[DURATION_TRANSLATE] = TRANSLATE_DURATION_MIN;
+
+        seens[SEEN_WORLD] = dao.Get_property( Page.Get_resource_string( R.string.seen_world ), false );
+        seens[SEEN_DRAW] = dao.Get_property( Page.Get_resource_string( R.string.seen_draw ), false );
+        seens[SEEN_ROTATE] = dao.Get_property( Page.Get_resource_string( R.string.seen_rotate ), false );
+        seens[SEEN_ERASE] = dao.Get_property( Page.Get_resource_string( R.string.seen_erase ), false );
+        seens[SEEN_FLIP] = dao.Get_property( Page.Get_resource_string( R.string.seen_flip ), false );
+        seens[SEEN_SHIFT] = dao.Get_property( Page.Get_resource_string( R.string.seen_shift ), false );
+        seens[SEEN_DRAG] = dao.Get_property( Page.Get_resource_string( R.string.seen_drag ), false );
+        seens[SEEN_CHANGE_COLOR] = dao.Get_property( Page.Get_resource_string( R.string.seen_color_change ), false );
+        seens[SEEN_SPECIAL] = dao.Get_property( Page.Get_resource_string( R.string.seen_special ), false );
+
+        durations[DURATION_ROTATE] = (short) dao.Get_property( Page.Get_resource_string( R.string.rotate_duration ), ROTATE_DURATION_MAX );
+        durations[DURATION_FLIP] = (short) dao.Get_property( Page.Get_resource_string( R.string.flip_duration ), FLIP_DURATION_MAX );
+        durations[DURATION_SHIFT] = (short) dao.Get_property( Page.Get_resource_string( R.string.shift_duration ), SHIFT_DURATION_MAX );
+        durations[DURATION_ZOOM] = (short) dao.Get_property( Page.Get_resource_string( R.string.zoom_duration ), ZOOM_DURATION_MAX );
+        durations[DURATION_TRANSLATE] = (short) dao.Get_property( Page.Get_resource_string( R.string.translate_duration ), TRANSLATE_DURATION_MAX );
+    }
 
 
     // Getter methods
@@ -43,60 +107,23 @@ abstract public class MetaDataAccess {
         return dao.Get_property( Page.Get_resource_string( R.string.last_draw ), true );
     }
 
-    public static boolean Has_seen_world() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_world ), false ) || Session.DEV_MODE;
+    public static boolean Has_seen( final byte seen ) {
+        return seens[seen] || Session.DEV_MODE;
     }
 
-    public static boolean Has_seen_draw() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_draw ), false ) || Session.DEV_MODE;
-    }
+    public static short Get_duration( final byte duration_type ) {
+        final short duration_min = min_duration_map[duration_type];
+        if ( Session.DEV_MODE ) {
+            return duration_min;
+        }
 
-    public static boolean Has_seen_rotate() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_rotate ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_erase() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_erase ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_flip() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_flip ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_shift() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_shift ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_drag() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_drag ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_color_change() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_color_change ), false ) || Session.DEV_MODE;
-    }
-
-    public static boolean Has_seen_special() {
-        return dao.Get_property( Page.Get_resource_string( R.string.seen_special ), false ) || Session.DEV_MODE;
-    }
-
-    public static short Get_rotate_duration() {
-        return get_duration( R.string.rotate_duration, ROTATE_DURATION_MIN, ROTATE_DURATION_MAX );
-    }
-
-    public static short Get_flip_duration() {
-        return get_duration( R.string.flip_duration, FLIP_DURATION_MIN, FLIP_DURATION_MAX );
-    }
-
-    public static short Get_shift_duration() {
-        return get_duration( R.string.options_show_animations, SHIFT_DURATION_MIN, SHIFT_DURATION_MAX );
-    }
-
-    public static short Get_zoom_duration() {
-        return get_duration( R.string.zoom_duration, ZOOM_DURATION_MIN, ZOOM_DURATION_MAX );
-    }
-
-    public static short Get_translate_duration() {
-        return get_duration( R.string.translate_duration, TRANSLATE_DURATION_MIN, TRANSLATE_DURATION_MAX );
+        short duration = durations[duration_type];
+        if ( duration > duration_min ) {
+            short new_duration = (short) ( duration - ANIMATION_DECREASE_THRESHOLD );
+            durations[duration_type] = new_duration;
+            dao.Set_property( Page.Get_resource_string( duration_id_map[duration_type] ), new_duration );
+        }
+        return duration;
     }
 
 
@@ -128,39 +155,48 @@ abstract public class MetaDataAccess {
         if ( !Session.DEV_MODE ) {
             final Puzzle finished_puzzle = Session.Get_instance().Get_current_puzzle();
 
-            if ( Session.Get_instance().Is_in_world_view() && !Has_seen_world() ) {
-                dao.Set_property( Page.Get_resource_string(R.string.seen_world ), true);
+            if ( Session.Get_instance().Is_in_world_view() && !Has_seen( SEEN_WORLD ) ) {
+                seens[SEEN_WORLD] = true;
+                dao.Set_property( Page.Get_resource_string( R.string.seen_world ), true);
             }
 
-            if ( ( finished_puzzle.Get_draw_restriction() > 0 ) && !Has_seen_draw() ) {
-                dao.Set_property(Page.Get_resource_string(R.string.seen_draw ), true);
+            if ( ( finished_puzzle.Get_draw_restriction() > 0 ) && !Has_seen( SEEN_DRAW ) ) {
+                seens[SEEN_DRAW] = true;
+                dao.Set_property( Page.Get_resource_string(R.string.seen_draw ), true);
             }
 
-            if ( finished_puzzle.Can_rotate() && !Has_seen_rotate() ) {
+            if ( finished_puzzle.Can_rotate() && !Has_seen( SEEN_ROTATE ) ) {
+                seens[SEEN_ROTATE] = true;
                 dao.Set_property( Page.Get_resource_string( R.string.seen_rotate ), true );
             }
 
-            if ( ( finished_puzzle.Get_erase_restriction() > 0 ) && !Has_seen_erase() ) {
+            if ( ( finished_puzzle.Get_erase_restriction() > 0 ) && !Has_seen( SEEN_ERASE ) ) {
+                seens[SEEN_ERASE] = true;
                 dao.Set_property( Page.Get_resource_string(R.string.seen_erase  ), true );
             }
 
-            if ( finished_puzzle.Can_flip() && !Has_seen_flip() ) {
+            if ( finished_puzzle.Can_flip() && !Has_seen( SEEN_FLIP ) ) {
+                seens[SEEN_FLIP] = true;
                 dao.Set_property( Page.Get_resource_string(R.string.seen_flip ), true);
             }
 
-            if ( finished_puzzle.Can_shift() && !Has_seen_shift() ) {
+            if ( finished_puzzle.Can_shift() && !Has_seen( SEEN_SHIFT ) ) {
+                seens[SEEN_SHIFT] = true;
                 dao.Set_property( Page.Get_resource_string(R.string.seen_shift ), true);
             }
 
-            if ( ( finished_puzzle.Get_drag_restriction() > 0 ) && !Has_seen_drag() ) {
+            if ( ( finished_puzzle.Get_drag_restriction() > 0 ) && !Has_seen( SEEN_DRAG ) ) {
+                seens[SEEN_DRAG] = true;
                 dao.Set_property( Page.Get_resource_string(R.string.seen_drag ), true );
             }
 
-            if ( finished_puzzle.Can_change_color() && !Has_seen_color_change() ) {
+            if ( finished_puzzle.Can_change_color() && !Has_seen( SEEN_CHANGE_COLOR ) ) {
+                seens[SEEN_CHANGE_COLOR] = true;
                 dao.Set_property( Page.Get_resource_string( R.string.seen_color_change ), true );
             }
 
-            if( finished_puzzle.Is_special_enabled() && !Has_seen_special() ) {
+            if( finished_puzzle.Is_special_enabled() && !Has_seen( SEEN_SPECIAL ) ) {
+                seens[SEEN_SPECIAL] = true;
                 dao.Set_property( Page.Get_resource_string( R.string.seen_special ), true );
             }
         }
@@ -187,28 +223,10 @@ abstract public class MetaDataAccess {
         dao.Set_property( Page.Get_resource_string( R.string.translate_duration ), TRANSLATE_DURATION_MAX );
     }
 
-
-    // Private methods
-    //-----------------
-
     /*
-     * A helper method for get animation durations, gets the duration and push the new duration for you
-     *
-     * @param int id: The id for the dao
-     * @param short duration_min: The shortest the animation can be
-     * @param short duration_max: The default value for the animation
-     *
-     * @return short: The current duration
+     * Commit changes to disk
      */
-    private static short get_duration( int id, short duration_min, short duration_max ) {
-        if ( Session.DEV_MODE ) {
-            return duration_min;
-        }
-
-        short duration = (short) dao.Get_property( Page.Get_resource_string( id ), duration_max );
-        if ( duration > duration_min ) {
-            dao.Set_property( Page.Get_resource_string( id ), duration - ANIMATION_DECREASE_THRESHOLD );
-        }
-        return duration;
+    public static void Commit() {
+        dao.Commit();
     }
 }

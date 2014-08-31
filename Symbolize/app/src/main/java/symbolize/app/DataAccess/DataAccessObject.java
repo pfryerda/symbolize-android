@@ -48,26 +48,12 @@ public class DataAccessObject {
     /*
      * Sets the given value at the 'key'
      */
-    public void Set_property( String key, int value, boolean commit ) {
-        dao_editor.putInt( key, value );
-        if ( commit ) {
-            dao_editor.commit();
-        }
-    }
-
-    public void Set_property( String key, boolean value, boolean commit ) {
-        dao_editor.putBoolean( key, value );
-        if( commit ) {
-            dao_editor.commit();
-        }
-    }
-
     public void Set_property( String key, int value ) {
-        Set_property( key, value, true );
+        dao_editor.putInt( key, value );
     }
 
     public void Set_property( String key, boolean value ) {
-        Set_property( key, value, true );
+        dao_editor.putBoolean( key, value );
     }
 
 
