@@ -103,7 +103,7 @@ public class GameModel {
 
         ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( ProgressDataAccess.Is_completed( session.Get_current_world(), i + 1 ) ) {
+            if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
             }
         }
@@ -115,7 +115,7 @@ public class GameModel {
 
         ArrayList<Posn> unlocked_levels = new ArrayList<Posn>();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
+            if ( UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 unlocked_levels.add( levels.get( i ) );
             }
         }
@@ -159,7 +159,7 @@ public class GameModel {
         int level_found;
 
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
+            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 level_found =  i + 1;
                 session.Set_pivot( point );
                 return level_found;

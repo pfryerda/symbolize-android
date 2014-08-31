@@ -6,7 +6,7 @@ import symbolize.app.R;
 /*
  * An all static data access API, for save data about your settings
  */
-abstract public class OptionsDataAccess {
+public class OptionsDataAccess {
     // Flags
     //------
 
@@ -29,11 +29,7 @@ abstract public class OptionsDataAccess {
     //--------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
-
     private static int[] option_id_map = new int[5];
-
-    private static boolean[] boolean_options = new boolean[4];
-    private static short[] short_options = new short[1];
 
 
     // Static block
@@ -45,7 +41,41 @@ abstract public class OptionsDataAccess {
         option_id_map[OPTION_SNAP_DRAWING] = R.string.snap_settings;
         option_id_map[OPTION_SHOW_ANIMATIONS] = R.string.animation_settings;
         option_id_map[OPTION_VOLUME] = R.string.volume_settings;
+    }
 
+
+    // Static methods
+    //----------------
+
+    /*
+     * Commit changes to disk
+     */
+    public static void Commit() {
+        dao.Commit();
+    }
+
+
+    // Fields
+    //--------
+
+    private boolean[] boolean_options = new boolean[4];
+    private short[] short_options = new short[1];
+
+
+    // Singleton setup
+    //-----------------
+
+    private static final OptionsDataAccess instance = new OptionsDataAccess();
+
+    public static OptionsDataAccess Get_instance() {
+        return instance;
+    }
+
+
+    // Constructor
+    //-------------
+
+    private OptionsDataAccess() {
         boolean_options[OPTION_GRID] =  dao.Get_property(
                 Page.Get_context().getString( R.string.grid_settings ), true );
         boolean_options[OPTION_BORDER] = dao.Get_property(
@@ -63,11 +93,11 @@ abstract public class OptionsDataAccess {
     // Getter methods
     //---------------
 
-    public static boolean Get_boolean_option( final byte option ) {
+    public boolean Get_boolean_option( final byte option ) {
         return boolean_options[option];
     }
 
-    public static short Get_short_option( final byte option ) {
+    public short Get_short_option( final byte option ) {
         return short_options[option - SHORT_OFFSET];
     }
 
@@ -75,27 +105,16 @@ abstract public class OptionsDataAccess {
     // Setter methods
     //----------------
 
-    public static void Toggle_boolean_option( final byte option ) {
+    public void Toggle_boolean_option( final byte option ) {
         boolean new_option = !Get_boolean_option( option );
         boolean_options[option] = new_option;
         dao.Set_property(
                 Page.Get_context().getString( option_id_map[option] ), new_option );
     }
 
-    public static void Set_short_option( final byte option, final short new_value ) {
+    public void Set_short_option( final byte option, final short new_value ) {
         short_options[option - SHORT_OFFSET] = new_value;
         dao.Set_property(
                 Page.Get_context().getString( option_id_map[option] ), new_value );
-    }
-
-
-    // Public methods
-    //----------------
-
-    /*
-     * Commit changes to disk
-     */
-    public static void Commit() {
-        dao.Commit();
     }
 }

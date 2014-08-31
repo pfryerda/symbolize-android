@@ -45,7 +45,7 @@ public class GamePage extends Page
     //--------------
 
     static {
-        UnlocksDataAccess.Unlock( (byte) 1 );
+        UnlocksDataAccess.Get_instance().Unlock( (byte) 1 );
     }
 
 
@@ -145,12 +145,12 @@ public class GamePage extends Page
 
             if ( response.response_boolean  ) {
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
-                ProgressDataAccess.Complete( session.Get_current_world(), session.Get_current_level() );
-                MetaDataAccess.Update_mechanics_seen();
+                ProgressDataAccess.Get_instance().Complete( session.Get_current_world(), session.Get_current_level() );
+                MetaDataAccess.Get_instance().Update_mechanics_seen();
 
                 if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
                     for ( byte unlock : current_puzzle.Get_unlocks() ) {
-                        UnlocksDataAccess.Unlock( unlock );
+                        UnlocksDataAccess.Get_instance().Unlock( unlock );
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
@@ -172,7 +172,7 @@ public class GamePage extends Page
                     info_dialog.Show();
                 } else if ( !session.Is_in_world_view() ) {
                     for ( byte unlock : current_puzzle.Get_unlocks() ) {
-                        UnlocksDataAccess.Unlock( session.Get_current_world(), unlock );
+                        UnlocksDataAccess.Get_instance().Unlock( session.Get_current_world(), unlock );
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
@@ -302,7 +302,7 @@ public class GamePage extends Page
         GameController controller = GameController.Get_instance();
         Session session = Session.Get_instance();
 
-        if ( ( MetaDataAccess.Has_seen( MetaDataAccess.SEEN_DRAG ) || session.Get_current_puzzle().Get_drag_restriction() > 0 )
+        if ( ( MetaDataAccess.Get_instance().Has_seen( MetaDataAccess.SEEN_DRAG ) || session.Get_current_puzzle().Get_drag_restriction() > 0 )
             && session.In_draw_mode() )
         {
             Request request = new Request( Request.Drag_start );
@@ -413,6 +413,7 @@ public class GamePage extends Page
         sensor_manager.registerListener( this,
                 sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
+        load_world( Request.Load_puzzle_start );
     }
 
     @Override

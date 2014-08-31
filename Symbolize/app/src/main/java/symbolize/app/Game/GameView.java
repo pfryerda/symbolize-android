@@ -173,15 +173,15 @@ public class GameView {
         }
 
         // Draw level dots
-        Session session = Session.Get_instance();
+        final Session session = Session.Get_instance();
         for ( int i = 0; i < levels.size(); ++i ) {
-            if( UnlocksDataAccess.Is_unlocked( session.Get_current_world(), i + 1 ) ) {
+            if( UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
                     // Draw 'complete' border
                     paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
-                    if ( ProgressDataAccess.Is_completed( session.Get_current_world(), i + 1 ) ) {
+                    if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Color.GREEN );
                     } else {
                         paint.setColor( Color.RED );
@@ -209,10 +209,11 @@ public class GameView {
      * Simple method used to draw a grid in the background
      */
     private void render_background() {
+        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
-        if ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) ) {
+        if ( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) ) {
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRID_WIDTH );
 
@@ -220,7 +221,7 @@ public class GameView {
                 render_line( background_canvas, new Line( new Posn( (short) 0, y ), new Posn( SCALING, y ) ) );
             }
 
-            if ( !OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
+            if ( !options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
                 paint.setShader( GameUIView.Get_grid_gradient() );
             }
 
@@ -233,7 +234,7 @@ public class GameView {
             paint.setShader( null );
         }
 
-        if ( OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
+        if ( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 

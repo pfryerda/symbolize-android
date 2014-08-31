@@ -74,8 +74,9 @@ public class Page extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MetaDataAccess.Set_last_world();
-        MetaDataAccess.Set_last_draw_enabled();
+        final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
+        meta_dao.Set_last_world();
+        meta_dao.Set_last_draw_enabled();
 
         MetaDataAccess.Commit();
         OptionsDataAccess.Commit();

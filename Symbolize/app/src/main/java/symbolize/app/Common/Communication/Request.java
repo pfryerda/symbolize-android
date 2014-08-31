@@ -100,7 +100,7 @@ public class Request {
      */
     public boolean require_pre_render() {
         return Rotate_right <= type && type <= Load_puzzle_right
-            && OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
+            && OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
     }
 
     /*
@@ -109,7 +109,7 @@ public class Request {
      */
     public boolean Is_animation_action() {
         return Rotate_right <= type && type <= Load_puzzle_start
-            && OptionsDataAccess.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
+            && OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
     }
 
     /*

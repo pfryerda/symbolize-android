@@ -7,20 +7,45 @@ import symbolize.app.R;
 /*
  * An all static data access API for storing save data about what levels you have completed
  */
-abstract public class ProgressDataAccess {
-    // Static fields
-    //--------------
+public class ProgressDataAccess {
+    // Static field
+    //-------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_progress_key );
 
-    private static final boolean[][] progress =
+
+    // Static methods
+    //----------------
+
+    /*
+     * Commit changes to disk
+     */
+    public static void Commit() {
+        dao.Commit();
+    }
+
+
+    // Field
+    //------
+
+    private final boolean[][] progress =
             new boolean[PuzzleDB.NUMBER_OF_WORLDS][PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD + 1];
 
 
-    // Static block
+    // Singleton setup
+    //-----------------
+
+    private static final ProgressDataAccess instance = new ProgressDataAccess();
+
+    public static ProgressDataAccess Get_instance() {
+        return instance;
+    }
+
+
+    // Constructor
     //-------------
 
-    static {
+    private ProgressDataAccess() {
         for ( byte world = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             progress[world - 1][0] = dao.Get_property( world + "", false );
             for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
@@ -33,11 +58,11 @@ abstract public class ProgressDataAccess {
     // Getter methods
     //----------------
 
-    public static boolean Is_completed( int world ) {
+    public boolean Is_completed( int world ) {
         return Is_completed( world, 0 );
     }
 
-    public static boolean Is_completed( int world, int level ) {
+    public boolean Is_completed( int world, int level ) {
         //return true;
         return progress[world - 1][level] || Session.DEV_MODE;
     }
@@ -46,14 +71,14 @@ abstract public class ProgressDataAccess {
     // Setter methods
     //----------------
 
-    public static void Complete( int world ) {
+    public void Complete( int world ) {
         if( !Session.DEV_MODE ) {
             progress[world - 1][0] = true;
             dao.Set_property( world + "", true );
         }
     }
 
-    public static void Complete( int world, int level ) {
+    public void Complete( int world, int level ) {
         if( !Session.DEV_MODE ) {
             if ( level == 0 ) {
                 Complete( world );
@@ -71,7 +96,7 @@ abstract public class ProgressDataAccess {
     /*
      * Removes all saved data, i.e. levels completed
      */
-    public static void Remove_all_progress() {
+    public void Remove_all_progress() {
         for ( int world  = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
             progress[world -1][0] = false;
             dao.Set_property( world + "", false );
@@ -80,12 +105,5 @@ abstract public class ProgressDataAccess {
                 dao.Set_property( world + "-" + level, false );
             }
         }
-    }
-
-    /*
-     * Commit changes to disk
-     */
-    public static void Commit() {
-        dao.Commit();
     }
 }
