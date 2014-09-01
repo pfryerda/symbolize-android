@@ -15,21 +15,26 @@ public class OptionsDataAccess {
     public static final byte OPTION_SNAP_DRAWING    = 2;
     public static final byte OPTION_SHOW_ANIMATIONS = 3;
 
-    public static final byte OPTION_VOLUME = 4;
+    public static final byte OPTION_VOLUME     = 4;
+    public static final byte OPTION_BRIGHTNESS = 5;
+    public static final byte OPTION_CONTRAST   = 6;
 
 
     // Constants
     //-----------
 
-    private static final byte DEFAULT_VOLUME = 100;
-    private static final byte SHORT_OFFSET = 4;
+    public static final short VIDEO_OPTION_SCALING = 10000;
+    public static final byte VIDEO_OPTION_MIN = 100;
+    public static final byte DEFAULT_VOLUME = 100;
+    public static final short DEFAULT_BRIGHTNESS = (short) Math.max( VIDEO_OPTION_MIN, VIDEO_OPTION_SCALING * Page.Get_attributes().screenBrightness );
+    public static final short DEFAULT_CONTRAST = (short) 5000;
 
 
     // Static fields
     //--------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
-    private static int[] option_id_map = new int[5];
+    private static int[] option_id_map = new int[7];
 
 
     // Static block
@@ -41,6 +46,8 @@ public class OptionsDataAccess {
         option_id_map[OPTION_SNAP_DRAWING] = R.string.snap_settings;
         option_id_map[OPTION_SHOW_ANIMATIONS] = R.string.animation_settings;
         option_id_map[OPTION_VOLUME] = R.string.volume_settings;
+        option_id_map[OPTION_BRIGHTNESS] = R.string.options_brightness;
+        option_id_map[OPTION_CONTRAST] = R.string.options_contrast;
     }
 
 
@@ -58,8 +65,10 @@ public class OptionsDataAccess {
     // Fields
     //--------
 
+    private final byte SHORT_OFFSET;
+
     private boolean[] boolean_options = new boolean[4];
-    private short[] short_options = new short[1];
+    private short[] short_options = new short[3];
 
 
     // Singleton setup
@@ -85,8 +94,13 @@ public class OptionsDataAccess {
         boolean_options[OPTION_SHOW_ANIMATIONS] = dao.Get_property(
                 Page.Get_context().getString( R.string.animation_settings ), true );
 
-        short_options[OPTION_VOLUME - SHORT_OFFSET] = (byte) dao.Get_property(
+        SHORT_OFFSET = (byte) boolean_options.length;
+        short_options[OPTION_VOLUME - SHORT_OFFSET] = (short) dao.Get_property(
                 Page.Get_context().getString( R.string.volume_settings ), DEFAULT_VOLUME );
+        short_options[OPTION_BRIGHTNESS - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_context().getString( R.string.options_brightness ), DEFAULT_BRIGHTNESS );
+        short_options[OPTION_CONTRAST - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_context().getString( R.string.options_contrast ), DEFAULT_CONTRAST );
     }
 
 

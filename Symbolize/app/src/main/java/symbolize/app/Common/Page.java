@@ -6,12 +6,16 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.SymbolizeDialog;
+import symbolize.app.Game.GameUIView;
 
 /*
  * A simple interface to put common elements of all symbolize pages, as well as some generic static
@@ -26,6 +30,20 @@ public class Page extends FragmentActivity {
 
     // Static methods
     //----------------
+
+    /*
+     * Get attributes
+     */
+    public static WindowManager.LayoutParams Get_attributes() {
+        return Get_window().getAttributes();
+    }
+
+    /*
+     * Get window
+     */
+    public static Window Get_window() {
+        return Get_activity().getWindow();
+    }
 
     /*
      * Get the page context
@@ -62,18 +80,26 @@ public class Page extends FragmentActivity {
 
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
+
         Page.context = this;
         SymbolizeDialog.dialog_manager = getFragmentManager();
+
+        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+
+        options_dao.Set_short_option( OptionsDataAccess.OPTION_BRIGHTNESS,
+                                      (short) Math.max( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ),
+                                                        OptionsDataAccess.VIDEO_OPTION_MIN ) );
+        GameUIView.Set_brightness( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
     }
 
 
     // Method for pausing/resuming the game
     //---------------------------------------
 
-
     @Override
     protected void onPause() {
         super.onPause();
+
         final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
         meta_dao.Set_last_world();
         meta_dao.Set_last_draw_enabled();

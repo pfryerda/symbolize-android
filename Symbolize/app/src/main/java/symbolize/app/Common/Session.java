@@ -46,13 +46,7 @@ public class Session {
     //-------------
 
     private Session() {
-        this.current_world = MetaDataAccess.Get_last_world();
-        this.current_level = 0;
-
-        this.current_puzzle = null;
-
-        this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
-        this.current_pivot = null;
+        Reset();
     }
 
 
@@ -159,18 +153,15 @@ public class Session {
     }
 
     /*
-     * Use this when the game closes to save your current world for the next you play
+     * Reset session
      */
-    public void Commit_current_world() {
-        if( !Session.DEV_MODE ) {
-            SharedPreferences settings_dao = Page
-                    .Get_context()
-                    .getSharedPreferences(Page.Get_resource_string( R.string.preference_unlocks_key ),
-                            Context.MODE_PRIVATE);
-            SharedPreferences.Editor settings_editor = settings_dao.edit();
+    public void Reset() {
+        this.current_world = MetaDataAccess.Get_last_world();
+        this.current_level = 0;
 
-            settings_editor.putInt( "current_world", current_world );
-            settings_editor.commit();
-        }
+        this.current_puzzle = null;
+
+        this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
+        this.current_pivot = null;
     }
 }

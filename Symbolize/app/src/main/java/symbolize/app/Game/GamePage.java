@@ -22,7 +22,6 @@ import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.ConfirmDialog;
 import symbolize.app.Dialog.HintDialog;
 import symbolize.app.Dialog.InfoDialog;
-import symbolize.app.Dialog.GameOptionsDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
@@ -413,7 +412,6 @@ public class GamePage extends Page
         sensor_manager.registerListener( this,
                 sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
-        load_world( Request.Load_puzzle_start );
     }
 
     @Override
