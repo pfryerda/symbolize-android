@@ -9,6 +9,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -186,14 +188,26 @@ abstract public class GameUIView {
     }
 
     /*
-     * @return LinearGradient: the linear gradient used for the vertical grid lines
+     * Set phones brightness level
      */
-    public static LinearGradient Get_grid_gradient() {
-        int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
-        float[] positions = new float[]{ 0.0f,
-                (float) ( BAR_HEIGHT + CANVAS_SIZE / 2) / SCREEN_SIZE.y,
-                ( 2.0f * BAR_HEIGHT + CANVAS_SIZE ) / SCREEN_SIZE.y };
-        return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
+    public static void Set_brightness( short brightness ) {
+        Window window = Page.Get_window();
+        WindowManager.LayoutParams layout_params = Page.Get_attributes();
+
+        layout_params.screenBrightness = (float) brightness / OptionsDataAccess.VIDEO_OPTION_SCALING;
+        window.setAttributes( layout_params );
+    }
+
+    /*
+     * Set phones brightness level
+     */
+    public static void Set_contrast( short contrast ) {
+        Window window = Page.Get_window();
+        WindowManager.LayoutParams layout_params = Page.Get_attributes();
+
+        layout_params.screenBrightness = (float) contrast / OptionsDataAccess.VIDEO_OPTION_SCALING;
+        layout_params.;
+        window.setAttributes( layout_params );
     }
 
     /*
@@ -227,6 +241,17 @@ abstract public class GameUIView {
             default:
                 break;
         }
+    }
+
+    /*
+     * @return LinearGradient: the linear gradient used for the vertical grid lines
+     */
+    public static LinearGradient Get_grid_gradient() {
+        int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
+        float[] positions = new float[]{ 0.0f,
+                (float) ( BAR_HEIGHT + CANVAS_SIZE / 2) / SCREEN_SIZE.y,
+                ( 2.0f * BAR_HEIGHT + CANVAS_SIZE ) / SCREEN_SIZE.y };
+        return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
 
