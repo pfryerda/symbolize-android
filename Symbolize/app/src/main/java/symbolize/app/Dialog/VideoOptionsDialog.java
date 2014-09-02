@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 
@@ -38,7 +39,6 @@ public class VideoOptionsDialog extends InfoDialog {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
         final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
-        show_animation.setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
         show_animation.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -47,18 +47,17 @@ public class VideoOptionsDialog extends InfoDialog {
             }
         } );
 
-        final SeekBar game_size_bar = (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar );
-        game_size_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) - OptionsDataAccess.GAME_SIZE_MIN );
-
-        game_size_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+        ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) ).setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             short progress_change;
 
             @Override
             public void onProgressChanged( SeekBar seekBar, int progress, boolean fromUser ) {
                 progress_change = (short) ( progress  + OptionsDataAccess.GAME_SIZE_MIN );
                 GameView.Set_sizes( progress_change );
-                GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
-                                                              new Response() );
+                if ( Page.Is_Game_page() ) {
+                    GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
+                                                                  new Response() );
+                }
             }
 
             @Override
@@ -70,10 +69,7 @@ public class VideoOptionsDialog extends InfoDialog {
             }
         } );
 
-        final SeekBar brightness_bar = (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar );
-        brightness_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
-
-        brightness_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+        ((SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar ) ).setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             short progress_change;
 
             @Override
@@ -91,7 +87,43 @@ public class VideoOptionsDialog extends InfoDialog {
             }
         } );
 
+        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        options_dao.Reset_video_options();
+                        init_dialog_view( dialog_view );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
+            }
+        } );
+
         return dialog_view;
+    }
+
+    /*
+     * See SymbolizeDialog::init_dialog_view
+     */
+    @Override
+    protected void init_dialog_view( final View dialog_view ) {
+        OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation ) )
+                .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
+
+        ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
+                .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) - OptionsDataAccess.GAME_SIZE_MIN );
+
+        ( (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar ) )
+            .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
     }
 
     /*

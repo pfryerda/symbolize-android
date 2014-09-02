@@ -1,6 +1,13 @@
 package symbolize.app.DataAccess;
 
+import android.provider.Settings;
+
+import symbolize.app.Common.Communication.Request;
+import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Page;
+import symbolize.app.Game.GameController;
+import symbolize.app.Game.GameUIView;
+import symbolize.app.Game.GameView;
 import symbolize.app.R;
 
 /*
@@ -29,9 +36,8 @@ public class OptionsDataAccess {
     public static final byte MIN_BRIGHTNESS = 100;
 
     public static final byte DEFAULT_VOLUME = 100;
-    public static final short DEFAULT_BRIGHTNESS = (short) Math.max( MIN_BRIGHTNESS, BRIGHTNESS_SCALING * Page.Get_attributes().screenBrightness );
+    public static final short DEFAULT_BRIGHTNESS = (short) -1;
     public static final short DEFAULT_GAME_SIZE = (short) 100;
-
 
     // Static fields
     //--------------
@@ -129,9 +135,49 @@ public class OptionsDataAccess {
                 Page.Get_context().getString( option_id_map[option] ), new_option );
     }
 
+    public void Set_boolean_option( final byte option, final boolean new_option ) {
+        boolean_options[option] = new_option;
+        dao.Set_property(
+                Page.Get_context().getString( option_id_map[option] ), new_option );
+    }
+
     public void Set_short_option( final byte option, final short new_value ) {
         short_options[option - SHORT_OFFSET] = new_value;
         dao.Set_property(
                 Page.Get_context().getString( option_id_map[option] ), new_value );
+    }
+
+
+    // Public methods
+    //----------------
+
+    public void Reset_game_options() {
+        Set_boolean_option( OPTION_GRID, true );
+        Set_boolean_option( OPTION_BORDER, false );
+        Set_boolean_option( OPTION_SNAP_DRAWING, false );
+
+        if ( Page.Is_Game_page() ) {
+            GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
+                                                          new Response() );
+        }
+    }
+
+    public void Reset_video_options() {
+        Set_boolean_option( OPTION_SHOW_ANIMATIONS, true );
+        Set_short_option( OPTION_GAME_SIZE, DEFAULT_GAME_SIZE );
+        Set_short_option( OPTION_BRIGHTNESS, DEFAULT_BRIGHTNESS );
+
+        GameView.Set_sizes( Get_short_option( OPTION_GAME_SIZE ) );
+
+        if ( Page.Is_Game_page() ) {
+            GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
+                                                          new Response() );
+        }
+
+        GameUIView.Set_brightness( Get_short_option( OPTION_BRIGHTNESS ) );
+    }
+
+    public void Reset_audio_options() {
+        Set_short_option( OPTION_VOLUME, DEFAULT_VOLUME );
     }
 }

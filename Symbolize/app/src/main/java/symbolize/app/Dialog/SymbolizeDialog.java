@@ -88,6 +88,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
     protected View get_dialog_view() {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialog_view =  inflater.inflate( get_dialog_id(), new LinearLayout( Page.Get_context() ) );
+        init_dialog_view( dialog_view );
 
         TextView title_view = (TextView) dialog_view.findViewById( R.id.Title );
         if ( title_view != null ) {
@@ -101,6 +102,11 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
         return dialog_view;
     }
+
+    /*
+     * Use this method to set seekbar and check boxes to correct state
+     */
+    protected void init_dialog_view( final View dialog_view ) {}
 
     // abstract methods
     //-----------------

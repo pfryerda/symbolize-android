@@ -56,6 +56,7 @@ public class GamePage extends Page
         // Basic setup
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_game );
+        Set_game_page();
 
         // Ad setup
         AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );

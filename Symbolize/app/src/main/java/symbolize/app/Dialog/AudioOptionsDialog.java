@@ -1,10 +1,18 @@
 package symbolize.app.Dialog;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 
 import symbolize.app.Common.Page;
+import symbolize.app.Common.Session;
+import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
+import symbolize.app.DataAccess.ProgressDataAccess;
+import symbolize.app.DataAccess.UnlocksDataAccess;
+import symbolize.app.Game.GamePage;
+import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
 public class AudioOptionsDialog extends InfoDialog {
@@ -28,10 +36,7 @@ public class AudioOptionsDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );
-        volume_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
-
-        volume_bar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+        ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) ).setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             byte progress_change = 0;
             @Override
             public void onProgressChanged( SeekBar seekBar, int progress, boolean fromUser ) {
@@ -47,7 +52,35 @@ public class AudioOptionsDialog extends InfoDialog {
             }
         } );
 
+        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        options_dao.Reset_audio_options();
+                        init_dialog_view( dialog_view );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
+            }
+        } );
+
         return dialog_view;
+    }
+
+    /*
+     * See SymbolizeDialog::init_dialog_view
+     */
+    @Override
+    protected void init_dialog_view( final View dialog_view ) {
+        ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) )
+                .setProgress( OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
     }
 
     /*

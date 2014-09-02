@@ -32,7 +32,7 @@ public class DataOptionsDialog extends InfoDialog {
     protected View get_dialog_view() {
         final View dialog_view = super.get_dialog_view();
 
-        Button delete_all_data_button = (Button) dialog_view.findViewById( R.id.options_delete_data );
+        final Button delete_all_data_button = (Button) dialog_view.findViewById( R.id.options_delete_data );
 
         delete_all_data_button.setOnClickListener( new View.OnClickListener() {
             @Override

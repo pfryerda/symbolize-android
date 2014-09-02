@@ -1,22 +1,13 @@
 package symbolize.app.Dialog;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckedTextView;
-import android.widget.SeekBar;
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
-import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Page;
-import symbolize.app.DataAccess.ProgressDataAccess;
-import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Game.GameController;
-import symbolize.app.Game.GamePage;
 import symbolize.app.Game.GameUIView;
-import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
 public class GameOptionsDialog extends InfoDialog {
@@ -41,30 +32,33 @@ public class GameOptionsDialog extends InfoDialog {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
         final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid );
-        show_graph.setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) );
-        show_graph.setOnClickListener(new View.OnClickListener() {
+        show_graph.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_GRID );
-                show_graph.setChecked( !show_graph.isChecked() );
-                GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response());
+                options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_GRID);
+                show_graph.setChecked(!show_graph.isChecked());
+                if ( Page.Is_Game_page() ) {
+                    GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
+                                                                  new Response());
+                }
             }
-        } );
+        });
 
         final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
-        show_border.setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) );
         show_border.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_BORDER );
                 show_border.setChecked( !show_border.isChecked() );
-                GameController.Get_instance().Handle_request( new Request( Request.Background_change ), new Response() );
-                GameUIView.Update_ui( null );
+                if ( Page.Is_Game_page() ) {
+                    GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
+                                                                  new Response() );
+                    GameUIView.Update_ui( null );
+                }
             }
         } );
 
         final CheckedTextView snap_drawing = (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing );
-        snap_drawing.setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) );
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -73,7 +67,43 @@ public class GameOptionsDialog extends InfoDialog {
             }
         } );
 
+        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        options_dao.Reset_game_options();
+                        init_dialog_view( dialog_view );
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
+            }
+        } );
+
         return dialog_view;
+    }
+
+    /*
+     * See SymbolizeDialog::init_dialog_view
+     */
+    @Override
+    protected void init_dialog_view( final View dialog_view ) {
+        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid ) )
+                .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) );
+
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_border ) )
+                .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) );
+
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing ) )
+                .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) );
     }
 
     /*

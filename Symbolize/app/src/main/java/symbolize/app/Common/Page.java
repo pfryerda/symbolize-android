@@ -21,15 +21,37 @@ import symbolize.app.Game.GameUIView;
  * A simple interface to put common elements of all symbolize pages, as well as some generic static
  * methods to get commonly used elements like an activity, string, or context
  */
-public class Page extends FragmentActivity {
+abstract public class Page extends FragmentActivity {
     // Constants
     //------------
 
     private static Context context;
+    private static boolean current_page_is_game = false;
 
 
     // Static methods
     //----------------
+
+    /*
+     * @return boolean: true if game page, false otherwise
+     */
+    public static boolean Is_Game_page() {
+        return current_page_is_game;
+    }
+
+    /*
+     * Set the current page to game
+     */
+    public static void Set_game_page() {
+        current_page_is_game = true;
+    }
+
+    /*
+     * Set the current page to not game
+     */
+    public static void Set_not_game_page() {
+        current_page_is_game = false;
+    }
 
     /*
      * Get attributes
@@ -86,9 +108,6 @@ public class Page extends FragmentActivity {
 
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        options_dao.Set_short_option( OptionsDataAccess.OPTION_BRIGHTNESS,
-                                      (short) Math.max( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ),
-                                                        OptionsDataAccess.MIN_BRIGHTNESS ) );
         GameUIView.Set_brightness( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
     }
 
