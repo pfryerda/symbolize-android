@@ -91,9 +91,17 @@
 
     <string name="options_delete_all_data">Delete all data</string>
 
+    <string name="options_revert_to_default">Revert to default</string>
+
+    <!-- Revert settings dialog text -->
+    <string name="revert_to_default_title">Revert to default</string>
+    <string name="revert_to_default_message">Revert all settings back to default?
+        This cannot be reverted</string>
+
     <!-- Delete all data dialog text -->
     <string name="delete_all_data_title">Delete all data</string>
-    <string name="delete_all_data_msg">Are you sure you would like to clear all your progress. This cannot be reverted</string>
+    <string name="delete_all_data_msg">Are you sure you would like to clear all your progress?
+        This cannot be reverted</string>
 
     <!-- Level complete dialog text -->
     <string name="puzzle_complete_dialog_title">Congratulations</string>

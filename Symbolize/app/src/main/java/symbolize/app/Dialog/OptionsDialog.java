@@ -3,6 +3,7 @@ package symbolize.app.Dialog;
 import android.view.View;
 
 import symbolize.app.Common.Page;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.R;
 
 public class OptionsDialog extends InfoDialog {
@@ -62,6 +63,27 @@ public class OptionsDialog extends InfoDialog {
             public void onClick( View view ) {
                 AboutDialog options_dialog = new AboutDialog();
                 options_dialog.Show();
+            }
+        } );
+
+        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
+                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void OnDialogSuccess() {
+                        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+                        options_dao.Reset_game_options();
+                        options_dao.Reset_audio_options();
+                        options_dao.Reset_video_options();
+                    }
+
+                    @Override
+                    public void OnDialogFail() {}
+                } );
+                confirmDialog.Show();
             }
         } );
 

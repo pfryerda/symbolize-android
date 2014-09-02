@@ -194,7 +194,12 @@ abstract public class GameUIView {
         Window window = Page.Get_window();
         WindowManager.LayoutParams layout_params = Page.Get_attributes();
 
-        layout_params.screenBrightness = (float) brightness / OptionsDataAccess.BRIGHTNESS_SCALING;
+        if ( brightness == -1 ) {
+            layout_params.screenBrightness = -1;
+        } else {
+            layout_params.screenBrightness = Math.max( OptionsDataAccess.MIN_BRIGHTNESS,
+                                                       (float) brightness / OptionsDataAccess.BRIGHTNESS_SCALING );
+        }
         window.setAttributes( layout_params );
     }
 

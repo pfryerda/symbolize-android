@@ -21,6 +21,7 @@ public class HomePage extends Page {
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_home );
+        Page.Set_not_game_page();
     }
 
 

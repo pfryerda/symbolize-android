@@ -43,6 +43,14 @@
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:text="@string/options_snap_drawing"/>
 
+    <Button
+        android:id="@+id/options_reset_to_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/options_revert_to_default"
+        android:layout_gravity="center">
+    </Button>
+
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
     <LinearLayout
         android:layout_width="fill_parent"
