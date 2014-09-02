@@ -16,18 +16,21 @@ public class OptionsDataAccess {
     public static final byte OPTION_SHOW_ANIMATIONS = 3;
 
     public static final byte OPTION_VOLUME     = 4;
-    public static final byte OPTION_BRIGHTNESS = 5;
-    public static final byte OPTION_CONTRAST   = 6;
+    public static final byte OPTION_GAME_SIZE  = 5;
+    public static final byte OPTION_BRIGHTNESS = 6;
 
 
     // Constants
     //-----------
 
-    public static final short VIDEO_OPTION_SCALING = 10000;
-    public static final byte VIDEO_OPTION_MIN = 100;
+    public static final short GAME_SIZE_MIN = 75;
+
+    public static final short BRIGHTNESS_SCALING = 10000;
+    public static final byte MIN_BRIGHTNESS = 100;
+
     public static final byte DEFAULT_VOLUME = 100;
-    public static final short DEFAULT_BRIGHTNESS = (short) Math.max( VIDEO_OPTION_MIN, VIDEO_OPTION_SCALING * Page.Get_attributes().screenBrightness );
-    public static final short DEFAULT_CONTRAST = (short) 5000;
+    public static final short DEFAULT_BRIGHTNESS = (short) Math.max( MIN_BRIGHTNESS, BRIGHTNESS_SCALING * Page.Get_attributes().screenBrightness );
+    public static final short DEFAULT_GAME_SIZE = (short) 100;
 
 
     // Static fields
@@ -46,8 +49,8 @@ public class OptionsDataAccess {
         option_id_map[OPTION_SNAP_DRAWING] = R.string.snap_settings;
         option_id_map[OPTION_SHOW_ANIMATIONS] = R.string.animation_settings;
         option_id_map[OPTION_VOLUME] = R.string.volume_settings;
-        option_id_map[OPTION_BRIGHTNESS] = R.string.options_brightness;
-        option_id_map[OPTION_CONTRAST] = R.string.options_contrast;
+        option_id_map[OPTION_GAME_SIZE] = R.string.game_size_settings;
+        option_id_map[OPTION_BRIGHTNESS] = R.string.brightness_settings;
     }
 
 
@@ -97,10 +100,10 @@ public class OptionsDataAccess {
         SHORT_OFFSET = (byte) boolean_options.length;
         short_options[OPTION_VOLUME - SHORT_OFFSET] = (short) dao.Get_property(
                 Page.Get_context().getString( R.string.volume_settings ), DEFAULT_VOLUME );
+        short_options[OPTION_GAME_SIZE - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_resource_string( R.string.game_size_settings ), DEFAULT_GAME_SIZE );
         short_options[OPTION_BRIGHTNESS - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_context().getString( R.string.options_brightness ), DEFAULT_BRIGHTNESS );
-        short_options[OPTION_CONTRAST - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_context().getString( R.string.options_contrast ), DEFAULT_CONTRAST );
+                Page.Get_context().getString( R.string.brightness_settings ), DEFAULT_BRIGHTNESS );
     }
 
 

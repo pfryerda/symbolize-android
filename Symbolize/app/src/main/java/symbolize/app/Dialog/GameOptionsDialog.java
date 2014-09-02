@@ -73,16 +73,6 @@ public class GameOptionsDialog extends InfoDialog {
             }
         } );
 
-        final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
-        show_animation.setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
-        show_animation.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
-                show_animation.setChecked( !show_animation.isChecked() );
-            }
-        } );
-
         return dialog_view;
     }
 

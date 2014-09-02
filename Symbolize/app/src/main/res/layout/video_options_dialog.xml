@@ -13,6 +13,32 @@
         android:textColor="@color/black"
         android:gravity="center"/>
 
+    <CheckedTextView
+        android:id="@+id/options_show_animation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:checked="true"
+        android:textColor="@color/black"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/options_show_animations"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/options_size"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
+    <SeekBar
+        android:id="@+id/options_game_size_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progress="25"
+        android:max="50">
+    </SeekBar>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,22 +48,6 @@
         android:textColor="@color/black"/>
     <SeekBar
         android:id="@+id/options_brightness_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progress="5000"
-        android:max="10000">
-    </SeekBar>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/options_contrast"
-        android:textSize="20dp"
-        android:textColor="@color/black"/>
-    <SeekBar
-        android:id="@+id/options_contrast_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -88,7 +88,7 @@ public class Page extends FragmentActivity {
 
         options_dao.Set_short_option( OptionsDataAccess.OPTION_BRIGHTNESS,
                                       (short) Math.max( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ),
-                                                        OptionsDataAccess.VIDEO_OPTION_MIN ) );
+                                                        OptionsDataAccess.MIN_BRIGHTNESS ) );
         GameUIView.Set_brightness( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
     }
 

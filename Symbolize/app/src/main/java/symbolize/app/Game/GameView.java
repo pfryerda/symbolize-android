@@ -37,18 +37,45 @@ import symbolize.app.R;
  * Class in charge of updating the display/view with new alterations to the GameModel
  */
 public class GameView {
+    // Constants
+    //-----------
+
+    public static final short SCALING = 10000;
+    public static final byte SHADOW = 80;
+
+
     // Static Fields
     //---------------
 
-    public static final short SCALING = 10000;
-    public static final short LINE_WIDTH = (short) ( GameUIView.CANVAS_SIZE / 17 );
-    public static final short LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
-    public static final short POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
-    public static final short POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 10 );
-    public static final short TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
-    public static final short GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
-    public static final short BORDER_WIDTH = LINE_WIDTH;
-    public static final byte SHADOW = 80;
+    public static short LINE_WIDTH;
+    public static short LINE_BORDER_WIDTH;
+    public static short POINT_WIDTH;
+    public static short POINT_BORDER_WIDTH;
+    public static short TEXT_WIDTH;
+    public static short GRID_WIDTH;
+    public static short BORDER_WIDTH;
+
+
+    // Static block
+    //--------------
+
+    static  {
+        Set_sizes( OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) );
+    }
+
+
+    // Static methods
+    //----------------
+
+    public static void Set_sizes( final short game_size ) {
+         LINE_WIDTH = (short) ( ( (float) GameUIView.CANVAS_SIZE / 17 ) * ( (float) game_size / 100 ) );
+        LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
+        POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
+        POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 10 );
+        TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
+        GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
+        BORDER_WIDTH = LINE_WIDTH;
+    }
 
 
     // Fields
