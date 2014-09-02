@@ -194,19 +194,7 @@ abstract public class GameUIView {
         Window window = Page.Get_window();
         WindowManager.LayoutParams layout_params = Page.Get_attributes();
 
-        layout_params.screenBrightness = (float) brightness / OptionsDataAccess.VIDEO_OPTION_SCALING;
-        window.setAttributes( layout_params );
-    }
-
-    /*
-     * Set phones brightness level
-     */
-    public static void Set_contrast( short contrast ) {
-        Window window = Page.Get_window();
-        WindowManager.LayoutParams layout_params = Page.Get_attributes();
-
-        layout_params.screenBrightness = (float) contrast / OptionsDataAccess.VIDEO_OPTION_SCALING;
-        layout_params.;
+        layout_params.screenBrightness = (float) brightness / OptionsDataAccess.BRIGHTNESS_SCALING;
         window.setAttributes( layout_params );
     }
 
