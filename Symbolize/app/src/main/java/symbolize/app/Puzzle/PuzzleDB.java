@@ -38,6 +38,7 @@ abstract public class PuzzleDB {
     //-----------
 
     public static final byte NUMBER_OF_WORLDS = 7;
+    public static final byte NUMBER_OF_LEVELS_PER_WORLD_7 = 10;
     public static final byte NUMBER_OF_LEVELS_PER_WORLD = 15;
 
     private static final int[] hint_map = new int[]{ 0,

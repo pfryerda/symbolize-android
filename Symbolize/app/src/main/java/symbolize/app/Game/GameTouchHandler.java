@@ -259,6 +259,13 @@ public class GameTouchHandler {
             else if ( ( point_one.x() <= point_one_end.x() ) && (  point_two.x() >= point_two_end.x() ) ) {
                 listener.onRotateLeft();
                 return true;
+            } else if ( ( point_one.y() <= point_one_end.y() ) && ( point_two.y() >= point_two_end.y() ) ) {
+                listener.onRotateRight();
+                return true;
+            }
+            else if ( ( point_one.y() >= point_one_end.y() ) && (  point_two.y() <= point_two_end.y() ) ) {
+                listener.onRotateLeft();
+                return true;
             }
 
         } else {
@@ -269,6 +276,13 @@ public class GameTouchHandler {
                 return true;
             }
             else if ( ( point_one.x() >= point_one_end.x() ) && (  point_two.x() <= point_two_end.x() ) ) {
+                listener.onRotateLeft();
+                return true;
+            } else if ( ( point_one.y() >= point_one_end.y() ) && (  point_two.y() <= point_two_end.y() ) ) {
+                listener.onRotateRight();
+                return true;
+            }
+            else if ( ( point_one.y() <= point_one_end.y() ) && (  point_two.y() >= point_two_end.y() ) ) {
                 listener.onRotateLeft();
                 return true;
             }
