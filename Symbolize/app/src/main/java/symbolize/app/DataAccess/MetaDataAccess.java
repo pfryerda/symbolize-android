@@ -198,7 +198,7 @@ public class MetaDataAccess {
 
             if ( ( finished_puzzle.Get_draw_restriction() > 0 ) && !Has_seen( SEEN_DRAW ) ) {
                 seens[SEEN_DRAW] = true;
-                dao.Set_property( Page.Get_resource_string(R.string.seen_draw ), true);
+                dao.Set_property( Page.Get_resource_string( R.string.seen_draw ), true);
             }
 
             if ( finished_puzzle.Can_rotate() && !Has_seen( SEEN_ROTATE ) ) {
@@ -208,7 +208,7 @@ public class MetaDataAccess {
 
             if ( ( finished_puzzle.Get_erase_restriction() > 0 ) && !Has_seen( SEEN_ERASE ) ) {
                 seens[SEEN_ERASE] = true;
-                dao.Set_property( Page.Get_resource_string(R.string.seen_erase  ), true );
+                dao.Set_property( Page.Get_resource_string( R.string.seen_erase  ), true );
             }
 
             if ( finished_puzzle.Can_flip() && !Has_seen( SEEN_FLIP ) ) {
@@ -252,10 +252,26 @@ public class MetaDataAccess {
         dao.Set_property( Page.Get_resource_string( R.string.seen_color_change ), false );
         dao.Set_property( Page.Get_resource_string( R.string.seen_special ), false );
 
+        seens[SEEN_WORLD] = false;
+        seens[SEEN_DRAW] = false ;
+        seens[SEEN_ROTATE] = false;
+        seens[SEEN_ERASE] = false;
+        seens[SEEN_FLIP] = false;
+        seens[SEEN_SHIFT] = false;
+        seens[SEEN_DRAG] = false;
+        seens[SEEN_CHANGE_COLOR] = false;
+        seens[SEEN_SPECIAL] = false;
+
         dao.Set_property( Page.Get_resource_string( R.string.rotate_duration ), ROTATE_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.flip_duration ), FLIP_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.shift_duration ), SHIFT_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.zoom_duration ), ZOOM_DURATION_MAX );
         dao.Set_property( Page.Get_resource_string( R.string.translate_duration ), TRANSLATE_DURATION_MAX );
+
+        durations[DURATION_ROTATE] = ROTATE_DURATION_MAX;
+        durations[DURATION_FLIP] = FLIP_DURATION_MAX;
+        durations[DURATION_SHIFT] = SHIFT_DURATION_MAX;
+        durations[DURATION_ZOOM] = ZOOM_DURATION_MAX;
+        durations[DURATION_TRANSLATE] = TRANSLATE_DURATION_MAX;
     }
 }
