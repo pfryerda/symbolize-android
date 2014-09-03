@@ -15,7 +15,7 @@ import symbolize.app.Game.GamePage;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
-public class AudioOptionsDialog extends InfoDialog {
+public class AudioOptionsDialog extends OptionDialog {
     // Inherited fields
     //------------------
 

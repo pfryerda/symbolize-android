@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import symbolize.app.Common.Page;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Game.GameUIView;
 import symbolize.app.R;
 
@@ -50,6 +53,15 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
         AlertDialog dialog = builder.create();
         dialog.setView( get_dialog_view(), 0, 0, 0, 0 );
+        Integer anim_id = get_dialog_animation();
+
+        if ( ( anim_id ) != null &&
+                OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) )
+        {
+            dialog.getWindow().getAttributes().windowAnimations = anim_id;
+        } else {
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogNoAnimation;
+        }
 
         return dialog;
     }
@@ -107,6 +119,14 @@ abstract public class SymbolizeDialog extends DialogFragment {
      * Use this method to set seekbar and check boxes to correct state
      */
     protected void init_dialog_view( final View dialog_view ) {}
+
+    /*
+     * Get the dialog's animation in/out id value
+     */
+    protected Integer get_dialog_animation() {
+        return R.style.GenericDialogAnimation;
+    }
+
 
     // abstract methods
     //-----------------

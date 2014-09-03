@@ -12,7 +12,7 @@ import symbolize.app.Game.GamePage;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
-public class DataOptionsDialog extends InfoDialog {
+public class DataOptionsDialog extends OptionDialog {
     // Inherited fields
     //------------------
 

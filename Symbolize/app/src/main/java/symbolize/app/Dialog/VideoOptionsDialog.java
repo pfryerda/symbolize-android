@@ -17,7 +17,7 @@ import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;
 import symbolize.app.R;
 
-public class VideoOptionsDialog extends InfoDialog {
+public class VideoOptionsDialog extends OptionDialog {
     // Inherited fields
     //------------------
 

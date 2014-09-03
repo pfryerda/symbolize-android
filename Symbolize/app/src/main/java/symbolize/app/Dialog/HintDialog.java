@@ -87,6 +87,14 @@ public class HintDialog extends InfoDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_animation
+     */
+    @Override
+    protected Integer get_dialog_animation() {
+        return R.style.HintDialogAnimation;
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_string_id
      */
     @Override
