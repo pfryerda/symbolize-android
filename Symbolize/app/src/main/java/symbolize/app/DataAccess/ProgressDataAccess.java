@@ -94,6 +94,26 @@ public class ProgressDataAccess {
     //----------------
 
     /*
+     * Gets a string representing the number of levels completed in a given world
+     *
+     * @param byte world: The world you want to see how levels are complete in
+     *
+     * @return String: "Number of levels complete in world / Number of levels in world"
+     */
+    public String Get_number_of_complete_levels_string( final byte world ) {
+        final byte number_of_levels =
+                ( world == 7 ) ? PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD_7 : PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
+        byte number_of_complete_levels = 0;
+        for ( byte level = 1; level <= number_of_levels; ++level ) {
+            if ( Is_completed( world, level ) ) {
+                ++number_of_complete_levels;
+            }
+        }
+
+        return " " + number_of_complete_levels + " / " + number_of_levels;
+    }
+
+    /*
      * Removes all saved data, i.e. levels completed
      */
     public void Remove_all_progress() {

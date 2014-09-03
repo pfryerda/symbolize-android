@@ -84,14 +84,25 @@
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>
 
-    <string name="worlds_complete">World complete </string>
-    <string name="levels_complete">Levels complete </string>
-
     <string name="options_volume">Volume</string>
 
     <string name="options_delete_all_data">Delete all data</string>
 
     <string name="options_revert_to_default">Revert to default</string>
+
+    <string name="world_1">World 1</string>
+    <string name="world_2">World 2</string>
+    <string name="world_3">World 3</string>
+    <string name="world_4">World 4</string>
+    <string name="world_5">World 5</string>
+    <string name="world_6">World 6</string>
+    <string name="world_7">World 7</string>
+    <string name="levels_complete">Levels complete:</string>
+    <string name="world_complete">World complete:</string>
+
+    <string name="about_dialog_message">Designed and developed by Luke Brown, with art from Peter Fryer Davis.
+        Created in Waterloo Canada.\n</string>
+    <string name="about_dialog_note">Note: This app cannot be used without our exclusive permission.</string>
 
     <!-- Revert settings dialog text -->
     <string name="revert_to_default_title">Revert to default</string>

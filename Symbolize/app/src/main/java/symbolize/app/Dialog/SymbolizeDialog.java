@@ -124,7 +124,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
      * Get the dialog's animation in/out id value
      */
     protected Integer get_dialog_animation() {
-        return R.style.GenericDialogAnimation;
+        return R.style.DialogNoAnimation;
     }
 
 
