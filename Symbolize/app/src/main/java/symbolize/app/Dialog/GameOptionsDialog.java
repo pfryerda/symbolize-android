@@ -10,7 +10,7 @@ import symbolize.app.Game.GameController;
 import symbolize.app.Game.GameUIView;
 import symbolize.app.R;
 
-public class GameOptionsDialog extends InfoDialog {
+public class GameOptionsDialog extends OptionDialog {
     // Inherited fields
     //------------------
 

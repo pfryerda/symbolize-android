@@ -3,7 +3,7 @@ package symbolize.app.Dialog;
 import symbolize.app.Common.Page;
 import symbolize.app.R;
 
-public class AboutDialog extends InfoDialog {
+public class AboutDialog extends OptionDialog {
     // Inherited fields
     //------------------
 
