@@ -16,7 +16,7 @@ public class GameTouchHandler {
     // Constants
     //-----------
 
-    public static final short TAPTHRESHOLD = 250;
+    public static final short TAPTHRESHOLD = 325;
     public static final short DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
     public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
     public static final int MINLINESIZESQR = 10 * GameView.SCALING;

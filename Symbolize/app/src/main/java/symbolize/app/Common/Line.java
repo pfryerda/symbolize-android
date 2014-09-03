@@ -20,7 +20,7 @@ public class Line {
     // Constants
     //------------
 
-    public static final short ERASING_THRESHOLD = GameView.SCALING / 14;
+    public static final short ERASING_THRESHOLD = GameView.SCALING / 15;
     public static final byte ANGLE_THRESHOLD_1 = 5; // Degrees
     public static final ArrayList<Integer> COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;

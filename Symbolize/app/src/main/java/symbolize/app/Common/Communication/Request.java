@@ -99,7 +99,7 @@ public class Request {
      * @return boolean: true if require a cleanup of the board before rendering
      */
     public boolean require_pre_render() {
-        return Rotate_right <= type && type <= Load_puzzle_right
+        return Rotate_right <= type && type <= Load_world_via_level
             && OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS );
     }
 
