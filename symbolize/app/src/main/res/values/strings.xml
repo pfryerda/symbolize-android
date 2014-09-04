@@ -84,6 +84,7 @@
     <string name="auto">Auto</string>
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>
+    <string name="alpha_audio_note">\nNote: Audio is not available in the alpha version of symbolize</string>
 
     <string name="options_volume">Volume</string>
 
@@ -119,7 +120,10 @@
     <string name="puzzle_complete_dialog_title">Congratulations</string>
     <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
     <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world</string>
-    <string name="game_complete_dialog_msg">You are correct! You have finished the game</string>
+    <string name="game_complete_dialog_msg">You are correct!
+        Congratulations you have finished Symbolize</string>
+    <string name="alpha_game_complete_dialog_msg">You are correct!
+        Congratulations you have finished the alpha version of Symbolize</string>
 
     <!-- Hint dialog text -->
     <string name="draws_allowed">Draws allowed: </string>

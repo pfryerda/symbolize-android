@@ -148,7 +148,12 @@ public class GamePage extends Page
                 ProgressDataAccess.Get_instance().Complete( session.Get_current_world(), session.Get_current_level() );
                 MetaDataAccess.Get_instance().Update_mechanics_seen();
 
-                if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
+                if ( ( Session.VERSION == Session.VERSION_ALPHA ) && session.Is_in_world_view() ) {
+                    InfoDialog info_dialog = new InfoDialog();
+                    info_dialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title),
+                            getString( R.string.alpha_game_complete_dialog_msg ) );
+                    info_dialog.Show();
+                } else if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
                     for ( byte unlock : current_puzzle.Get_unlocks() ) {
                         UnlocksDataAccess.Get_instance().Unlock( unlock );
                     }
@@ -167,7 +172,7 @@ public class GamePage extends Page
                     confirmDialog.Show();
                 } else if ( session.Is_in_world_view() && session.Get_current_world() > PuzzleDB.NUMBER_OF_WORLDS ) {
                     InfoDialog info_dialog = new InfoDialog();
-                    info_dialog.Set_attrs( getString(R.string.puzzle_complete_dialog_title ),
+                    info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
                             getString( R.string.game_complete_dialog_msg ) );
                     info_dialog.Show();
                 } else if ( !session.Is_in_world_view() ) {
@@ -390,6 +395,7 @@ public class GamePage extends Page
         Session session = Session.Get_instance();
         session.Set_to_world();
         session.Update_puzzle();
+        session.Update_world_color();
 
         GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }

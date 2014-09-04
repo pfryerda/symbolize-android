@@ -2,11 +2,15 @@ package symbolize.app.Common;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseIntArray;
 import symbolize.app.Common.Communication.Request;
+import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;
+import symbolize.app.R;
 
 public class Line {
     // Flags
@@ -22,30 +26,6 @@ public class Line {
 
     public static final short ERASING_THRESHOLD = GameView.SCALING / 15;
     public static final byte ANGLE_THRESHOLD_1 = 5; // Degrees
-    public static final ArrayList<Integer> COLOR_ARRAY;
-    public static final SparseIntArray COLOR_MAP;
-
-
-    // Static block
-    //--------------
-
-    static {
-        ArrayList<Integer> color_array = new ArrayList<Integer>();
-        color_array.add( Color.BLACK );
-        color_array.add( Color.RED );
-        color_array.add( Color.YELLOW );
-        color_array.add( Color.GREEN );
-        color_array.add( Color.BLUE );
-        color_array.add( Color.CYAN );
-        color_array.add( Color.MAGENTA );
-        COLOR_ARRAY = color_array;
-
-        SparseIntArray color_map = new SparseIntArray();
-        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
-            color_map.put( COLOR_ARRAY.get(i), i );
-        }
-        COLOR_MAP = color_map;
-    }
 
 
     // Fields
@@ -126,7 +106,7 @@ public class Line {
      */
     public void Edit( final int request_type ) {
         if ( request_type == Request.Change_color ) {
-            color = COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
+            color = GameUIView.Get_next_color( color );
         } else if ( request_type == Request.SPECIAL_SLOPE_ZERO ) {
             Posn mid_point = mid_point();
             p1.Set_y( mid_point.y() );

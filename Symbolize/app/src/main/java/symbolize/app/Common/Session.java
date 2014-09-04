@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import symbolize.app.DataAccess.MetaDataAccess;
+import symbolize.app.Game.GameUIView;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
@@ -12,10 +13,19 @@ import symbolize.app.R;
  * A singleton class that keeps track of the game's current state.
  */
 public class Session {
-    // Constants
-    //-----------
+    // Flags
+    //-------
 
-    public static final boolean DEV_MODE = false;
+    public static final byte VERSION_ALPHA = 0;
+    public static final byte VERSION_BETA  = 1;
+    public static final byte VERSION_PROD  = 2;
+
+
+    // Static fields
+    //---------------
+
+    public static final byte VERSION = VERSION_ALPHA;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -25,6 +35,7 @@ public class Session {
     private byte current_world;
     private byte current_level;
 
+    private int world_color;
     private Puzzle current_puzzle;
 
     private boolean draw_enabled;
@@ -52,6 +63,8 @@ public class Session {
 
     // Getter methods
     //----------------
+
+    public int Get_world_color() { return world_color; }
 
     public Puzzle Get_current_puzzle() {
         return current_puzzle;
@@ -104,6 +117,8 @@ public class Session {
     public void Set_erase_mode() {
         draw_enabled = false;
     }
+
+    public void Update_world_color() { world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );  }
 
     public void Set_current_level( byte new_level ) {
         current_level = new_level;
@@ -159,6 +174,7 @@ public class Session {
         this.current_world = MetaDataAccess.Get_last_world();
         this.current_level = 0;
 
+        this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
         this.current_puzzle = null;
 
         this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();

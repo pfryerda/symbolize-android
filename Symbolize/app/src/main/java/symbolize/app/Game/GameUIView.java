@@ -5,7 +5,11 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdSize;
+
+import java.util.ArrayList;
+
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.Common.Page;
@@ -43,6 +50,9 @@ abstract public class GameUIView {
     public static final short BOTTOM_BUTTON_WIDTH;
     public static final short TOP_BUTTON_WIDTH;
 
+    public static final ArrayList<Integer> COLOR_ARRAY;
+    public static final SparseIntArray COLOR_MAP;
+
 
     // Fields
     //--------
@@ -66,6 +76,19 @@ abstract public class GameUIView {
     //--------------
 
     static {
+        COLOR_ARRAY = new ArrayList<Integer>();
+        int[] color_array = Page.Get_context().getResources().getIntArray( R.array.color_array );
+
+        for ( int color : color_array ) {
+            COLOR_ARRAY.add( color );
+        }
+
+        SparseIntArray color_map = new SparseIntArray();
+        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
+            color_map.put( COLOR_ARRAY.get(i), i );
+        }
+        COLOR_MAP = color_map;
+
         final Activity activity = GamePage.Get_activity();
 
         final Display DISPLAY = GamePage.Get_activity().getWindowManager().getDefaultDisplay();
@@ -119,27 +142,27 @@ abstract public class GameUIView {
             erase_button.setVisibility( View.INVISIBLE );
         }
 
-        /*if ( OptionsDataAccess.Show_border() ) {
-            top_bar.setBackgroundColor( Color.WHITE );
-            bottom_bar.setBackgroundColor( Color.WHITE );
-        } else {
-            top_bar.setBackgroundColor( Color.TRANSPARENT );
-            bottom_bar.setBackgroundColor( Color.TRANSPARENT );
-        }*/
-
-        int[] colors = new int[2];
-        colors[0] = GamePage.Get_activity().getResources().getColor( R.color.green );
+        final int[] colors = new int[2];
+        colors[0] = session.Get_world_color();
         colors[1] = ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )
                 ? Color.WHITE : Color.TRANSPARENT;
 
         GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
         gradient.setCornerRadius( 0f );
-        top_bar.setBackgroundDrawable( gradient );
+        if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
+            top_bar.setBackgroundDrawable( gradient );
+        } else {
+            top_bar.setBackground( gradient );
+        }
+
 
         gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
         gradient.setCornerRadius( 0f );
-        bottom_bar.setBackgroundDrawable( gradient );
-
+        if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            bottom_bar.setBackgroundDrawable( gradient );
+        } else {
+            bottom_bar.setBackground( gradient );
+        }
     }
 
 
@@ -201,6 +224,17 @@ abstract public class GameUIView {
                                                        (float) brightness / OptionsDataAccess.BRIGHTNESS_SCALING );
         }
         window.setAttributes( layout_params );
+    }
+
+    /*
+     * Given your current color get the next color in the COLORARRAY
+     *
+     * @param int color: Your current color
+     *
+     * @return int: The next color
+     */
+    public static int Get_next_color( final int color ) {
+        return COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
     }
 
     /*
