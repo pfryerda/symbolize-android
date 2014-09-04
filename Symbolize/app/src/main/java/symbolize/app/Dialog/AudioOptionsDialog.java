@@ -2,8 +2,10 @@ package symbolize.app.Dialog;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 
 import symbolize.app.Common.Page;
 import symbolize.app.Common.Session;
@@ -36,21 +38,33 @@ public class AudioOptionsDialog extends OptionDialog {
         final View dialog_view = super.get_dialog_view();
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) ).setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
-            byte progress_change = 0;
+        ( (Spinner) dialog_view.findViewById( R.id.options_audio_output_spinner ) ).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onProgressChanged( SeekBar seekBar, int progress, boolean fromUser ) {
+            public void onItemSelected( AdapterView<?> parent, View view, int pos, long id ) {
+                options_dao.Set_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT, (short) pos);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        } );
+
+        ( (SeekBar) dialog_view.findViewById(R.id.options_volume_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            byte progress_change = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress_change = (byte) progress;
             }
 
             @Override
-            public void onStartTrackingTouch( SeekBar seekBar ) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch( SeekBar seekBar ) {
-                options_dao.Set_short_option( OptionsDataAccess.OPTION_VOLUME, progress_change);
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME, progress_change);
             }
-        } );
+        });
 
         dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
@@ -79,8 +93,13 @@ public class AudioOptionsDialog extends OptionDialog {
      */
     @Override
     protected void init_dialog_view( final View dialog_view ) {
+        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+
+        ( (Spinner) dialog_view.findViewById( R.id.options_audio_output_spinner ) )
+                .setSelection( options_dao.Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT ) );
+
         ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) )
-                .setProgress( OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
+                .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
     }
 
     /*

@@ -22,9 +22,14 @@ public class OptionsDataAccess {
     public static final byte OPTION_SNAP_DRAWING    = 2;
     public static final byte OPTION_SHOW_ANIMATIONS = 3;
 
-    public static final byte OPTION_VOLUME     = 4;
-    public static final byte OPTION_GAME_SIZE  = 5;
-    public static final byte OPTION_BRIGHTNESS = 6;
+    public static final byte OPTION_VOLUME       = 4;
+    public static final byte OPTION_GAME_SIZE    = 5;
+    public static final byte OPTION_BRIGHTNESS   = 6;
+    public static final byte OPTION_AUDIO_OUTPUT = 7;
+
+    public static final byte AUDIO_AUTO       = 0;
+    public static final byte AUDIO_SPEAKERS   = 1;
+    public static final byte AUDIO_HEADPHONES = 2;
 
 
     // Constants
@@ -35,6 +40,7 @@ public class OptionsDataAccess {
     public static final short BRIGHTNESS_SCALING = 10000;
     public static final byte MIN_BRIGHTNESS = 100;
 
+    public static final short DEFAULT_AUDIO_OUTPUT = AUDIO_AUTO;
     public static final byte DEFAULT_VOLUME = 100;
     public static final short DEFAULT_BRIGHTNESS = (short) -1;
     public static final short DEFAULT_GAME_SIZE = (short) 100;
@@ -43,7 +49,7 @@ public class OptionsDataAccess {
     //--------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
-    private static int[] option_id_map = new int[7];
+    private static int[] option_id_map = new int[8];
 
 
     // Static block
@@ -57,6 +63,7 @@ public class OptionsDataAccess {
         option_id_map[OPTION_VOLUME] = R.string.volume_settings;
         option_id_map[OPTION_GAME_SIZE] = R.string.game_size_settings;
         option_id_map[OPTION_BRIGHTNESS] = R.string.brightness_settings;
+        option_id_map[OPTION_AUDIO_OUTPUT] = R.string.audio_output_settings;
     }
 
 
@@ -77,7 +84,7 @@ public class OptionsDataAccess {
     private final byte SHORT_OFFSET;
 
     private boolean[] boolean_options = new boolean[4];
-    private short[] short_options = new short[3];
+    private short[] short_options = new short[4];
 
 
     // Singleton setup
@@ -95,21 +102,23 @@ public class OptionsDataAccess {
 
     private OptionsDataAccess() {
         boolean_options[OPTION_GRID] =  dao.Get_property(
-                Page.Get_context().getString( R.string.grid_settings ), true );
+                Page.Get_resource_string( R.string.grid_settings ), true );
         boolean_options[OPTION_BORDER] = dao.Get_property(
-                Page.Get_context().getString( R.string.border_settings ), false );
+                Page.Get_resource_string( R.string.border_settings ), false );
         boolean_options[OPTION_SNAP_DRAWING] = dao.Get_property(
-                Page.Get_context().getString( R.string.snap_settings ), false );
+                Page.Get_resource_string( R.string.snap_settings ), false );
         boolean_options[OPTION_SHOW_ANIMATIONS] = dao.Get_property(
-                Page.Get_context().getString( R.string.animation_settings ), true );
+                Page.Get_resource_string( R.string.animation_settings ), true );
 
         SHORT_OFFSET = (byte) boolean_options.length;
         short_options[OPTION_VOLUME - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_context().getString( R.string.volume_settings ), DEFAULT_VOLUME );
+                Page.Get_resource_string( R.string.volume_settings ), DEFAULT_VOLUME );
         short_options[OPTION_GAME_SIZE - SHORT_OFFSET] = (short) dao.Get_property(
                 Page.Get_resource_string( R.string.game_size_settings ), DEFAULT_GAME_SIZE );
         short_options[OPTION_BRIGHTNESS - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_context().getString( R.string.brightness_settings ), DEFAULT_BRIGHTNESS );
+                Page.Get_resource_string( R.string.brightness_settings ), DEFAULT_BRIGHTNESS );
+        short_options[OPTION_AUDIO_OUTPUT - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_resource_string( R.string.audio_output_settings ), DEFAULT_AUDIO_OUTPUT );
     }
 
 
@@ -179,5 +188,6 @@ public class OptionsDataAccess {
 
     public void Reset_audio_options() {
         Set_short_option( OPTION_VOLUME, DEFAULT_VOLUME );
+        Set_short_option( OPTION_AUDIO_OUTPUT, DEFAULT_AUDIO_OUTPUT );
     }
 }
