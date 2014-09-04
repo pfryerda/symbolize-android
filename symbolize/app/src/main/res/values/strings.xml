@@ -57,6 +57,9 @@
     <string name="close">close</string>
     <string name="back">back</string>
 
+    <string name="left_arrow">&lt;-</string>
+    <string name="right_arrow">-&gt;</string>
+
     <!-- Toasts -->
     <string name="out_of_lines">Cannot draw any more lines</string>
     <string name="out_of_erase">Cannot erase any more lines</string>
