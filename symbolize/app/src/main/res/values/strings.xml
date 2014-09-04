@@ -20,6 +20,7 @@
     <string name="animation_settings">settings_animation</string>
     <string name="volume_settings">settings_volume</string>
     <string name="brightness_settings">brightness_settings</string>
+    <string name="audio_output_settings">audio_output_settings</string>
     <string name="game_size_settings">game_size_settings</string>
     <string name="options_dialog_id">options_dialog</string>
     <string name="game_options_dialog_id">game_options_dialog</string>
