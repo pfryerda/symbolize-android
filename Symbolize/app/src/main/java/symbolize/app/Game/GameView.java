@@ -1,24 +1,13 @@
 package symbolize.app.Game;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.Shader;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.gms.ads.AdSize;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.SymbolizeAnimation;
@@ -68,10 +57,10 @@ public class GameView {
     //----------------
 
     public static void Set_sizes( final short game_size ) {
-         LINE_WIDTH = (short) ( ( (float) GameUIView.CANVAS_SIZE / 17 ) * ( (float) game_size / 100 ) );
+        LINE_WIDTH = (short) ( ( (float) GameUIView.CANVAS_SIZE / 17 ) * ( (float) game_size / 100 ) );
         LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
         POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
-        POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 10 );
+        POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 9 );
         TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
         BORDER_WIDTH = LINE_WIDTH;
@@ -209,9 +198,9 @@ public class GameView {
                     paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
-                        paint.setColor( Color.GREEN );
+                        paint.setColor( Page.Get_context().getResources().getColor( R.color.green ) );
                     } else {
-                        paint.setColor( Color.RED );
+                        paint.setColor( Page.Get_context().getResources().getColor( R.color.red ) );
                     }
                     render_point( foreground_canvas, point );
 
@@ -222,6 +211,7 @@ public class GameView {
                     render_point( foreground_canvas, point );
 
                     // Draw Number
+                    paint.setStrokeWidth( TEXT_WIDTH );
                     paint.setStyle( Paint.Style.FILL );
                     paint.setColor( Color.WHITE );
                     render_text( foreground_canvas, point, Integer.toString( i + 1 ) );
@@ -285,7 +275,9 @@ public class GameView {
     }
 
     private void render_text( final Canvas canvas, final Posn point, final String text ) {
-        canvas.drawText( text, point.Unscale().x(), point.Unscale().y() + ( TEXT_WIDTH / 2 ), paint );
+        Rect bounds = new Rect();
+        paint.getTextBounds( text, 0, 1, bounds );
+        canvas.drawText( text, point.Unscale().x(), point.Unscale().y() + ( bounds.height() / 2 ), paint );
     }
 
     /*

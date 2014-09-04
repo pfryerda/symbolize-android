@@ -37,7 +37,9 @@
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_left_button_clicked"
-            android:text="L"/>
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:text="@string/left_arrow"/>
         <Button
             android:id="@+id/Back"
             android:layout_width="0dp"
@@ -53,7 +55,9 @@
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_right_button_clicked"
-            android:text="R"/>
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:text="@string/right_arrow"/>
 
         <TextView
             android:id="@+id/Title"
