@@ -100,6 +100,10 @@ public class AudioOptionsDialog extends OptionDialog {
 
         ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) )
                 .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
+
+        if ( Session.VERSION != Session.VERSION_ALPHA ) {
+            dialog_view.findViewById( R.id.alpha_audio_note ).setVisibility( View.GONE );
+        }
     }
 
     /*
