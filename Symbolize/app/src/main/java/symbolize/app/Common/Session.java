@@ -25,7 +25,7 @@ public class Session {
     //---------------
 
     public static final byte VERSION = VERSION_ALPHA;
-    public static final boolean DEV_MODE = true;
+    public static final boolean DEV_MODE = false;
 
 
     // Fields
