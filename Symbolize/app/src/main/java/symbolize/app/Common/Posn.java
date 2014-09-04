@@ -9,7 +9,7 @@ public class Posn {
     // Constants
     //-----------
 
-    public static final short DRAWING_THRESHOLD = GameView.SCALING / 10;
+    public static final short DRAWING_THRESHOLD = GameView.SCALING / 8;
 
 
     // Fields
