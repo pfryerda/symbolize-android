@@ -69,12 +69,23 @@ public class VideoOptionsDialog extends OptionDialog {
             }
         } );
 
+        final CheckedTextView use_device_brightness_button = (CheckedTextView) dialog_view.findViewById( R.id.options_use_device_brightness );
+        use_device_brightness_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
+                use_device_brightness_button.setChecked( !use_device_brightness_button.isChecked() );
+                init_dialog_view( dialog_view );
+                GameUIView.Set_brightness();
+            }
+        } );
+
         ((SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar ) ).setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
             short progress_change;
 
             @Override
             public void onProgressChanged( SeekBar seekBar, int progress, boolean fromUser ) {
-                progress_change = (short) Math.max( progress, OptionsDataAccess.MIN_BRIGHTNESS );
+                progress_change =  (short) progress;
                 GameUIView.Set_brightness( progress_change );
             }
 
@@ -122,8 +133,13 @@ public class VideoOptionsDialog extends OptionDialog {
         ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
                 .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) - OptionsDataAccess.GAME_SIZE_MIN );
 
-        ( (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar ) )
-            .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
+        final boolean use_device_brightness = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_use_device_brightness ) )
+                .setChecked( use_device_brightness );
+
+        final SeekBar brightness_bar = (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar );
+        brightness_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ) );
+        brightness_bar.setEnabled( !use_device_brightness );
     }
 
     /*

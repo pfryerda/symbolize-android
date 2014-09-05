@@ -54,6 +54,16 @@
         android:progress="5000"
         android:max="10000">
     </SeekBar>
+    <CheckedTextView
+        android:id="@+id/options_use_device_brightness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:checked="false"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/use_device_brightness"/>
 
     <Button
         android:id="@+id/options_reset_to_default"

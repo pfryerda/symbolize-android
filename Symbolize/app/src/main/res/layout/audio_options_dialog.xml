@@ -39,8 +39,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:progress="100">
-    </SeekBar>
+        android:progress="100"/>
+    <CheckedTextView
+        android:id="@+id/options_mute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:checked="false"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/options_mute"/>
 
     <Button
         android:id="@+id/options_reset_to_default"
