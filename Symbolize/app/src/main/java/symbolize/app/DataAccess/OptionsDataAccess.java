@@ -17,15 +17,18 @@ public class OptionsDataAccess {
     // Flags
     //------
 
-    public static final byte OPTION_GRID            = 0;
-    public static final byte OPTION_BORDER          = 1;
-    public static final byte OPTION_SNAP_DRAWING    = 2;
-    public static final byte OPTION_SHOW_ANIMATIONS = 3;
+    public static final byte OPTION_GRID                  = 0;
+    public static final byte OPTION_BORDER                = 1;
+    public static final byte OPTION_SNAP_DRAWING          = 2;
+    public static final byte OPTION_SHOW_ANIMATIONS       = 3;
+    public static final byte OPTION_IS_MUTED              = 4;
+    public static final byte OPTION_USE_DEVICE_BRIGHTNESS = 5;
 
-    public static final byte OPTION_VOLUME       = 4;
-    public static final byte OPTION_GAME_SIZE    = 5;
-    public static final byte OPTION_BRIGHTNESS   = 6;
-    public static final byte OPTION_AUDIO_OUTPUT = 7;
+    public static final byte OPTION_VOLUME          = 6;
+    public static final byte OPTION_GAME_SIZE       = 7;
+    public static final byte OPTION_BRIGHTNESS      = 8;
+    public static final byte OPTION_AUDIO_OUTPUT    = 9;
+
 
     public static final byte AUDIO_AUTO       = 0;
     public static final byte AUDIO_SPEAKERS   = 1;
@@ -42,14 +45,14 @@ public class OptionsDataAccess {
 
     public static final short DEFAULT_AUDIO_OUTPUT = AUDIO_AUTO;
     public static final byte DEFAULT_VOLUME = 100;
-    public static final short DEFAULT_BRIGHTNESS = (short) -1;
+    public static final short DEFAULT_BRIGHTNESS = (short) ( BRIGHTNESS_SCALING / 2 );
     public static final short DEFAULT_GAME_SIZE = (short) 100;
 
     // Static fields
     //--------------
 
     private static final DataAccessObject dao = new DataAccessObject( R.string.preference_settings_key );
-    private static int[] option_id_map = new int[8];
+    private static int[] option_id_map = new int[10];
 
 
     // Static block
@@ -60,6 +63,9 @@ public class OptionsDataAccess {
         option_id_map[OPTION_BORDER] = R.string.border_settings;
         option_id_map[OPTION_SNAP_DRAWING] = R.string.snap_settings;
         option_id_map[OPTION_SHOW_ANIMATIONS] = R.string.animation_settings;
+        option_id_map[OPTION_IS_MUTED] = R.string.mute_settings;
+        option_id_map[OPTION_USE_DEVICE_BRIGHTNESS] = R.string.use_device_brightness_settings;
+
         option_id_map[OPTION_VOLUME] = R.string.volume_settings;
         option_id_map[OPTION_GAME_SIZE] = R.string.game_size_settings;
         option_id_map[OPTION_BRIGHTNESS] = R.string.brightness_settings;
@@ -83,7 +89,7 @@ public class OptionsDataAccess {
 
     private final byte SHORT_OFFSET;
 
-    private boolean[] boolean_options = new boolean[4];
+    private boolean[] boolean_options = new boolean[6];
     private short[] short_options = new short[4];
 
 
@@ -109,6 +115,10 @@ public class OptionsDataAccess {
                 Page.Get_resource_string( R.string.snap_settings ), false );
         boolean_options[OPTION_SHOW_ANIMATIONS] = dao.Get_property(
                 Page.Get_resource_string( R.string.animation_settings ), true );
+        boolean_options[OPTION_IS_MUTED] = dao.Get_property(
+                Page.Get_resource_string( R.string.mute_settings ), false );
+        boolean_options[OPTION_USE_DEVICE_BRIGHTNESS] = dao.Get_property(
+                Page.Get_resource_string( R.string.use_device_brightness_settings ), true );
 
         SHORT_OFFSET = (byte) boolean_options.length;
         short_options[OPTION_VOLUME - SHORT_OFFSET] = (short) dao.Get_property(
@@ -174,6 +184,7 @@ public class OptionsDataAccess {
     public void Reset_video_options() {
         Set_boolean_option( OPTION_SHOW_ANIMATIONS, true );
         Set_short_option( OPTION_GAME_SIZE, DEFAULT_GAME_SIZE );
+        Set_boolean_option( OPTION_USE_DEVICE_BRIGHTNESS, true );
         Set_short_option( OPTION_BRIGHTNESS, DEFAULT_BRIGHTNESS );
 
         GameView.Set_sizes( Get_short_option( OPTION_GAME_SIZE ) );
@@ -183,10 +194,11 @@ public class OptionsDataAccess {
                                                           new Response() );
         }
 
-        GameUIView.Set_brightness( Get_short_option( OPTION_BRIGHTNESS ) );
+        GameUIView.Set_brightness();
     }
 
     public void Reset_audio_options() {
+        Set_boolean_option( OPTION_IS_MUTED, false );
         Set_short_option( OPTION_VOLUME, DEFAULT_VOLUME );
         Set_short_option( OPTION_AUDIO_OUTPUT, DEFAULT_AUDIO_OUTPUT );
     }

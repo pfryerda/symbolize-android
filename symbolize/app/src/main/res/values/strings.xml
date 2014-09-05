@@ -18,6 +18,8 @@
     <string name="border_settings">settings_border</string>
     <string name="snap_settings">settings_snap</string>
     <string name="animation_settings">settings_animation</string>
+    <string name="mute_settings">mute_settings</string>
+    <string name="use_device_brightness_settings">use_device_brightness_settings</string>
     <string name="volume_settings">settings_volume</string>
     <string name="brightness_settings">brightness_settings</string>
     <string name="audio_output_settings">audio_output_settings</string>
@@ -81,6 +83,7 @@
     <string name="options_show_animations">Show animations</string>
 
     <string name="options_brightness">Brightness</string>
+    <string name="use_device_brightness">Use device brightness</string>
     <string name="options_size">Game size</string>
 
     <string name="options_audio_output">Output</string>
@@ -89,6 +92,7 @@
     <string name="headphones">Headphones</string>
     <string name="alpha_audio_note">\nNote: Audio is not available in the alpha version of symbolize</string>
 
+    <string name="options_mute">Mute</string>
     <string name="options_volume">Volume</string>
 
     <string name="options_delete_all_data">Delete all data</string>

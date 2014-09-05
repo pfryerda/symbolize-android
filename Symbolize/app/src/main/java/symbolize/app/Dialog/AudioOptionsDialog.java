@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
@@ -46,6 +47,17 @@ public class AudioOptionsDialog extends OptionDialog {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
+        } );
+
+
+        final CheckedTextView mute_button = (CheckedTextView) dialog_view.findViewById( R.id.options_mute );
+        mute_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
+                mute_button.setChecked( !mute_button.isChecked() );
+                init_dialog_view( dialog_view );
+            }
         } );
 
         ( (SeekBar) dialog_view.findViewById(R.id.options_volume_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -98,8 +110,13 @@ public class AudioOptionsDialog extends OptionDialog {
         ( (Spinner) dialog_view.findViewById( R.id.options_audio_output_spinner ) )
                 .setSelection( options_dao.Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT ) );
 
-        ( (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar ) )
-                .setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
+        final boolean is_muted = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
+        ( (CheckedTextView) dialog_view.findViewById( R.id.options_mute ) )
+                .setChecked( is_muted );
+
+        final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );
+        volume_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
+        volume_bar.setEnabled( !is_muted );
 
         if ( Session.VERSION != Session.VERSION_ALPHA ) {
             dialog_view.findViewById( R.id.alpha_audio_note ).setVisibility( View.GONE );

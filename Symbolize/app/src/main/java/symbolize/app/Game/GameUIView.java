@@ -212,18 +212,24 @@ abstract public class GameUIView {
 
     /*
      * Set phones brightness level
+     *
+     * @param short brightness: The brightness you wish to set
      */
-    public static void Set_brightness( short brightness ) {
+    public static void Set_brightness( final short brightness ) {
         Window window = Page.Get_window();
         WindowManager.LayoutParams layout_params = Page.Get_attributes();
 
-        if ( brightness == -1 ) {
+        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS ) ) {
             layout_params.screenBrightness = -1;
         } else {
-            layout_params.screenBrightness = Math.max( OptionsDataAccess.MIN_BRIGHTNESS,
-                                                       (float) brightness / OptionsDataAccess.BRIGHTNESS_SCALING );
+            layout_params.screenBrightness = (float) Math.max( OptionsDataAccess.MIN_BRIGHTNESS, brightness ) / OptionsDataAccess.BRIGHTNESS_SCALING;
         }
         window.setAttributes( layout_params );
+    }
+
+    public static void Set_brightness() {
+        Set_brightness(
+                OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ));
     }
 
     /*

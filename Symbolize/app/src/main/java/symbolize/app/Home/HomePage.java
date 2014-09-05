@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import symbolize.app.Common.Page;
+import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Dialog.GameOptionsDialog;
 import symbolize.app.Dialog.OptionsDialog;
 import symbolize.app.Game.GamePage;
@@ -33,7 +34,7 @@ public class HomePage extends Page {
     }
 
     public void On_mute_button_clicked( final View view ) {
-        // TODO
+        OptionsDataAccess.Get_instance().Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
     }
 
     public void On_settings_button_clicked( final View view ){

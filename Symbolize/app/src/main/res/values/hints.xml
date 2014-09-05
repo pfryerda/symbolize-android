@@ -19,7 +19,7 @@
         <item>3D</item>                                                     <!-- Level: 1-12 - Cube -->
         <item>Make some music</item>                                        <!-- Level: 1-13 - '♫' -->
         <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>                                             <!-- Level: 1-14 - 'S' -->
-        <item>How many options are in the options menu?</item>              <!-- Level: 1-15 - '8' -->
+        <item>How many unrelated options are in the options menu?</item>    <!-- Level: 1-15 - '8' -->
 
     </string-array>
 
