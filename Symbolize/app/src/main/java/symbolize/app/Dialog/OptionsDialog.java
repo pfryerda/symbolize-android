@@ -91,6 +91,17 @@ public class OptionsDialog extends InfoDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_animation
+     */
+    protected Integer get_dialog_animation() {
+        if ( Page.Is_Game_page() ) {
+            return R.style.OptionsDialogAnimation_2;
+        } else {
+            return R.style.OptionsDialogAnimation_1;
+        }
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_string_id
      */
     @Override

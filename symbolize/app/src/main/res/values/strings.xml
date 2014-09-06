@@ -4,8 +4,6 @@
     <!-- System strings -->
     <string name="app_name">Symbolize</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_game">GameActivity</string>
-    <string name="title_activity_levels">LevelsActivity</string>
 
     <!-- Data access keys -->
     <string name="preference_unlocks_key">symbolize.app.PREFERENCE_UNLOCKS_KEY</string>
@@ -54,6 +52,8 @@
     <string name="world">World</string>
     <string name="level">Level</string>
 
+    <string name="ok">Ok</string>
+    <string name="OK">OK</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="close">close</string>
@@ -61,6 +61,15 @@
 
     <string name="left_arrow">&lt;-</string>
     <string name="right_arrow">-&gt;</string>
+
+
+    <!-- Alpha warnings -->
+    <string name="splash_alpha_1">Note: This version of Symbolize is only for testing and does
+        not reflect the actual final version of the game.</string>
+    <string name="splash_alpha_2">Please report any problems at
+        https://github.com/pfryerda/symbolize-android or contact Luke Brown at luke.michael.brown@gmail.com</string>
+    <string name="alpha_audio_note">\nNote: Audio is not available in the alpha version of symbolize</string>
+
 
     <!-- Toasts -->
     <string name="out_of_lines">Cannot draw any more lines</string>
@@ -90,7 +99,6 @@
     <string name="auto">Auto</string>
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>
-    <string name="alpha_audio_note">\nNote: Audio is not available in the alpha version of symbolize</string>
 
     <string name="options_mute">Mute</string>
     <string name="options_volume">Volume</string>
