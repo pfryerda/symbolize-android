@@ -31,6 +31,16 @@
         <item name="android:windowExitAnimation">@anim/zoomdown</item>
     </style>
 
+    <style name="OptionsDialogAnimation_1">
+        <item name="android:windowEnterAnimation">@anim/zoomupleft</item>
+        <item name="android:windowExitAnimation">@anim/zoomdownright</item>
+    </style>
+
+    <style name="OptionsDialogAnimation_2">
+        <item name="android:windowEnterAnimation">@anim/zoomdownleft</item>
+        <item name="android:windowExitAnimation">@anim/zoomupright</item>
+    </style>
+
     <style name="OptionDialogAnimation">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
