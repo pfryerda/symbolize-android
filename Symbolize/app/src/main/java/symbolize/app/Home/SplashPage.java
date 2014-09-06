@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import symbolize.app.Common.Page;
-import symbolize.app.Game.GamePage;
+import symbolize.app.Routing.Page;
 import symbolize.app.R;
+import symbolize.app.Routing.Router;
 
 public class SplashPage extends Page {
     // Constants
@@ -38,7 +38,7 @@ public class SplashPage extends Page {
     //----------------
 
     public void On_ok_button_clicked( final View view ) {
-        startActivity( new Intent ( getApplicationContext(), HomePage.class ) );
+        Router.Direct_route( getApplicationContext(), HomePage.class );
         finish();
     }
 }

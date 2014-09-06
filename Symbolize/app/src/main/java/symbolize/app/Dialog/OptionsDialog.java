@@ -2,7 +2,7 @@ package symbolize.app.Dialog;
 
 import android.view.View;
 
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.R;
 

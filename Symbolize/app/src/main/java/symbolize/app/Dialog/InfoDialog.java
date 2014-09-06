@@ -1,12 +1,9 @@
 package symbolize.app.Dialog;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 
-import symbolize.app.Common.Page;
-import symbolize.app.Game.GamePage;
+import symbolize.app.Routing.Page;
 import symbolize.app.R;
 
 /*

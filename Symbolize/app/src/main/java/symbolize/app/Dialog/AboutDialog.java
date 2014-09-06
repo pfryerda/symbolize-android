@@ -1,6 +1,6 @@
 package symbolize.app.Dialog;
 
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.R;
 
 public class AboutDialog extends OptionDialog {

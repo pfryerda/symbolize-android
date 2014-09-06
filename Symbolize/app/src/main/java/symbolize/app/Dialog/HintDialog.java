@@ -1,12 +1,10 @@
 package symbolize.app.Dialog;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import symbolize.app.Common.Session;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;

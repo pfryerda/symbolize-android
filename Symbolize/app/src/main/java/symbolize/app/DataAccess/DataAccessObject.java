@@ -2,7 +2,7 @@ package symbolize.app.DataAccess;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 
 /*
  * A wrapper for android's SharedPreferences, which allows storing key values pairs on disc for saved data

@@ -1,14 +1,14 @@
-package symbolize.app.Common;
+package symbolize.app.Routing;
 
 import android.app.Activity;
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
@@ -16,6 +16,7 @@ import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.SymbolizeDialog;
 import symbolize.app.Game.GameUIView;
+import symbolize.app.R;
 
 /*
  * A simple interface to put common elements of all symbolize pages, as well as some generic static

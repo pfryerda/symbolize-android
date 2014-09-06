@@ -1,21 +1,14 @@
 package symbolize.app.Dialog;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Common.Session;
-import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.DataAccess.ProgressDataAccess;
-import symbolize.app.DataAccess.UnlocksDataAccess;
-import symbolize.app.Game.GamePage;
-import symbolize.app.Home.HomePage;
 import symbolize.app.R;
 
 public class AudioOptionsDialog extends OptionDialog {

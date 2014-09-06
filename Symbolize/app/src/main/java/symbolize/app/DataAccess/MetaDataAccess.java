@@ -1,6 +1,6 @@
 package symbolize.app.DataAccess;
 
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Common.Session;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.R;

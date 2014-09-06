@@ -1,10 +1,8 @@
 package symbolize.app.DataAccess;
 
-import android.provider.Settings;
-
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Game.GameController;
 import symbolize.app.Game.GameUIView;
 import symbolize.app.Game.GameView;

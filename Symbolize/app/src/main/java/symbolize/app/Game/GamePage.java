@@ -16,7 +16,7 @@ import symbolize.app.Common.Session;
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.Common.Posn;
 import symbolize.app.Common.Communication.Request;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.ProgressDataAccess;
 import symbolize.app.DataAccess.UnlocksDataAccess;
 import symbolize.app.Dialog.ConfirmDialog;
@@ -27,6 +27,7 @@ import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.Home.HomePage;
 import symbolize.app.R;
+import symbolize.app.Routing.Router;
 
 /*
  * The main class in charge of setting up the game as well as sending requests based off client interactions
@@ -99,7 +100,7 @@ public class GamePage extends Page
             Session session = Session.Get_instance();
 
             if ( session.Is_in_world_view() ) {
-                startActivity( new Intent( getApplicationContext(), HomePage.class ) );
+                Router.Direct_route( getApplicationContext(), HomePage.class );
             } else {
                 load_world( Request.Load_world_via_level );
             }

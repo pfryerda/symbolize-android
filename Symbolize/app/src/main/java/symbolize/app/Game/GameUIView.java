@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
 import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
@@ -26,7 +23,7 @@ import java.util.ArrayList;
 
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Common.Session;
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.OptionsDataAccess;
@@ -176,7 +173,7 @@ abstract public class GameUIView {
         final Activity activity = GamePage.Get_activity();
 
         // Reset variable
-        game_page = (RelativeLayout) activity.findViewById( R.id.game_page );
+        game_page = (RelativeLayout) activity.findViewById( R.id.page );
 
         top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
