@@ -59,6 +59,8 @@
     <string name="close">close</string>
     <string name="back">back</string>
 
+    <string name="loading">Loading...</string>
+
     <string name="left_arrow">&lt;-</string>
     <string name="right_arrow">-&gt;</string>
 
@@ -69,7 +71,6 @@
     <string name="splash_alpha_2">Please report any problems at
         https://github.com/pfryerda/symbolize-android or contact Luke Brown at luke.michael.brown@gmail.com</string>
     <string name="alpha_audio_note">\nNote: Audio is not available in the alpha version of symbolize</string>
-
 
     <!-- Toasts -->
     <string name="out_of_lines">Cannot draw any more lines</string>

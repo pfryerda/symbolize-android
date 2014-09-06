@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Animation.SymbolizeAnimation;
 import symbolize.app.Common.Line;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Common.Session;
 import symbolize.app.Common.Posn;
@@ -198,9 +198,9 @@ public class GameView {
                     paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
-                        paint.setColor( Page.Get_context().getResources().getColor( R.color.green ) );
+                        paint.setColor( Page.Get_context().getResources().getColor( R.color.bright_green ) );
                     } else {
-                        paint.setColor( Page.Get_context().getResources().getColor( R.color.red ) );
+                        paint.setColor( Page.Get_context().getResources().getColor( R.color.bright_red ) );
                     }
                     render_point( foreground_canvas, point );
 

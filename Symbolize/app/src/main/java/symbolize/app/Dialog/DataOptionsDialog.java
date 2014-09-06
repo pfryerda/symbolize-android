@@ -1,14 +1,12 @@
 package symbolize.app.Dialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Common.Session;
 import symbolize.app.DataAccess.MetaDataAccess;
 import symbolize.app.DataAccess.ProgressDataAccess;
@@ -17,6 +15,7 @@ import symbolize.app.Game.GamePage;
 import symbolize.app.Home.HomePage;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
+import symbolize.app.Routing.Router;
 
 public class DataOptionsDialog extends OptionDialog {
     // Static fields
@@ -87,7 +86,9 @@ public class DataOptionsDialog extends OptionDialog {
                         ProgressDataAccess.Get_instance().Remove_all_progress();
                         MetaDataAccess.Get_instance().Reset_meta_data_access();
                         Session.Get_instance().Reset();
-                        startActivity( new Intent( GamePage.Get_context().getApplicationContext(), HomePage.class ) );
+                        Context context =
+                                ( Page.Is_Game_page() ) ? GamePage.Get_context() : HomePage.Get_context();
+                        Router.Direct_route( context, HomePage.class );
                     }
 
                     @Override

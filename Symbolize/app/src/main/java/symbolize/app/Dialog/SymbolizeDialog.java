@@ -4,16 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.Game.GameUIView;
 import symbolize.app.R;
 
 /*

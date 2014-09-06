@@ -31,6 +31,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".Routing.LoadingPage"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".Game.GamePage"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/app_name"

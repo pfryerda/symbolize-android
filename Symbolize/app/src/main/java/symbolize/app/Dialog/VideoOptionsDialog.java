@@ -1,16 +1,12 @@
 package symbolize.app.Dialog;
 
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.SeekBar;
 
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.DataAccess.OptionsDataAccess;
 import symbolize.app.Game.GameController;
 import symbolize.app.Game.GameUIView;

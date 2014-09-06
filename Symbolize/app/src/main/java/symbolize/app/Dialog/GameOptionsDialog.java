@@ -5,7 +5,7 @@ import android.widget.CheckedTextView;
 import symbolize.app.Common.Communication.Request;
 import symbolize.app.Common.Communication.Response;
 import symbolize.app.DataAccess.OptionsDataAccess;
-import symbolize.app.Common.Page;
+import symbolize.app.Routing.Page;
 import symbolize.app.Game.GameController;
 import symbolize.app.Game.GameUIView;
 import symbolize.app.R;
