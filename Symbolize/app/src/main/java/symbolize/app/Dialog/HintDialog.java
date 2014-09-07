@@ -33,32 +33,34 @@ public class HintDialog extends InfoDialog {
 
         String message = puzzle.Get_hint();
 
-        message += "\n" + context.getString( R.string.draws_allowed ) + puzzle.Get_draw_restriction();
+        if ( !session.Is_in_world_view() ) {
+            message += "\n" + context.getString(R.string.draws_allowed) + puzzle.Get_draw_restriction();
 
-        if ( ( puzzle.Get_drag_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
-            message += "\n" + context.getString(R.string.drags_allowed) + puzzle.Get_drag_restriction();
-        }
+            if ( ( puzzle.Get_drag_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
+                message += "\n" + context.getString(R.string.drags_allowed) + puzzle.Get_drag_restriction();
+            }
 
-        if ( ( puzzle.Get_erase_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
-            message += "\n" + context.getString(R.string.erase_allowed) + puzzle.Get_erase_restriction();
+            if ( ( puzzle.Get_erase_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
+                message += "\n" + context.getString(R.string.erase_allowed) + puzzle.Get_erase_restriction();
+            }
         }
 
         if ( puzzle.Has_mechanics() ) {
-            message += "\n" + context.getString(R.string.mechanics_allowed);
+            message += "\n\n" + context.getString( R.string.mechanics_allowed ) + "\n";
             if ( puzzle.Can_rotate() ) {
-                message += "\n" + context.getString(R.string.rotate);
+                message += context.getString( R.string.rotate ) + " ";
             }
             if ( puzzle.Can_flip() ) {
-                message += "\n" + context.getString(R.string.flip);
+                message += context.getString( R.string.flip ) + " ";
             }
             if ( puzzle.Can_shift() ) {
-                message += "\n" + context.getString(R.string.shift);
+                message += context.getString( R.string.shift ) + " ";
             }
             if ( puzzle.Can_change_color() ) {
-                message += "\n" + context.getString(R.string.change_color);
+                message += context.getString( R.string.change_color ) + " ";
             }
             if ( puzzle.Is_special_enabled() ) {
-                message += "\n" + context.getString( R.string.special );
+                message += context.getString( R.string.special ) + " ";
             }
         }
 
