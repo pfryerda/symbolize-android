@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
 import android.util.SparseIntArray;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,8 +61,8 @@ abstract public class GameUIView {
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
 
-    private static Button undo_button;
-    private static Button draw_button;
+    private static ImageButton undo_button;
+    private static ImageButton draw_button;
     private static Button erase_button;
 
     private static Button left_button;
@@ -123,11 +125,7 @@ abstract public class GameUIView {
         }
 
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
-            if ( can_undo ) {
-                //undo_button.setColorFilter( 0xA6A6A6A6, PorterDuff.Mode.SRC_ATOP );
-            } else {
-                //undo_button.setColorFilter( null );
-            }
+            undo_button.setEnabled( can_undo );
         }
 
         if ( ( current_puzzle.Get_erase_restriction() > 0 )
@@ -178,8 +176,8 @@ abstract public class GameUIView {
         top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
 
-        undo_button = (Button) activity.findViewById( R.id.Undo );
-        draw_button = (Button) activity.findViewById( R.id.Draw );
+        undo_button = (ImageButton) activity.findViewById( R.id.Undo );
+        draw_button = (ImageButton) activity.findViewById( R.id.Draw );
         erase_button = (Button) activity.findViewById( R.id.Erase );
 
         left_button = (Button) activity.findViewById( R.id.Left );
