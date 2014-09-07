@@ -13,7 +13,7 @@
     <translate
         android:duration="400"
         android:fromXDelta="0"
-        android:fromYDelta="90%"
+        android:fromYDelta="70%"
         android:toXDelta="0"
         android:toYDelta="0"/>
 </set>

@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    style="@style/dialog">
 
     <TextView
         android:id="@+id/Title"
@@ -12,7 +12,7 @@
         android:text="Place-holder title"
         android:textSize="27dp"
         android:textColor="@color/black"
-        android:gravity="center"/>
+        style="@style/title"/>
     <TextView
         android:id="@+id/Message"
         android:layout_width="match_parent"

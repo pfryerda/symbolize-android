@@ -24,7 +24,7 @@ public class Line {
     // Constants
     //------------
 
-    public static final short ERASING_THRESHOLD = GameView.SCALING / 15;
+    public static final short ERASING_THRESHOLD = GameView.SCALING / 16;
     public static final byte ANGLE_THRESHOLD_1 = 5; // Degrees
 
 
