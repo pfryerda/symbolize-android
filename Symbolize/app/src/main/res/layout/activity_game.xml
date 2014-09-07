@@ -65,26 +65,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="30dp"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowColor="@color/black"
+            android:shadowRadius="8"
             android:textColor="@color/white"
             android:gravity="center"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/Reset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_reset_button_clicked"
-            android:text="R"/>
+            android:src="@drawable/delete"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/Settings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_settings_button_clicked"
-            android:text="S" />
+            android:src="@drawable/gear"/>
 
     </LinearLayout>
 
@@ -101,38 +105,38 @@
             android:layout_height="0dp"
             android:orientation="horizontal" >
 
-                <Button
+                <ImageButton
                     android:id="@+id/Check"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:onClick="On_check_button_clicked"
-                    android:text="C"/>
-                <Button
+                    android:src="@drawable/check"/>
+                <ImageButton
                     android:id="@+id/Undo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:onClick="On_undo_button_clicked"
-                    android:text="U"/>
-                <Button
+                    android:src="@drawable/undo"/>
+                <ImageButton
                     android:id="@+id/Hint"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:onClick="On_hint_button_clicked"
-                    android:text="H"/>
-                <Button
+                    android:src="@drawable/hint"/>
+                <ImageButton
                     android:id="@+id/Draw"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:onClick="On_draw_button_clicked"
-                    android:text="D" />
+                    android:src="@drawable/pencil"/>
                 <Button
                     android:id="@+id/Erase"
                     android:layout_width="0dp"

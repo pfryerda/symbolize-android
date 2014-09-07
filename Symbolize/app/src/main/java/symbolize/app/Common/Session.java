@@ -8,6 +8,7 @@ import symbolize.app.Game.GameUIView;
 import symbolize.app.Puzzle.Puzzle;
 import symbolize.app.Puzzle.PuzzleDB;
 import symbolize.app.R;
+import symbolize.app.Routing.Page;
 
 /*
  * A singleton class that keeps track of the game's current state.
@@ -57,7 +58,14 @@ public class Session {
     //-------------
 
     private Session() {
-        Reset();
+        this.current_world = MetaDataAccess.Get_last_world();
+        this.current_level = 0;
+
+        this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
+        this.current_puzzle = null;
+
+        this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
+        this.current_pivot = null;
     }
 
 
@@ -171,13 +179,13 @@ public class Session {
      * Reset session
      */
     public void Reset() {
-        this.current_world = MetaDataAccess.Get_last_world();
+        this.current_world = 1;
         this.current_level = 0;
 
-        this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
+        this.world_color = Page.Get_context().getResources().getColor( R.color.green );
         this.current_puzzle = null;
 
-        this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
+        this.draw_enabled = true;
         this.current_pivot = null;
     }
 }
