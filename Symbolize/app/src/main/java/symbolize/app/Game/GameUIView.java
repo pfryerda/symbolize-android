@@ -63,7 +63,7 @@ abstract public class GameUIView {
 
     private static ImageButton undo_button;
     private static ImageButton draw_button;
-    private static Button erase_button;
+    private static ImageButton erase_button;
 
     private static Button left_button;
     private static Button right_button;
@@ -150,7 +150,6 @@ abstract public class GameUIView {
             top_bar.setBackground( gradient );
         }
 
-
         gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
         gradient.setCornerRadius( 0f );
         if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -178,7 +177,7 @@ abstract public class GameUIView {
 
         undo_button = (ImageButton) activity.findViewById( R.id.Undo );
         draw_button = (ImageButton) activity.findViewById( R.id.Draw );
-        erase_button = (Button) activity.findViewById( R.id.Erase );
+        erase_button = (ImageButton) activity.findViewById( R.id.Erase );
 
         left_button = (Button) activity.findViewById( R.id.Left );
         right_button = (Button) activity.findViewById( R.id.Right );
@@ -203,6 +202,23 @@ abstract public class GameUIView {
 
         activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
+
+        Highlight_current_mode();
+    }
+
+    /*
+     * Updates the draw and erase button accordingly
+     */
+    public static void Highlight_current_mode() {
+        if ( Session.Get_instance().In_draw_mode() ) {
+            draw_button.setColorFilter( Page.Get_context().getResources().getColor( R.color.bright_green ),
+                                        PorterDuff.Mode.MULTIPLY );
+            erase_button.setColorFilter( null );
+        } else {
+            draw_button.setColorFilter( null );
+            erase_button.setColorFilter( Page.Get_context().getResources().getColor( R.color.bright_green ),
+                                         PorterDuff.Mode.MULTIPLY );
+        }
     }
 
     /*
