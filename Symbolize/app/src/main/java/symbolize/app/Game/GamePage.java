@@ -214,10 +214,12 @@ public class GamePage extends Page
 
     public void On_draw_button_clicked( final View view ) {
         Session.Get_instance().Set_draw_mode();
+        GameUIView.Highlight_current_mode();
     }
 
     public void On_erase_button_clicked( final View view ) {
         Session.Get_instance().Set_erase_mode();
+        GameUIView.Highlight_current_mode();
     }
 
 

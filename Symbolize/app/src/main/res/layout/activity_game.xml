@@ -45,19 +45,14 @@
             android:shadowRadius="8"
             android:textColor="@color/white"
             android:text="@string/left_arrow"/>
-        <Button
+        <ImageButton
             android:id="@+id/Back"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_back_button_clicked"
-            android:textColor="@color/white"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowColor="@color/black"
-            android:shadowRadius="8"
-            android:text="back"/>
+            android:src="@drawable/levels"/>
         <Button
             android:id="@+id/Right"
             android:layout_width="0dp"
@@ -154,20 +149,15 @@
                     android:padding="5dp"
                     android:onClick="On_draw_button_clicked"
                     android:src="@drawable/pencil"/>
-                <Button
+                <ImageButton
                     android:id="@+id/Erase"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:shadowDx="0"
-                    android:shadowDy="0"
-                    android:shadowColor="@color/black"
-                    android:shadowRadius="8"
                     android:onClick="On_erase_button_clicked"
-                    android:text="erase"/>
+                    android:src="@drawable/eraser"/>
             </LinearLayout>
 
             <com.google.android.gms.ads.AdView
