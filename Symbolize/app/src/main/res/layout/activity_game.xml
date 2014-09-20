@@ -45,14 +45,20 @@
             android:shadowRadius="8"
             android:textColor="@color/white"
             android:text="@string/left_arrow"/>
-        <ImageButton
+        <Button
             android:id="@+id/Back"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:background="@null"
             android:onClick="On_back_button_clicked"
-            android:src="@drawable/levels"/>
+            android:textSize="16dp"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowColor="@color/black"
+            android:shadowRadius="8"
+            android:textColor="@color/white"
+            android:text="back"/>
         <Button
             android:id="@+id/Right"
             android:layout_width="0dp"
