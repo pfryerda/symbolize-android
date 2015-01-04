@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
-    <rotate_enabled>true</rotate_enabled>
-    <flip_enabled>true</flip_enabled>
     <unlocks>
         <unlock>5</unlock>
     </unlocks>
+    <rotate_enabled>true</rotate_enabled>
+    <flip_enabled>true</flip_enabled>
     <levels>
         <p><x>2500</x><y>1670</y></p> <!-- 4-1  -->
         <p><x>5000</x><y>1670</y></p> <!-- 4-2  -->

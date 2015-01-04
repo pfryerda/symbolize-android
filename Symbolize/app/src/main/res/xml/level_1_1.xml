@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
+    <unlocks>
+	    <unlock>2</unlock>
+    </unlocks>
     <draw_restriction>1</draw_restriction>
     <erase_restriction>0</erase_restriction>
     <drag_restriction>0</drag_restriction>
@@ -8,9 +11,6 @@
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
     <special>0</special>
-    <unlocks>
-        <unlock>2</unlock>
-    </unlocks>
     <boards>
         <graph>
             <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 9000</x><y> 1000</y></p2><color>-16777216</color></Line>
