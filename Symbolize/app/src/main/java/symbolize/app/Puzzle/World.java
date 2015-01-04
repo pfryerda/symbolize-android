@@ -30,10 +30,10 @@ public class World extends Puzzle {
     // Constructor
     //-------------
 
-    public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
+    public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
                   final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
+        super( hint, rotate_enabled, flip_enabled, solutions, unlocks );
         this.levels = levels;
     }
 
@@ -65,6 +65,9 @@ public class World extends Puzzle {
     public byte Get_drag_restriction() {
         return 0;
     }
+
+    @Override
+    public boolean Can_change_color() { return false; }
 
     @Override
     public boolean Can_shift() { return false; }

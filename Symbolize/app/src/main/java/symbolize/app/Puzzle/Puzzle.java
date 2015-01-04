@@ -17,7 +17,6 @@ abstract public class Puzzle {
     private final String hint;
     private final boolean rotate_enabled;
     private final boolean flip_enabled;
-    private final boolean colour_enabled;
     private final ArrayList<LinkedList<Line>> solutions;
     private final ArrayList<Byte> unlocks;
 
@@ -27,12 +26,11 @@ abstract public class Puzzle {
 
 
     public Puzzle( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
-                   final boolean colour_enabled, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
+                   final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
         this.hint = hint;
         this.rotate_enabled = rotate_enabled;
         this.flip_enabled = flip_enabled;
-        this.colour_enabled = colour_enabled;
         this.solutions = solutions;
         this.unlocks = unlocks;
     }
@@ -65,9 +63,7 @@ abstract public class Puzzle {
         return flip_enabled|| Session.DEV_MODE;
     }
 
-    public boolean Can_change_color() {
-        return colour_enabled|| Session.DEV_MODE;
-    }
+
 
     public boolean Is_special_enabled() {
         return Get_special_type() != 0;
@@ -118,6 +114,8 @@ abstract public class Puzzle {
     abstract public byte Get_erase_restriction();
 
     abstract public byte Get_drag_restriction();
+
+    abstract public boolean Can_change_color();
 
     abstract public boolean Can_shift();
 

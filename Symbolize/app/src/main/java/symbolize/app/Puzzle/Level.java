@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import symbolize.app.Common.Line;
 import symbolize.app.Common.Posn;
+import symbolize.app.Common.Session;
 
 /*
  * Class used to store all the information about a given puzzle.
@@ -24,6 +25,7 @@ public class Level extends Puzzle {
     // Fields
     //--------
 
+    private final boolean colour_enabled;
     private final byte draw_restriction;
     private final byte erase_restriction;
     private final byte drag_restriction;
@@ -39,7 +41,8 @@ public class Level extends Puzzle {
                   final byte special_type, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
                   final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, colour_enabled, solutions, unlocks );
+        super( hint, rotate_enabled, flip_enabled, solutions, unlocks );
+        this.colour_enabled = colour_enabled;
         this.draw_restriction = draw_restriction;
         this.erase_restriction = erase_restriction;
         this.drag_restriction = drag_restriction;
@@ -89,6 +92,10 @@ public class Level extends Puzzle {
 
     // Public method
     //---------------
+
+    public boolean Can_change_color() {
+        return colour_enabled|| Session.DEV_MODE;
+    }
 
     public boolean Can_shift() {
         return ( boards.size() > 1 );

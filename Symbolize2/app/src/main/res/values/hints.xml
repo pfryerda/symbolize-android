@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="world_1_hints">
+        <item>Twinkle twinkle</item>                                        <!-- World: 1    - '★' -->
+        <item>A confused vowel</item>                                       <!-- Level: 1-1  - 'Y' -->
+        <item>You got mail</item>                                           <!-- Level: 1-2  - '✉' -->
+        <item>Lucky number</item>                                           <!-- Level: 1-3  - '7' -->
+        <item>The 11th letter of the alphabet</item>                        <!-- Level: 1-4  - 'K' -->
+        <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 1-5  - 'M' -->
+        <item>Change this T into your favourite grade</item>                <!-- Level: 1-6  - 'A' -->
+        <item>Bow and  _ _ _ _ _</item>                                     <!-- Level: 1-7  - '➹' -->
+        <item>The answer can be found at example.com, examine the difference
+            in the number of the words between the 2 sentences.</item>      <!-- Level: 1-8  - '2' -->
+        <item>Change this side of a rubik cube into another
+            well known game</item>                                          <!-- Level: 1-9  - '#' -->
+        <item>Search \'51.524877,-0.071972\' in google maps
+            see if you can find him </item>                                 <!-- Level: 1-10 - 'Stik man' -->
+        <item>The answer is zed</item>                                      <!-- Level: 1-11 - 'Z' -->
+        <item>3D</item>                                                     <!-- Level: 1-12 - Cube -->
+        <item>Make some music</item>                                        <!-- Level: 1-13 - '♫' -->
+        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>                                             <!-- Level: 1-14 - 'S' -->
+        <item>How many unrelated options are in the options menu?</item>    <!-- Level: 1-15 - '8' -->
+
+    </string-array>
+
+    <string-array name="world_2_hints">
+        <item>A big constellation</item>                                    <!-- World: 2    - Big Dipper/Ursa Major -->
+        <item>He_ _o wor_d</item>                                           <!-- Level: 2-1  - 'L' -->
+        <item></item>                                                       <!-- Level: 2-2  - '' -->
+        <item></item>                                                       <!-- Level: 2-3  - '' -->
+        <item>Winter wonderland</item>                                      <!-- Level: 2-4  - '❄' -->
+        <item></item>                                                       <!-- Level: 2-5  - '' -->
+        <item></item>                                                       <!-- Level: 2-6  - '' -->
+        <item></item>                                                       <!-- Level: 2-7  - '' -->
+        <item></item>                                                       <!-- Level: 2-8  - '' -->
+        <item></item>                                                       <!-- Level: 2-9  - '' -->
+        <item></item>                                                       <!-- Level: 2-10 - '' -->
+        <item></item>                                                       <!-- Level: 2-11 - '' -->
+        <item></item>                                                       <!-- Level: 2-12 - '' -->
+        <item></item>                                                       <!-- Level: 2-13 - '' -->
+        <item></item>                                                       <!-- Level: 2-14 - '' -->
+        <item></item>                                                       <!-- Level: 2-15 - '' -->
+    </string-array>
+
+    <string-array name="world_3_hints">
+        <item></item>                                                       <!-- World: 3    - '' -->
+        <item></item>                                                       <!-- Level: 3-1  - '' -->
+        <item></item>                                                       <!-- Level: 3-2  - '' -->
+        <item></item>                                                       <!-- Level: 3-3  - '' -->
+        <item></item>                                                       <!-- Level: 3-4  - '' -->
+        <item></item>                                                       <!-- Level: 3-5  - '' -->
+        <item></item>                                                       <!-- Level: 3-6  - '' -->
+        <item></item>                                                       <!-- Level: 3-7  - '' -->
+        <item></item>                                                       <!-- Level: 3-8  - '' -->
+        <item></item>                                                       <!-- Level: 3-9  - '' -->
+        <item></item>                                                       <!-- Level: 3-10 - '' -->
+        <item></item>                                                       <!-- Level: 3-11 - '' -->
+        <item></item>                                                       <!-- Level: 3-12 - '' -->
+        <item></item>                                                       <!-- Level: 3-13 - '' -->
+        <item></item>                                                       <!-- Level: 3-14 - '' -->
+        <item></item>                                                       <!-- Level: 3-15 - '' -->
+    </string-array>
+
+    <string-array name="world_4_hints">
+        <item></item>                                                       <!-- World: 4    - '' -->
+        <item></item>                                                       <!-- Level: 4-1  - '' -->
+        <item></item>                                                       <!-- Level: 4-2  - '' -->
+        <item></item>                                                       <!-- Level: 4-3  - '' -->
+        <item></item>                                                       <!-- Level: 4-4  - '' -->
+        <item></item>                                                       <!-- Level: 4-5  - '' -->
+        <item></item>                                                       <!-- Level: 4-6  - '' -->
+        <item></item>                                                       <!-- Level: 4-7  - '' -->
+        <item></item>                                                       <!-- Level: 4-8  - '' -->
+        <item></item>                                                       <!-- Level: 4-9  - '' -->
+        <item></item>                                                       <!-- Level: 4-10 - '' -->
+        <item></item>                                                       <!-- Level: 4-11 - '' -->
+        <item></item>                                                       <!-- Level: 4-12 - '' -->
+        <item></item>                                                       <!-- Level: 4-13 - '' -->
+        <item></item>                                                       <!-- Level: 4-14 - '' -->
+        <item></item>                                                       <!-- Level: 4-15 - '' -->
+    </string-array>
+
+    <string-array name="world_5_hints">
+        <item></item>                                                       <!-- World: 5    - '' -->
+        <item></item>                                                       <!-- Level: 5-1  - '' -->
+        <item></item>                                                       <!-- Level: 5-2  - '' -->
+        <item></item>                                                       <!-- Level: 5-3  - '' -->
+        <item></item>                                                       <!-- Level: 5-4  - '' -->
+        <item></item>                                                       <!-- Level: 5-5  - '' -->
+        <item></item>                                                       <!-- Level: 5-6  - '' -->
+        <item></item>                                                       <!-- Level: 5-7  - '' -->
+        <item></item>                                                       <!-- Level: 5-8  - '' -->
+        <item></item>                                                       <!-- Level: 5-9  - '' -->
+        <item></item>                                                       <!-- Level: 5-10 - '' -->
+        <item></item>                                                       <!-- Level: 5-11 - '' -->
+        <item></item>                                                       <!-- Level: 5-12 - '' -->
+        <item></item>                                                       <!-- Level: 5-13 - '' -->
+        <item></item>                                                       <!-- Level: 5-14 - '' -->
+        <item></item>                                                       <!-- Level: 5-15 - '' -->
+    </string-array>
+
+    <string-array name="world_6_hints">
+        <item></item>                                                       <!-- World 6:    - '' -->
+        <item></item>                                                       <!-- Level: 6-1  - '' -->
+        <item></item>                                                       <!-- Level: 6-2  - '' -->
+        <item></item>                                                       <!-- Level: 6-3  - '' -->
+        <item></item>                                                       <!-- Level: 6-4  - '' -->
+        <item></item>                                                       <!-- Level: 6-5  - '' -->
+        <item></item>                                                       <!-- Level: 6-6  - '' -->
+        <item></item>                                                       <!-- Level: 6-7  - '' -->
+        <item></item>                                                       <!-- Level: 6-8  - '' -->
+        <item></item>                                                       <!-- Level: 6-9  - '' -->
+        <item></item>                                                       <!-- Level: 6-10 - '' -->
+        <item></item>                                                       <!-- Level: 6-11 - '' -->
+        <item></item>                                                       <!-- Level: 6-12 - '' -->
+        <item></item>                                                       <!-- Level: 6-13 - '' -->
+        <item></item>                                                       <!-- Level: 6-14 - '' -->
+        <item></item>                                                       <!-- Level: 6-15 - '' -->
+    </string-array>
+
+    <string-array name="world_7_hints">
+        <item></item>                                                       <!-- World 7:    - '' -->
+        <item></item>                                                       <!-- Level: 7-1  - '' -->
+        <item></item>                                                       <!-- Level: 7-2  - '' -->
+        <item></item>                                                       <!-- Level: 7-3  - '' -->
+        <item></item>                                                       <!-- Level: 7-4  - '' -->
+        <item></item>                                                       <!-- Level: 7-5  - '' -->
+        <item></item>                                                       <!-- Level: 7-6  - '' -->
+        <item></item>                                                       <!-- Level: 7-7  - '' -->
+        <item></item>                                                       <!-- Level: 7-8  - '' -->
+        <item></item>                                                       <!-- Level: 7-9  - '' -->
+        <item></item>                                                       <!-- Level: 7-10 - '' -->
+        <item>Development level</item>                                      <!-- Level: 7-11 - '' -->
+    </string-array>
+</resources>

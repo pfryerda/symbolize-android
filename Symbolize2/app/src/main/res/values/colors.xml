@@ -1,0 +1,20 @@
+<resources>
+    <!-- Android color -->
+    <color name="black_overlay">#66000000</color>
+
+    <!-- Main colors -->
+    <color name="green">#8BC63F</color>
+    <color name="cyan">#01AFE2</color>
+    <color name="yellow">#FFE61E</color>
+    <color name="blue">#0150D7</color>
+    <color name="red">#FA463C</color>
+    <color name="purple">#5A416E</color>
+    <color name="black">#000000</color>
+
+    <color name="white">#ffffffff</color>
+
+    <!-- Other colors -->
+    <color name="bright_red">#FA463C</color> <!-- Used for level complete outlines -->
+    <color name="bright_green">#8BFF3F</color> <!-- Used for level complete outlines -->
+
+</resources>

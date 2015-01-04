@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level>
+    <draw_restriction>3</draw_restriction>
+    <erase_restriction>0</erase_restriction>
+    <drag_restriction>0</drag_restriction>
+    <rotate_enabled>false</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
+    <colour_enabled>false</colour_enabled>
+    <special>0</special>
+    <unlocks>
+        <unlock>3</unlock>
+    </unlocks>
+    <boards>
+        <graph>
+            <Line><p1><x> 2000</x><y> 7000</y></p1><p2><x> 8000</x><y> 7000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 5000</x><y> 5000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 8000</x><y> 2000</y></p2><color>-16777216</color></Line>
+        </graph>
+    </boards>
+    <solutions>
+        <graph>
+            <Line><p1><x> 2000</x><y> 7000</y></p1><p2><x> 8000</x><y> 7000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 8000</x><y> 2000</y></p1><p2><x> 8000</x><y> 7000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 2000</x><y> 7000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 8000</x><y> 2000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 5000</x><y> 5000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 8000</x><y> 2000</y></p2><color>-16777216</color></Line>
+        </graph>
+    </solutions>
+</Level>

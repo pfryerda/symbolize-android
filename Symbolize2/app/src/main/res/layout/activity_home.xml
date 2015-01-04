@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="symbolize.app.Home.HomePage"
+    android:id="@+id/page">
+
+    <Button
+        android:id="@+id/Start"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:textSize="30dp"
+        android:onClick="On_start_button_clicked"
+        android:text="Start" />
+
+    <Button
+        android:id="@+id/Mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="On_mute_button_clicked"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:textSize="20dp"
+        android:text="Mute"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="On_settings_button_clicked"
+        android:text="Settings"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>

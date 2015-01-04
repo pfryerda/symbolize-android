@@ -307,7 +307,6 @@ abstract public class PuzzleDB {
                 hint_map[world_num] )[0];
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
-        boolean colour_enabled = false;
         ArrayList<Posn> levels = null;
         ArrayList<LinkedList<Line>> solutions = null;
         ArrayList<Byte> unlocks = null;
@@ -332,7 +331,6 @@ abstract public class PuzzleDB {
 
             rotate_enabled = Boolean.valueOf( parse_preamble( "rotate_enabled" ) );
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
-            colour_enabled = Boolean.valueOf( parse_preamble( "colour_enabled" ) );
 
 
             // Parse boards and solutions
@@ -492,7 +490,7 @@ abstract public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new World( hint,rotate_enabled, flip_enabled, colour_enabled, levels, solutions, unlocks );
+        return new World( hint,rotate_enabled, flip_enabled, levels, solutions, unlocks );
     }
 
 

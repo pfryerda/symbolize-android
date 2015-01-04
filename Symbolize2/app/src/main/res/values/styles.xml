@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Android styles -->
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="ButtonBar">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ButtonBarButton" />
+
+    
+    <!-- Symbolize styles -->
+
+    <style name="dialog">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="title">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <!-- Dialog animation setup -->
+
+    <style name="HintDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoomup</item>
+        <item name="android:windowExitAnimation">@anim/zoomdown</item>
+    </style>
+
+    <style name="OptionsDialogAnimation_1">
+        <item name="android:windowEnterAnimation">@anim/zoomupleft</item>
+        <item name="android:windowExitAnimation">@anim/zoomdownright</item>
+    </style>
+
+    <style name="OptionsDialogAnimation_2">
+        <item name="android:windowEnterAnimation">@anim/zoomdownleft</item>
+        <item name="android:windowExitAnimation">@anim/zoomupright</item>
+    </style>
+
+    <style name="OptionDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="DialogNoAnimation">
+        <item name="android:windowEnterAnimation">@anim/enter</item>
+        <item name="android:windowExitAnimation">@anim/exit</item>
+    </style>
+
+</resources>
