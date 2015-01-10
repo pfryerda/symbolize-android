@@ -50,6 +50,7 @@ abstract public class GameUIView {
     public static final short TOP_BUTTON_WIDTH;
 
     public static final ArrayList<Integer> COLOR_ARRAY;
+    public static final ArrayList<Integer> BRIGHT_COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;
 
 
@@ -80,6 +81,13 @@ abstract public class GameUIView {
 
         for ( int color : color_array ) {
             COLOR_ARRAY.add( color );
+        }
+
+        BRIGHT_COLOR_ARRAY = new ArrayList<Integer>();
+        color_array = Page.Get_context().getResources().getIntArray( R.array.bright_color_array );
+
+        for ( int color : color_array ) {
+            BRIGHT_COLOR_ARRAY.add( color );
         }
 
         SparseIntArray color_map = new SparseIntArray();
@@ -126,6 +134,7 @@ abstract public class GameUIView {
 
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
             undo_button.setEnabled( can_undo );
+            undo_button.setAlpha( ( can_undo ) ? 1: 0.5f );
         }
 
         if ( ( current_puzzle.Get_erase_restriction() > 0 )
@@ -210,14 +219,15 @@ abstract public class GameUIView {
      * Updates the draw and erase button accordingly
      */
     public static void Highlight_current_mode() {
+        Session session = Session.Get_instance();
+        int color = session.Get_hightlight_color();
+
         if ( Session.Get_instance().In_draw_mode() ) {
-            draw_button.setColorFilter( Page.Get_context().getResources().getColor( R.color.bright_green ),
-                                        PorterDuff.Mode.MULTIPLY );
+            draw_button.setColorFilter( color, PorterDuff.Mode.MULTIPLY );
             erase_button.setColorFilter( null );
         } else {
             draw_button.setColorFilter( null );
-            erase_button.setColorFilter( Page.Get_context().getResources().getColor( R.color.bright_green ),
-                                         PorterDuff.Mode.MULTIPLY );
+            erase_button.setColorFilter( color, PorterDuff.Mode.MULTIPLY );
         }
     }
 

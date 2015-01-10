@@ -36,6 +36,7 @@ public class Session {
     private byte current_world;
     private byte current_level;
 
+    private int highlight_color;
     private int world_color;
     private Puzzle current_puzzle;
 
@@ -61,6 +62,7 @@ public class Session {
         this.current_world = MetaDataAccess.Get_last_world();
         this.current_level = 0;
 
+        this.highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
         this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
         this.current_puzzle = null;
 
@@ -73,6 +75,8 @@ public class Session {
     //----------------
 
     public int Get_world_color() { return world_color; }
+
+    public int Get_hightlight_color() { return highlight_color; }
 
     public Puzzle Get_current_puzzle() {
         return current_puzzle;
@@ -116,6 +120,9 @@ public class Session {
 
     public void Update_puzzle() {
         current_puzzle = PuzzleDB.Fetch_puzzle();
+        world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
+        highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
+        GameUIView.Highlight_current_mode();
     }
 
     public void Set_draw_mode() {
@@ -126,7 +133,6 @@ public class Session {
         draw_enabled = false;
     }
 
-    public void Update_world_color() { world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );  }
 
     public void Set_current_level( byte new_level ) {
         current_level = new_level;

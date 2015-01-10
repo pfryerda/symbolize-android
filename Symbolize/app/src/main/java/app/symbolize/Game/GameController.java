@@ -71,6 +71,7 @@ public class GameController {
 
                 case Request.Draw:
                     game_model.Add_line_via_draw( request.request_line );
+                    if( request.request_line.Is_dud() ) game_model = game_model.Get_past_state();
                     break;
 
                 case Request.Erase:
@@ -127,7 +128,7 @@ public class GameController {
                 if ( request.Is_animation_action() ) {
                     game_model.Update_view( GameAnimationHandler.Handle_request( request ),
                             ( request.type == Request.Load_level_via_world ) );
-                } else if ( request.type == Request.Shadow_line ) {
+                } else if ( request.type == Request.Shadow_line && !request.request_line.Is_dud() ) {
                     game_model.Update_view( request.request_line );
                 } else if (request.type == Request.Shadow_point) {
                     game_model.Update_view( request.request_point );

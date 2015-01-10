@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.google.android.gms.ads.*;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import app.symbolize.Animation.SymbolizeAnimation;
@@ -398,7 +399,6 @@ public class GamePage extends Page
         Session session = Session.Get_instance();
         session.Set_to_world();
         session.Update_puzzle();
-        session.Update_world_color();
 
         GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }

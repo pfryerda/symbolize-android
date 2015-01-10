@@ -100,6 +100,13 @@ public class Line {
     //-----------------
 
     /*
+     * Checks if line a dud
+     */
+    public boolean Is_dud() {
+        return p1.Is_dud() || p2.Is_dud() || Distance_squared() <= 0;
+    }
+
+    /*
      * Generic method that edits a line based off the request type
      *
      * @param int request_type: The type of the request which determine how the line should edit its target

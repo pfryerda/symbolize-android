@@ -71,6 +71,13 @@ public class Posn {
     //----------------
 
     /*
+     * Checks if posn is a dud i.e. invalid
+     */
+    public boolean Is_dud() {
+        return first < 0 || second < 0;
+    }
+
+    /*
      * Method that translate a point via an x and y value
      *
      * @param int x: The value you wish to translate horizontally
@@ -191,8 +198,13 @@ public class Posn {
                    }
                }
            }
-           first = match.x();
-           second = match.y();
+           if( Distance_squared( match ) > DRAWING_THRESHOLD * DRAWING_THRESHOLD ) {
+               first = -1 * GameView.SCALING;
+               second = -1 * GameView.SCALING;
+           } else {
+               first = match.x();
+               second = match.y();
+           }
        }
    }
 

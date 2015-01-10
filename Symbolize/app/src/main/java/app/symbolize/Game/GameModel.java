@@ -123,7 +123,11 @@ public class GameModel {
     }
 
     public LinkedList<Line> Get_simplified_graph() {
-        return simplify_graph( (LinkedList<Line> ) graph.clone() );
+        LinkedList<Line> simplified_graph = new LinkedList<Line>();
+        for( Line line : simplify_graph( (LinkedList<Line> ) graph.clone() ) ) {
+            if( !line.Is_dud() ) simplified_graph.add( line );
+        }
+        return simplified_graph;
     }
 
 
@@ -185,9 +189,16 @@ public class GameModel {
     public void Add_line_via_draw( Line line ) {
         Session session = Session.Get_instance();
 
-        ArrayList<Posn> completed_levels = Get_completed_levels();
-        if ( !session.Is_in_world_view() || completed_levels.size() > 1 ) {
-            line.Snap_to_levels( completed_levels );
+        if( session.Is_in_world_view() ) {
+            ArrayList<Posn> completed_levels = Get_completed_levels();
+            if( completed_levels.size() > 1 ) {
+                line.Snap_to_levels( completed_levels );
+                if( !line.Is_dud() ) {
+                    graph.addLast(line);
+                    ++lines_drawn;
+                }
+            }
+        } else {
             graph.addLast( line );
             ++lines_drawn;
         }
