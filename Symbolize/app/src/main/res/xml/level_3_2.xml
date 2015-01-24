@@ -2,9 +2,9 @@
 
 <Level>
     <unlocks>
-		<unlock>3</unlock>
+		<unlock>4</unlock>
 	</unlocks>
-	<draw_restriction>0</draw_restriction>
+    <draw_restriction>0</draw_restriction>
     <erase_restriction>0</erase_restriction>
     <drag_restriction>0</drag_restriction>
     <rotate_enabled>false</rotate_enabled>

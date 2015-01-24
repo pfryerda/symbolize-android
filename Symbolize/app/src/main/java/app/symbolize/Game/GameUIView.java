@@ -40,6 +40,8 @@ abstract public class GameUIView {
     // Constants
     //-----------
 
+    private static final float BUTTON_FADE = 0.4f;
+
     private static final Toast TOAST = Toast.makeText( GamePage.Get_context(), "", Toast.LENGTH_SHORT );
 
     public static final Point SCREEN_SIZE;
@@ -134,7 +136,7 @@ abstract public class GameUIView {
 
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
             undo_button.setEnabled( can_undo );
-            undo_button.setAlpha( ( can_undo ) ? 1: 0.5f );
+            undo_button.setAlpha( ( can_undo ) ? 1: BUTTON_FADE );
         }
 
         if ( ( current_puzzle.Get_erase_restriction() > 0 )

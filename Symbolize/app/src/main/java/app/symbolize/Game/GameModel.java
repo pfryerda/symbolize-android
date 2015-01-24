@@ -160,14 +160,21 @@ public class GameModel {
      */
     public Integer Fetch_level_number( Posn point ) {
         Session session = Session.Get_instance();
-        int level_found;
+        int level_found = -1;
+        float dist_squared = Float.POSITIVE_INFINITY;
 
         for ( int i = 0; i < levels.size(); ++i ) {
-            if ( levels.get( i ).Approximately_equals( point ) && UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
+            if ( levels.get( i ).Approximately_equals( point )
+              && levels.get( i ).Distance_squared( point ) < dist_squared
+              && UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 level_found =  i + 1;
-                session.Set_pivot( point );
-                return level_found;
+                dist_squared = levels.get( i ).Distance_squared( point );
             }
+        }
+
+        if( dist_squared != 0 ) {
+            session.Set_pivot( point );
+            return level_found;
         }
         return null;
     }
