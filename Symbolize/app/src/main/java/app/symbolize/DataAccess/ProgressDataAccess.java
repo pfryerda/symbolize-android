@@ -101,16 +101,14 @@ public class ProgressDataAccess {
      * @return String: "Number of levels complete in world / Number of levels in world"
      */
     public String Get_number_of_complete_levels_string( final byte world ) {
-        final byte number_of_levels =
-                ( world == 7 ) ? PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD_7 : PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
         byte number_of_complete_levels = 0;
-        for ( byte level = 1; level <= number_of_levels; ++level ) {
+        for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
             if ( Is_completed( world, level ) ) {
                 ++number_of_complete_levels;
             }
         }
 
-        return " " + number_of_complete_levels + " / " + number_of_levels;
+        return " " + number_of_complete_levels + " / " + PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
     }
 
     /*

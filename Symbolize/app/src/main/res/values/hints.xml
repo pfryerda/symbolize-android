@@ -3,21 +3,16 @@
     <string-array name="world_1_hints">
         <item>_____ on earth</item>                                         <!-- World: 1    - Peace symbol -->
         <item>Lucky number</item>                                           <!-- Level: 1-1  - '7' -->
-        <item></item>                                                       <!-- Level: 1-2  - '' -->
-        <item>One of the main math operators</item>                         <!-- Level: 1-3  - '÷' -->
+        <item>A confused vowel</item>                                       <!-- Level: 1-2  - 'Y' -->
+        <item>Ta Ti-Ti Ta</item>                                            <!-- Level: 1-3  - 'Music #1' -->
         <item>You got mail</item>                                           <!-- Level: 1-4  - '✉' -->
-        <item>A confused vowel</item>                                       <!-- Level: 1-5  - 'Y' -->
-        <item></item>                                                       <!-- Level: 1-6  - '' -->
-        <item>Ta Ti-Ti Ta</item>                                            <!-- Level: 1-7  - 'Music #1' -->
-        <item>3D</item>                                                     <!-- Level: 1-8  - Cube -->
-        <item>Bow and  _ _ _ _ _</item>                                     <!-- Level: 1-9  - '➹' -->
+        <item>One of the main math operators</item>                         <!-- Level: 1-5  - '÷' -->
+        <item>Bow and  _ _ _ _ _</item>                                     <!-- Level: 1-6  - '➹' -->
+        <item>The answer is zed</item>                                      <!-- Level: 1-7  - 'Z' -->
+                <item>Change this side of a rubik cube into another
+            well known game</item>                                          <!-- Level: 1-8  - '#' -->
+        <item>3D</item>                                                     <!-- Level: 1-9  - Cube -->
         <item></item>                                                       <!-- Level: 1-10 - '' -->
-        <item>The answer is zed</item>                                      <!-- Level: 1-11 - 'Z' -->
-        <item>Change this side of a rubik cube into another
-            well known game</item>                                          <!-- Level: 1-12 - '#' -->
-        <item></item>                                                       <!-- Level: 1-13 - '' -->
-        <item>Winter wonderland</item>                                      <!-- Level: 1-14 - '❄' -->
-        <item></item>                                                       <!-- Level: 1-15 - '' -->
     </string-array>
 
     <string-array name="world_2_hints">
@@ -25,23 +20,19 @@
         <item>The 11th letter of the alphabet</item>                        <!-- Level: 2-1  - 'K' -->
         <item>Change this T into your favourite grade</item>                <!-- Level: 2-2  - 'A' -->
         <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 2-3  - 'M' -->
-        <item></item>                                                       <!-- Level: 2-4  - '' -->
+        <item>Winter wonderland</item>                                      <!-- Level: 2-4  - '❄' -->
+
         <item></item>                                                       <!-- Level: 2-5  - '' -->
         <item>How many unrelated options are in the options menu?</item>    <!-- Level: 2-6  - '8' -->
         <item>He_ _o wor_d</item>                                           <!-- Level: 2-7  - 'L' -->
         <item>The answer can be found at example.com, examine the difference
             in the number of the words between the 2 sentences.</item>      <!-- Level: 2-8  - '2' -->
-        <item></item>                                                       <!-- Level: 2-9  - '' -->
-        <item></item>                                                       <!-- Level: 2-10 - '' -->
-        <item></item>                                                       <!-- Level: 2-11 - '' -->
-        <item></item>                                                       <!-- Level: 2-12 - '' -->
-        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-13 - 'Music #2' -->
-        <item></item>                                                       <!-- Level: 2-14 - '' -->
-        <item>Make some music</item>                                        <!-- Level: 2-15 - '♫' -->
+        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-9  - 'Music #2' -->
+        <item>Make some music</item>                                        <!-- Level: 2-10 - '♫' -->
     </string-array>
 
     <string-array name="world_3_hints">
-        <item>A constellation</item>                                        <!-- World: 3    - Big Dipper/Ursa Major -->
+        <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
         <item></item>                                                       <!-- Level: 3-1  - '' -->
         <item></item>                                                       <!-- Level: 3-2  - '' -->
         <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 3-3  - 'gender symbol' -->
@@ -50,13 +41,8 @@
         <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 3-6  - 'Chess' -->
         <item>I hope this puzzle makes you smile</item>                     <!-- Level: 3-7  - '=]' (dice) -->
         <item>Make the last suite</item>                                    <!-- Level: 3-8  - '♥' -->
-        <item></item>                                                       <!-- Level: 3-9  - '' -->
+        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 3-9  - 'S' -->
         <item></item>                                                       <!-- Level: 3-10 - '' -->
-        <item></item>                                                       <!-- Level: 3-11 - '' -->
-        <item></item>                                                       <!-- Level: 3-12 - '' -->
-        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 3-13 - 'S' -->
-        <item></item>                                                       <!-- Level: 3-14 - '' -->
-        <item></item>                                                       <!-- Level: 3-15 - '' -->
     </string-array>
 
     <string-array name="world_4_hints">
@@ -71,11 +57,6 @@
         <item></item>                                                       <!-- Level: 4-8  - '' -->
         <item></item>                                                       <!-- Level: 4-9  - '' -->
         <item>Increase a number by 1</item>                                 <!-- Level: 4-10 - '3' -->
-        <item></item>                                                       <!-- Level: 4-11 - '' -->
-        <item></item>                                                       <!-- Level: 4-12 - '' -->
-        <item></item>                                                       <!-- Level: 4-13 - '' -->
-        <item></item>                                                       <!-- Level: 4-14 - '' -->
-        <item></item>                                                       <!-- Level: 4-15 - '' -->
     </string-array>
 
     <string-array name="world_5_hints">
@@ -90,11 +71,6 @@
         <item></item>                                                       <!-- Level: 5-8  - '' -->
         <item></item>                                                       <!-- Level: 5-9  - '' -->
         <item></item>                                                       <!-- Level: 5-10 - '' -->
-        <item></item>                                                       <!-- Level: 5-11 - '' -->
-        <item></item>                                                       <!-- Level: 5-12 - '' -->
-        <item></item>                                                       <!-- Level: 5-13 - '' -->
-        <item></item>                                                       <!-- Level: 5-14 - '' -->
-        <item></item>                                                       <!-- Level: 5-15 - '' -->
     </string-array>
 
     <string-array name="world_6_hints">
@@ -109,11 +85,6 @@
         <item></item>                                                       <!-- Level: 6-8  - '' -->
         <item></item>                                                       <!-- Level: 6-9  - '' -->
         <item></item>                                                       <!-- Level: 6-10 - '' -->
-        <item></item>                                                       <!-- Level: 6-11 - '' -->
-        <item></item>                                                       <!-- Level: 6-12 - '' -->
-        <item></item>                                                       <!-- Level: 6-13 - '' -->
-        <item></item>                                                       <!-- Level: 6-14 - '' -->
-        <item></item>                                                       <!-- Level: 6-15 - '' -->
     </string-array>
 
     <string-array name="world_7_hints">
@@ -128,6 +99,5 @@
         <item></item>                                                       <!-- Level: 7-8  - '' -->
         <item></item>                                                       <!-- Level: 7-9  - '' -->
         <item></item>                                                       <!-- Level: 7-10 - '' -->
-        <item>Development level</item>                                      <!-- Level: 7-11 - '' -->
     </string-array>
 </resources>

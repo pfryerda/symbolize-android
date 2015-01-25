@@ -2,7 +2,7 @@
 
 <Level>
     <unlocks>
-		<unlock>3</unlock>
+		<unlock>5</unlock>
 	</unlocks>
     <draw_restriction>1</draw_restriction>
     <erase_restriction>0</erase_restriction>
