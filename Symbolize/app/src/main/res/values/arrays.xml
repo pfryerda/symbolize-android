@@ -14,7 +14,7 @@
         <item>@color/blue</item>
         <item>@color/red</item>
         <item>@color/purple</item>
-        <item>@color/black</item>
+        <item>@color/gray</item>
     </integer-array>
 
     <integer-array name="bright_color_array">
@@ -24,7 +24,7 @@
         <item>@color/bright_blue</item>
         <item>@color/bright_red</item>
         <item>@color/magenta</item>
-        <item>@color/gray</item>
+        <item>@color/black</item>
     </integer-array>
 
 </resources>

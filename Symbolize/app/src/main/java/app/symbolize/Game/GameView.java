@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -112,6 +113,9 @@ public class GameView {
         paint.setTextAlign( Paint.Align.CENTER );
 
         render_background();
+        Log.d("red",""+Color.DKGRAY);
+        Log.d("green",""+Color.DKGRAY);
+        Log.d("blue", ""+Color.DKGRAY);
     }
 
 
@@ -207,7 +211,7 @@ public class GameView {
                     // Draw Point
                     paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
-                    paint.setColor( Color.BLACK );
+                    paint.setColor( Color.DKGRAY );
                     render_point( foreground_canvas, point );
 
                     // Draw Number

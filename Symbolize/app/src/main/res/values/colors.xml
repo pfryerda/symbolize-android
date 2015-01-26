@@ -13,14 +13,12 @@
     <color name="purple">#5A416E</color>
     <color name="black">#000000</color>
 
-
     <color name="bright_green">#8BFF3F</color>
     <color name="cyan">#01AFE2</color>
     <color name="gold">#FFE61E</color>
     <color name="bright_blue">#0150D7</color>
     <color name="bright_red">#FA463C</color>
     <color name="magenta">#5A416E</color>
-    <color name="gray">#000000</color>
-
+    <color name="gray">#444444</color>
 
 </resources>

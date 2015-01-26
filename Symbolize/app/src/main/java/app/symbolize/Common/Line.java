@@ -42,16 +42,16 @@ public class Line {
     public Line() {
         this.p1 = null;
         this.p2 = null;
-        this.color = Color.BLACK;
+        this.color = Color.DKGRAY;
         this.owner = App_drawn;
     }
 
     public Line( final Posn pt1, final Posn pt2 ) {
-        this( pt1, pt2, Color.BLACK, Line.App_drawn );
+        this( pt1, pt2, Color.DKGRAY, Line.App_drawn );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int creator ) {
-        this( pt1, pt2, Color.BLACK, creator );
+        this( pt1, pt2, Color.DKGRAY, creator );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int hue, final int creator ) {

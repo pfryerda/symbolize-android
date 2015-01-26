@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
@@ -148,6 +149,7 @@ abstract public class GameUIView {
             erase_button.setVisibility( View.INVISIBLE );
         }
 
+        // Draw main color gradient
         final int[] colors = new int[2];
         colors[0] = session.Get_world_color();
         colors[1] = ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )

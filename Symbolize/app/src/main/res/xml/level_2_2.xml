@@ -13,15 +13,15 @@
     <special>0</special>
     <boards>
         <graph>
-            <Line><p1><x> 9000</x><y> 5000</y></p1><p2><x> 2000</x><y> 2000</y></p2><color>-16777216</color></Line>
-            <Line><p1><x> 5000</x><y> 7000</y></p1><p2><x> 5000</x><y> 3000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 9000</x><y> 5000</y></p1><p2><x> 2000</x><y> 2000</y></p2><color>-12303292</color></Line>
+            <Line><p1><x> 5000</x><y> 7000</y></p1><p2><x> 5000</x><y> 3000</y></p2><color>-12303292</color></Line>
         </graph>
     </boards>
     <solutions>
         <graph>
-            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2><color>-16777216</color></Line>
-            <Line><p1><x> 3000</x><y> 5000</y></p1><p2><x> 7000</x><y> 5000</y></p2><color>-16777216</color></Line>
-            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2><color>-16777216</color></Line>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2><color>-12303292</color></Line>
+            <Line><p1><x> 3000</x><y> 5000</y></p1><p2><x> 7000</x><y> 5000</y></p2><color>-12303292</color></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2><color>-12303292</color></Line>
         </graph>
     </solutions>
 </Level>
