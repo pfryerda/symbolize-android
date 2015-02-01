@@ -264,7 +264,8 @@ abstract public class GameUIView {
      *
      * @return int: The next color
      */
-    public static int Get_next_color( final int color ) {
+    public static int Get_next_color( Integer color ) {
+        if( color == null ) color = Color.DKGRAY;
         return COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
     }
 

@@ -188,7 +188,9 @@ public class GameView {
 
         paint.setStrokeWidth( LINE_WIDTH - LINE_BORDER_WIDTH );
         for ( Line line : graph ) {
-            paint.setColor( line.Get_color() );
+            Integer color = line.Get_color();
+            color = (color == null) ? Color.DKGRAY : color;
+            paint.setColor( color );
             render_line( foreground_canvas, line );
         }
 
@@ -292,7 +294,9 @@ public class GameView {
      */
     private void render_shadow( final Line shadow_line ) {
         paint.setStyle( Paint.Style.STROKE );
-        paint.setColor( shadow_line.Get_color() );
+        Integer color = shadow_line.Get_color();
+        color = (color == null) ?  Color.DKGRAY : color;
+        paint.setColor( color );
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINE_WIDTH );
 

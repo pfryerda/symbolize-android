@@ -20,11 +20,11 @@
     </levels>
     <solutions>
         <graph>
-            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2><color>-12303292</color></Line>
-            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2><color>-12303292</color></Line>
-            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 8000</x><y> 8000</y></p2><color>-12303292</color></Line>
-            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 9000</x><y> 3000</y></p2><color>-12303292</color></Line>
-            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 9000</x><y> 3000</y></p2><color>-12303292</color></Line>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
         </graph>
     </solutions>
 </World>

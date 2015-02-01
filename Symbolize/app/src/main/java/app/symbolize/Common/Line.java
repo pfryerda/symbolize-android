@@ -42,19 +42,19 @@ public class Line {
     public Line() {
         this.p1 = null;
         this.p2 = null;
-        this.color = Color.DKGRAY;
+        this.color = null;
         this.owner = App_drawn;
     }
 
     public Line( final Posn pt1, final Posn pt2 ) {
-        this( pt1, pt2, Color.DKGRAY, Line.App_drawn );
+        this( pt1, pt2, null, Line.App_drawn );
     }
 
     public Line( final Posn pt1, final Posn pt2, final int creator ) {
-        this( pt1, pt2, Color.DKGRAY, creator );
+        this( pt1, pt2, null, creator );
     }
 
-    public Line( final Posn pt1, final Posn pt2, final int hue, final int creator ) {
+    public Line( final Posn pt1, final Posn pt2, final Integer hue, final int creator ) {
         if ( pt1.Less_than( pt2 ) ) {
             p1 = pt1;
             p2 = pt2;
@@ -87,7 +87,7 @@ public class Line {
         return p2;
     }
 
-    public int Get_color() {
+    public Integer Get_color() {
         return color;
     }
 
@@ -199,7 +199,7 @@ public class Line {
     public boolean Approximately_equals( final Line soln ) {
         return ( ( p1.Approximately_equals( soln.Get_p1() ) && p2.Approximately_equals( soln.Get_p2() ) )   ||
                  ( p1.Approximately_equals( soln.Get_p2() ) && p2.Approximately_equals( soln.Get_p1() ) ) ) &&
-               ( color == soln.Get_color() );
+                 ( soln.Get_color() == null || color == soln.Get_color() );
     }
 
     /*
@@ -309,7 +309,7 @@ public class Line {
      * Method used to print the xml code to construct a line
      */
     public String Print_line() {
-        return "<Line>" + p1.Print_posn( "p1" ) + p2.Print_posn( "p2" ) +
-               "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
+        String color_text = ( color == null ) ? "" : "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
+        return "<Line>" + p1.Print_posn( "p1" ) + p2.Print_posn( "p2" ) + color_text;
     }
 }

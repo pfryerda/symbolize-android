@@ -253,7 +253,7 @@ abstract public class PuzzleDB {
                             tmpX = null;
                             tmpY = null;
                         } else if ( xpp.getName().equals( "Line" ) ) {
-                            if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
+                            if ( tmpLine == null || tmpP1 == null || tmpP2 == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
                             tmpLine = new Line( tmpP1, tmpP2, tmpColor, Line.App_drawn );
@@ -456,7 +456,7 @@ abstract public class PuzzleDB {
                             tmpX = null;
                             tmpY = null;
                         } else if ( xpp.getName().equals( "Line" ) ) {
-                            if ( tmpLine == null || tmpP1 == null || tmpP2 == null || tmpColor == null ) {
+                            if ( tmpLine == null || tmpP1 == null || tmpP2 == null ) {
                                 bail_invalid_tag( "/" +xpp.getName() );
                             }
                             tmpLine = new Line( tmpP1, tmpP2, tmpColor, Line.App_drawn );
