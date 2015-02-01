@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/options_audio"
     android:orientation="vertical" android:layout_width="250dp"
     android:layout_height="400dp"
     style="@style/dialog">
@@ -34,12 +35,26 @@
         android:text="@string/options_volume"
         android:textSize="20dp"
         android:textColor="@color/black"/>
-    <SeekBar
-        android:id="@+id/options_volume_seekbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:progress="100"/>
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+        <SeekBar
+            android:id="@+id/options_volume_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:progress="100"/>
+        <EditText
+            android:id="@+id/options_volume_seekbar_text"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textSize="16dp"
+            android:text="100"/>
+    </LinearLayout>
     <CheckedTextView
         android:id="@+id/options_mute"
         android:layout_width="match_parent"

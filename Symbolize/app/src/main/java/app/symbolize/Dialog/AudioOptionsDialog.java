@@ -1,8 +1,11 @@
 package app.symbolize.Dialog;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
@@ -44,16 +47,19 @@ public class AudioOptionsDialog extends OptionDialog {
 
 
         final CheckedTextView mute_button = (CheckedTextView) dialog_view.findViewById( R.id.options_mute );
-        mute_button.setOnClickListener( new View.OnClickListener() {
+        mute_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ) {
-                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
-                mute_button.setChecked( !mute_button.isChecked() );
-                init_dialog_view( dialog_view );
+            public void onClick(View view) {
+                options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_IS_MUTED);
+                mute_button.setChecked(!mute_button.isChecked());
+                init_dialog_view(dialog_view);
             }
-        } );
+        });
 
-        ( (SeekBar) dialog_view.findViewById(R.id.options_volume_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );
+        final EditText volume_text = (EditText) dialog_view.findViewById( R.id.options_volume_seekbar_text );
+
+        volume_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             byte progress_change = 0;
 
             @Override
@@ -68,27 +74,48 @@ public class AudioOptionsDialog extends OptionDialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME, progress_change);
+                volume_text.setText( progress_change + "" );
             }
         });
 
-        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
+
+        volume_text.addTextChangedListener(new TextWatcher() {
+             @Override
+             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+             @Override
+             public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+             @Override
+             public void afterTextChanged(Editable s) {
+                 String new_text = s.toString();
+                 if( !new_text.equals("") ) {
+                     short new_volume = (short) Math.min( 100, Math.max( 0, Short.parseShort( new_text ) ) );
+                     options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME, new_volume );
+                     volume_bar.setProgress( Short.parseShort( new_text ) );
+                 }
+             }
+         } );
+
+        dialog_view.findViewById(R.id.options_reset_to_default).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
-                confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
-                confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                confirmDialog.Set_attrs(getString(R.string.revert_to_default_title), getString(R.string.revert_to_default_message));
+                confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
                         options_dao.Reset_audio_options();
-                        init_dialog_view( dialog_view );
+                        init_dialog_view(dialog_view);
                     }
 
                     @Override
-                    public void OnDialogFail() {}
-                } );
+                    public void OnDialogFail() {
+                    }
+                });
                 confirmDialog.Show();
             }
-        } );
+        });
 
         return dialog_view;
     }
@@ -110,6 +137,10 @@ public class AudioOptionsDialog extends OptionDialog {
         final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );
         volume_bar.setProgress( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) );
         volume_bar.setEnabled( !is_muted );
+
+        final EditText volume_text = (EditText) dialog_view.findViewById( R.id.options_volume_seekbar_text );
+        volume_text.setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) + "" );
+        volume_text.setEnabled( !is_muted );
 
         if ( Session.VERSION != Session.VERSION_ALPHA ) {
             dialog_view.findViewById( R.id.alpha_audio_note ).setVisibility( View.GONE );
