@@ -30,22 +30,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:orientation="horizontal">
         <SeekBar
             android:id="@+id/options_game_size_seekbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center"
             android:progress="25"
-            android:max="50">
+            android:max="50"
+            style="@style/options_spinner">
         </SeekBar>
         <EditText
             android:id="@+id/options_game_size_seekbar_text"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:inputType="number"
             android:text="100"
             style="@style/input_text"/>
     </LinearLayout>
@@ -59,22 +57,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:orientation="horizontal">
         <SeekBar
             android:id="@+id/options_brightness_seekbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center"
             android:progress="5000"
-            android:max="10000">
+            android:max="10000"
+            style="@style/options_spinner">
         </SeekBar>
         <EditText
             android:id="@+id/options_brightness_seekbar_text"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:inputType="number"
             android:text="50000"
             style="@style/input_text"/>
     </LinearLayout>
@@ -85,28 +81,25 @@
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:checked="true"
         android:text="@string/use_device_brightness"
-        style="@style/input_text"/>
+        style="@style/sub_text"/>
 
-    <Button
-        android:id="@+id/options_reset_to_default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/options_revert_to_default"
-        android:layout_gravity="center"
-        style="@style/button">
-    </Button>
+
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
         <Button
             android:id="@+id/Close"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/back"
-            style="@style/close_button"/>
-    </LinearLayout>
+            style="@style/back_button"/>
+        <ImageButton
+            android:id="@+id/options_reset_to_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/reset_button">
+        </ImageButton>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -198,26 +198,21 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/options_delete_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/options_delete_all_data"
-        android:layout_gravity="center"
-        style="@style/button">
-    </Button>
-
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
         <Button
             android:id="@+id/Close"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/back"
-            style="@style/close_button"/>
-    </LinearLayout>
+            style="@style/back_button"/>
+        <ImageButton
+            android:id="@+id/options_delete_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/reset_button">
+        </ImageButton>
+    </RelativeLayout>
 
 </LinearLayout>
