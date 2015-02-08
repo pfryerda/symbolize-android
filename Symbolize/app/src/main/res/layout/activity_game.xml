@@ -35,68 +35,47 @@
             android:id="@+id/Left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:background="@null"
             android:onClick="On_left_button_clicked"
-            android:textSize="30dp"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowColor="@color/black"
-            android:shadowRadius="8"
-            android:textColor="@color/white"
-            android:text="@string/left_arrow"/>
+            android:text="@string/left_arrow"
+            style="@style/top_left_toolbar_button"/>
         <ImageButton
             android:id="@+id/Back"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:background="@null"
             android:onClick="On_back_button_clicked"
-            android:src="@drawable/levels"/>
+            android:src="@drawable/levels"
+            style="@style/top_left_toolbar_button"/>
         <Button
             android:id="@+id/Right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:background="@null"
             android:onClick="On_right_button_clicked"
-            android:textSize="30dp"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowColor="@color/black"
-            android:shadowRadius="8"
-            android:textColor="@color/white"
-            android:text="@string/right_arrow"/>
+            android:text="@string/right_arrow"
+            style="@style/top_left_toolbar_button"/>
 
         <TextView
             android:id="@+id/Title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="30dp"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowColor="@color/black"
-            android:shadowRadius="8"
-            android:textColor="@color/white"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/main_title"/>
 
         <ImageButton
             android:id="@+id/Reset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:background="@null"
             android:onClick="On_reset_button_clicked"
-            android:src="@drawable/delete"/>
+            android:src="@drawable/delete"
+            style="@style/image_button"/>
 
         <ImageButton
             android:id="@+id/Settings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:background="@null"
             android:onClick="On_settings_button_clicked"
-            android:src="@drawable/gear"/>
+            android:src="@drawable/gear"
+            style="@style/image_button"/>
 
     </LinearLayout>
 
@@ -117,47 +96,37 @@
                     android:id="@+id/Check"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:padding="5dp"
                     android:onClick="On_check_button_clicked"
-                    android:src="@drawable/check"/>
+                    android:src="@drawable/check"
+                    style="@style/bottom_toolbar_button"/>
                 <ImageButton
                     android:id="@+id/Undo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:padding="5dp"
                     android:onClick="On_undo_button_clicked"
-                    android:src="@drawable/undo"/>
+                    android:src="@drawable/undo"
+                    style="@style/bottom_toolbar_button"/>
                 <ImageButton
                     android:id="@+id/Hint"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:padding="5dp"
                     android:onClick="On_hint_button_clicked"
-                    android:src="@drawable/hint"/>
+                    android:src="@drawable/hint"
+                    style="@style/bottom_toolbar_button"/>
                 <ImageButton
                     android:id="@+id/Draw"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:padding="5dp"
                     android:onClick="On_draw_button_clicked"
-                    android:src="@drawable/pencil"/>
+                    android:src="@drawable/pencil"
+                    style="@style/bottom_toolbar_button"/>
                 <ImageButton
                     android:id="@+id/Erase"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:padding="5dp"
                     android:onClick="On_erase_button_clicked"
-                    android:src="@drawable/eraser"/>
+                    android:src="@drawable/eraser"
+                    style="@style/bottom_toolbar_button"/>
             </LinearLayout>
 
             <com.google.android.gms.ads.AdView

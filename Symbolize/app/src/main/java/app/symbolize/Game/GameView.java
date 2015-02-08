@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -113,9 +114,6 @@ public class GameView {
         paint.setTextAlign( Paint.Align.CENTER );
 
         render_background();
-        Log.d("red",""+Color.DKGRAY);
-        Log.d("green",""+Color.DKGRAY);
-        Log.d("blue", ""+Color.DKGRAY);
     }
 
 
@@ -281,6 +279,7 @@ public class GameView {
     }
 
     private void render_text( final Canvas canvas, final Posn point, final String text ) {
+        paint.setTypeface( Typeface.create( "penshurst" , Typeface.BOLD ) );
         Rect bounds = new Rect();
         paint.getTextBounds( text, 0, 1, bounds );
         canvas.drawText( text, point.Unscale().x(), point.Unscale().y() + ( bounds.height() / 2 ), paint );
@@ -290,7 +289,7 @@ public class GameView {
      * Render a shadow to the view
      *
      * @param Line shadow_line: The line you wish to draw a shadow for
-     * @param Posn shadow_point: The point you wish to draw a shdow for
+     * @param Posn shadow_point: The point you wish to draw a shadow for
      */
     private void render_shadow( final Line shadow_line ) {
         paint.setStyle( Paint.Style.STROKE );
