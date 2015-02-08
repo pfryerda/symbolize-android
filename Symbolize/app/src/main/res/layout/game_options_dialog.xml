@@ -9,46 +9,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/game_dialog_title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <CheckedTextView
         android:id="@+id/options_show_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:checked="true"
-        android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_show_grid"/>
+        android:text="@string/options_show_grid"
+        style="@style/text"/>
 
     <CheckedTextView
         android:id="@+id/options_show_border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:checked="false"
-        android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_show_border"/>
+        android:text="@string/options_show_border"
+        style="@style/text"/>
 
     <CheckedTextView
         android:id="@+id/options_snap_drawing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:checked="false"
-        android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_snap_drawing"/>
+        android:text="@string/options_snap_drawing"
+        style="@style/text"/>
 
     <Button
         android:id="@+id/options_reset_to_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_revert_to_default"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        style="@style/button">
     </Button>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
@@ -60,7 +56,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>

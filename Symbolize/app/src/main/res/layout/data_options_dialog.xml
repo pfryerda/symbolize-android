@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/data_dialog_title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
+
         style="@style/title"/>
 
     <ScrollView
@@ -28,24 +27,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_1"/>
+                    android:text="@string/world_1"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_1_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_1_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
                 </LinearLayout>
 
             <LinearLayout
@@ -56,24 +52,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_2"/>
+                    android:text="@string/world_2"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_2_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_2_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -84,24 +77,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_3"/>
+                    android:text="@string/world_3"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_3_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_3_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -112,24 +102,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_4"/>
+                    android:text="@string/world_4"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_4_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_4_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -140,24 +127,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_5"/>
+                    android:text="@string/world_5"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_5_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_5_complete"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -168,24 +152,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_6"/>
+                    android:text="@string/world_6"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_6_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_6_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -196,24 +177,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/world_7"/>
+                    android:text="@string/world_7"
+                    style="@style/text"/>
                 <TextView
                     android:id="@+id/world_7_levels_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:textColor="@color/black"
-                    android:text="@string/levels_complete"/>
+                    android:text="@string/levels_complete"
+                    style="@style/text"/>
                 <CheckedTextView
                     android:id="@+id/world_7_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"/>
+                    android:text="@string/world_complete"
+                    style="@style/text"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -223,7 +203,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_delete_all_data"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        style="@style/button">
     </Button>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
@@ -235,7 +216,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>

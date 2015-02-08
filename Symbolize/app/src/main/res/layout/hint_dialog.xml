@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <TextView
@@ -20,12 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder text"
-        android:textSize="20dp"
         android:textIsSelectable="true"
         android:linksClickable="true"
         android:autoLink="web"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:gravity="center"
+        style="@style/text"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,9 +43,8 @@
             android:layout_weight="1"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:textSize="20dp"
             android:text="Place-holder text"
-            android:textColor="@color/black"/>
+            style="@style/text"/>
         </LinearLayout>
 
     <LinearLayout
@@ -58,7 +54,8 @@
             android:id="@+id/Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/close"/>
+            android:textColor="@color/bright_red"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>

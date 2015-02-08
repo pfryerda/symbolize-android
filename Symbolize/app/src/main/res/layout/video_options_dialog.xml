@@ -9,27 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/video_dialog_title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <CheckedTextView
         android:id="@+id/options_show_animation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:checked="true"
-        android:textColor="@color/black"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_show_animations"/>
+        android:text="@string/options_show_animations"
+        style="@style/text"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/options_size"
-        android:textSize="20dp"
-        android:textColor="@color/black"/>
+        style="@style/text"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,8 +46,8 @@
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:textSize="16dp"
-            android:text="100"/>
+            android:text="100"
+            style="@style/input_text"/>
     </LinearLayout>
 
     <TextView
@@ -59,8 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/options_brightness"
-        android:textSize="20dp"
-        android:textColor="@color/black"/>
+        style="@style/text"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -80,26 +75,25 @@
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:textSize="16dp"
-            android:text="50000"/>
+            android:text="50000"
+            style="@style/input_text"/>
     </LinearLayout>
     <CheckedTextView
         android:id="@+id/options_use_device_brightness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:checked="false"
-        android:textColor="@color/black"
-        android:gravity="center_vertical"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/use_device_brightness"/>
+        android:checked="true"
+        android:text="@string/use_device_brightness"
+        style="@style/input_text"/>
 
     <Button
         android:id="@+id/options_reset_to_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_revert_to_default"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        style="@style/button">
     </Button>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
@@ -111,7 +105,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>

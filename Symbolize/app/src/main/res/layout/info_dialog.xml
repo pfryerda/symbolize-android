@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <TextView
@@ -19,9 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder text"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:gravity="center"
+        style="@style/text"/>
 
     <LinearLayout
         android:layout_width="match_parent"

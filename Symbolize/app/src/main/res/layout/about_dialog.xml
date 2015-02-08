@@ -9,23 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/about_dialog_title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:text="@string/about_dialog_message"/>
+        android:text="@string/about_dialog_message"
+        style="@style/text"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:text="@string/about_dialog_note"/>
+        android:text="@string/about_dialog_note"
+        style="@style/text"/>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
     <LinearLayout
@@ -36,7 +32,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>

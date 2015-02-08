@@ -23,7 +23,7 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
-    <style name="ButtonBarButton" />
+    <style name="ButtonBarButton"/>
 
     
     <!-- Symbolize styles -->
@@ -36,6 +36,31 @@
     <style name="title">
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
+        <item name="android:textSize">27dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="text">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="sub_text" parent="text">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="input_text" parent="sub_text">
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="button" parent="title">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="close_button" parent="button">
+        <item name="android:textColor">@color/bright_red</item>
+        <item name="android:text">@string/close</item>
     </style>
 
     <!-- Dialog animation setup -->

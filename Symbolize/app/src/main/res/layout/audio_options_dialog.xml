@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/audio_dialog_title"
-        android:textSize="27dp"
-        android:textColor="@color/black"
         style="@style/title"/>
 
     <TextView
@@ -19,22 +17,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/options_audio_output"
-        android:textSize="20dp"
-        android:textColor="@color/black"/>
+        style="@style/text"/>
     <Spinner
         android:id="@+id/options_audio_output_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/audio_output_options">
-        </Spinner>
+        android:entries="@array/audio_output_options"
+        style="@style/button"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/options_volume"
-        android:textSize="20dp"
-        android:textColor="@color/black"/>
+        style="@style/text"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -59,19 +55,18 @@
         android:id="@+id/options_mute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
         android:checked="false"
-        android:textColor="@color/black"
-        android:gravity="center_vertical"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_mute"/>
+        android:text="@string/options_mute"
+        style="@style/input_text"/>
 
     <Button
         android:id="@+id/options_reset_to_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options_revert_to_default"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        style="@style/button">
     </Button>
 
     <TextView
@@ -90,7 +85,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back"
+            style="@style/close_button"/>
     </LinearLayout>
 
 </LinearLayout>
