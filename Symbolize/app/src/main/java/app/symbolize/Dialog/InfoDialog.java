@@ -28,15 +28,13 @@ public class InfoDialog extends SymbolizeDialog {
     @Override
     protected View get_dialog_view() {
         final View dialog_view = super.get_dialog_view();
-
         Button close_button = (Button) dialog_view.findViewById( R.id.Close );
         close_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                InfoDialog.this.getDialog().dismiss();
+                getDialog().dismiss();
             }
         } );
-
         return dialog_view;
     }
 

@@ -29,40 +29,41 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.game_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                GameOptionsDialog options_dialog = new GameOptionsDialog();
-                options_dialog.Show();
+                GameOptionsDialog game_options_dialog = new GameOptionsDialog();
+                game_options_dialog.Show();
             }
         } );
 
         dialog_view.findViewById( R.id.video_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                VideoOptionsDialog options_dialog = new VideoOptionsDialog();
-                options_dialog.Show();
+                VideoOptionsDialog video_options_dialog = new VideoOptionsDialog();
+                video_options_dialog.Set_parent_dialog( OptionsDialog.this );
+                video_options_dialog.Show();
             }
         } );
 
         dialog_view.findViewById( R.id.audio_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                AudioOptionsDialog options_dialog = new AudioOptionsDialog();
-                options_dialog.Show();
+                AudioOptionsDialog audio_options_dialog = new AudioOptionsDialog();
+                audio_options_dialog.Show();
             }
         } );
 
         dialog_view.findViewById( R.id.data_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                DataOptionsDialog options_dialog = new DataOptionsDialog();
-                options_dialog.Show();
+                DataOptionsDialog data_options_dialog = new DataOptionsDialog();
+                data_options_dialog.Show();
             }
         } );
 
         dialog_view.findViewById( R.id.about_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                AboutDialog options_dialog = new AboutDialog();
-                options_dialog.Show();
+                AboutDialog about_options_dialog = new AboutDialog();
+                about_options_dialog.Show();
             }
         } );
 
@@ -78,6 +79,7 @@ public class OptionsDialog extends InfoDialog {
                         options_dao.Reset_game_options();
                         options_dao.Reset_audio_options();
                         options_dao.Reset_video_options();
+                        update_animations();
                     }
 
                     @Override

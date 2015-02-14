@@ -17,6 +17,12 @@ import app.symbolize.Game.GameView;
 import app.symbolize.R;
 
 public class VideoOptionsDialog extends OptionDialog {
+    // Private Fields
+    //---------------
+
+    private OptionsDialog parent_dialog; // Need parent options dialog to update it's animations when needed
+
+
     // Inherited fields
     //------------------
 
@@ -24,6 +30,14 @@ public class VideoOptionsDialog extends OptionDialog {
     protected String title;
     protected String message;
     */
+
+
+    // Public methods
+    //----------------
+
+    public void Set_parent_dialog( final OptionsDialog parent_dialog ) {
+        this.parent_dialog = parent_dialog;
+    }
 
 
     // Protected methods
@@ -43,6 +57,7 @@ public class VideoOptionsDialog extends OptionDialog {
             public void onClick(View view) {
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS);
                 show_animation.setChecked(!show_animation.isChecked());
+                update_animations();
             }
         });
 
@@ -153,6 +168,7 @@ public class VideoOptionsDialog extends OptionDialog {
                     public void OnDialogSuccess() {
                         options_dao.Reset_video_options();
                         init_dialog_view( dialog_view );
+                        update_animations();
                     }
 
                     @Override
@@ -208,5 +224,14 @@ public class VideoOptionsDialog extends OptionDialog {
     @Override
     protected int get_dialog_id() {
         return R.layout.video_options_dialog;
+    }
+
+    /*
+     * Function used to update the dialog's animations when the 'show animations' setting is switched
+     */
+    @Override
+    protected void update_animations() {
+        super.update_animations();
+        if( parent_dialog != null ) parent_dialog.update_animations();
     }
 }

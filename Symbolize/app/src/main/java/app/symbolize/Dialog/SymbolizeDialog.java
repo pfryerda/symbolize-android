@@ -50,15 +50,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
         AlertDialog dialog = builder.create();
         dialog.setView( get_dialog_view(), 0, 0, 0, 0 );
-        Integer anim_id = get_dialog_animation();
-
-        if ( ( anim_id ) != null &&
-                OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) )
-        {
-            dialog.getWindow().getAttributes().windowAnimations = anim_id;
-        } else {
-            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogNoAnimation;
-        }
+        update_animations( dialog );
 
         return dialog;
     }
@@ -124,6 +116,22 @@ abstract public class SymbolizeDialog extends DialogFragment {
         return R.style.DialogNoAnimation;
     }
 
+
+    /*
+     * Function used to update the dialog's animations when the 'show animations' setting is switched
+     */
+    protected void update_animations( Dialog dialog ) {
+        Integer anim_id = get_dialog_animation();
+        if( anim_id != null && OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) ) {
+            dialog.getWindow().setWindowAnimations( anim_id );
+        } else {
+            dialog.getWindow().setWindowAnimations( R.style.DialogNoAnimation );
+        }
+    }
+
+    protected void update_animations() {
+        update_animations( getDialog() );
+    }
 
     // abstract methods
     //-----------------
