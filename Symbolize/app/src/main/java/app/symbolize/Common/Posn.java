@@ -112,6 +112,16 @@ public class Posn {
     }
 
     /*
+     * Add two points
+     *
+     * @param Posn point_2: Point you are adding
+     * @return Posn: The resulting added point
+     */
+    public Posn Add( final Posn posn_2 ) {
+        return new Posn( first + posn_2.first, second + posn_2.second );
+    }
+
+    /*
      * Subtract two points
      *
      * @param Posn point_2: Point you are subtracting
@@ -119,6 +129,16 @@ public class Posn {
      */
     public Posn Subtract( final Posn posn_2 ) {
         return new Posn( first - posn_2.first, second - posn_2.second );
+    }
+
+    /*
+     * Mult a point by a scalar
+     *
+     * @param Posn scalar: Scalar value
+     * @return Posn: The resulting multiplied point
+     */
+    public Posn Mult( final int scalar ) {
+        return new Posn( first * scalar, second * scalar );
     }
 
     /*
@@ -146,11 +166,36 @@ public class Posn {
     /*
      * Euclidean distance squared
      *
-     * @param Posn point: the point you getting the distance with
      */
     public int Distance_squared( final Posn point ) {
         return ( first - point.x() ) * ( first - point.x() ) +
                 ( second - point.y() ) * ( second - point.y() );
+    }
+
+    public int Distance_squared( final Line line ) {
+        /*final int line_length_squared = line.Distance_squared();
+        if(line_length_squared == 0 ) return Distance_squared(line.Get_p1());
+        final int t = Subtract( line.Get_p1() ).Dot( line.Get_p2().Subtract( line.Get_p1() ) ) / line_length_squared;
+        if(t < 0) return Distance_squared( line.Get_p1() );
+        if(t > 1) return Distance_squared( line.Get_p2() );
+        final Posn projection = line.Get_p1().Add( line.Get_p2().Subtract( line.Get_p1() ).Mult( t ) );
+        return Distance_squared( projection );*/
+        final int px = line.Get_p2().x() - line.Get_p1().x();
+        final int py = line.Get_p2().y() - line.Get_p1().y();
+        final int line_length_squared = px*px + py*py;
+
+        float u = (float) ((x() - line.Get_p1().x()) * px + (y() - line.Get_p1().y()) * py) / line_length_squared;
+
+        if ( u > 1 )      u = 1;
+        else if ( u < 0 ) u = 0;
+
+        final float x = line.Get_p1().x() + u * px;
+        final float y = line.Get_p1().y() + u * py;
+
+        final float dx = x - x();
+        final float dy = y - y();
+
+        return Math.round( dx*dx + dy*dy );
     }
 
     /*

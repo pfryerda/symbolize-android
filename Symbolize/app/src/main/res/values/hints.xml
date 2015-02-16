@@ -50,10 +50,11 @@
         <item></item>                                                       <!-- Level: 4-2  - '' -->
         <item></item>                                                       <!-- Level: 4-3  - '' -->
         <item></item>                                                       <!-- Level: 4-4  - '' -->
-        <item></item>                                                       <!-- Level: 4-5  - '' -->
+        <item>Change this correct math statement into another
+            correct statement</item>                                        <!-- Level: 4-5  - '11' -->
         <item></item>                                                       <!-- Level: 4-6  - '' -->
         <item></item>                                                       <!-- Level: 4-7  - '' -->
-        <item></item>                                                       <!-- Level: 4-8  - '' -->
+        <item></item>                                                       <!-- Level: 4-8  - 'TODO: Impossible' -->
         <item></item>                                                       <!-- Level: 4-9  - '' -->
         <item>Increase a number by 1</item>                                 <!-- Level: 4-10 - '3' -->
     </string-array>
@@ -62,12 +63,13 @@
         <item></item>                                                       <!-- World: 5    - '' -->
         <item></item>                                                       <!-- Level: 5-1  - '' -->
         <item></item>                                                       <!-- Level: 5-2  - '' -->
-        <item></item>                                                       <!-- Level: 5-3  - '' -->
+        <item>Suspension ______</item>                                      <!-- Level: 5-3  - 'Suspension bridge' -->
         <item></item>                                                       <!-- Level: 5-4  - '' -->
         <item></item>                                                       <!-- Level: 5-5  - '' -->
         <item></item>                                                       <!-- Level: 5-6  - '' -->
         <item></item>                                                       <!-- Level: 5-7  - '' -->
-        <item></item>                                                       <!-- Level: 5-8  - '' -->
+        <item>Remove the piece necessary to make a bottom
+            row disappear</item>                                            <!-- Level: 5-8  - 'Tetris' -->
         <item></item>                                                       <!-- Level: 5-9  - '' -->
         <item></item>                                                       <!-- Level: 5-10 - '' -->
     </string-array>

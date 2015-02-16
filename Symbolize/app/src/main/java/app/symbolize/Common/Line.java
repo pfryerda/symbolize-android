@@ -100,6 +100,14 @@ public class Line {
     //-----------------
 
     /*
+     * Calculate the midpoint of the line
+     */
+    public Posn Mid_point() {
+        return new Posn( ( p1.x() + p2.x() ) / 2, ( p1.y() + p2.y() ) / 2 );
+    }
+
+
+    /*
      * Checks if line a dud
      */
     public boolean Is_dud() {
@@ -115,11 +123,11 @@ public class Line {
         if ( request_type == Request.Change_color ) {
             color = GameUIView.Get_next_color( color );
         } else if ( request_type == Request.SPECIAL_SLOPE_ZERO ) {
-            Posn mid_point = mid_point();
+            Posn mid_point = Mid_point();
             p1.Set_y( mid_point.y() );
             p2.Set_y( mid_point.y() );
         } else if ( request_type == Request.SPECIAL_SLOPE_INF ) {
-            Posn mid_point = mid_point();
+            Posn mid_point = Mid_point();
             p1.Set_x( mid_point.x() );
             p2.Set_x( mid_point.x() );
         } else {
@@ -294,14 +302,6 @@ public class Line {
         return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( slope() * p1.x() );
     }
 
-    /*
-     * Calculate the midpoint of the line
-     */
-    private Posn mid_point() {
-        return new Posn( ( p1.x() + p2.x() ) / 2, ( p1.y() + p2.y() ) / 2 );
-    }
-
-
     // Developer methods
     //------------------
 
@@ -309,7 +309,7 @@ public class Line {
      * Method used to print the xml code to construct a line
      */
     public String Print_line() {
-        String color_text = ( color == null ) ? "" : "<color>" + String.format( "%1$9s", color ) + "</color>" + "</Line>";
+        String color_text = ( ( color == null ) ? "" : "<color>" + String.format( "%1$9s", color ) + "</color>" ) + "</Line>";
         return "<Line>" + p1.Print_posn( "p1" ) + p2.Print_posn( "p2" ) + color_text;
     }
 }

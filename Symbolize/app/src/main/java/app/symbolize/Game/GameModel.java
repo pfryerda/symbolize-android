@@ -18,6 +18,12 @@ import app.symbolize.Puzzle.Puzzle;
  * how lines have you drawn/erased and a tracker of your past state for undo.
  */
 public class GameModel {
+    // Constants
+    //-----------
+
+    public static final int TAPING_THRESHOLD = GameView.SCALING * 4;
+
+
     // Fields
     //--------
 
@@ -262,11 +268,12 @@ public class GameModel {
      *
      * @param Posn point: The point of interest
      */
-    public void Change_color( Posn point ) {
+    public boolean Change_color( Posn point ) {
         Line line = Get_intersecting_line( point );
         if ( line != null ) {
             line.Edit( Request.Change_color );
         }
+        return line != null;
     }
 
     /*
@@ -358,12 +365,17 @@ public class GameModel {
     }
 
     public Line Get_intersecting_line( Posn point ) {
+        int min_distance_squared = TAPING_THRESHOLD;
+        Line target_line = null;
         for ( Line line : graph ) {
-            if ( line.Intersects( point ) ) {
-                return line;
+            int new_distance_squared = point.Distance_squared( line );
+            if( new_distance_squared <= min_distance_squared ) {
+                min_distance_squared = new_distance_squared;
+                target_line = line;
             }
+            Log.d( "Distance", "" + new_distance_squared );
         }
-        return null;
+        return target_line;
     }
 
 

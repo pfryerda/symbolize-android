@@ -52,6 +52,7 @@ public class GameController {
                 game_model.Push_state();
             }
 
+            boolean success = true;
             switch ( request.type ) {
                 case Request.Log:
                     game_model.LogGraph();
@@ -71,7 +72,7 @@ public class GameController {
 
                 case Request.Draw:
                     game_model.Add_line_via_draw( request.request_line );
-                    if( request.request_line.Is_dud() ) game_model = game_model.Get_past_state();
+                    success = !request.request_line.Is_dud();
                     break;
 
                 case Request.Erase:
@@ -80,6 +81,7 @@ public class GameController {
 
                 case Request.Drag_start:
                     response.response_line = game_model.Remove_line_via_drag( request.request_point );
+                    success = response.response_line != null;
                     break;
 
                 case Request.Drag_end:
@@ -87,7 +89,7 @@ public class GameController {
                     break;
 
                 case Request.Change_color:
-                    game_model.Change_color( request.request_point );
+                    success = game_model.Change_color( request.request_point );
                     break;
 
                 case Request.Shift:
@@ -123,6 +125,8 @@ public class GameController {
                 default:
                     break;
             }
+
+            if( !success ) game_model = game_model.Get_past_state();
 
             if ( request.Require_render() ) {
                 if ( request.Is_animation_action() ) {
