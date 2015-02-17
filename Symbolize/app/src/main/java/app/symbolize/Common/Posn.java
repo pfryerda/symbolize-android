@@ -222,8 +222,8 @@ public class Posn {
     public Posn Snap( boolean round ) {
         short scale_factor = GameView.SCALING / 10;
         if ( round ) {
-            return new Posn( Math.round( first / scale_factor ) * scale_factor,
-                             Math.round( second / scale_factor ) * scale_factor );
+            return new Posn( Math.round( (float) first / scale_factor ) * scale_factor,
+                             Math.round( (float) second / scale_factor ) * scale_factor );
         } else {
             return new Posn( first - ( first % scale_factor ),
                              second - ( second % scale_factor ) );
