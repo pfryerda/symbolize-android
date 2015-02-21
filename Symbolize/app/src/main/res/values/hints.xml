@@ -24,22 +24,22 @@
         <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 2-5  - 'M' -->
         <item>The answer can be found at example.com, examine the difference
             in the number of the words between the 2 sentences.</item>      <!-- Level: 2-6  - '2' -->
-        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-7  - 'Music #2' -->
-        <item>He_ _o wor_d</item>                                           <!-- Level: 2-8  - 'L' -->
+        <item></item>                                                       <!-- Level: 2-7  - '' -->
+        <item></item>                                                       <!-- Level: 2-8  - '' -->
         <item></item>                                                       <!-- Level: 2-9  - '' -->
-        <item>Transform this S into a &amp;</item>                          <!-- Level: 2-9  - '&' -->
+        <item>Transform this S into a &amp;</item>                          <!-- Level: 2-10 - '&' -->
     </string-array>
 
     <string-array name="world_3_hints">
         <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
-        <item></item>                                                       <!-- Level: 3-1  - '' -->
+        <item>He_ _o wor_d</item>                                           <!-- Level: 3-1  - 'L' -->
         <item></item>                                                       <!-- Level: 3-2  - '' -->
         <item></item>                                                       <!-- Level: 3-3  - '' -->
         <item></item>                                                       <!-- Level: 3-4  - '' -->
         <item></item>                                                       <!-- Level: 3-5  - '' -->
         <item></item>                                                       <!-- Level: 3-6  - '' -->
         <item></item>                                                       <!-- Level: 3-7  - '' -->
-        <item></item>                                                       <!-- Level: 3-8  - '' -->
+        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 3-8  - 'Music #2' -->
         <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 3-9  - 'S' -->
         <item>Make some music</item>                                        <!-- Level: 3-10 - '♫' -->
     </string-array>
@@ -48,15 +48,15 @@
         <item>On your phone go into settings and then wireless and network,
         you should find the symbol there</item>                             <!-- World: 4    - 'Blue tooth' -->
         <item></item>                                                       <!-- Level: 4-1  - '' -->
-        <item></item>                                                       <!-- Level: 4-2  - '' -->
-        <item></item>                                                       <!-- Level: 4-3  - '' -->
-        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-4  - 'gender symbol' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-2  - 'gender symbol' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-3  - 'Chess' -->
+        <item></item>                                                       <!-- Level: 4-4  - '' -->
         <item>Increase a letter by 1</item>                                 <!-- Level: 4-5  - 'D' -->
         <item>Change this correct math statement into another
             correct statement</item>                                        <!-- Level: 4-6  - '11' -->
         <item>I hope this puzzle makes you smile</item>                     <!-- Level: 4-7  - '=]' (dice) -->
         <item></item>                                                       <!-- Level: 4-8  - 'TODO: Impossible' -->
-        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-9  - 'Chess' -->
+        <item></item>                                                       <!-- Level: 4-9  - '' -->
         <item>Make the last suite</item>                                    <!-- Level: 4-10 - '♥' -->
     </string-array>
 
