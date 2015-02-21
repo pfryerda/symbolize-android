@@ -34,29 +34,30 @@
         <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
         <item></item>                                                       <!-- Level: 3-1  - '' -->
         <item></item>                                                       <!-- Level: 3-2  - '' -->
-        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 3-3  - 'gender symbol' -->
-        <item>Increase a letter by 1</item>                                 <!-- Level: 3-4  - 'D' -->
+        <item></item>                                                       <!-- Level: 3-3  - '' -->
+        <item></item>                                                       <!-- Level: 3-4  - '' -->
         <item></item>                                                       <!-- Level: 3-5  - '' -->
-        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 3-6  - 'Chess' -->
-        <item>I hope this puzzle makes you smile</item>                     <!-- Level: 3-7  - '=]' (dice) -->
-        <item>Make the last suite</item>                                    <!-- Level: 3-8  - '♥' -->
+        <item></item>                                                       <!-- Level: 3-6  - '' -->
+        <item></item>                                                       <!-- Level: 3-7  - '' -->
+        <item></item>                                                       <!-- Level: 3-8  - '' -->
         <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 3-9  - 'S' -->
-        <item>Make some music</item>                                        <!-- Level: 2-10 - '♫' -->
+        <item>Make some music</item>                                        <!-- Level: 3-10 - '♫' -->
     </string-array>
 
     <string-array name="world_4_hints">
-        <item></item>                                                       <!-- World: 4    - '' -->
+        <item>On your phone go into settings and then wireless and network,
+        you should find the symbol there</item>                             <!-- World: 4    - 'Blue tooth' -->
         <item></item>                                                       <!-- Level: 4-1  - '' -->
         <item></item>                                                       <!-- Level: 4-2  - '' -->
         <item></item>                                                       <!-- Level: 4-3  - '' -->
-        <item></item>                                                       <!-- Level: 4-4  - '' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-4  - 'gender symbol' -->
+        <item>Increase a letter by 1</item>                                 <!-- Level: 4-5  - 'D' -->
         <item>Change this correct math statement into another
-            correct statement</item>                                        <!-- Level: 4-5  - '11' -->
-        <item></item>                                                       <!-- Level: 4-6  - '' -->
-        <item></item>                                                       <!-- Level: 4-7  - '' -->
+            correct statement</item>                                        <!-- Level: 4-6  - '11' -->
+        <item>I hope this puzzle makes you smile</item>                     <!-- Level: 4-7  - '=]' (dice) -->
         <item></item>                                                       <!-- Level: 4-8  - 'TODO: Impossible' -->
-        <item></item>                                                       <!-- Level: 4-9  - '' -->
-        <item>Increase a number by 1</item>                                 <!-- Level: 4-10 - '3' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-9  - 'Chess' -->
+        <item>Make the last suite</item>                                    <!-- Level: 4-10 - '♥' -->
     </string-array>
 
     <string-array name="world_5_hints">
@@ -65,7 +66,7 @@
         <item></item>                                                       <!-- Level: 5-2  - '' -->
         <item>Suspension ______</item>                                      <!-- Level: 5-3  - 'Suspension bridge' -->
         <item></item>                                                       <!-- Level: 5-4  - '' -->
-        <item></item>                                                       <!-- Level: 5-5  - '' -->
+        <item>Increase a number by 1</item>                                 <!-- Level: 5-5  - '3' -->
         <item></item>                                                       <!-- Level: 5-6  - '' -->
         <item></item>                                                       <!-- Level: 5-7  - '' -->
         <item>Remove the piece necessary to make a bottom
