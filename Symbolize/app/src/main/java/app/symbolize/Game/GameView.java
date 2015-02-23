@@ -198,7 +198,13 @@ public class GameView {
             if( UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
-                    // Draw 'complete' border
+                    // Draw border - black
+                    paint.setStrokeWidth( POINT_WIDTH + 5 );
+                    paint.setStyle( Paint.Style.STROKE );
+                    paint.setColor( Color.BLACK );
+                    render_point( foreground_canvas, point );
+
+                    // Draw border - complete
                     paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
@@ -209,7 +215,7 @@ public class GameView {
                     render_point( foreground_canvas, point );
 
                     // Draw Point
-                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH );
+                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
                     paint.setStyle( Paint.Style.STROKE );
                     paint.setColor( Color.DKGRAY );
                     render_point( foreground_canvas, point );
