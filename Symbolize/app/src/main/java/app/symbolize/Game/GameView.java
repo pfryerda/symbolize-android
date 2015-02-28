@@ -62,7 +62,7 @@ public class GameView {
         LINE_WIDTH = (short) ( ( (float) GameUIView.CANVAS_SIZE / 17 ) * ( (float) game_size / 100 ) );
         LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
         POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
-        POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 9 );
+        POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 8 );
         TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
         BORDER_WIDTH = LINE_WIDTH;
@@ -198,14 +198,14 @@ public class GameView {
             if( UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
-                    // Draw border - black
-                    paint.setStrokeWidth( POINT_WIDTH + 5 );
+                    // Draw border
+                    paint.setStrokeWidth( POINT_WIDTH );
                     paint.setStyle( Paint.Style.STROKE );
                     paint.setColor( Color.BLACK );
                     render_point( foreground_canvas, point );
 
-                    // Draw border - complete
-                    paint.setStrokeWidth( POINT_WIDTH );
+                    // Draw Point
+                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
                         paint.setColor( Page.Get_context().getResources().getColor( R.color.bright_green ) );
@@ -214,16 +214,10 @@ public class GameView {
                     }
                     render_point( foreground_canvas, point );
 
-                    // Draw Point
-                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
-                    paint.setStyle( Paint.Style.STROKE );
-                    paint.setColor( Color.DKGRAY );
-                    render_point( foreground_canvas, point );
-
                     // Draw Number
                     paint.setStrokeWidth( TEXT_WIDTH );
                     paint.setStyle( Paint.Style.FILL );
-                    paint.setColor( Color.WHITE );
+                    paint.setColor( Color.BLACK );
                     render_text( foreground_canvas, point, Integer.toString( i + 1 ) );
                 }
             }

@@ -12,10 +12,12 @@ import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -56,6 +58,8 @@ abstract public class GameUIView {
     public static final ArrayList<Integer> BRIGHT_COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;
 
+    public static final ArrayList<Integer> NUMBER_IMAGES_ARRAY;
+
 
     // Fields
     //--------
@@ -72,7 +76,9 @@ abstract public class GameUIView {
     private static Button left_button;
     private static Button right_button;
 
-    private static TextView title;
+    private static LinearLayout title;
+    private static ImageView title_state;
+    private static ImageView title_number;
 
 
     // Static block
@@ -110,6 +116,18 @@ abstract public class GameUIView {
         BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2 );
         BOTTOM_BUTTON_WIDTH = (short) ( SCREEN_SIZE.x / 5 );
         TOP_BUTTON_WIDTH = (short) ( BOTTOM_BUTTON_WIDTH / 2 );
+
+        NUMBER_IMAGES_ARRAY = new ArrayList<Integer>();
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_1 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_2 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_3 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_4 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_5 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_6 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_7 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_8 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_9 );
+        NUMBER_IMAGES_ARRAY.add( R.drawable.image_10 );
     }
 
 
@@ -121,7 +139,14 @@ abstract public class GameUIView {
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
-        title.setText( session.Get_current_puzzle_text() );
+        if(session.Is_in_world_view()) {
+            title_state.setImageResource( R.drawable.world );
+            title_number.setImageResource(Get_number_image_resource(session.Get_current_world()));
+        } else {
+            title_state.setImageResource( R.drawable.level );
+            title_number.setImageResource(Get_number_image_resource(session.Get_current_level()));
+        }
+
 
         if ( unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view() ) {
             left_button.setVisibility( View.VISIBLE );
@@ -195,26 +220,35 @@ abstract public class GameUIView {
         left_button = (Button) activity.findViewById( R.id.Left );
         right_button = (Button) activity.findViewById( R.id.Right );
 
-        title = (TextView) activity.findViewById( R.id.Title );
+        title = (LinearLayout) activity.findViewById( R.id.Title );
+        title_state = (ImageView) activity.findViewById( R.id.Title_State );
+        title_number = (ImageView) activity.findViewById( R.id.Title_number );
 
         // Set the buttons/layout width/height - 'Faster than doing it via xml'
-        activity.findViewById( R.id.top_bar ).getLayoutParams().height = BAR_HEIGHT;
+        top_bar.getLayoutParams().height = BAR_HEIGHT;
         activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
 
         activity.findViewById( R.id.Check ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         activity.findViewById( R.id.Hint ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        activity.findViewById( R.id.Undo ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        activity.findViewById( R.id.Draw ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        activity.findViewById( R.id.Erase ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+        undo_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+        draw_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+        erase_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
 
-        activity.findViewById( R.id.Left ).getLayoutParams().width = TOP_BUTTON_WIDTH;
+        left_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
         activity.findViewById( R.id.Back ).getLayoutParams().width = TOP_BUTTON_WIDTH;
-        activity.findViewById( R.id.Right ).getLayoutParams().width = TOP_BUTTON_WIDTH;
+        right_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
         activity.findViewById( R.id.Reset ).getLayoutParams().width = TOP_BUTTON_WIDTH;
         activity.findViewById( R.id.Settings ).getLayoutParams().width = TOP_BUTTON_WIDTH;
 
-        activity.findViewById( R.id.Title ).getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
-        ( (TextView) activity.findViewById( R.id.Title ) ).setGravity( Gravity.CENTER );
+        title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
+        title.setGravity( Gravity.CENTER );
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( 5 * GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.CENTER;
+        title_state.setLayoutParams( params );
+        params = new LinearLayout.LayoutParams( 2 * GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.CENTER;
+        title_number.setLayoutParams( params );
 
         Highlight_current_mode();
     }
@@ -267,6 +301,17 @@ abstract public class GameUIView {
     public static int Get_next_color( Integer color ) {
         if( color == null ) color = Color.DKGRAY;
         return COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
+    }
+
+    /*
+     * Give a number and it will give the id for the drawable of that number (range: 1 - 10)
+     *
+     * @param int number: The number wanted
+     *
+     * @return int: The id of the drawable
+     */
+    public static int Get_number_image_resource( int number ) {
+        return NUMBER_IMAGES_ARRAY.get( number - 1 );
     }
 
     /*

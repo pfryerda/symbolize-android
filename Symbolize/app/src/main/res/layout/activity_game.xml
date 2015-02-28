@@ -53,13 +53,23 @@
             android:text="@string/right_arrow"
             style="@style/top_left_toolbar_button"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/Title"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:textSize="30dp"
-            android:gravity="center"
-            style="@style/main_title"/>
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/Title_State"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/world"
+                style="@style/image_button" />
+            <ImageView
+                android:id="@+id/Title_number"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/image_1"
+                style="@style/image_button"/>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/Reset"
