@@ -50,6 +50,8 @@ public class GameView {
     public static short GRID_WIDTH;
     public static short BORDER_WIDTH;
 
+    public static ArrayList<Bitmap> NUMBER_IMAGES;
+
 
     // Static block
     //--------------
@@ -70,6 +72,17 @@ public class GameView {
         TEXT_WIDTH = (short) (  POINT_WIDTH / 2 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
         BORDER_WIDTH = LINE_WIDTH;
+
+        NUMBER_IMAGES = new ArrayList<Bitmap>();
+        for( int i = 1; i < 10; ++i ) {
+            Bitmap number = BitmapFactory.decodeResource( Page.Get_activity().getResources(), GameUIView.Get_number_image_resource( i ) );
+            number = Bitmap.createScaledBitmap( number, TEXT_WIDTH, TEXT_WIDTH, true );
+            NUMBER_IMAGES.add( number );
+        }
+
+        Bitmap number = BitmapFactory.decodeResource( Page.Get_activity().getResources(), GameUIView.Get_number_image_resource( 10 ) );
+        number = Bitmap.createScaledBitmap( number, (int) Math.round( 1.4 * TEXT_WIDTH ), TEXT_WIDTH, true );
+        NUMBER_IMAGES.add( number );
     }
 
 
@@ -219,7 +232,7 @@ public class GameView {
                     render_point( foreground_canvas, point );
 
                     // Draw Number
-                    render_text( foreground_canvas, point, i + 1 );
+                    render_text( foreground_canvas, point, i );
                 }
             }
         }
@@ -280,11 +293,7 @@ public class GameView {
     }
 
     private void render_text( final Canvas canvas, final Posn point, final int text ) {
-        final short width = (text == 10) ? (short) Math.round( 1.4 * TEXT_WIDTH) : TEXT_WIDTH;
-        final short height = TEXT_WIDTH;
-
-        Bitmap number = BitmapFactory.decodeResource( Page.Get_activity().getResources(), GameUIView.Get_number_image_resource( text ) );
-        number = Bitmap.createScaledBitmap(number, width, height, true );
+        Bitmap number = NUMBER_IMAGES.get( text );
         canvas.drawBitmap( number, point.Unscale().x() - number.getWidth() / 2, point.Unscale().y() - number.getHeight() / 2, paint );
     }
 

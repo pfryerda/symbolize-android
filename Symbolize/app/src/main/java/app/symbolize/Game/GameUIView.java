@@ -49,6 +49,7 @@ abstract public class GameUIView {
 
     public static final Point SCREEN_SIZE;
     public static final short CANVAS_SIZE;
+    public static final short TITLE_SIZE;
     public static final short BAR_HEIGHT;
     public static final short AD_HEIGHT;
     public static final short BOTTOM_BUTTON_WIDTH;
@@ -113,6 +114,7 @@ abstract public class GameUIView {
 
         AD_HEIGHT = (short) AdSize.BANNER.getHeightInPixels( activity );
         CANVAS_SIZE = (short) ( ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y );
+        TITLE_SIZE = (short) ( (float) CANVAS_SIZE / 20 );
         BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2 );
         BOTTOM_BUTTON_WIDTH = (short) ( SCREEN_SIZE.x / 5 );
         TOP_BUTTON_WIDTH = (short) ( BOTTOM_BUTTON_WIDTH / 2 );
@@ -243,10 +245,10 @@ abstract public class GameUIView {
         title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         title.setGravity( Gravity.CENTER );
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * GameView.TEXT_WIDTH ), ViewGroup.LayoutParams.MATCH_PARENT );
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
         title_state.setLayoutParams( params );
-        params = new LinearLayout.LayoutParams( (int) Math.round(1.5 * GameView.TEXT_WIDTH), ViewGroup.LayoutParams.MATCH_PARENT );
+        params = new LinearLayout.LayoutParams( (int) Math.round( 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
         title_number.setLayoutParams( params );
 
