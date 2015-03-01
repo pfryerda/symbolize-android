@@ -67,7 +67,7 @@ public class GameView {
         LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
         POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
         POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 8 );
-        TEXT_WIDTH = (short) (  3 * POINT_WIDTH / 4 );
+        TEXT_WIDTH = (short) (  POINT_WIDTH / 2 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
         BORDER_WIDTH = LINE_WIDTH;
     }
@@ -280,8 +280,11 @@ public class GameView {
     }
 
     private void render_text( final Canvas canvas, final Posn point, final int text ) {
+        final short width = (text == 10) ? (short) Math.round( 1.4 * TEXT_WIDTH) : TEXT_WIDTH;
+        final short height = TEXT_WIDTH;
+
         Bitmap number = BitmapFactory.decodeResource( Page.Get_activity().getResources(), GameUIView.Get_number_image_resource( text ) );
-        number = Bitmap.createScaledBitmap(number, TEXT_WIDTH, TEXT_WIDTH, true );
+        number = Bitmap.createScaledBitmap(number, width, height, true );
         canvas.drawBitmap( number, point.Unscale().x() - number.getWidth() / 2, point.Unscale().y() - number.getHeight() / 2, paint );
     }
 

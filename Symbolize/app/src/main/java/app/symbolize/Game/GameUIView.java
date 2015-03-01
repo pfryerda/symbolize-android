@@ -243,10 +243,10 @@ abstract public class GameUIView {
         title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         title.setGravity( Gravity.CENTER );
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( 5 * GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * GameView.TEXT_WIDTH ), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
         title_state.setLayoutParams( params );
-        params = new LinearLayout.LayoutParams( GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+        params = new LinearLayout.LayoutParams( (int) Math.round(1.5 * GameView.TEXT_WIDTH), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
         title_number.setLayoutParams( params );
 
