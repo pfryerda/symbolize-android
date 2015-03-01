@@ -28,7 +28,7 @@
     
     <!-- Symbolize styles -->
 
-    <style name="image_button">
+    <style name="image">
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@null</item>
     </style>
@@ -43,7 +43,7 @@
         <item name="android:shadowRadius">8</item>
     </style>
     
-    <style name="bottom_toolbar_button" parent="image_button">
+    <style name="bottom_toolbar_button" parent="image">
         <item name="android:padding">5dp</item>
     </style>
 

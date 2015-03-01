@@ -34,19 +34,21 @@ public class HintDialog extends InfoDialog {
         String message = puzzle.Get_hint();
 
         if ( !session.Is_in_world_view() ) {
-            message += "\n" + context.getString(R.string.draws_allowed) + puzzle.Get_draw_restriction();
+            message += "\n";
+            message += "\n" + context.getString( R.string.draws_allowed ) + puzzle.Get_draw_restriction();
 
             if ( ( puzzle.Get_drag_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
-                message += "\n" + context.getString(R.string.drags_allowed) + puzzle.Get_drag_restriction();
+                message += "\n" + context.getString( R.string.drags_allowed ) + puzzle.Get_drag_restriction();
             }
 
             if ( ( puzzle.Get_erase_restriction() > 0 ) || meta_dao.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
-                message += "\n" + context.getString(R.string.erase_allowed) + puzzle.Get_erase_restriction();
+                message += "\n" + context.getString( R.string.erase_allowed ) + puzzle.Get_erase_restriction();
             }
         }
 
+
         if ( puzzle.Has_mechanics() ) {
-            message += "\n\n" + context.getString( R.string.mechanics_allowed ) + "\n";
+            message +=  "\n\n" + context.getString( R.string.mechanics_allowed ) + "\n"; // BUG: THIS STOPS ANIMATION WORKING PROPERLY MOVE TO XML
             if ( puzzle.Can_rotate() ) {
                 message += context.getString( R.string.rotate ) + " ";
             }
@@ -78,10 +80,11 @@ public class HintDialog extends InfoDialog {
     protected View get_dialog_view() {
         final View dialog_view = super.get_dialog_view();
 
+        Set_attrs();
+        set_tutorial( dialog_view );
+
         ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText( title );
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
-
-        set_tutorial( dialog_view );
 
         return dialog_view;
     }

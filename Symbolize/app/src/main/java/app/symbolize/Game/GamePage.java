@@ -202,7 +202,7 @@ public class GamePage extends Page
 
     public void On_hint_button_clicked( final View view ) {
         HintDialog hint_dialog = new HintDialog();
-        hint_dialog.Set_attrs();
+        //hint_dialog.Set_attrs();
         hint_dialog.Show();
     }
 

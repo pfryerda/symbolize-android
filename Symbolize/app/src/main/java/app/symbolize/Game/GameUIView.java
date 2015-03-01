@@ -190,7 +190,7 @@ abstract public class GameUIView {
 
         gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
         gradient.setCornerRadius( 0f );
-        if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
             bottom_bar.setBackgroundDrawable( gradient );
         } else {
             bottom_bar.setBackground( gradient );
@@ -246,7 +246,7 @@ abstract public class GameUIView {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( 5 * GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
         title_state.setLayoutParams( params );
-        params = new LinearLayout.LayoutParams( 2 * GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+        params = new LinearLayout.LayoutParams( GameView.TEXT_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
         title_number.setLayoutParams( params );
 

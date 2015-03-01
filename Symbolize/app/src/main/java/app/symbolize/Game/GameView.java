@@ -1,6 +1,8 @@
 package app.symbolize.Game;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +14,8 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
+
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
 import app.symbolize.Routing.Page;
@@ -63,7 +67,7 @@ public class GameView {
         LINE_BORDER_WIDTH = (short) ( LINE_WIDTH / 3 );
         POINT_WIDTH = (short) ( ( LINE_WIDTH * 7 ) / 4 );
         POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 8 );
-        TEXT_WIDTH = (short) ( POINT_WIDTH / 2 );
+        TEXT_WIDTH = (short) (  3 * POINT_WIDTH / 4 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
         BORDER_WIDTH = LINE_WIDTH;
     }
@@ -215,10 +219,7 @@ public class GameView {
                     render_point( foreground_canvas, point );
 
                     // Draw Number
-                    paint.setStrokeWidth( TEXT_WIDTH );
-                    paint.setStyle( Paint.Style.FILL );
-                    paint.setColor( Color.BLACK );
-                    render_text( foreground_canvas, point, Integer.toString( i + 1 ) );
+                    render_text( foreground_canvas, point, i + 1 );
                 }
             }
         }
@@ -278,11 +279,10 @@ public class GameView {
         canvas.drawPoint( point.Unscale().x(), point.Unscale().y(), paint );
     }
 
-    private void render_text( final Canvas canvas, final Posn point, final String text ) {
-        paint.setTypeface( Typeface.create( "penshurst" , Typeface.BOLD ) );
-        Rect bounds = new Rect();
-        paint.getTextBounds( text, 0, 1, bounds );
-        canvas.drawText( text, point.Unscale().x(), point.Unscale().y() + ( bounds.height() / 2 ), paint );
+    private void render_text( final Canvas canvas, final Posn point, final int text ) {
+        Bitmap number = BitmapFactory.decodeResource( Page.Get_activity().getResources(), GameUIView.Get_number_image_resource( text ) );
+        number = Bitmap.createScaledBitmap(number, TEXT_WIDTH, TEXT_WIDTH, true );
+        canvas.drawBitmap( number, point.Unscale().x() - number.getWidth() / 2, point.Unscale().y() - number.getHeight() / 2, paint );
     }
 
     /*
