@@ -24,6 +24,29 @@
         android:gravity="center"
         style="@style/text"/>
 
+    <TextView
+        android:id="@+id/Mechanics_allowed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/mechanics_allowed"
+        android:textIsSelectable="true"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:gravity="center"
+        style="@style/text"/>
+
+    <TextView
+        android:id="@+id/Mechanics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Place-holder text"
+        android:textIsSelectable="true"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:gravity="center"
+        style="@style/text"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

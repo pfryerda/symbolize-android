@@ -61,9 +61,6 @@
 
     <string name="loading">Loading...</string>
 
-    <string name="left_arrow">\u21E6</string>
-    <string name="right_arrow">\u21E8</string>
-
 
     <!-- Alpha warnings -->
     <string name="splash_alpha_1">Note: This version of Symbolize is only for testing and does

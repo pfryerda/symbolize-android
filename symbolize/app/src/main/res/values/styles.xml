@@ -32,16 +32,6 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@null</item>
     </style>
-
-    <style name="top_left_toolbar_button" parent="outline_text">
-        <!-- Same as image button (current android does not support multiple inheritance -->
-        <item name="android:scaleType">fitCenter</item>
-        <item name="android:background">@null</item>
-        <!-- -->
-
-        <item name="android:textSize">30dp</item>
-        <item name="android:shadowRadius">8</item>
-    </style>
     
     <style name="bottom_toolbar_button" parent="image">
         <item name="android:padding">5dp</item>
@@ -60,22 +50,10 @@
         <item name="android:textColor">@color/gray</item>
     </style>
 
-    <style name="main_title" parent="outline_text">
-        <item name="android:textSize">30dp</item>
-    </style>
-
     <style name="text">
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:typeface">sans</item>
-    </style>
-
-    <style name="outline_text" parent="text">
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">8</item>
-        <item name="android:shadowColor">@color/black</item>
-        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="sub_text" parent="text">

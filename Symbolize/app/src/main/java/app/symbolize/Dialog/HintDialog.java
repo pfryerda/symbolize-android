@@ -10,6 +10,11 @@ import app.symbolize.Puzzle.Puzzle;
 import app.symbolize.R;
 
 public class HintDialog extends InfoDialog {
+    // Fields
+    //--------
+
+    protected String mechanics;
+
     // Inherited fields
     //------------------
 
@@ -32,6 +37,7 @@ public class HintDialog extends InfoDialog {
         final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
 
         String message = puzzle.Get_hint();
+        String mechanics = "";
 
         if ( !session.Is_in_world_view() ) {
             message += "\n";
@@ -48,24 +54,24 @@ public class HintDialog extends InfoDialog {
 
 
         if ( puzzle.Has_mechanics() ) {
-            message +=  "\n\n" + context.getString( R.string.mechanics_allowed ) + "\n"; // BUG: THIS STOPS ANIMATION WORKING PROPERLY MOVE TO XML
             if ( puzzle.Can_rotate() ) {
-                message += context.getString( R.string.rotate ) + " ";
+                mechanics += context.getString( R.string.rotate ) + " ";
             }
             if ( puzzle.Can_flip() ) {
-                message += context.getString( R.string.flip ) + " ";
+                mechanics += context.getString( R.string.flip ) + " ";
             }
             if ( puzzle.Can_shift() ) {
-                message += context.getString( R.string.shift ) + " ";
+                mechanics += context.getString( R.string.shift ) + " ";
             }
             if ( puzzle.Can_change_color() ) {
-                message += context.getString( R.string.change_color ) + " ";
+                mechanics += context.getString( R.string.change_color ) + " ";
             }
             if ( puzzle.Is_special_enabled() ) {
-                message += context.getString( R.string.special ) + " ";
+                mechanics += context.getString( R.string.special ) + " ";
             }
         }
 
+        this.mechanics = mechanics;
         super.Set_attrs( session.Get_current_puzzle_text(), message );
     }
 
@@ -85,6 +91,10 @@ public class HintDialog extends InfoDialog {
 
         ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText( title );
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
+        ( (TextView) dialog_view.findViewById( R.id.Mechanics ) ).setText( mechanics );
+
+        if( mechanics.equals( "" ) ) dialog_view.findViewById( R.id.Mechanics_allowed ).setVisibility( View.GONE );
+        else                         dialog_view.findViewById( R.id.Mechanics_allowed ).setVisibility( View.VISIBLE );
 
         return dialog_view;
     }
