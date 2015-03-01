@@ -31,12 +31,12 @@
         android:orientation="horizontal"
         android:layout_alignParentTop="true">
 
-        <Button
+        <ImageButton
             android:id="@+id/Left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:onClick="On_left_button_clicked"
-            android:text="@string/left_arrow"
+            android:src="@drawable/arrow"
             style="@style/top_left_toolbar_button"/>
         <ImageButton
             android:id="@+id/Back"
@@ -45,12 +45,13 @@
             android:onClick="On_back_button_clicked"
             android:src="@drawable/levels"
             style="@style/top_left_toolbar_button"/>
-        <Button
+        <ImageButton
             android:id="@+id/Right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:onClick="On_right_button_clicked"
-            android:text="@string/right_arrow"
+            android:src="@drawable/arrow"
+            android:scaleX="-1"
             style="@style/top_left_toolbar_button"/>
 
         <LinearLayout

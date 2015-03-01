@@ -89,7 +89,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <Button
+        <ImageButton
             android:id="@+id/Close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

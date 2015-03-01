@@ -73,8 +73,8 @@ abstract public class GameUIView {
     private static ImageButton draw_button;
     private static ImageButton erase_button;
 
-    private static Button left_button;
-    private static Button right_button;
+    private static ImageButton left_button;
+    private static ImageButton right_button;
 
     private static LinearLayout title;
     private static ImageView title_state;
@@ -217,8 +217,8 @@ abstract public class GameUIView {
         draw_button = (ImageButton) activity.findViewById( R.id.Draw );
         erase_button = (ImageButton) activity.findViewById( R.id.Erase );
 
-        left_button = (Button) activity.findViewById( R.id.Left );
-        right_button = (Button) activity.findViewById( R.id.Right );
+        left_button = (ImageButton) activity.findViewById( R.id.Left );
+        right_button = (ImageButton) activity.findViewById( R.id.Right );
 
         title = (LinearLayout) activity.findViewById( R.id.Title );
         title_state = (ImageView) activity.findViewById( R.id.Title_State );

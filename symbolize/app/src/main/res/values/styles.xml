@@ -108,20 +108,18 @@
         <item name="android:text">@string/close</item>
     </style>
 
-    <style name="back_button" parent="close_button">
-        <item name="android:text">@string/left_arrow</item>
-        <item name="android:textSize">40dp</item>
+    <style name="back_button" parent="image">
+        <item name="android:src">@drawable/arrow</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:height">20dp</item>
+        <item name="android:adjustViewBounds">true</item>
     </style>
 
-    <style name="reset_button" parent="button">
+    <style name="reset_button" parent="image">
         <item name="android:src">@drawable/delete</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:height">20dp</item>
-        <item name="android:scaleType">fitCenter</item>
         <item name="android:adjustViewBounds">true</item>
-        <item name="android:background">@null</item>
     </style>
 
     <!-- Dialog animation setup -->
