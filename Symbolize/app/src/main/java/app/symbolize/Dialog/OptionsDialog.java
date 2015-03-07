@@ -1,6 +1,7 @@
 package app.symbolize.Dialog;
 
 import android.view.View;
+import android.widget.ImageButton;
 
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;

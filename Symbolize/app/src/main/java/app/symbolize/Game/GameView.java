@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -163,9 +164,10 @@ public class GameView {
             @Override
             public void onSymbolizeAnimationEnd() {
                 Render( graph, levels, false );
+                GameUIView.Reset_highlights();
                 if( requires_hint_box ) {
                     HintDialog hint_dialog = new HintDialog();
-                    hint_dialog.Set_attrs();
+                    hint_dialog.Set_Button( (ImageButton) GamePage.Get_activity().findViewById( R.id.Hint ) );
                     hint_dialog.Show();
                 }
             }

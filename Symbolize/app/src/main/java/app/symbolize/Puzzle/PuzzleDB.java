@@ -39,13 +39,12 @@ abstract public class PuzzleDB {
     // Constants
     //-----------
 
-    public static final byte NUMBER_OF_WORLDS = 7;
+    public static final byte NUMBER_OF_WORLDS = 5;
     public static final byte NUMBER_OF_LEVELS_PER_WORLD = 10;
 
     private static final int[] hint_map = new int[]{ 0,
         R.array.world_1_hints, R.array.world_2_hints, R.array.world_3_hints,
-        R.array.world_4_hints, R.array.world_5_hints, R.array.world_6_hints,
-        R.array.world_7_hints
+        R.array.world_4_hints, R.array.world_5_hints
     };
     private static final int[] xml_map = new int[]{
         R.xml.world_1, R.xml.level_1_1, R.xml.level_1_2, R.xml.level_1_3,
@@ -62,13 +61,7 @@ abstract public class PuzzleDB {
         R.xml.level_4_8, R.xml.level_4_9, R.xml.level_4_10,
         R.xml.world_5, R.xml.level_5_1, R.xml.level_5_2, R.xml.level_5_3,
         R.xml.level_5_4, R.xml.level_5_5, R.xml.level_5_6, R.xml.level_5_7,
-        R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10,
-        R.xml.world_6, R.xml.level_6_1, R.xml.level_6_2, R.xml.level_6_3,
-        R.xml.level_6_4, R.xml.level_6_5, R.xml.level_6_6, R.xml.level_6_7,
-        R.xml.level_6_8, R.xml.level_6_9, R.xml.level_6_10,
-        R.xml.world_7, R.xml.level_7_1, R.xml.level_7_2, R.xml.level_7_3,
-        R.xml.level_7_4, R.xml.level_7_5, R.xml.level_7_6, R.xml.level_7_7,
-        R.xml.level_7_8, R.xml.level_7_9, R.xml.level_7_10 };
+        R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10 };
 
     private static final Resources res = Page.Get_context().getResources();
 

@@ -75,32 +75,4 @@
         <item></item>                                                       <!-- Level: 5-9  - '' -->
         <item></item>                                                       <!-- Level: 5-10 - '' -->
     </string-array>
-
-    <string-array name="world_6_hints">
-        <item></item>                                                       <!-- World 6:    - '' -->
-        <item></item>                                                       <!-- Level: 6-1  - '' -->
-        <item></item>                                                       <!-- Level: 6-2  - '' -->
-        <item></item>                                                       <!-- Level: 6-3  - '' -->
-        <item></item>                                                       <!-- Level: 6-4  - '' -->
-        <item></item>                                                       <!-- Level: 6-5  - '' -->
-        <item></item>                                                       <!-- Level: 6-6  - '' -->
-        <item></item>                                                       <!-- Level: 6-7  - '' -->
-        <item></item>                                                       <!-- Level: 6-8  - '' -->
-        <item></item>                                                       <!-- Level: 6-9  - '' -->
-        <item></item>                                                       <!-- Level: 6-10 - '' -->
-    </string-array>
-
-    <string-array name="world_7_hints">
-        <item></item>                                                       <!-- World 7:    - '' -->
-        <item></item>                                                       <!-- Level: 7-1  - '' -->
-        <item></item>                                                       <!-- Level: 7-2  - '' -->
-        <item></item>                                                       <!-- Level: 7-3  - '' -->
-        <item></item>                                                       <!-- Level: 7-4  - '' -->
-        <item></item>                                                       <!-- Level: 7-5  - '' -->
-        <item></item>                                                       <!-- Level: 7-6  - '' -->
-        <item></item>                                                       <!-- Level: 7-7  - '' -->
-        <item></item>                                                       <!-- Level: 7-8  - '' -->
-        <item></item>                                                       <!-- Level: 7-9  - '' -->
-        <item></item>                                                       <!-- Level: 7-10 - '' -->
-    </string-array>
 </resources>

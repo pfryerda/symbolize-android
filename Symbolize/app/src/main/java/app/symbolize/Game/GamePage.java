@@ -1,6 +1,8 @@
 package app.symbolize.Game;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
@@ -10,6 +12,11 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
 import app.symbolize.Common.Communication.Response;
@@ -70,7 +77,7 @@ public class GamePage extends Page
         adView.loadAd( ad_request );
 
         // Set ui dimensions - faster than xml
-        GameUIView.Set_ui_dimensions();
+        GameUIView.Setup_ui();
 
         // Load las world used or '1' is none was last used
         Session.Get_instance().Update_puzzle();
@@ -119,6 +126,7 @@ public class GamePage extends Page
 
     public void On_settings_button_clicked( final View view ) {
         OptionsDialog options_dialog = new OptionsDialog();
+        options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
         options_dialog.Show();
     }
 
@@ -161,6 +169,7 @@ public class GamePage extends Page
                     }
 
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
+                    confirmDialog.Set_Button( (ImageButton) findViewById( R.id.Check ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
@@ -201,9 +210,11 @@ public class GamePage extends Page
     }
 
     public void On_hint_button_clicked( final View view ) {
-        HintDialog hint_dialog = new HintDialog();
-        //hint_dialog.Set_attrs();
-        hint_dialog.Show();
+        if ( !SymbolizeAnimation.InAnimation ) {
+            final HintDialog hint_dialog = new HintDialog();
+            hint_dialog.Set_Button( (ImageButton) findViewById( R.id.Hint ) );
+            hint_dialog.Show();
+        }
     }
 
     public void On_undo_button_clicked( final View view ) {

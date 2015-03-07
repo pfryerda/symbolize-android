@@ -21,9 +21,9 @@ public class DataOptionsDialog extends OptionDialog {
     // Static fields
     //---------------
 
-    private static final int[] data_map = new int[7];
-    private static final int[] level_complete_map = new int[7];
-    private static final int[] world_complete_map = new int[7];
+    private static final int[] data_map = new int[5];
+    private static final int[] level_complete_map = new int[5];
+    private static final int[] world_complete_map = new int[5];
 
 
     // Static block
@@ -35,24 +35,18 @@ public class DataOptionsDialog extends OptionDialog {
         data_map[2] = R.id.world_3_data;
         data_map[3] = R.id.world_4_data;
         data_map[4] = R.id.world_5_data;
-        data_map[5] = R.id.world_6_data;
-        data_map[6] = R.id.world_7_data;
 
         level_complete_map[0] = R.id.world_1_levels_complete;
         level_complete_map[1] = R.id.world_2_levels_complete;
         level_complete_map[2] = R.id.world_3_levels_complete;
         level_complete_map[3] = R.id.world_4_levels_complete;
         level_complete_map[4] = R.id.world_5_levels_complete;
-        level_complete_map[5] = R.id.world_6_levels_complete;
-        level_complete_map[6] = R.id.world_7_levels_complete;
 
         world_complete_map[0] = R.id.world_1_complete;
         world_complete_map[1] = R.id.world_2_complete;
         world_complete_map[2] = R.id.world_3_complete;
         world_complete_map[3] = R.id.world_4_complete;
         world_complete_map[4] = R.id.world_5_complete;
-        world_complete_map[5] = R.id.world_6_complete;
-        world_complete_map[6] = R.id.world_7_complete;
     }
 
     // Inherited fields

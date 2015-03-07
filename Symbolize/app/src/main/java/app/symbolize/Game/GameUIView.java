@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -70,12 +71,18 @@ abstract public class GameUIView {
     private static LinearLayout top_bar;
     private static LinearLayout bottom_bar;
 
+    private static ImageButton check_button;
     private static ImageButton undo_button;
+    private static ImageButton hint_button;
     private static ImageButton draw_button;
     private static ImageButton erase_button;
 
     private static ImageButton left_button;
+    private static ImageButton back_button;
     private static ImageButton right_button;
+
+    private static ImageButton reset_button;
+    private static ImageButton settings_button;
 
     private static LinearLayout title;
     private static ImageView title_state;
@@ -206,7 +213,7 @@ abstract public class GameUIView {
     /*
      * Sets all the game's ui dimensions, note: this is faster than doing it in xml
      */
-    public static void Set_ui_dimensions() {
+    public static void Setup_ui() {
         final Activity activity = GamePage.Get_activity();
 
         // Reset variable
@@ -215,12 +222,18 @@ abstract public class GameUIView {
         top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
 
+        check_button = (ImageButton) activity.findViewById( R.id.Check );
         undo_button = (ImageButton) activity.findViewById( R.id.Undo );
+        hint_button = (ImageButton) activity.findViewById( R.id.Hint );
         draw_button = (ImageButton) activity.findViewById( R.id.Draw );
         erase_button = (ImageButton) activity.findViewById( R.id.Erase );
 
         left_button = (ImageButton) activity.findViewById( R.id.Left );
+        back_button = (ImageButton) activity.findViewById( R.id.Back );
         right_button = (ImageButton) activity.findViewById( R.id.Right );
+
+        reset_button = (ImageButton) activity.findViewById( R.id.Reset );
+        settings_button = (ImageButton) activity.findViewById( R.id.Settings );
 
         title = (LinearLayout) activity.findViewById( R.id.Title );
         title_state = (ImageView) activity.findViewById( R.id.Title_State );
@@ -230,17 +243,17 @@ abstract public class GameUIView {
         top_bar.getLayoutParams().height = BAR_HEIGHT;
         activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
 
-        activity.findViewById( R.id.Check ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        activity.findViewById( R.id.Hint ).getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+        check_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+        hint_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         undo_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         draw_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         erase_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
 
         left_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        activity.findViewById( R.id.Back ).getLayoutParams().width = TOP_BUTTON_WIDTH;
+        back_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
         right_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        activity.findViewById( R.id.Reset ).getLayoutParams().width = TOP_BUTTON_WIDTH;
-        activity.findViewById( R.id.Settings ).getLayoutParams().width = TOP_BUTTON_WIDTH;
+        reset_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+        settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
 
         title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         title.setGravity( Gravity.CENTER );
@@ -253,6 +266,15 @@ abstract public class GameUIView {
         title_number.setLayoutParams( params );
 
         Highlight_current_mode();
+        set_touch_listener_highlight( left_button, false );
+        set_touch_listener_highlight( back_button, false );
+        set_touch_listener_highlight( right_button, false );
+        set_touch_listener_highlight( reset_button );
+        set_touch_listener_highlight( settings_button, false );
+        set_touch_listener_highlight( check_button );
+        set_touch_listener_highlight( undo_button );
+        set_touch_listener_highlight( hint_button, false );
+
     }
 
     /*
@@ -360,9 +382,53 @@ abstract public class GameUIView {
         return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
+    /*
+     * Resets all buttons so they are not highlighted (not including draw/erase)
+     */
+    public static void Reset_highlights() {
+        left_button.setColorFilter( null );
+        back_button.setColorFilter( null );
+        right_button.setColorFilter( null );
+
+        reset_button.setColorFilter( null );
+        settings_button.setColorFilter( null );
+
+        check_button.setColorFilter( null );
+        undo_button.setColorFilter( null );
+        hint_button.setColorFilter( null );
+    }
+
 
     // Private methods
     //-----------------
+
+    /*
+     * Set's up a button so when touched glow's game color and when released stop's glowing
+     *
+     * @param final ImageButton button: Button of interest
+     */
+    private static void set_touch_listener_highlight( final ImageButton button, final boolean revert ) {
+        button.setOnTouchListener( new View.OnTouchListener() {
+            @Override
+            public boolean onTouch( View v, MotionEvent event ) {
+                switch( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if( revert ) button.setColorFilter( null );
+                        break;
+                }
+
+                return false; // propagate listener to click
+            }
+        } );
+    }
+
+    private static void set_touch_listener_highlight( final ImageButton button ) {
+        set_touch_listener_highlight( button, true );
+    }
 
     /*
      * Methods use to temporarily show a small message at the bottom of the screen

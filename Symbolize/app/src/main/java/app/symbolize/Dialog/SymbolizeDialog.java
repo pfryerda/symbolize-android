@@ -4,11 +4,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.graphics.PorterDuff;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import app.symbolize.Common.Session;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.R;
@@ -28,6 +35,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
 
     protected String title;
     protected String message;
+    private ImageButton button;
 
     // Setter methods
     //----------------
@@ -35,6 +43,10 @@ abstract public class SymbolizeDialog extends DialogFragment {
     public void Set_attrs( String title, String message ) {
         this.title = title;
         this.message = message;
+    }
+
+    public void Set_Button( ImageButton button ) {
+        this.button = button;
     }
 
 
@@ -63,7 +75,16 @@ abstract public class SymbolizeDialog extends DialogFragment {
      * Display the dialog onto the page
      */
     public void Show() {
-        show( dialog_manager, get_dialog_string_id() );
+        show( dialog_manager, get_dialog_string_id());
+        if( button != null ) button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
+    }
+
+    /*
+     * See DialogFragment::onDismiss
+     */
+    @Override
+    public void onDismiss( DialogInterface dialog ) {
+        if( button != null ) button.setColorFilter(null);
     }
 
 

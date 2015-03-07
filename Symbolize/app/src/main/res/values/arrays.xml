@@ -9,9 +9,8 @@
 
     <integer-array name="color_array">
         <item>@color/green</item>
-        <item>@color/teal</item>
-        <item>@color/yellow</item>
         <item>@color/blue</item>
+        <item>@color/yellow</item>
         <item>@color/red</item>
         <item>@color/purple</item>
         <item>@color/gray</item>
@@ -21,7 +20,6 @@
         <item>@color/bright_green</item>
         <item>@color/cyan</item>
         <item>@color/gold</item>
-        <item>@color/bright_blue</item>
         <item>@color/bright_red</item>
         <item>@color/magenta</item>
         <item>@color/black</item>

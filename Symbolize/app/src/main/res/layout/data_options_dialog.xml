@@ -143,58 +143,6 @@
                     android:text="@string/world_complete"
                     style="@style/text"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/world_6_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/world_6"
-                    style="@style/text"/>
-                <TextView
-                    android:id="@+id/world_6_levels_complete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/levels_complete"
-                    style="@style/text"/>
-                <CheckedTextView
-                    android:id="@+id/world_6_complete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"
-                    style="@style/text"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/world_7_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/world_7"
-                    style="@style/text"/>
-                <TextView
-                    android:id="@+id/world_7_levels_complete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:text="@string/levels_complete"
-                    style="@style/text"/>
-                <CheckedTextView
-                    android:id="@+id/world_7_complete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/world_complete"
-                    style="@style/text"/>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
