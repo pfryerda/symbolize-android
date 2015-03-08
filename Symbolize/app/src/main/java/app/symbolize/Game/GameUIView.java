@@ -151,9 +151,11 @@ abstract public class GameUIView {
         if(session.Is_in_world_view()) {
             title_state.setImageResource( R.drawable.world );
             title_number.setImageResource(Get_number_image_resource(session.Get_current_world()));
+            back_button.setImageResource( R.drawable.home );
         } else {
             title_state.setImageResource( R.drawable.level );
             title_number.setImageResource(Get_number_image_resource(session.Get_current_level()));
+            back_button.setImageResource( R.drawable.levels );
         }
 
 

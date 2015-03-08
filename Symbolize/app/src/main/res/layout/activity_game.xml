@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:onClick="On_back_button_clicked"
-            android:src="@drawable/levels"
+            android:src="@drawable/home"
             style="@style/image"/>
         <ImageButton
             android:id="@+id/Right"
