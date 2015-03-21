@@ -3,6 +3,7 @@ package app.symbolize.Home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class HomePage extends Page {
         setContentView(R.layout.activity_home);
         Page.Set_not_game_page();
 
-        set_mute_text();
+        Set_sound_image();
     }
 
 
@@ -39,7 +40,7 @@ public class HomePage extends Page {
 
     public void On_mute_button_clicked( final View view ) {
         OptionsDataAccess.Get_instance().Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
-        set_mute_text();
+        Set_sound_image();
     }
 
     public void On_settings_button_clicked( final View view ){
@@ -48,14 +49,14 @@ public class HomePage extends Page {
     }
 
 
-    // Private methods
+    // Static methods
     //----------------
 
-    private void set_mute_text() {
+    public static void Set_sound_image() {
         if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED ) ) {
-            ( (TextView) findViewById( R.id.Mute ) ).setText( "Unmute" );
+            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.mute );
         } else {
-            ( (TextView) findViewById( R.id.Mute ) ).setText( "Mute" );
+            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.sound );
         }
     }
 }

@@ -24,28 +24,24 @@
         android:onClick="On_start_button_clicked"
         android:text="Start" />
 
-    <Button
+    <ImageButton
         android:id="@+id/Mute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:onClick="On_mute_button_clicked"
-        android:scaleType="fitCenter"
-        android:background="@null"
-        android:textSize="20dp"
-        android:text="Mute"
-        android:layout_alignParentBottom="true"/>
-
-    <Button
-        android:id="@+id/Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="On_settings_button_clicked"
-        android:text="Settings"
-        android:scaleType="fitCenter"
-        android:background="@null"
-        android:textSize="20dp"
+        android:src="@drawable/sound"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        style="@style/image"/>
+
+    <ImageButton
+        android:id="@+id/Settings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="On_settings_button_clicked"
+        android:src="@drawable/gear"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        style="@style/image"/>
 
 
 </RelativeLayout>

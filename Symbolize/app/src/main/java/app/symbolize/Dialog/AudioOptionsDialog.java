@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+import app.symbolize.Home.HomePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.OptionsDataAccess;
@@ -53,6 +54,7 @@ public class AudioOptionsDialog extends OptionDialog {
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_IS_MUTED);
                 mute_button.setChecked(!mute_button.isChecked());
                 init_dialog_view(dialog_view);
+                if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
             }
         });
 
@@ -107,6 +109,7 @@ public class AudioOptionsDialog extends OptionDialog {
                     public void OnDialogSuccess() {
                         options_dao.Reset_audio_options();
                         init_dialog_view(dialog_view);
+                        if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
                     }
 
                     @Override

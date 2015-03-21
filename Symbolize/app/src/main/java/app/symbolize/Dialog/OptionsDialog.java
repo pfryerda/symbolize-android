@@ -3,6 +3,7 @@ package app.symbolize.Dialog;
 import android.view.View;
 import android.widget.ImageButton;
 
+import app.symbolize.Home.HomePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.R;
@@ -80,6 +81,7 @@ public class OptionsDialog extends InfoDialog {
                         options_dao.Reset_game_options();
                         options_dao.Reset_audio_options();
                         options_dao.Reset_video_options();
+                        if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
                         update_animations();
                     }
 
