@@ -56,6 +56,11 @@ public class GamePage extends Page
         UnlocksDataAccess.Get_instance().Unlock( (byte) 1 );
     }
 
+    // Fields
+    //--------
+
+    public static AdRequest Ad_request = null;
+
 
     // Main method
     //--------------
@@ -69,12 +74,7 @@ public class GamePage extends Page
 
         // Ad setup
         AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
-        AdRequest ad_request = new AdRequest.Builder()
-                .addTestDevice( AdRequest.DEVICE_ID_EMULATOR )
-                .addTestDevice( Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID ) ) // TOD: Manually put in our device ids for security
-                .build();
-        adView.setAdListener( new AdListener() {} );
-        adView.loadAd( ad_request );
+        adView.loadAd( Ad_request );
 
         // Set ui dimensions - faster than xml
         GameUIView.Setup_ui();

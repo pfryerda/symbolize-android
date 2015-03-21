@@ -2,8 +2,13 @@ package app.symbolize.Routing;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+
+import app.symbolize.Game.GamePage;
 import app.symbolize.R;
 
 public class LoadingPage extends Page {
@@ -27,6 +32,13 @@ public class LoadingPage extends Page {
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_loading );
+
+        if( GamePage.Ad_request == null ) {
+            GamePage.Ad_request = new AdRequest.Builder()
+                    .addTestDevice( AdRequest.DEVICE_ID_EMULATOR )
+                    .addTestDevice( Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID ) ) // TODO: Manually put in our device ids for security
+                    .build();
+        }
 
         new Handler().postDelayed( new Runnable() {
             @Override
