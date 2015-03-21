@@ -284,14 +284,14 @@ abstract public class GameUIView {
         title_number.setLayoutParams( params );*/
 
         Highlight_current_mode();
-        set_touch_listener_highlight( left_button );
-        set_touch_listener_highlight( back_button );
-        set_touch_listener_highlight( right_button );
-        set_touch_listener_highlight( reset_button );
-        set_touch_listener_highlight( settings_button, false );
-        set_touch_listener_highlight( check_button );
-        set_touch_listener_highlight( undo_button );
-        set_touch_listener_highlight( hint_button, false );
+        Set_touch_listener_highlight( left_button );
+        Set_touch_listener_highlight( back_button );
+        Set_touch_listener_highlight( right_button );
+        Set_touch_listener_highlight( reset_button );
+        Set_touch_listener_highlight( settings_button, false );
+        Set_touch_listener_highlight( check_button );
+        Set_touch_listener_highlight( undo_button );
+        Set_touch_listener_highlight( hint_button, false );
 
     }
 
@@ -416,16 +416,12 @@ abstract public class GameUIView {
         hint_button.setColorFilter( null );
     }
 
-
-    // Private methods
-    //-----------------
-
     /*
      * Set's up a button so when touched glow's game color and when released stop's glowing
      *
      * @param final ImageButton button: Button of interest
      */
-    private static void set_touch_listener_highlight( final ImageButton button, final boolean revert ) {
+    public static void Set_touch_listener_highlight( final ImageButton button, final boolean revert ) {
         button.setOnTouchListener( new View.OnTouchListener() {
             @Override
             public boolean onTouch( View v, MotionEvent event ) {
@@ -444,9 +440,13 @@ abstract public class GameUIView {
         } );
     }
 
-    private static void set_touch_listener_highlight( final ImageButton button ) {
-        set_touch_listener_highlight( button, true );
+    public static void Set_touch_listener_highlight( final ImageButton button ) {
+        Set_touch_listener_highlight( button, true );
     }
+
+
+    // Private methods
+    //-----------------
 
     /*
      * Methods use to temporarily show a small message at the bottom of the screen
