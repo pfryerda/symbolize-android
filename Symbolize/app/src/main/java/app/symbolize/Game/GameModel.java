@@ -206,10 +206,8 @@ public class GameModel {
             ArrayList<Posn> completed_levels = Get_completed_levels();
             if( completed_levels.size() > 1 ) {
                 line.Snap_to_levels( completed_levels );
-                if( !line.Is_dud() ) {
-                    graph.addLast(line);
-                    ++lines_drawn;
-                }
+                graph.addLast(line);
+                ++lines_drawn;
             }
         } else {
             graph.addLast( line );
@@ -373,7 +371,6 @@ public class GameModel {
                 min_distance_squared = new_distance_squared;
                 target_line = line;
             }
-            Log.d( "Distance", "" + new_distance_squared );
         }
         return target_line;
     }

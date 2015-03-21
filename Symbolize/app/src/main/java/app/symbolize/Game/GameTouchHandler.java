@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
 import app.symbolize.Common.Posn;
+import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.OptionsDataAccess;
 
 /*
@@ -348,7 +349,7 @@ public class GameTouchHandler {
                 listener.onDragEnd( drag_line );
             } else {
                 Line line;
-                if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) ) {
+                if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) && !Session.Get_instance().Is_in_world_view()) {
                     line = new Line( point_one.Snap( true ), point_one_end.Snap( false ), Line.User_drawn );
                 } else {
                     line = new Line( point_one, point_one_end, Line.User_drawn );
@@ -440,7 +441,7 @@ public class GameTouchHandler {
             drag_timer.cancel();
         }
         Line line;
-        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) ) {
+        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) && !Session.Get_instance().Is_in_world_view() ) {
             line = new Line( point_one.Snap( true ), current_point.Snap( false ), Line.App_drawn );
         } else {
             line = new Line( point_one, current_point, Line.App_drawn );

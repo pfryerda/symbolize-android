@@ -3,11 +3,14 @@ package app.symbolize.Dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import app.symbolize.Common.Session;
 import app.symbolize.Routing.Page;
@@ -16,11 +19,6 @@ import app.symbolize.Puzzle.Puzzle;
 import app.symbolize.R;
 
 public class HintDialog extends InfoDialog {
-    // Fields
-    //--------
-
-    protected String mechanics;
-
     // Inherited fields
     //------------------
 
@@ -41,9 +39,7 @@ public class HintDialog extends InfoDialog {
         final Context context = Page.Get_context();
         final Puzzle puzzle = session.Get_current_puzzle();
         final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
-
         String message = puzzle.Get_hint();
-        String mechanics = "";
 
         if ( !session.Is_in_world_view() ) {
             message += "\n";
@@ -58,26 +54,6 @@ public class HintDialog extends InfoDialog {
             }
         }
 
-
-        if ( puzzle.Has_mechanics() ) {
-            if ( puzzle.Can_rotate() ) {
-                mechanics += context.getString( R.string.rotate ) + " ";
-            }
-            if ( puzzle.Can_flip() ) {
-                mechanics += context.getString( R.string.flip ) + " ";
-            }
-            if ( puzzle.Can_shift() ) {
-                mechanics += context.getString( R.string.shift ) + " ";
-            }
-            if ( puzzle.Can_change_color() ) {
-                mechanics += context.getString( R.string.change_color ) + " ";
-            }
-            if ( puzzle.Is_special_enabled() ) {
-                mechanics += context.getString( R.string.special ) + " ";
-            }
-        }
-
-        this.mechanics = mechanics;
         super.Set_attrs( session.Get_current_puzzle_text(), message );
     }
 
@@ -93,14 +69,11 @@ public class HintDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
 
         Set_attrs();
+        set_mechanics( dialog_view );
         set_tutorial( dialog_view );
 
-        ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText( title );
+        ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText(title);
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
-        ( (TextView) dialog_view.findViewById( R.id.Mechanics ) ).setText( mechanics );
-
-        if( mechanics.equals( "" ) ) dialog_view.findViewById( R.id.Mechanics_allowed ).setVisibility( View.GONE );
-        else                         dialog_view.findViewById( R.id.Mechanics_allowed ).setVisibility( View.VISIBLE );
 
         return dialog_view;
     }
@@ -129,6 +102,43 @@ public class HintDialog extends InfoDialog {
         return R.layout.hint_dialog;
     }
 
+
+    // Private methods
+    //-----------------
+
+    /*
+     * Set's up the mechanics view
+     */
+    private void set_mechanics( View dialog_view ) {
+        final Puzzle puzzle = Session.Get_instance().Get_current_puzzle();
+
+        if ( puzzle.Has_mechanics() ) {
+            WebView image = (WebView) dialog_view.findViewById( R.id.rotate_tutorial_image );
+            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/rotate_tutorial.gif" );
+            else image.setVisibility( View.INVISIBLE );
+
+            image = (WebView) dialog_view.findViewById( R.id.flip_tutorial_image );
+            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/flip_tutorial.gif" );
+            else image.setVisibility( View.INVISIBLE );
+
+            image = (WebView) dialog_view.findViewById( R.id.shift_tutorial_image );
+            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/shift_tutorial.gif" );
+            else image.setVisibility( View.INVISIBLE );
+
+            image = (WebView) dialog_view.findViewById( R.id.change_color_tutorial_image );
+            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/draw_tutorial.gif" );
+            else image.setVisibility( View.INVISIBLE );
+
+            image = (WebView) dialog_view.findViewById( R.id.special_tutorial_image );
+            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/special_tutorial.gif" );
+            else image.setVisibility( View.INVISIBLE );
+
+            dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.VISIBLE );
+        } else {
+            dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.GONE );
+        }
+    }
+
     /*
      * Sets tutorial text/gifs into the hint dialog if applicable
      */
@@ -141,24 +151,40 @@ public class HintDialog extends InfoDialog {
 
         if ( session.Is_in_world_view() && !meta_dao.Has_seen( MetaDataAccess.SEEN_WORLD ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.world_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
         } else if ( ( current_puzzle.Get_draw_restriction() > 0 ) && !meta_dao.Has_seen( MetaDataAccess.SEEN_DRAW ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.draw_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
         } else if ( current_puzzle.Can_rotate() && !meta_dao.Has_seen( MetaDataAccess.SEEN_ROTATE ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.rotate_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/rotate_tutorial.gif" );
         } else if ( ( current_puzzle.Get_erase_restriction() > 0 ) && !meta_dao.Has_seen( MetaDataAccess.SEEN_ERASE ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.erase_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/erase_tutorial.gif" );
         } else if ( current_puzzle.Can_flip() && !meta_dao.Has_seen( MetaDataAccess.SEEN_FLIP ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.flip_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/flip_tutorial.gif" );
         } else if ( current_puzzle.Can_shift() && !meta_dao.Has_seen( MetaDataAccess.SEEN_SHIFT ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.shift_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/shift_tutorial.gif" );
         } else if ( ( current_puzzle.Get_drag_restriction() > 0 ) && !meta_dao.Has_seen( MetaDataAccess.SEEN_DRAG ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.drag_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/drag_tutorial.gif" );
         } else if ( current_puzzle.Can_change_color() && !meta_dao.Has_seen( MetaDataAccess.SEEN_CHANGE_COLOR ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.change_color_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
         } else if ( current_puzzle.Is_special_enabled() && !meta_dao.Has_seen( MetaDataAccess.SEEN_SPECIAL ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.special_tutorial ) );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/special_tutorial.gif" );
         } else {
-            tutorial_text.setText( "" );
+            dialog_view.findViewById( R.id.Tutorial ).setVisibility( View.GONE );
         }
+    }
+
+    /*
+     * A function used to display a gif on a webview
+     */
+    private void draw_tutorial_image( WebView view, String url ) {
+        view.loadDataWithBaseURL( null, "<html><body><img style=\"width: 100%\" src=\"" + url + "\"></body></html>", "text/html", "UTF-8", null );
     }
 }

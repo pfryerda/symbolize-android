@@ -142,7 +142,7 @@
     <string name="draws_allowed">Draws allowed: </string>
     <string name="drags_allowed">Moves allowed: </string>
     <string name="erase_allowed">Erase allowed: </string>
-    <string name="mechanics_allowed">Transformations allowed</string>
+    <string name="mechanics_allowed">Transformations</string>
     <string name="rotate">rotate</string>
     <string name="flip">flip</string>
     <string name="shift">shift</string>

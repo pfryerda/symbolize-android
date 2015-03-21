@@ -74,7 +74,7 @@ public class Posn {
      * Checks if posn is a dud i.e. invalid
      */
     public boolean Is_dud() {
-        return first < 0 || second < 0;
+        return first < 0 || second < 0 || first > GameView.SCALING || second > GameView.SCALING;
     }
 
     /*
