@@ -153,12 +153,11 @@
     <string name="world_tutorial">Connect the dots to solve the puzzle</string>
     <string name="draw_tutorial">Push your finger down to start the draw,
         let go in order to end the draw</string>
-    <string name="rotate_tutorial">Using two fingers one on either side rotate your
-        finger in the direction you wish to roate</string>
-    <string name="erase_tutorial">Hit the erase button in the bottom right corner to
-        enter erase mode and drag your finger over the desired line you wish to erase</string>
+    <string name="rotate_tutorial">Using two fingers rotate your
+        fingers in the direction you wish to rotate</string>
+    <string name="erase_tutorial">Drag your finger over the desired line you wish to erase</string>
     <string name="flip_tutorial">Using two finger start on one of the screen and drag them to the
-        other side to flip the graph horizontal. Do the same going down or up to flip vertically</string>
+        other side to flip.</string>
     <string name="shift_tutorial">Do one hard shake of your device to shift the current graph to the next graph</string>
     <string name="drag_tutorial">Tap and hold to select a line to move</string>
     <string name="change_color_tutorial">Tap one of the lines in the graph to cycle through possible colors</string>

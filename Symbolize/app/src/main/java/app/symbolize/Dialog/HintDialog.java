@@ -118,19 +118,19 @@ public class HintDialog extends InfoDialog {
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.flip_tutorial_image );
-            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/flip_tutorial.gif" );
+            if ( puzzle.Can_flip() ) draw_tutorial_image( image, "file:///android_res/drawable/flip_tutorial.gif" );
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.shift_tutorial_image );
-            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/shift_tutorial.gif" );
+            if ( puzzle.Can_shift() ) draw_tutorial_image( image, "file:///android_res/drawable/shift_tutorial.gif" );
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.change_color_tutorial_image );
-            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/draw_tutorial.gif" );
+            if ( puzzle.Can_change_color() ) draw_tutorial_image( image, "file:///android_res/drawable/draw_tutorial.gif" );
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.special_tutorial_image );
-            if ( puzzle.Can_rotate() ) draw_tutorial_image( image, "file:///android_res/drawable/special_tutorial.gif" );
+            if ( puzzle.Is_special_enabled() ) draw_tutorial_image( image, "file:///android_res/drawable/special_tutorial.gif" );
             else image.setVisibility( View.INVISIBLE );
 
             dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.VISIBLE );

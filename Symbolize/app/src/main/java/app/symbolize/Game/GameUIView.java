@@ -148,15 +148,31 @@ abstract public class GameUIView {
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
+        float title_text_size;
+        float title_number_size;
+
         if(session.Is_in_world_view()) {
+            title_text_size = (float) ((session.Get_current_world() == 10) ? 4.9 : 5.4);
+            title_number_size = (float) ((session.Get_current_world() == 10) ? 2.0 : 1.5);
+
             title_state.setImageResource( R.drawable.world );
             title_number.setImageResource(Get_number_image_resource(session.Get_current_world()));
             back_button.setImageResource( R.drawable.home );
         } else {
+            title_text_size = (float) ((session.Get_current_level() == 10) ? 4.9 : 5.4);
+            title_number_size = (float) ((session.Get_current_level() == 10) ? 2.0 : 1.5);
+
             title_state.setImageResource( R.drawable.level );
             title_number.setImageResource(Get_number_image_resource(session.Get_current_level()));
             back_button.setImageResource( R.drawable.levels );
         }
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( title_text_size * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
+        params.gravity = Gravity.CENTER;
+        title_state.setLayoutParams( params );
+        params = new LinearLayout.LayoutParams( (int) Math.round( title_number_size * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
+        params.gravity = Gravity.CENTER;
+        title_number.setLayoutParams( params );
 
 
         if ( unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view() ) {
@@ -260,17 +276,17 @@ abstract public class GameUIView {
         title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
         title.setGravity( Gravity.CENTER );
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
+        /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
         title_state.setLayoutParams( params );
         params = new LinearLayout.LayoutParams( (int) Math.round( 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
         params.gravity = Gravity.CENTER;
-        title_number.setLayoutParams( params );
+        title_number.setLayoutParams( params );*/
 
         Highlight_current_mode();
-        set_touch_listener_highlight( left_button, false );
-        set_touch_listener_highlight( back_button, false );
-        set_touch_listener_highlight( right_button, false );
+        set_touch_listener_highlight( left_button );
+        set_touch_listener_highlight( back_button );
+        set_touch_listener_highlight( right_button );
         set_touch_listener_highlight( reset_button );
         set_touch_listener_highlight( settings_button, false );
         set_touch_listener_highlight( check_button );
