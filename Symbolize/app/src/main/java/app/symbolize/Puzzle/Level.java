@@ -66,7 +66,7 @@ public class Level extends Puzzle {
 
     @Override
     public LinkedList<Line> Get_board() {
-        return boards.get(0);
+        return ( boards.size() == 0 ) ? new LinkedList<Line>() : boards.get(0);
     }
 
     @Override

@@ -227,9 +227,9 @@ public class GameView {
                     paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
                     paint.setStyle( Paint.Style.STROKE );
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
-                        paint.setColor( Page.Get_context().getResources().getColor( R.color.bright_green ) );
+                        paint.setColor( session.Get_hightlight_color() );
                     } else {
-                        paint.setColor( Page.Get_context().getResources().getColor( R.color.bright_red ) );
+                        paint.setColor( Page.Get_context().getResources().getColor( R.color.gray ) );
                     }
                     render_point( foreground_canvas, point );
 
