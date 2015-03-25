@@ -37,17 +37,22 @@
         <item name="android:padding">5dp</item>
     </style>
 
-    <style name="dialog">
-        <item name="android:padding">10dp</item>
-        <item name="android:background">@color/white</item>
-    </style>
 
     <style name="title">
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
-        <item name="android:textSize">27dp</item>
+        <item name="android:textSize">28dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="sub_title" parent="title">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="options_title" parent="title">
+        <item name="android:gravity">left</item>
     </style>
 
     <style name="text">
@@ -63,8 +68,9 @@
 
     <style name="input_text" parent="sub_text">
         <item name="android:gravity">right|center_vertical</item>
-        <item name="android:background">@color/white</item>
+
         <item name="android:inputType">number</item>
+        <item name="android:cursorVisible">false</item>
     </style>
 
     <style name="options_spinner">
@@ -77,7 +83,7 @@
         <item name="android:dropDownHorizontalOffset">0sp</item>
     </style>
 
-    <style name="button" parent="title">
+    <style name="button" parent="sub_title">
         <item name="android:background">@color/white</item>
     </style>
 
@@ -99,6 +105,21 @@
         <item name="android:height">20dp</item>
         <item name="android:adjustViewBounds">true</item>
     </style>
+
+    <!-- Dialog styles -->
+    <style name="dialog">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="title_separator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@color/gray</item>
+
+    </style>
+
 
     <!-- Dialog animation setup -->
 

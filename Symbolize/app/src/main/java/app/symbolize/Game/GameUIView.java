@@ -433,6 +433,10 @@ abstract public class GameUIView {
                     case MotionEvent.ACTION_UP:
                         if( revert ) button.setColorFilter( null );
                         break;
+
+                    case MotionEvent.ACTION_CANCEL:
+                        button.setColorFilter( null );
+                        break;
                 }
 
                 return false; // propagate listener to click

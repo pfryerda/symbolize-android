@@ -24,19 +24,19 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/Yes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/yes"
-            style="@style/button"/>
-
-        <Button
             android:id="@+id/No"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/no"
+            style="@style/button"/>
+
+        <Button
+            android:id="@+id/Yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/yes"
             style="@style/button"/>
 
         </LinearLayout>

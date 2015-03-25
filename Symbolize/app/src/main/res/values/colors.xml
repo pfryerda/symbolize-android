@@ -1,11 +1,7 @@
 <resources>
     <!-- Android color -->
     <color name="black_overlay">#66000000</color>
-
-    <!-- Main colors -->
     <color name="white">#ffffffff</color>
-    <color name="black">#000000</color>
-    <color name="gray">#777777</color>
 
     <!-- world colors -->
     <color name="green">#589E00</color><!--68A017-->
@@ -13,12 +9,22 @@
     <color name="orange">#F26100</color>
     <color name="red">#B30400</color>
     <color name="purple">#8900AA</color>
+    <color name="black">#000000</color>
 
-    <!-- world colors -->
+    <!-- button colors -->
     <color name="bright_green">#5CE800</color>
     <color name="cyan">#01AFE2</color>
     <color name="bright_orange">#FF8800</color>
     <color name="bright_red">#FA463C</color>
     <color name="magenta">#A100F5</color> <!--7800B7-->
+    <color name="gray">#777777</color>
+
+    <!-- dialog colors -->
+    <color name="light_green">#F5FFF5</color>
+    <color name="light_blue">#EDEDFF</color>
+    <color name="light_orange">#FFF5DC</color>
+    <color name="light_red">#FFE8E8</color>
+    <color name="light_purple">#F5EBFF</color>
+    <color name="light_gray">#D7D7D7</color>
 
 </resources>

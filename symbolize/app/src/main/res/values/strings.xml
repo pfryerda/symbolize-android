@@ -56,7 +56,8 @@
     <string name="OK">OK</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="close">close</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="back">back</string>
 
     <string name="loading">Loading...</string>
@@ -78,10 +79,10 @@
 
     <!-- Options dialog text -->
     <string name="options_dialog_title">Options</string>
-    <string name="game_dialog_title">Game Options</string>
-    <string name="video_dialog_title">Video Options</string>
-    <string name="audio_dialog_title">Audio Options</string>
-    <string name="data_dialog_title">Data</string>
+    <string name="game_dialog_title">Game</string>
+    <string name="video_dialog_title">Video</string>
+    <string name="audio_dialog_title">Audio</string>
+    <string name="data_dialog_title">Stats</string>
     <string name="about_dialog_title">About</string>
 
     <string name="options_show_grid">Show grid</string>
@@ -103,7 +104,7 @@
 
     <string name="options_delete_all_data">Delete all data</string>
 
-    <string name="options_revert_to_default">Revert to default</string>
+    <string name="options_revert_to_default">Reset to default</string>
 
     <string name="world_1">World 1</string>
     <string name="world_2">World 2</string>

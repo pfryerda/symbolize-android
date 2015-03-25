@@ -10,7 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/audio_dialog_title"
-        style="@style/title"/>
+        style="@style/options_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/gray"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -50,6 +55,7 @@
             android:text="100"
             style="@style/input_text"/>
     </LinearLayout>
+
     <CheckedTextView
         android:id="@+id/options_mute"
         android:layout_width="match_parent"
