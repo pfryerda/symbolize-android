@@ -3,6 +3,7 @@ package app.symbolize.Dialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -51,12 +52,11 @@ public class VideoOptionsDialog extends OptionDialog {
         final View dialog_view = super.get_dialog_view();
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        final CheckedTextView show_animation = (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation );
+        final CheckBox show_animation = (CheckBox) dialog_view.findViewById( R.id.options_show_animation );
         show_animation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS);
-                show_animation.setChecked(!show_animation.isChecked());
                 update_animations();
             }
         });
@@ -106,12 +106,9 @@ public class VideoOptionsDialog extends OptionDialog {
            }
         );
 
-        final CheckedTextView use_device_brightness_button = (CheckedTextView) dialog_view.findViewById( R.id.options_use_device_brightness );
         use_device_brightness_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
-                use_device_brightness_button.setChecked( !use_device_brightness_button.isChecked() );
                 init_dialog_view( dialog_view );
                 GameUIView.Set_brightness();
             }
@@ -188,7 +185,6 @@ public class VideoOptionsDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view ) {
         OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_animation ) )
                 .setChecked(options_dao.Get_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
 
         ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
@@ -198,7 +194,6 @@ public class VideoOptionsDialog extends OptionDialog {
                 .setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) + "" );
 
         final boolean use_device_brightness = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_use_device_brightness ) )
                 .setChecked( use_device_brightness );
 
         final SeekBar brightness_bar = (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar );

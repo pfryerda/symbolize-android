@@ -13,14 +13,21 @@
 
     <View style="@style/title_separator"/>
 
-    <CheckedTextView
-        android:id="@+id/options_show_animation"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_show_animations"
-        style="@style/text"/>
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_show_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_show_animations"
+            style="@style/text"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -76,14 +83,21 @@
             android:text="50000"
             style="@style/input_text"/>
     </LinearLayout>
-    <CheckedTextView
-        android:id="@+id/options_use_device_brightness"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:checked="true"
-        android:text="@string/use_device_brightness"
-        style="@style/sub_text"/>
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_use_device_brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/use_device_brightness"
+            style="@style/sub_text"/>
+    </LinearLayout>
 
 
 

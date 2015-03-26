@@ -1,6 +1,7 @@
 package app.symbolize.Dialog;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
@@ -31,12 +32,11 @@ public class GameOptionsDialog extends OptionDialog {
         final View dialog_view = super.get_dialog_view();
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        final CheckedTextView show_graph = (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid );
+        final CheckBox show_graph = (CheckBox) dialog_view.findViewById( R.id.options_show_grid );
         show_graph.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_GRID);
-                show_graph.setChecked(!show_graph.isChecked());
+                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_GRID );
                 if ( Page.Is_Game_page() ) {
                     GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
                                                                   new Response());
@@ -44,12 +44,11 @@ public class GameOptionsDialog extends OptionDialog {
             }
         });
 
-        final CheckedTextView show_border = (CheckedTextView) dialog_view.findViewById( R.id.options_show_border );
+        final CheckBox show_border = (CheckBox) dialog_view.findViewById( R.id.options_show_border );
         show_border.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_BORDER );
-                show_border.setChecked( !show_border.isChecked() );
                 if ( Page.Is_Game_page() ) {
                     GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
                                                                   new Response() );
@@ -58,12 +57,11 @@ public class GameOptionsDialog extends OptionDialog {
             }
         } );
 
-        final CheckedTextView snap_drawing = (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing );
+        final CheckBox snap_drawing = (CheckBox) dialog_view.findViewById( R.id.options_snap_drawing );
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING );
-                snap_drawing.setChecked( !snap_drawing.isChecked() );
             }
         } );
 
@@ -96,13 +94,13 @@ public class GameOptionsDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view ) {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_grid ) )
+        ( (CheckBox) dialog_view.findViewById( R.id.options_show_grid ) )
                 .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) );
 
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_show_border ) )
+        ( (CheckBox) dialog_view.findViewById( R.id.options_show_border ) )
                 .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) );
 
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_snap_drawing ) )
+        ( (CheckBox) dialog_view.findViewById( R.id.options_snap_drawing ) )
                 .setChecked( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) );
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -434,8 +435,10 @@ abstract public class GameUIView {
                         if( revert ) button.setColorFilter( null );
                         break;
 
-                    case MotionEvent.ACTION_CANCEL:
-                        button.setColorFilter( null );
+                    case MotionEvent.ACTION_MOVE:
+                        final Rect bounds = new Rect();
+                        button.getHitRect( bounds );
+                        if( !bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY()) ) button.setColorFilter( null );
                         break;
                 }
 
@@ -456,7 +459,7 @@ abstract public class GameUIView {
      * Methods use to temporarily show a small message at the bottom of the screen
      */
     private static void render_toast( int msg_id ) {
-        if ( TOAST == null || TOAST.getView().getWindowVisibility() != View.VISIBLE ) {
+        if ( TOAST != null && TOAST.getView().getWindowVisibility() != View.VISIBLE ) {
             TOAST.setText( Page.Get_context().getResources().getString( msg_id ) );
             TOAST.show();
         }

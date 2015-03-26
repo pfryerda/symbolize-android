@@ -56,14 +56,20 @@
             style="@style/input_text"/>
     </LinearLayout>
 
-    <CheckedTextView
-        android:id="@+id/options_mute"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/options_mute"
-        style="@style/sub_text"/>
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_mute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_mute"
+            style="@style/sub_text"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/alpha_audio_note"

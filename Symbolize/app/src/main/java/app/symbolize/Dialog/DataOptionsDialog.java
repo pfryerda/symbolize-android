@@ -3,6 +3,7 @@ package app.symbolize.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
@@ -108,7 +109,7 @@ public class DataOptionsDialog extends OptionDialog {
                 final TextView levels_complete = (TextView) dialog_view.findViewById( level_complete_map[world - 1] );
                 levels_complete.append( progress_dao.Get_number_of_complete_levels_string( world ) );
                 if ( progress_dao.Is_completed( world ) ) {
-                    ( (CheckedTextView) dialog_view.findViewById( world_complete_map[world -1] ) ).setChecked( true );
+                    ( (CheckBox) dialog_view.findViewById( world_complete_map[world -1] ) ).setChecked( true );
                 }
             } else {
                 dialog_view.findViewById( data_map[world -1] ).setVisibility( View.GONE );

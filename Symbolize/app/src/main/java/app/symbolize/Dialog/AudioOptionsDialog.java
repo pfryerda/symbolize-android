@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -47,12 +48,11 @@ public class AudioOptionsDialog extends OptionDialog {
         } );
 
 
-        final CheckedTextView mute_button = (CheckedTextView) dialog_view.findViewById( R.id.options_mute );
+        final CheckBox mute_button = (CheckBox) dialog_view.findViewById( R.id.options_mute );
         mute_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_IS_MUTED);
-                mute_button.setChecked(!mute_button.isChecked());
                 init_dialog_view(dialog_view);
                 if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
             }
@@ -134,7 +134,7 @@ public class AudioOptionsDialog extends OptionDialog {
                 .setSelection( options_dao.Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT ) );
 
         final boolean is_muted = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
-        ( (CheckedTextView) dialog_view.findViewById( R.id.options_mute ) )
+        ( (CheckBox) dialog_view.findViewById( R.id.options_mute ) )
                 .setChecked( is_muted );
 
         final SeekBar volume_bar = (SeekBar) dialog_view.findViewById( R.id.options_volume_seekbar );

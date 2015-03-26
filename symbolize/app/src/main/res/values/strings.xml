@@ -113,7 +113,7 @@
     <string name="world_5">World 5</string>
     <string name="world_6">World 6</string>
     <string name="world_7">World 7</string>
-    <string name="levels_complete">Levels complete:</string>
+    <string name="levels_complete">Levels:</string>
     <string name="world_complete">World complete:</string>
 
     <string name="about_dialog_message">Designed and developed by Luke Brown, with art from Peter Fryer Davis.
