@@ -106,9 +106,11 @@ public class VideoOptionsDialog extends OptionDialog {
            }
         );
 
+        final CheckBox use_device_brightness_button = (CheckBox) dialog_view.findViewById( R.id.options_use_device_brightness );
         use_device_brightness_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
                 init_dialog_view( dialog_view );
                 GameUIView.Set_brightness();
             }
@@ -185,6 +187,7 @@ public class VideoOptionsDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view ) {
         OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
+        ( (CheckBox) dialog_view.findViewById( R.id.options_show_animation ) )
                 .setChecked(options_dao.Get_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
 
         ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
@@ -194,6 +197,7 @@ public class VideoOptionsDialog extends OptionDialog {
                 .setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) + "" );
 
         final boolean use_device_brightness = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
+        ( (CheckBox) dialog_view.findViewById( R.id.options_use_device_brightness ) )
                 .setChecked( use_device_brightness );
 
         final SeekBar brightness_bar = (SeekBar) dialog_view.findViewById( R.id.options_brightness_seekbar );
