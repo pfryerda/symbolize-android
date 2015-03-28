@@ -184,15 +184,19 @@ abstract public class GameUIView {
         title_number.setLayoutParams( params );
 
 
-        if ( unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view() ) {
-            left_button.setVisibility( View.VISIBLE );
-        } else {
-            left_button.setVisibility( View.INVISIBLE );
-        }
+        final boolean left_button_enabled = unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view();
+        left_button.setEnabled( left_button_enabled );
+        left_button.setAlpha( (left_button_enabled) ? 1 : BUTTON_FADE );
 
-        if ( unlocks_dao.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view() ) {
+        final boolean right_button_enabled = unlocks_dao.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view();
+        right_button.setEnabled( right_button_enabled );
+        right_button.setAlpha( (right_button_enabled) ? 1 : BUTTON_FADE );
+
+        if( unlocks_dao.Is_unlocked( 2 ) ) {
+            left_button.setVisibility( View.VISIBLE );
             right_button.setVisibility( View.VISIBLE );
         } else {
+            left_button.setVisibility( View.INVISIBLE );
             right_button.setVisibility( View.INVISIBLE );
         }
 

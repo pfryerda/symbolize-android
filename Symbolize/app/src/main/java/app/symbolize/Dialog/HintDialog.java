@@ -69,7 +69,11 @@ public class HintDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
 
         Set_attrs();
-        if( !set_tutorial( dialog_view ) ) set_mechanics( dialog_view );
+        if( !set_tutorial( dialog_view ) ) {
+            if( !set_mechanics( dialog_view ) ) dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.GONE );
+        } else {
+            dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.GONE );
+        }
 
         ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText(title);
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
@@ -116,7 +120,7 @@ public class HintDialog extends InfoDialog {
     /*
      * Set's up the mechanics view
      */
-    private void set_mechanics( View dialog_view ) {
+    private boolean set_mechanics( View dialog_view ) {
         final Puzzle puzzle = Session.Get_instance().Get_current_puzzle();
 
         if ( puzzle.Has_mechanics() ) {
@@ -141,9 +145,9 @@ public class HintDialog extends InfoDialog {
             else image.setVisibility( View.INVISIBLE );
 
             dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.VISIBLE );
-        } else {
-            dialog_view.findViewById( R.id.mechanics_layout ).setVisibility( View.GONE );
+            return true;
         }
+        return false;
     }
 
     /*

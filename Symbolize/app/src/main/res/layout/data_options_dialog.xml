@@ -181,7 +181,7 @@
             android:layout_height="wrap_content"
             style="@style/back_button"/>
         <ImageButton
-            android:id="@+id/options_delete_data"
+            android:id="@+id/options_reset_to_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/reset_button">

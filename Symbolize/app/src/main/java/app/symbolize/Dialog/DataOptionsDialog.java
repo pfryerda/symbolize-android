@@ -72,7 +72,7 @@ public class DataOptionsDialog extends OptionDialog {
     protected View get_dialog_view() {
         final View dialog_view = super.get_dialog_view();
 
-        dialog_view.findViewById( R.id.options_delete_data ).setOnClickListener( new View.OnClickListener() {
+        dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
