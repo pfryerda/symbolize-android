@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_options_dialog"
     android:orientation="vertical" android:layout_width="250dp"
     android:layout_height="400dp"
     style="@style/dialog">
@@ -28,27 +29,17 @@
             style="@style/text"/>
     </LinearLayout>
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/options_size"
-        style="@style/text"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
-        <SeekBar
-            android:id="@+id/options_game_size_seekbar"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:progress="25"
-            android:max="50"
-            style="@style/options_spinner">
-        </SeekBar>
+            android:layout_gravity="center_vertical"
+            android:text="@string/options_size"
+            android:layout_marginRight="5dp"
+            style="@style/text"/>
         <EditText
             android:id="@+id/options_game_size_seekbar_text"
             android:layout_width="70dp"
@@ -57,25 +48,26 @@
             style="@style/input_text"/>
     </LinearLayout>
 
-    <TextView
+    <SeekBar
+        android:id="@+id/options_game_size_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/options_brightness"
-        style="@style/text"/>
+        android:progress="25"
+        android:max="50"
+        style="@style/options_spinner">
+    </SeekBar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
-        <SeekBar
-            android:id="@+id/options_brightness_seekbar"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:progress="5000"
-            android:max="10000"
-            style="@style/options_spinner">
-        </SeekBar>
+            android:layout_gravity="center"
+            android:text="@string/options_brightness"
+            android:layout_marginRight="5dp"
+            style="@style/text"/>
         <EditText
             android:id="@+id/options_brightness_seekbar_text"
             android:layout_width="70dp"
@@ -83,6 +75,15 @@
             android:text="50000"
             style="@style/input_text"/>
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/options_brightness_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="5000"
+        android:max="10000"
+        style="@style/options_spinner">
+    </SeekBar>
 
     <LinearLayout
         android:layout_width="match_parent"

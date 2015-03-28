@@ -59,6 +59,7 @@ abstract public class GameUIView {
 
     public static final ArrayList<Integer> COLOR_ARRAY;
     public static final ArrayList<Integer> BRIGHT_COLOR_ARRAY;
+    public static final ArrayList<Integer> LIGHT_COLOR_ARRAY;
     public static final SparseIntArray COLOR_MAP;
 
     public static final ArrayList<Integer> NUMBER_IMAGES_ARRAY;
@@ -101,6 +102,12 @@ abstract public class GameUIView {
             COLOR_ARRAY.add( color );
         }
 
+        SparseIntArray color_map = new SparseIntArray();
+        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
+            color_map.put( COLOR_ARRAY.get(i), i );
+        }
+        COLOR_MAP = color_map;
+
         BRIGHT_COLOR_ARRAY = new ArrayList<Integer>();
         color_array = Page.Get_context().getResources().getIntArray( R.array.bright_color_array );
 
@@ -108,11 +115,12 @@ abstract public class GameUIView {
             BRIGHT_COLOR_ARRAY.add( color );
         }
 
-        SparseIntArray color_map = new SparseIntArray();
-        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
-            color_map.put( COLOR_ARRAY.get(i), i );
+        LIGHT_COLOR_ARRAY = new ArrayList<Integer>();
+        color_array = Page.Get_context().getResources().getIntArray( R.array.light_color_array );
+
+        for ( int color : color_array ) {
+            LIGHT_COLOR_ARRAY.add( color );
         }
-        COLOR_MAP = color_map;
 
         final Activity activity = GamePage.Get_activity();
 

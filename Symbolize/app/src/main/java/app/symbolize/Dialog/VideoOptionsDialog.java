@@ -1,5 +1,6 @@
 package app.symbolize.Dialog;
 
+import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.SeekBar;
 
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
+import app.symbolize.Common.Session;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.Game.GameController;
@@ -187,11 +189,13 @@ public class VideoOptionsDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view ) {
         OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
+        dialog_view.findViewById( R.id.video_options_dialog ).setBackgroundColor( Session.Get_instance().Get_dialog_color() );
+
         ( (CheckBox) dialog_view.findViewById( R.id.options_show_animation ) )
-                .setChecked(options_dao.Get_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
+                .setChecked( options_dao.Get_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
 
         ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
-                .setProgress(options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) - OptionsDataAccess.GAME_SIZE_MIN );
+                .setProgress(options_dao.Get_short_option(OptionsDataAccess.OPTION_GAME_SIZE) - OptionsDataAccess.GAME_SIZE_MIN);
 
         ( (EditText) dialog_view.findViewById( R.id.options_game_size_seekbar_text ) )
                 .setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) + "" );
@@ -215,6 +219,14 @@ public class VideoOptionsDialog extends OptionDialog {
     @Override
     protected String get_dialog_string_id() {
         return Page.Get_resource_string( R.string.video_options_dialog_id );
+    }
+
+    /*
+     * See SymbolizeDialog::get_dialog_background_id
+     */
+    @Override
+    protected int get_dialog_background_id() {
+        return R.id.video_options_dialog;
     }
 
     /*

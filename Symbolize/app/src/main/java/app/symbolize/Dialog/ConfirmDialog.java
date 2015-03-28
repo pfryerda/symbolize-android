@@ -82,6 +82,14 @@ public class ConfirmDialog extends SymbolizeDialog {
     }
 
     /*
+ * See SymbolizeDialog::get_dialog_background_id
+ */
+    @Override
+    protected int get_dialog_background_id() {
+        return R.id.confirmation_dialog;
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override

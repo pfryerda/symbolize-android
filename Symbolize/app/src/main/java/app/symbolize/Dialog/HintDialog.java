@@ -69,8 +69,7 @@ public class HintDialog extends InfoDialog {
         final View dialog_view = super.get_dialog_view();
 
         Set_attrs();
-        set_mechanics( dialog_view );
-        set_tutorial( dialog_view );
+        if( !set_tutorial( dialog_view ) ) set_mechanics( dialog_view );
 
         ( (TextView) dialog_view.findViewById( R.id.Puzzle ) ).setText(title);
         ( (TextView) dialog_view.findViewById( R.id.Content ) ).setText( message );
@@ -92,6 +91,14 @@ public class HintDialog extends InfoDialog {
     @Override
     protected String get_dialog_string_id() {
         return Page.Get_resource_string( R.string.hint_dialog_id );
+    }
+
+    /*
+     * See SymbolizeDialog::get_dialog_background_id
+     */
+    @Override
+    protected int get_dialog_background_id() {
+        return R.id.hint_dialog;
     }
 
     /*
@@ -142,7 +149,7 @@ public class HintDialog extends InfoDialog {
     /*
      * Sets tutorial text/gifs into the hint dialog if applicable
      */
-    private void set_tutorial( View dialog_view ) {
+    private boolean set_tutorial( View dialog_view ) {
         final Session session = Session.Get_instance();
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
@@ -178,7 +185,10 @@ public class HintDialog extends InfoDialog {
             draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/special_tutorial.gif" );
         } else {
             dialog_view.findViewById( R.id.Tutorial ).setVisibility( View.GONE );
+            return false;
         }
+
+        return true;
     }
 
     /*

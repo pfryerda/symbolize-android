@@ -44,6 +44,7 @@
         <item name="android:textSize">28dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gray</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="sub_title" parent="title">
@@ -59,6 +60,7 @@
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:typeface">sans</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="sub_text" parent="text">
@@ -84,7 +86,7 @@
     </style>
 
     <style name="button" parent="sub_title">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="close_button" parent="button">

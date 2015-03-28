@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/options_audio"
+    android:id="@+id/audio_options_dialog"
     android:orientation="vertical" android:layout_width="250dp"
     android:layout_height="400dp"
     style="@style/dialog">
@@ -30,31 +30,32 @@
         android:entries="@array/audio_output_options"
         style="@style/dropdown"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/options_volume"
-        style="@style/text"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
-        <SeekBar
-            android:id="@+id/options_volume_seekbar"
-            android:layout_width="0dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:progress="100"
-            style="@style/options_spinner"/>
+            android:layout_gravity="center_vertical"
+            android:text="@string/options_volume"
+            android:layout_marginRight="5dp"
+            style="@style/text"/>
         <EditText
             android:id="@+id/options_volume_seekbar_text"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="100"
+            android:layout_gravity="center_vertical"
             style="@style/input_text"/>
     </LinearLayout>
+    <SeekBar
+        android:id="@+id/options_volume_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="100"
+        style="@style/options_spinner"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"

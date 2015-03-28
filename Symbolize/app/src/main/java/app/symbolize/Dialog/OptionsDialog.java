@@ -115,6 +115,14 @@ public class OptionsDialog extends InfoDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_background_id
+     */
+    @Override
+    protected int get_dialog_background_id() {
+        return R.id.options_dialog;
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override

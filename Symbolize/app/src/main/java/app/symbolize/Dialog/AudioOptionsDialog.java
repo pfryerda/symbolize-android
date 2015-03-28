@@ -159,6 +159,14 @@ public class AudioOptionsDialog extends OptionDialog {
     }
 
     /*
+     * See SymbolizeDialog::get_dialog_background_id
+     */
+    @Override
+    protected int get_dialog_background_id() {
+        return R.id.audio_options_dialog;
+    }
+
+    /*
      * See SymbolizeDialog::get_dialog_id
      */
     @Override

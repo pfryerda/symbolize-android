@@ -111,6 +111,7 @@ abstract public class SymbolizeDialog extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialog_view =  inflater.inflate( get_dialog_id(), new LinearLayout( Page.Get_context() ) );
         init_dialog_view( dialog_view );
+        dialog_view.findViewById( get_dialog_background_id() ).setBackgroundColor( Session.Get_instance().Get_dialog_color() );
 
         TextView title_view = (TextView) dialog_view.findViewById( R.id.Title );
         if ( title_view != null ) {
@@ -163,6 +164,11 @@ abstract public class SymbolizeDialog extends DialogFragment {
      * @return String: The id of interest
      */
     abstract protected String get_dialog_string_id();
+
+    /*
+     * Get dialog background id
+     */
+    abstract protected int get_dialog_background_id();
 
     /*
      * Get dialog id

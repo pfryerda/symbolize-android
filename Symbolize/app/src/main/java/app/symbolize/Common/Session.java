@@ -26,7 +26,7 @@ public class Session {
     //---------------
 
     public static final byte VERSION = VERSION_BETA;
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -37,6 +37,7 @@ public class Session {
     private byte current_level;
 
     private int highlight_color;
+    private int dialog_color;
     private int world_color;
     private Puzzle current_puzzle;
 
@@ -63,6 +64,7 @@ public class Session {
         this.current_level = 0;
 
         this.highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
+        this.dialog_color = GameUIView.LIGHT_COLOR_ARRAY.get( current_world - 1 );
         this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
         this.current_puzzle = null;
 
@@ -76,7 +78,15 @@ public class Session {
 
     public int Get_world_color() { return world_color; }
 
-    public int Get_hightlight_color() { return highlight_color; }
+    public int Get_hightlight_color() {
+        if(Page.Is_Game_page()) return highlight_color;
+        else return Page.Get_context().getResources().getColor( R.color.gray );
+    }
+
+    public int Get_dialog_color() {
+        if(Page.Is_Game_page()) return dialog_color;
+        else return Page.Get_context().getResources().getColor( R.color.white );
+    }
 
     public Puzzle Get_current_puzzle() {
         return current_puzzle;
@@ -122,6 +132,7 @@ public class Session {
         current_puzzle = PuzzleDB.Fetch_puzzle();
         world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
         highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
+        dialog_color = GameUIView.LIGHT_COLOR_ARRAY.get( current_world - 1 );
         GameUIView.Highlight_current_mode();
     }
 
