@@ -15,12 +15,13 @@
     <View style="@style/title_separator"/>
 
     <ScrollView
+        android:id="@+id/data_scrollview"
         android:layout_width="match_parent"
         android:layout_height="240dp">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             
             <GridLayout
                 android:id="@+id/world_1_data"
