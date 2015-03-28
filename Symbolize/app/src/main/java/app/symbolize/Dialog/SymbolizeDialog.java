@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import app.symbolize.Common.Session;
+import app.symbolize.Common.SoftKeyboard;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.R;
@@ -67,20 +68,20 @@ abstract public class SymbolizeDialog extends DialogFragment {
         dialog.setView( dialog_view, 0, 0, 0, 0 );
         update_animations( dialog );
 
-        final InputMethodManager im = (InputMethodManager) dialog.getContext().getSystemService( dialog.getContext().INPUT_METHOD_SERVICE );\
-        //final SoftKeyboard softKeyboard;
-        //softKeyboard = new SoftKeyboard( dialog_view, im);
+        final InputMethodManager im = (InputMethodManager) dialog.getContext().getSystemService( dialog.getContext().INPUT_METHOD_SERVICE );
+        final SoftKeyboard softKeyboard = new SoftKeyboard( (LinearLayout) dialog_view.findViewById( get_dialog_background_id() ), im );
+
+        softKeyboard.setSoftKeyboardCallback( new SoftKeyboard.SoftKeyboardChanged() {
+            @Override
+            public void onSoftKeyboardHide() {}
+            @Override
+            public void onSoftKeyboardShow() {}
+        });
 
         dialog_view.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( final View v ) {
-                final View view = dialog_view.findFocus();
-                if ( view != null ) {
-                    im.hideSoftInputFromWindow( view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS );
-                }
-                dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
-
-                dialog_view.requestFocus();
+                softKeyboard.closeSoftKeyboard();
             }
         } );
 

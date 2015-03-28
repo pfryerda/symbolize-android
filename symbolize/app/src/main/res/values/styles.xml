@@ -88,7 +88,10 @@
     <style name="dropdown">
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:dropDownHorizontalOffset">0sp</item>
+        <item name="android:dropDownVerticalOffset">0sp</item>
         <item name="android:background">@drawable/apptheme_spinner_background_holo_light</item>
+        <item name="android:popupBackground">@color/light_gray</item>
+        <item name="android:dropDownListViewStyle">@style/text</item>
     </style>
 
     <style name="button" parent="sub_title">
@@ -117,9 +120,6 @@
     <!-- Dialog styles -->
     <style name="dialog">
         <item name="android:padding">10dp</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:focusable">true</item>
-        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="title_separator">
