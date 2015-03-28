@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
@@ -130,8 +131,12 @@ public class AudioOptionsDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view ) {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
 
-        ( (Spinner) dialog_view.findViewById( R.id.options_audio_output_spinner ) )
-                .setSelection( options_dao.Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT ) );
+        final Spinner output_dropdown = (Spinner) dialog_view.findViewById( R.id.options_audio_output_spinner );
+        ArrayAdapter<String> adapter;
+        output_dropdown.setSelection(options_dao.Get_short_option(OptionsDataAccess.OPTION_AUDIO_OUTPUT));
+        adapter = new ArrayAdapter<String>( Page.Get_activity(), R.layout.spinner_item, R.id.spinner_item_text,  Page.Get_context().getResources().getStringArray( R.array.audio_output_options ) );
+        output_dropdown.setAdapter( adapter );
+
 
         final boolean is_muted = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
         ( (CheckBox) dialog_view.findViewById( R.id.options_mute ) )
