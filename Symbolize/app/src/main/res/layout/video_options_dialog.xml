@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            style="@style/options_check"/>/>
+            style="@style/options_check"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

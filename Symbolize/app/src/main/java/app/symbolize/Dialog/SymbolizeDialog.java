@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,9 +62,27 @@ abstract public class SymbolizeDialog extends DialogFragment {
     public Dialog onCreateDialog( Bundle save_instance_state ) {
         AlertDialog.Builder builder = get_builder();
 
-        AlertDialog dialog = builder.create();
-        dialog.setView( get_dialog_view(), 0, 0, 0, 0 );
+        final AlertDialog dialog = builder.create();
+        final View dialog_view = get_dialog_view();
+        dialog.setView( dialog_view, 0, 0, 0, 0 );
         update_animations( dialog );
+
+        final InputMethodManager im = (InputMethodManager) dialog.getContext().getSystemService( dialog.getContext().INPUT_METHOD_SERVICE );\
+        //final SoftKeyboard softKeyboard;
+        //softKeyboard = new SoftKeyboard( dialog_view, im);
+
+        dialog_view.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( final View v ) {
+                final View view = dialog_view.findFocus();
+                if ( view != null ) {
+                    im.hideSoftInputFromWindow( view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS );
+                }
+                dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
+
+                dialog_view.requestFocus();
+            }
+        } );
 
         return dialog;
     }
