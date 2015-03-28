@@ -94,7 +94,7 @@
     <string name="use_device_brightness">Use device brightness</string>
     <string name="options_size">Game size</string>
 
-    <string name="options_audio_output">Output</string>
+    <string name="options_audio_output">Audio output</string>
     <string name="auto">Auto</string>
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>

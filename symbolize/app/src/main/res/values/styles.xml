@@ -72,17 +72,23 @@
         <item name="android:gravity">right|center_vertical</item>
 
         <item name="android:inputType">number</item>
-        <item name="android:cursorVisible">false</item>
+        <item name="android:background">@drawable/apptheme_edit_text_holo_light</item>
     </style>
 
     <style name="options_spinner">
-        <item name="android:layout_marginRight">5dp</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:progressDrawable">@drawable/apptheme_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:thumb">@drawable/apptheme_scrubber_control_selector_holo_light</item>
+    </style>
+
+    <style name="options_check">
+        <item name="android:button">@drawable/apptheme_btn_check_holo_light</item>
     </style>
 
     <style name="dropdown">
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:dropDownHorizontalOffset">0sp</item>
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_light</item>
     </style>
 
     <style name="button" parent="sub_title">
