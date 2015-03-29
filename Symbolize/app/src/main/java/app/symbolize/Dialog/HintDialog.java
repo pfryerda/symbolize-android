@@ -137,7 +137,7 @@ public class HintDialog extends InfoDialog {
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.change_color_tutorial_image );
-            if ( puzzle.Can_change_color() ) draw_tutorial_image( image, "file:///android_res/drawable/draw_tutorial.gif" );
+            if ( puzzle.Can_change_color() ) draw_tutorial_image( image, "file:///android_res/drawable/change_color_tutorial.gif" );
             else image.setVisibility( View.INVISIBLE );
 
             image = (WebView) dialog_view.findViewById( R.id.special_tutorial_image );
@@ -162,7 +162,7 @@ public class HintDialog extends InfoDialog {
 
         if ( session.Is_in_world_view() && !meta_dao.Has_seen( MetaDataAccess.SEEN_WORLD ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.world_tutorial ) );
-            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/world_tutorial.gif" );
         } else if ( ( current_puzzle.Get_draw_restriction() > 0 ) && !meta_dao.Has_seen( MetaDataAccess.SEEN_DRAW ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.draw_tutorial ) );
             draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
@@ -183,7 +183,7 @@ public class HintDialog extends InfoDialog {
             draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/drag_tutorial.gif" );
         } else if ( current_puzzle.Can_change_color() && !meta_dao.Has_seen( MetaDataAccess.SEEN_CHANGE_COLOR ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.change_color_tutorial ) );
-            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/draw_tutorial.gif" );
+            draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/change_color_tutorial.gif" );
         } else if ( current_puzzle.Is_special_enabled() && !meta_dao.Has_seen( MetaDataAccess.SEEN_SPECIAL ) ) {
             tutorial_text.setText( Page.Get_resource_string( R.string.special_tutorial ) );
             draw_tutorial_image( (WebView) dialog_view.findViewById( R.id.Tutorial_image ), "file:///android_res/drawable/special_tutorial.gif" );
