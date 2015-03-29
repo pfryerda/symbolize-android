@@ -72,7 +72,7 @@ public class GameView {
         POINT_BORDER_WIDTH = (short) ( POINT_WIDTH / 8 );
         TEXT_WIDTH = (short) (  POINT_WIDTH / 2 );
         GRID_WIDTH = (short) ( LINE_WIDTH / 10 );
-        BORDER_WIDTH = LINE_WIDTH;
+        BORDER_WIDTH = (short) ( 3 * LINE_WIDTH / 4 );
 
         NUMBER_IMAGES = new ArrayList<Bitmap>();
         for( int i = 1; i < 10; ++i ) {
@@ -247,22 +247,28 @@ public class GameView {
      */
     private void render_background() {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+        final boolean draw_border = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER );
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
         if ( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_GRID ) ) {
+            final short margins_scaled = (short) ( (draw_border) ? 0 : GameUIView.CANVAS_MARGIN * SCALING / GameUIView.CANVAS_SIZE );
+            final short bar_height_scaled = (short) ( (draw_border) ? 0 : GameUIView.BAR_HEIGHT * SCALING / GameUIView.CANVAS_SIZE );
+
             paint.setColor( Color.LTGRAY );
             paint.setStrokeWidth( GRID_WIDTH );
 
+            if ( !draw_border )  paint.setShader( GameUIView.Get_horizontal_grid_gradient() );
+            else                 paint.setShader( null );
+
             for ( short y = SCALING / 10; y < SCALING; y += SCALING / 10 ) {
-                render_line( background_canvas, new Line( new Posn( (short) 0, y ), new Posn( SCALING, y ) ) );
+                render_line( background_canvas, new Line( new Posn( (short) ( -1 * margins_scaled ), y ),
+                                                          new Posn( (short) ( SCALING + margins_scaled ), y ) ) );
             }
 
-            if ( !options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
-                paint.setShader( GameUIView.Get_grid_gradient() );
-            }
+            if ( !draw_border )  paint.setShader( GameUIView.Get_vertical_grid_gradient() );
+            else                 paint.setShader( null );
 
-            short bar_height_scaled = (short) ( GameUIView.BAR_HEIGHT * SCALING / GameUIView.CANVAS_SIZE );
             for ( short x = SCALING / 10; x < SCALING; x += SCALING / 10 ) {
                 render_line( background_canvas, new Line( new Posn( x, (short) ( -1 * bar_height_scaled ) ),
                                                           new Posn( x, (short) ( SCALING + bar_height_scaled ) ) ) );
@@ -271,14 +277,16 @@ public class GameView {
             paint.setShader( null );
         }
 
-        if ( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ) {
+        if ( draw_border ) {
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 
-            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( (short) 0, SCALING ) ) );
-            render_line( background_canvas, new Line( new Posn( 0, 0 ), new Posn( SCALING, (short) 0 ) ) );
-            render_line( background_canvas, new Line( new Posn( (short) 0, SCALING ), new Posn( SCALING, SCALING ) ) );
-            render_line( background_canvas, new Line( new Posn( SCALING, (short) 0 ), new Posn( SCALING, SCALING ) ) );
+            short left_top = (short) ( -1 * BORDER_WIDTH / 2 );
+            short right_bottom = (short) ( SCALING + BORDER_WIDTH / 2 );
+            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
+            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
+            render_line( background_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
+            render_line( background_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
         }
     }
 

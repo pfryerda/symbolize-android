@@ -203,17 +203,17 @@ public class Posn {
      */
     public void Scale() {
         first = (short) Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( first * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
+                Math.max( 0, Math.round( (first - GameUIView.CANVAS_MARGIN ) * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
         second = (short) Math.min( GameView.SCALING,
-                Math.max( 0, Math.round( ( second - GameUIView.BAR_HEIGHT ) * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
+                Math.max( 0, Math.round( ( second - GameUIView.BAR_HEIGHT - GameUIView.CANVAS_MARGIN ) * ( (float) GameView.SCALING / GameUIView.CANVAS_SIZE ) ) ) );
     }
 
     /*
      * Return an unscaled version of the point according to the GameActivity.Scaling
      */
     public Posn Unscale() {
-        return new Posn( first * ( (float) GameUIView.CANVAS_SIZE / GameView.SCALING ),
-                         second * ( (float) GameUIView.CANVAS_SIZE /  GameView.SCALING ) + GameUIView.BAR_HEIGHT );
+        return new Posn( first * ( (float) GameUIView.CANVAS_SIZE / GameView.SCALING ) + GameUIView.CANVAS_MARGIN,
+                         second * ( (float) GameUIView.CANVAS_SIZE /  GameView.SCALING ) + GameUIView.BAR_HEIGHT + GameUIView.CANVAS_MARGIN );
     }
 
     /*

@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Display;
@@ -51,6 +52,7 @@ abstract public class GameUIView {
 
     public static final Point SCREEN_SIZE;
     public static final short CANVAS_SIZE;
+    public static final short CANVAS_MARGIN;
     public static final short TITLE_SIZE;
     public static final short BAR_HEIGHT;
     public static final short AD_HEIGHT;
@@ -128,10 +130,15 @@ abstract public class GameUIView {
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
 
+        final DisplayMetrics metrics = new DisplayMetrics();
+        Page.Get_activity().getWindowManager().getDefaultDisplay().getMetrics( metrics );
+        float logicalDensity = metrics.density;
+
         AD_HEIGHT = (short) AdSize.BANNER.getHeightInPixels( activity );
-        CANVAS_SIZE = (short) ( ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y );
+        CANVAS_MARGIN = (short) ( SCREEN_SIZE.x / 68 );
+        CANVAS_SIZE = (short) ( ( ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y ) - 2 * CANVAS_MARGIN );
         TITLE_SIZE = (short) ( (float) CANVAS_SIZE / 20 );
-        BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT ) / 2 );
+        BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT - 2 * CANVAS_MARGIN ) / 2 );
         BOTTOM_BUTTON_WIDTH = (short) ( SCREEN_SIZE.x / 5 );
         TOP_BUTTON_WIDTH = (short) ( BOTTOM_BUTTON_WIDTH / 2 );
 
@@ -403,13 +410,19 @@ abstract public class GameUIView {
     }
 
     /*
+     * @return LinearGradient: the linear gradient used for the horizontal grid lines
+     */
+    public static LinearGradient Get_horizontal_grid_gradient() {
+        final int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.WHITE };
+        final float[] positions = new float[]{ 0.0f, 0.05f, 0.5f, 0.95f, 1.0f };
+        return new LinearGradient( 0, 0, SCREEN_SIZE.x, 0, colors, positions, Shader.TileMode.MIRROR );
+    }
+
+    /*
      * @return LinearGradient: the linear gradient used for the vertical grid lines
      */
-    public static LinearGradient Get_grid_gradient() {
-        int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
-        float[] positions = new float[]{ 0.0f,
-                (float) ( BAR_HEIGHT + CANVAS_SIZE / 2) / SCREEN_SIZE.y,
-                ( 2.0f * BAR_HEIGHT + CANVAS_SIZE ) / SCREEN_SIZE.y };
+    public static LinearGradient Get_vertical_grid_gradient() {
+        final int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
         return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
