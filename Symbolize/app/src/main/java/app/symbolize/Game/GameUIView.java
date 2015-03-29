@@ -423,6 +423,8 @@ abstract public class GameUIView {
      */
     public static LinearGradient Get_vertical_grid_gradient() {
         final int[] colors = new int[]{ Color.WHITE, Color.LTGRAY, Color.WHITE };
+        final float[] positions = new float[]{ 0.0f, (float) ( BAR_HEIGHT + CANVAS_SIZE / 2 ) / SCREEN_SIZE.y,
+                                                     (float) ( CANVAS_SIZE + 2 * BAR_HEIGHT + CANVAS_MARGIN ) / SCREEN_SIZE.y };
         return new LinearGradient( 0, 0, 0, SCREEN_SIZE.y, colors, positions, Shader.TileMode.MIRROR );
     }
 
