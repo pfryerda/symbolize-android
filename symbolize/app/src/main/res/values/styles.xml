@@ -111,7 +111,7 @@
     </style>
 
     <style name="reset_button" parent="image">
-        <item name="android:src">@drawable/delete</item>
+        <item name="android:src">@drawable/reset</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:height">20dp</item>
         <item name="android:adjustViewBounds">true</item>

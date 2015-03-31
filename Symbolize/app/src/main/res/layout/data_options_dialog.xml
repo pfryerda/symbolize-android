@@ -184,6 +184,7 @@
             android:id="@+id/options_reset_to_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/delete"
             style="@style/reset_button">
         </ImageButton>
     </RelativeLayout>
