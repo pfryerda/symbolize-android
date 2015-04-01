@@ -33,7 +33,7 @@ public class InfoDialog extends SymbolizeDialog {
         close_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                getDialog().dismiss();
+                Dismiss();
             }
         } );
         return dialog_view;

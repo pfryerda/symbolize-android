@@ -57,7 +57,7 @@ public class ConfirmDialog extends SymbolizeDialog {
             @Override
             public void onClick( View view ) {
                 listener.OnDialogSuccess();
-                ConfirmDialog.this.getDialog().dismiss();
+                Dismiss();
             }
         } );
 
@@ -66,7 +66,7 @@ public class ConfirmDialog extends SymbolizeDialog {
             @Override
             public void onClick( View view ) {
                 listener.OnDialogFail();
-                ConfirmDialog.this.getDialog().dismiss();
+                Dismiss();
             }
         } );
 

@@ -101,6 +101,13 @@ abstract public class SymbolizeDialog extends DialogFragment {
     }
 
     /*
+     * Removes dialog from the display
+     */
+    public void Dismiss() {
+        dismiss();
+    }
+
+    /*
      * See DialogFragment::onDismiss
      */
     @Override
@@ -108,6 +115,10 @@ abstract public class SymbolizeDialog extends DialogFragment {
         if( button != null ) button.setColorFilter(null);
     }
 
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        Dismiss();
+    }
 
     // Protected methods
     //------------------
@@ -119,7 +130,6 @@ abstract public class SymbolizeDialog extends DialogFragment {
      */
     protected AlertDialog.Builder get_builder() {
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-        builder.setCancelable( true );
         return new AlertDialog.Builder( getActivity() );
     }
 
