@@ -86,6 +86,9 @@ public class OptionsDialog extends InfoDialog {
                     }
 
                     @Override
+                    public void onDialogNeutral() {}
+
+                    @Override
                     public void OnDialogFail() {}
                 } );
                 confirmDialog.Show();

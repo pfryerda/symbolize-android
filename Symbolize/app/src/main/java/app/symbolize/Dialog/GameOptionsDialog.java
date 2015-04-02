@@ -78,6 +78,9 @@ public class GameOptionsDialog extends OptionDialog {
                     }
 
                     @Override
+                    public void onDialogNeutral() {}
+
+                    @Override
                     public void OnDialogFail() {}
                 } );
                 confirmDialog.Show();

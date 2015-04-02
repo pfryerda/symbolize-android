@@ -178,6 +178,9 @@ public class GamePage extends Page
                         }
 
                         @Override
+                        public void onDialogNeutral() {}
+
+                        @Override
                         public void OnDialogFail() {}
                     });
                     confirmDialog.Show();
@@ -197,6 +200,9 @@ public class GamePage extends Page
                         public void OnDialogSuccess() {
                             load_world( Request.Load_world_via_level );
                         }
+
+                        @Override
+                        public void onDialogNeutral() {}
 
                         @Override
                         public void OnDialogFail() {

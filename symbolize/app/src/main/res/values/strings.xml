@@ -31,6 +31,7 @@
     <string name="info_dialog_id">info_dialog</string>
     <string name="hint_dialog_id">hint_dialog</string>
     <string name="confirmation_dialog_id">confirmation_dialog</string>
+    <string name="choice_dialog_id">choice_dialog</string>
     <string name="last_world">last_world</string>
     <string name="last_draw">last_draw</string>
     <string name="seen_world">seen_world</string>
@@ -55,6 +56,7 @@
     <string name="ok">Ok</string>
     <string name="OK">OK</string>
     <string name="yes">Yes</string>
+    <string name="maybe">Maybe</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>

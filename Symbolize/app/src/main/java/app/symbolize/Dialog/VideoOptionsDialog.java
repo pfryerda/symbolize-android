@@ -173,6 +173,9 @@ public class VideoOptionsDialog extends OptionDialog {
                     }
 
                     @Override
+                    public void onDialogNeutral() {}
+
+                    @Override
                     public void OnDialogFail() {}
                 } );
                 confirmDialog.Show();

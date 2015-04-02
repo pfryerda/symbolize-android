@@ -22,7 +22,7 @@ public class ConfirmDialog extends SymbolizeDialog {
     // Fields
     //-------
 
-    private ConfirmDialogListener listener;
+    protected ConfirmDialogListener listener;
 
 
     // Interface setup
@@ -30,6 +30,7 @@ public class ConfirmDialog extends SymbolizeDialog {
 
     public interface ConfirmDialogListener {
         public void OnDialogSuccess();
+        public void onDialogNeutral();
         public void OnDialogFail();
     }
 
@@ -42,7 +43,7 @@ public class ConfirmDialog extends SymbolizeDialog {
     }
 
 
-    // Protected method
+    // Protected methods
     //------------------
 
     /*

@@ -114,6 +114,9 @@ public class AudioOptionsDialog extends OptionDialog {
                     }
 
                     @Override
+                    public void onDialogNeutral() {}
+
+                    @Override
                     public void OnDialogFail() {
                     }
                 });
