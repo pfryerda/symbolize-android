@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +25,7 @@ import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.MetaDataAccess;
 import app.symbolize.Common.Posn;
 import app.symbolize.Common.Communication.Request;
+import app.symbolize.Dialog.ChoiceDialog;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.ProgressDataAccess;
 import app.symbolize.DataAccess.UnlocksDataAccess;
@@ -154,7 +156,7 @@ public class GamePage extends Page
             controller.Handle_request( request,response );
 
             if ( response.response_boolean  ) {
-                final ConfirmDialog confirmDialog = new ConfirmDialog();
+                final ConfirmDialog confirmDialog;
                 ProgressDataAccess.Get_instance().Complete( session.Get_current_world(), session.Get_current_level() );
                 MetaDataAccess.Get_instance().Update_mechanics_seen();
 
@@ -168,6 +170,8 @@ public class GamePage extends Page
                         UnlocksDataAccess.Get_instance().Unlock( unlock );
                     }
 
+
+                    confirmDialog = new ConfirmDialog();
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
                     confirmDialog.Set_Button( (ImageButton) findViewById( R.id.Check ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
@@ -194,15 +198,23 @@ public class GamePage extends Page
                         UnlocksDataAccess.Get_instance().Unlock( session.Get_current_world(), unlock );
                     }
 
-                    confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.level_complete_dialog_msg ) );
+                    if(current_puzzle.Get_unlocks().size() == 1) {
+                        confirmDialog = new ChoiceDialog();
+                        confirmDialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title), getString(R.string.level_complete_dialog_msg));
+                    } else {
+                        confirmDialog = new ConfirmDialog();
+                        confirmDialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title), getString(R.string.level_complete_dialog_msg));
+                    }
                     confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
-                            load_world( Request.Load_world_via_level );
+                            load_world(Request.Load_world_via_level);
                         }
 
                         @Override
-                        public void onDialogNeutral() {}
+                        public void onDialogNeutral() {
+                            load_level( current_puzzle.Get_unlocks().get( 0 ), Request.Load_puzzle_right );
+                        }
 
                         @Override
                         public void OnDialogFail() {
@@ -300,7 +312,7 @@ public class GamePage extends Page
             Response response = new Response();
             controller.Handle_request( request, response );
             if( response.response_int != null && response.response_int > 0 ) {
-                load_level( (byte) (int) response.response_int );
+                load_level( (byte) (int) response.response_int, Request.Load_level_via_world );
             }
         } else {
             if ( session.Get_current_puzzle().Can_change_color() ) {
@@ -420,12 +432,14 @@ public class GamePage extends Page
         GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }
 
-    private void load_level( byte level ) {
+    private void load_level( byte level, byte request_type ) {
         Session session = Session.Get_instance();
         session.Set_current_level( level );
         session.Update_puzzle();
 
-        GameController.Get_instance().Handle_request( new Request( Request.Load_level_via_world ), new Response() );
+        Request request = new Request( request_type );
+        request.request_bool = true;
+        GameController.Get_instance().Handle_request( request, new Response() );
     }
 
 
