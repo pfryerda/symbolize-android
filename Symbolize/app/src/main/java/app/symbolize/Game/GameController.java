@@ -129,8 +129,7 @@ public class GameController {
 
             if ( request.Require_render() ) {
                 if ( request.Is_animation_action() ) {
-                    game_model.Update_view( GameAnimationHandler.Handle_request( request ),
-                            ( request.type == Request.Load_level_via_world ) );
+                    game_model.Update_view( GameAnimationHandler.Handle_request( request ), request.request_bool );
                 } else if ( request.type == Request.Shadow_line && !request.request_line.Is_dud() ) {
                     game_model.Update_view( request.request_line );
                 } else if (request.type == Request.Shadow_point) {

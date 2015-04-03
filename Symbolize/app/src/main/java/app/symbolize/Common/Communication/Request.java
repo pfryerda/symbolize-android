@@ -62,6 +62,7 @@ public class Request {
 
     public Line request_line;
     public Posn request_point;
+    public boolean request_bool;
 
 
     // Constructors
