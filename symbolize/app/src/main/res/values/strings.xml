@@ -79,6 +79,13 @@
     <string name="nothing_to_undo">There is nothing to undo</string>
     <string name="incorrect">You are incorrect</string>
 
+    <!-- dialog text -->
+    <string name="revert">Revert</string>
+    <string name="delete">Delete</string>
+    <string name="next_level">Next level</string>
+    <string name="next_world">Next world</string>
+    <string name="previous_world">Back to world</string>
+
     <!-- Options dialog text -->
     <string name="options_dialog_title">Options</string>
     <string name="game_dialog_title">Game</string>
@@ -135,6 +142,7 @@
     <!-- Level complete dialog text -->
     <string name="puzzle_complete_dialog_title">Congratulations</string>
     <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
+    <string name="level_complete_one_unlock_dialog_msg">You are correct! Would you like to be sent back to the next level, or back to the level select view</string>
     <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world</string>
     <string name="game_complete_dialog_msg">You are correct!
         Congratulations you have finished Symbolize</string>

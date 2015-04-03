@@ -104,6 +104,7 @@ public class AudioOptionsDialog extends OptionDialog {
             @Override
             public void onClick(View view) {
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.revert ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs(getString(R.string.revert_to_default_title), getString(R.string.revert_to_default_message));
                 confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
                     @Override

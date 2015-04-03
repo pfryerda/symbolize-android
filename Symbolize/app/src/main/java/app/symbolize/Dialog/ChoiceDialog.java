@@ -2,6 +2,7 @@ package app.symbolize.Dialog;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import app.symbolize.Routing.Page;
 import app.symbolize.R;
@@ -19,6 +20,21 @@ public class ChoiceDialog extends ConfirmDialog {
     protected ChoiceDialogListener listener;
     */
 
+    // Fields
+    //--------
+
+    private String neutral_text = null;
+
+
+    // Setter method
+    //---------------
+
+    public void Set_Button_Text( final String positive_text, final String negative_text, final String neutral_text ) {
+        super.Set_Button_Text( positive_text, negative_text );
+        this.neutral_text = neutral_text;
+    }
+
+
     // Protected methods
     //------------------
 
@@ -30,6 +46,7 @@ public class ChoiceDialog extends ConfirmDialog {
         final View dialog_view = super.get_dialog_view();
 
         Button neutral_button = (Button) dialog_view.findViewById( R.id.Maybe );
+        if( neutral_text != null ) ( (TextView) neutral_button.findViewById( R.id.Maybe ) ).setText( neutral_text );
         neutral_button.setOnClickListener( new View.OnClickListener() {
            @Override
            public void onClick(View v) {

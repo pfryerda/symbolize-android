@@ -172,6 +172,7 @@ public class GamePage extends Page
 
 
                     confirmDialog = new ConfirmDialog();
+                    confirmDialog.Set_Button_Text( Get_resource_string( R.string.next_world ), Get_resource_string( R.string.cancel) );
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
                     confirmDialog.Set_Button( (ImageButton) findViewById( R.id.Check ) );
                     confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
@@ -200,9 +201,11 @@ public class GamePage extends Page
 
                     if(current_puzzle.Get_unlocks().size() == 1) {
                         confirmDialog = new ChoiceDialog();
-                        confirmDialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title), getString(R.string.level_complete_dialog_msg));
+                        ( (ChoiceDialog) confirmDialog ).Set_Button_Text( Get_resource_string( R.string.previous_world ), Get_resource_string( R.string.cancel ), Get_resource_string( R.string.next_level ) );
+                        confirmDialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title), getString(R.string.level_complete_one_unlock_dialog_msg));
                     } else {
                         confirmDialog = new ConfirmDialog();
+                        confirmDialog.Set_Button_Text( Get_resource_string( R.string.previous_world ), Get_resource_string( R.string.cancel ) );
                         confirmDialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title), getString(R.string.level_complete_dialog_msg));
                     }
                     confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {

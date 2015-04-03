@@ -76,6 +76,7 @@ public class DataOptionsDialog extends OptionDialog {
             @Override
             public void onClick( View view ) {
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.delete ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
