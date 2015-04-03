@@ -60,6 +60,7 @@ public class GameController {
 
                 case Request.Fetch_level:
                     if( !request.request_point.Is_dud() ) response.response_int = game_model.Fetch_level_number( request.request_point );
+                    success = response.response_int > 0 && !request.request_point.Is_dud();
                     break;
 
                 case Request.Check_correctness:
@@ -72,15 +73,17 @@ public class GameController {
 
                 case Request.Draw:
                     if( !request.request_line.Is_dud() ) game_model.Add_line_via_draw( request.request_line );
+                    else success = false;
                     break;
 
                 case Request.Erase:
                     if( !response.response_line.Is_dud() ) game_model.Remove_line_via_erase( response.response_line );
+                    else success = false;
                     break;
 
                 case Request.Drag_start:
                     response.response_line = game_model.Remove_line_via_drag( request.request_point );
-                    success = response.response_line != null && !response.response_line.Is_dud();
+                    success = !response.response_line.Is_dud();
                     break;
 
                 case Request.Drag_end:
@@ -125,7 +128,7 @@ public class GameController {
                     break;
             }
 
-            if( !success ) game_model = game_model.Get_past_state();
+            if( !success && game_model.Get_past_state() != null ) game_model = game_model.Get_past_state();
 
             if ( request.Require_render() ) {
                 if ( request.Is_animation_action() ) {
