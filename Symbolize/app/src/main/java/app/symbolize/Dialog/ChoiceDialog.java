@@ -1,5 +1,6 @@
 package app.symbolize.Dialog;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +47,8 @@ public class ChoiceDialog extends ConfirmDialog {
         final View dialog_view = super.get_dialog_view();
 
         Button neutral_button = (Button) dialog_view.findViewById( R.id.Maybe );
-        if( neutral_text != null ) ( (TextView) neutral_button.findViewById( R.id.Maybe ) ).setText( neutral_text );
+        if( neutral_text != null ) neutral_button.setText( neutral_text );
+        if( dominant_button == DominantButton.NEUTRAL ) neutral_button.setTypeface( null, Typeface.BOLD );
         neutral_button.setOnClickListener( new View.OnClickListener() {
            @Override
            public void onClick(View v) {

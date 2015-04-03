@@ -1,5 +1,6 @@
 package app.symbolize.Dialog;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +12,9 @@ import app.symbolize.R;
  * A generic dialog with two buttons at the bottom one for yes, and one for no
  */
 public class ConfirmDialog extends SymbolizeDialog {
+    public enum DominantButton { POSITIVE, NEGATIVE, NEUTRAL }
+
+
     // Inherited fields
     //------------------
 
@@ -19,8 +23,15 @@ public class ConfirmDialog extends SymbolizeDialog {
     protected String message;
     */
 
-    //  Fields
-    //---------
+
+    // Protected field
+    //----------------
+
+    protected DominantButton dominant_button = DominantButton.NEGATIVE;
+
+
+    //  Private fields
+    //----------------
 
     private String positive_text = null;
     private String negative_text = null;
@@ -49,6 +60,8 @@ public class ConfirmDialog extends SymbolizeDialog {
         this.listener = listener;
     }
 
+    public void Set_dominant_button( final DominantButton dominant_button ) { this.dominant_button = dominant_button; }
+
     public void Set_Button_Text( final String positive_text, final String negative_text ) {
         this.positive_text = positive_text;
         this.negative_text = negative_text;
@@ -66,7 +79,8 @@ public class ConfirmDialog extends SymbolizeDialog {
         final View dialog_view = super.get_dialog_view();
 
         Button positive_button = (Button) dialog_view.findViewById( R.id.Yes );
-        if( positive_text != null ) ( (TextView) positive_button.findViewById( R.id.Yes ) ).setText( positive_text );
+        if( positive_text != null ) positive_button.setText(positive_text);
+        if( dominant_button == DominantButton.POSITIVE ) positive_button.setTypeface( null, Typeface.BOLD );
         positive_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -76,7 +90,8 @@ public class ConfirmDialog extends SymbolizeDialog {
         } );
 
         Button negative_button = (Button) dialog_view.findViewById( R.id.No );
-        if( negative_text != null ) ( (TextView) negative_button.findViewById( R.id.No ) ).setText( negative_text );
+        if( dominant_button == DominantButton.NEGATIVE ) negative_button.setTypeface( null, Typeface.BOLD );
+        if( negative_text != null ) negative_button.setText( negative_text );
         negative_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
