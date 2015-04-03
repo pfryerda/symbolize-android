@@ -200,5 +200,6 @@ public class HintDialog extends InfoDialog {
      */
     private void draw_tutorial_image( WebView view, String url ) {
         view.loadDataWithBaseURL( null, "<html><body><img style=\"width: 100%\" src=\"" + url + "\"></body></html>", "text/html", "UTF-8", null );
+        view.setBackgroundColor( Color.TRANSPARENT );
     }
 }
