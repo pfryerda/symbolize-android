@@ -72,7 +72,7 @@ public class GameController {
                     break;
 
                 case Request.Draw:
-                    if( !request.request_line.Is_dud() ) game_model.Add_line_via_draw( request.request_line );
+                    if( !request.request_line.Is_dud() ) success = game_model.Add_line_via_draw( request.request_line );
                     else success = false;
                     break;
 

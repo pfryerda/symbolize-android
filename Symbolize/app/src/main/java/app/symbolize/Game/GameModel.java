@@ -199,20 +199,31 @@ public class GameModel {
      *
      * @param Line line: Raw pre snapped line wanting to add
      */
-    public void Add_line_via_draw( Line line ) {
-        Session session = Session.Get_instance();
+    public boolean Add_line_via_draw( Line line ) {
+        boolean success = true;
 
-        if( session.Is_in_world_view() ) {
+        if( Session.Get_instance().Is_in_world_view() ) {
             ArrayList<Posn> completed_levels = Get_completed_levels();
             if( completed_levels.size() > 1 ) {
                 line.Snap_to_levels( completed_levels );
-                graph.addLast(line);
-                ++lines_drawn;
+            } else {
+                success = false;
             }
-        } else {
-            graph.addLast( line );
+        }
+
+        for( final Line graph_line : graph ) {
+            if( graph_line.Equals( line ) ) {
+                success = false;
+                break;
+            }
+        }
+
+        if( success ) {
+            graph.addLast(line);
             ++lines_drawn;
         }
+
+        return success;
     }
 
     /*

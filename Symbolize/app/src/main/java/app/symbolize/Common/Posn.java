@@ -89,6 +89,13 @@ public class Posn {
     }
 
     /*
+     * Method that see's if two posn have the same coords
+     */
+    public boolean Equals( final Posn posn ) {
+        return first == posn.x() && second == posn.y();
+    }
+
+    /*
      * Method that sees if the given posn is approximately equal to this posn
      */
     public boolean Approximately_equals( final Posn point ) {

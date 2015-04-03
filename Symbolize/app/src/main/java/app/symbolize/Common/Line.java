@@ -200,6 +200,13 @@ public class Line {
     }
 
     /*
+     * Method that see's if two lines have the same coords
+     */
+    public boolean Equals( final  Line line ) {
+        return p1.Equals( line.Get_p1() ) && p2.Equals( line.Get_p2() );
+    }
+
+    /*
      * Method that sees if the given line is approximately equal to this line (used during solution check)
      *
      * @param Line soln: Line from the solution that we are checking against
