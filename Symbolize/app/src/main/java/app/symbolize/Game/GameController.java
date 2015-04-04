@@ -45,7 +45,7 @@ public class GameController {
         if( is_valid_request( request, response ) ) {
 
             if ( request.require_pre_render() ) {
-                game_model.Update_view( false );
+                game_model.Update_view();
             }
 
             if ( request.Require_undo() ) {
@@ -137,7 +137,7 @@ public class GameController {
                 } else if (request.type == Request.Shadow_point) {
                     game_model.Update_view( request.request_point );
                 } else {
-                    game_model.Update_view( request.type == Request.Background_change );
+                    game_model.Update_view();
                 }
             }
         } else {

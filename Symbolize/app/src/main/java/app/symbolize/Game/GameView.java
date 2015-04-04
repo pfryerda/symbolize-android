@@ -142,10 +142,8 @@ public class GameView {
     /*
      * Render the game =D
      */
-    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final boolean update_background ) {
-        if ( update_background ) {
-            render_background();
-        }
+    public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
+        render_background();
         render_foreground( graph, levels );
     }
 
@@ -163,7 +161,7 @@ public class GameView {
             }
             @Override
             public void onSymbolizeAnimationEnd() {
-                Render( graph, levels, false );
+                Render( graph, levels );
                 GameUIView.Reset_highlights();
                 if( requires_hint_box ) {
                     HintDialog hint_dialog = new HintDialog();
@@ -176,12 +174,12 @@ public class GameView {
     }
 
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final Line shadow_line ) {
-        Render( graph, levels, false );
+        Render( graph, levels );
         render_shadow( shadow_line );
     }
 
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final Posn shadow_posn ) {
-        Render( graph, levels, false );
+        Render( graph, levels );
         render_shadow( shadow_posn );
     }
 
@@ -321,8 +319,8 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINE_WIDTH );
 
-        render_line( foreground_canvas, shadow_line );
-        foreground.invalidate();
+        render_line( background_canvas, shadow_line );
+        background.invalidate();
     }
 
     private void render_shadow( final Posn shadow_point ) {
@@ -331,8 +329,8 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( POINT_WIDTH );
 
-        render_point( foreground_canvas, shadow_point );
-        foreground.invalidate();
+        render_point( background_canvas, shadow_point );
+        background.invalidate();
     }
 
     /*

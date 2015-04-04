@@ -324,12 +324,12 @@ public class GameModel {
      * @param Line shadow_line: The shadow line to render after rendering - for drawing
      * @param Posn shadow_posn: the shadow point to render after rebdering - for erasing
      */
-    public void Update_view( final boolean update_background ) {
+    public void Update_view() {
         GameUIView.Update_ui( Can_undo() );
         if ( Session.DEV_MODE ) {
-            game_view.Render( Get_simplified_graph(), levels, update_background );
+            game_view.Render( Get_simplified_graph(), levels );
         } else {
-            game_view.Render( graph, levels, update_background );
+            game_view.Render( graph, levels );
         }
     }
 
