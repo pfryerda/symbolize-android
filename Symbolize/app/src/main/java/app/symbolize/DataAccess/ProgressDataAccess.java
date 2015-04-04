@@ -93,6 +93,17 @@ public class ProgressDataAccess {
     // Public methods
     //----------------
 
+    public byte Get_number_of_completed_levels( final byte world ) {
+        byte number_of_complete_levels = 0;
+        for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
+            if ( Is_completed( world, level ) ) {
+                ++number_of_complete_levels;
+            }
+        }
+
+        return number_of_complete_levels;
+    }
+
     /*
      * Gets a string representing the number of levels completed in a given world
      *
@@ -101,14 +112,7 @@ public class ProgressDataAccess {
      * @return String: "Number of levels complete in world / Number of levels in world"
      */
     public String Get_number_of_complete_levels_string( final byte world ) {
-        byte number_of_complete_levels = 0;
-        for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
-            if ( Is_completed( world, level ) ) {
-                ++number_of_complete_levels;
-            }
-        }
-
-        return " " + number_of_complete_levels + " / " + PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
+        return " " + Get_number_of_completed_levels( world ) + " / " + PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD;
     }
 
     /*

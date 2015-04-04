@@ -99,9 +99,12 @@ public class GamePage extends Page
     public void On_left_button_clicked( final View view ) {
         if ( !SymbolizeAnimation.InAnimation ) {
             Session session = Session.Get_instance();
-
-            session.Decrease_world();
-            load_world( Request.Load_puzzle_left );
+            if( session.Is_in_world_view() ) {
+                session.Decrease_world();
+                load_world( Request.Load_puzzle_left );
+            } else {
+                load_level( session.Get_previous_level( session.Get_current_world() ), Request.Load_puzzle_left );
+            }
         }
     }
 
@@ -121,8 +124,12 @@ public class GamePage extends Page
         if ( !SymbolizeAnimation.InAnimation ) {
             Session session = Session.Get_instance();
 
-            session.Increase_world();
-            load_world( Request.Load_puzzle_right );
+            if( session.Is_in_world_view() ) {
+                session.Increase_world();
+                load_world( Request.Load_puzzle_right );
+            } else {
+                load_level( session.Get_next_level( session.Get_current_world() ), Request.Load_puzzle_right );
+            }
         }
     }
 

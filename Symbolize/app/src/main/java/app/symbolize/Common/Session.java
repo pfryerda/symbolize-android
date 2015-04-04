@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import app.symbolize.DataAccess.MetaDataAccess;
+import app.symbolize.DataAccess.UnlocksDataAccess;
 import app.symbolize.Game.GameUIView;
 import app.symbolize.Puzzle.Puzzle;
 import app.symbolize.Puzzle.PuzzleDB;
@@ -113,11 +114,19 @@ public class Session {
     }
 
     public byte Get_next_world() {
-        return (byte) ( ( Get_current_world() % PuzzleDB.NUMBER_OF_WORLDS ) + 1 );
+        return (byte) ( ( Get_current_world() % UnlocksDataAccess.Get_instance().Get_number_of_unlocked_worlds()) + 1 );
     }
 
     public byte Get_previous_world() {
-        return (byte) ( ( Get_current_world() == 1 ) ? PuzzleDB.NUMBER_OF_WORLDS : Get_current_world() - 1 );
+        return (byte) ( ( Get_current_world() == 1 ) ? UnlocksDataAccess.Get_instance().Get_number_of_unlocked_worlds() : Get_current_world() - 1 );
+    }
+
+    public byte Get_next_level( byte world ) {
+        return (byte) ( ( Get_current_level() % UnlocksDataAccess.Get_instance().Get_number_of_unlocked_levels( world ) ) + 1 );
+    }
+
+    public byte Get_previous_level( byte world ) {
+        return (byte) ( ( Get_current_level() == 1 ) ? UnlocksDataAccess.Get_instance().Get_number_of_unlocked_levels( world ) : Get_current_level() - 1 );
     }
 
     public Posn Get_current_pivot() {

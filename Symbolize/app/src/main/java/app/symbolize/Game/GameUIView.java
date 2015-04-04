@@ -160,21 +160,30 @@ abstract public class GameUIView {
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
-        final boolean left_button_enabled = unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view();
+        boolean left_button_enabled;
+        boolean right_button_enabled;
+
+        if( session.Is_in_world_view() ) {
+            left_button_enabled = unlocks_dao.Get_number_of_unlocked_worlds() != 1 &&
+                                 ( ( unlocks_dao.Get_number_of_unlocked_worlds() == 2 && session.Get_current_world() == 2 ) ||
+                                     unlocks_dao.Get_number_of_unlocked_worlds() > 2 );
+            right_button_enabled = unlocks_dao.Get_number_of_unlocked_worlds() != 1 &&
+                                ( ( unlocks_dao.Get_number_of_unlocked_worlds() == 2 && session.Get_current_world() == 1 ) ||
+                                    unlocks_dao.Get_number_of_unlocked_worlds() > 2 );
+        } else {
+            left_button_enabled = unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) != 1 &&
+                                ( ( unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) == 2 && session.Get_current_level() == 2 ) ||
+                                    unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) > 2 );
+            right_button_enabled = unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) != 1 &&
+                                ( ( unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) == 2 && session.Get_current_level() == 1 ) ||
+                                    unlocks_dao.Get_number_of_unlocked_levels( session.Get_current_world() ) > 2 );
+        }
+
         left_button.setEnabled( left_button_enabled );
         left_button.setAlpha( (left_button_enabled) ? 1 : BUTTON_FADE );
 
-        final boolean right_button_enabled = unlocks_dao.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view();
         right_button.setEnabled( right_button_enabled );
         right_button.setAlpha( (right_button_enabled) ? 1 : BUTTON_FADE );
-
-        if( unlocks_dao.Is_unlocked( 2 ) ) {
-            left_button.setVisibility( View.VISIBLE );
-            right_button.setVisibility( View.VISIBLE );
-        } else {
-            left_button.setVisibility( View.GONE );
-            right_button.setVisibility( View.GONE );
-        }
 
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
             undo_button.setEnabled( can_undo );

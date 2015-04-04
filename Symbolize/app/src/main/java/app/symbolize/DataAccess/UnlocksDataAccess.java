@@ -92,6 +92,28 @@ public class UnlocksDataAccess {
     // Public methods
     //-----------------
 
+    public byte Get_number_of_unlocked_worlds() {
+        byte number_of_unlocked_worlds = 0;
+        for ( byte world = 1; world <= PuzzleDB.NUMBER_OF_WORLDS; ++world ) {
+            if ( Is_unlocked( world ) ) {
+                ++number_of_unlocked_worlds;
+            }
+        }
+
+        return number_of_unlocked_worlds;
+    }
+
+    public byte Get_number_of_unlocked_levels( final byte world ) {
+        byte number_of_unlocked_levels = 0;
+        for ( byte level = 1; level <= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD; ++level ) {
+            if ( Is_unlocked( world, level ) ) {
+                ++number_of_unlocked_levels;
+            }
+        }
+
+        return number_of_unlocked_levels;
+    }
+
     /*
      * Removes all unlocked levels expect for world 1, and level 1-1
      */

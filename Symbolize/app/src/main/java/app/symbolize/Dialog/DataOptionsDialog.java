@@ -127,7 +127,7 @@ public class DataOptionsDialog extends OptionDialog {
             if ( unlocks_dao.Is_unlocked( world ) ) {
                 final TextView levels_complete = (TextView) dialog_view.findViewById( level_complete_map[world - 1] );
                 levels_complete.append( progress_dao.Get_number_of_complete_levels_string( world ) );
-                if ( progress_dao.Is_completed( world ) ) {
+                if ( progress_dao.Is_completed( world ) && progress_dao.Get_number_of_completed_levels( world ) >= PuzzleDB.NUMBER_OF_LEVELS_PER_WORLD ) {
                     ( (CheckBox) dialog_view.findViewById( world_complete_map[world -1] ) ).setChecked( true );
                 }
             } else {
