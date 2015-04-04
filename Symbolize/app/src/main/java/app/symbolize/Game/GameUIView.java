@@ -160,20 +160,20 @@ abstract public class GameUIView {
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
-        final boolean left_button_enabled = unlocks_dao.Is_unlocked( session.Get_previous_world() );
+        final boolean left_button_enabled = unlocks_dao.Is_unlocked( session.Get_previous_world() ) && session.Is_in_world_view();
         left_button.setEnabled( left_button_enabled );
         left_button.setAlpha( (left_button_enabled) ? 1 : BUTTON_FADE );
 
-        final boolean right_button_enabled = unlocks_dao.Is_unlocked( session.Get_next_world() );
+        final boolean right_button_enabled = unlocks_dao.Is_unlocked( session.Get_next_world() ) && session.Is_in_world_view();
         right_button.setEnabled( right_button_enabled );
         right_button.setAlpha( (right_button_enabled) ? 1 : BUTTON_FADE );
 
-        if( unlocks_dao.Is_unlocked( 2 ) && session.Is_in_world_view() ) {
+        if( unlocks_dao.Is_unlocked( 2 ) ) {
             left_button.setVisibility( View.VISIBLE );
             right_button.setVisibility( View.VISIBLE );
         } else {
-            left_button.setVisibility( View.INVISIBLE );
-            right_button.setVisibility( View.INVISIBLE );
+            left_button.setVisibility( View.GONE );
+            right_button.setVisibility( View.GONE );
         }
 
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
@@ -198,14 +198,14 @@ abstract public class GameUIView {
 
         if( session.Is_in_world_view() ) {
             if( session.Get_current_world() >= 10 ) state_params.weight = 33.33f;
-            else                                    state_params.weight = 33.33f * 0.77f;
+            else                                    state_params.weight = 25.66f;
 
             title_state.setImageResource( R.drawable.world );
             title_number.setImageResource( Get_number_image_resource( session.Get_current_world() ) );
             back_button.setImageResource( R.drawable.home );
         } else {
-            if( session.Get_current_world() >= 10 ) state_params.weight = 33.33f * 1.07f;
-            else                                    state_params.weight = 33.33f * 0.85f;
+            if( session.Get_current_world() >= 10 ) state_params.weight = 35.33f;
+            else                                    state_params.weight = 28.33f;
 
             title_state.setImageResource( R.drawable.level );
             title_number.setImageResource( Get_number_image_resource( session.Get_current_level() ) );

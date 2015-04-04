@@ -206,6 +206,7 @@ public class GameModel {
             ArrayList<Posn> completed_levels = Get_completed_levels();
             if( completed_levels.size() > 1 ) {
                 line.Snap_to_levels( completed_levels );
+                success = !line.Is_dud();
             } else {
                 success = false;
             }
