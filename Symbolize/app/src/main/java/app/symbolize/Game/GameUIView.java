@@ -300,6 +300,8 @@ abstract public class GameUIView {
         settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
 
         Highlight_current_mode();
+        Set_touch_listener_highlight( draw_button, false );
+        Set_touch_listener_highlight( erase_button, false );
         Set_touch_listener_highlight( left_button );
         Set_touch_listener_highlight( back_button );
         Set_touch_listener_highlight( right_button );
@@ -461,7 +463,10 @@ abstract public class GameUIView {
                     case MotionEvent.ACTION_MOVE:
                         final Rect bounds = new Rect();
                         button.getHitRect( bounds );
-                        if( !bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY()) ) button.setColorFilter( null );
+                        if( !bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY()) ) {
+                            button.setColorFilter( null );
+                            Highlight_current_mode();
+                        }
                         break;
                 }
 

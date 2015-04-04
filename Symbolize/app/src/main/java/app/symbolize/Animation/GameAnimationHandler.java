@@ -34,7 +34,7 @@ abstract public class GameAnimationHandler {
                 animation.Start_new_set();
                 animation.Add_animation(
                         new RotateAnimation( 0, 90,
-                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
+                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + GameUIView.CANVAS_MARGIN + (float) GameUIView.CANVAS_SIZE / 2
                         ),
                         meta_dao.Get_duration( MetaDataAccess.DURATION_ROTATE ), false
                 );
@@ -44,7 +44,7 @@ abstract public class GameAnimationHandler {
                 animation.Start_new_set();
                 animation.Add_animation(
                         new RotateAnimation( 0, -90,
-                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
+                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + GameUIView.CANVAS_MARGIN + (float) GameUIView.CANVAS_SIZE / 2
                         ),
                         meta_dao.Get_duration( MetaDataAccess.DURATION_ROTATE ), false
                 );
@@ -64,7 +64,7 @@ abstract public class GameAnimationHandler {
                 animation.Start_new_set();
                 animation.Add_animation(
                         new ScaleAnimation( 1, 1, 1, -1,
-                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + (float) GameUIView.CANVAS_SIZE / 2
+                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.ABSOLUTE, GameUIView.BAR_HEIGHT + GameUIView.CANVAS_MARGIN + (float) GameUIView.CANVAS_SIZE / 2
                         ),
                         meta_dao.Get_duration( MetaDataAccess.DURATION_FLIP ), false
                 );
