@@ -27,71 +27,88 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true">
 
-        <ImageButton
-            android:id="@+id/Left"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/top_left_bar"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="On_left_button_clicked"
-            android:src="@drawable/arrow"
-            style="@style/image"/>
-        <ImageButton
-            android:id="@+id/Back"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="On_back_button_clicked"
-            android:src="@drawable/home"
-            style="@style/image"/>
-        <ImageButton
-            android:id="@+id/Right"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="On_right_button_clicked"
-            android:src="@drawable/arrow"
-            android:scaleX="-1"
-            style="@style/image"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true">
+            <ImageButton
+                android:id="@+id/Left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_left_button_clicked"
+                android:src="@drawable/arrow"
+                style="@style/image"/>
+            <ImageButton
+                android:id="@+id/Back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_back_button_clicked"
+                android:src="@drawable/home"
+                style="@style/image"/>
+            <ImageButton
+                android:id="@+id/Right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_right_button_clicked"
+                android:src="@drawable/arrow"
+                android:scaleX="-1"
+                style="@style/image"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_right_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+            <ImageButton
+                android:id="@+id/Reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_reset_button_clicked"
+                android:src="@drawable/reset"
+                style="@style/image"/>
+
+            <ImageButton
+                android:id="@+id/Settings"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_settings_button_clicked"
+                android:src="@drawable/gear"
+                style="@style/image"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/Title"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
             <ImageView
                 android:id="@+id/Title_State"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="27"
                 android:src="@drawable/world"
                 style="@style/image" />
             <ImageView
                 android:id="@+id/Title_number"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="73"
                 android:src="@drawable/image_1"
                 style="@style/image"/>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/Reset"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="On_reset_button_clicked"
-            android:src="@drawable/reset"
-            style="@style/image"/>
-
-        <ImageButton
-            android:id="@+id/Settings"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="On_settings_button_clicked"
-            android:src="@drawable/gear"
-            style="@style/image"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

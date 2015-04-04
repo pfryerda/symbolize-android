@@ -72,7 +72,7 @@ abstract public class GameUIView {
 
     private static RelativeLayout game_page;
 
-    private static LinearLayout top_bar;
+    private static RelativeLayout top_bar;
     private static LinearLayout bottom_bar;
 
     private static ImageButton check_button;
@@ -130,14 +130,10 @@ abstract public class GameUIView {
         SCREEN_SIZE = new Point();
         DISPLAY.getSize( SCREEN_SIZE );
 
-        final DisplayMetrics metrics = new DisplayMetrics();
-        Page.Get_activity().getWindowManager().getDefaultDisplay().getMetrics( metrics );
-        float logicalDensity = metrics.density;
-
         AD_HEIGHT = (short) AdSize.BANNER.getHeightInPixels( activity );
         CANVAS_MARGIN = (short) ( SCREEN_SIZE.x / 68 );
         CANVAS_SIZE = (short) ( ( ( SCREEN_SIZE.y > SCREEN_SIZE.x ) ? SCREEN_SIZE.x : SCREEN_SIZE.y ) - 2 * CANVAS_MARGIN );
-        TITLE_SIZE = (short) ( (float) CANVAS_SIZE / 20 );
+        TITLE_SIZE = (short) ( (float) CANVAS_SIZE / 3 );
         BAR_HEIGHT = (short) ( ( SCREEN_SIZE.y - CANVAS_SIZE - AD_HEIGHT - 2 * CANVAS_MARGIN ) / 2 );
         BOTTOM_BUTTON_WIDTH = (short) ( SCREEN_SIZE.x / 5 );
         TOP_BUTTON_WIDTH = (short) ( BOTTOM_BUTTON_WIDTH / 2 );
@@ -164,33 +160,6 @@ abstract public class GameUIView {
         final Puzzle current_puzzle = session.Get_current_puzzle();
         final UnlocksDataAccess unlocks_dao = UnlocksDataAccess.Get_instance();
 
-        float title_text_size;
-        float title_number_size;
-
-        if(session.Is_in_world_view()) {
-            title_text_size = (float) ((session.Get_current_world() == 10) ? 4.9 : 5.4);
-            title_number_size = (float) ((session.Get_current_world() == 10) ? 2.0 : 1.5);
-
-            title_state.setImageResource( R.drawable.world );
-            title_number.setImageResource(Get_number_image_resource(session.Get_current_world()));
-            back_button.setImageResource( R.drawable.home );
-        } else {
-            title_text_size = (float) ((session.Get_current_level() == 10) ? 4.9 : 5.4);
-            title_number_size = (float) ((session.Get_current_level() == 10) ? 2.0 : 1.5);
-
-            title_state.setImageResource( R.drawable.level );
-            title_number.setImageResource(Get_number_image_resource(session.Get_current_level()));
-            back_button.setImageResource( R.drawable.levels );
-        }
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( title_text_size * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
-        params.gravity = Gravity.CENTER;
-        title_state.setLayoutParams( params );
-        params = new LinearLayout.LayoutParams( (int) Math.round( title_number_size * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
-        params.gravity = Gravity.CENTER;
-        title_number.setLayoutParams( params );
-
-
         final boolean left_button_enabled = unlocks_dao.Is_unlocked( session.Get_previous_world() );
         left_button.setEnabled( left_button_enabled );
         left_button.setAlpha( (left_button_enabled) ? 1 : BUTTON_FADE );
@@ -210,6 +179,9 @@ abstract public class GameUIView {
         if ( can_undo != null ) { // If can_undo == null leave undo button as it was before
             undo_button.setEnabled( can_undo );
             undo_button.setAlpha( ( can_undo ) ? 1: BUTTON_FADE );
+
+            reset_button.setEnabled( can_undo );
+            reset_button.setAlpha( ( can_undo ) ? 1: BUTTON_FADE );
         }
 
         if ( ( current_puzzle.Get_erase_restriction() > 0 )
@@ -220,6 +192,29 @@ abstract public class GameUIView {
             draw_button.setVisibility( View.INVISIBLE );
             erase_button.setVisibility( View.INVISIBLE );
         }
+
+        LinearLayout.LayoutParams state_params = (LinearLayout.LayoutParams) title_state.getLayoutParams();
+        LinearLayout.LayoutParams number_params = (LinearLayout.LayoutParams) title_number.getLayoutParams();
+
+        if( session.Is_in_world_view() ) {
+            if( session.Get_current_world() >= 10 ) state_params.weight = 33.33f;
+            else                                    state_params.weight = 33.33f * 0.77f;
+
+            title_state.setImageResource( R.drawable.world );
+            title_number.setImageResource( Get_number_image_resource( session.Get_current_world() ) );
+            back_button.setImageResource( R.drawable.home );
+        } else {
+            if( session.Get_current_world() >= 10 ) state_params.weight = 33.33f * 1.07f;
+            else                                    state_params.weight = 33.33f * 0.85f;
+
+            title_state.setImageResource( R.drawable.level );
+            title_number.setImageResource( Get_number_image_resource( session.Get_current_level() ) );
+            back_button.setImageResource( R.drawable.levels );
+        }
+
+        number_params.weight = 100 - state_params.weight;
+        title_state.setLayoutParams( state_params );
+        title_number.setLayoutParams( number_params );
 
         // Draw main color gradient
         final int[] colors = new int[2];
@@ -253,11 +248,12 @@ abstract public class GameUIView {
      */
     public static void Setup_ui() {
         final Activity activity = GamePage.Get_activity();
+        final Session session = Session.Get_instance();
 
         // Reset variable
         game_page = (RelativeLayout) activity.findViewById( R.id.page );
 
-        top_bar = (LinearLayout) activity.findViewById( R.id.top_bar );
+        top_bar = (RelativeLayout) activity.findViewById( R.id.top_bar );
         bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
 
         check_button = (ImageButton) activity.findViewById( R.id.Check );
@@ -280,6 +276,7 @@ abstract public class GameUIView {
         // Set the buttons/layout width/height - 'Faster than doing it via xml'
         top_bar.getLayoutParams().height = BAR_HEIGHT;
         activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
+        title.getLayoutParams().width = TITLE_SIZE;
 
         check_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
         hint_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
@@ -292,16 +289,6 @@ abstract public class GameUIView {
         right_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
         reset_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
         settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-
-        title.getLayoutParams().width = SCREEN_SIZE.x - ( 5 * TOP_BUTTON_WIDTH );
-        title.setGravity( Gravity.CENTER );
-
-        /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( (int) Math.round( 3.6 * 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
-        params.gravity = Gravity.CENTER;
-        title_state.setLayoutParams( params );
-        params = new LinearLayout.LayoutParams( (int) Math.round( 1.5 * TITLE_SIZE ), ViewGroup.LayoutParams.MATCH_PARENT );
-        params.gravity = Gravity.CENTER;
-        title_number.setLayoutParams( params );*/
 
         Highlight_current_mode();
         Set_touch_listener_highlight( left_button );
