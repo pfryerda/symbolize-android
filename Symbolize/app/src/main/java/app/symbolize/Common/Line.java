@@ -229,9 +229,9 @@ public class Line {
             Math.min( p1.y(), p2.y() ) - ERASING_THRESHOLD <= point.y() &&
                 point.y() <= Math.max( p1.y(), p2.y() ) + ERASING_THRESHOLD )
         {
-            if ( ( slope() != Float.POSITIVE_INFINITY ) && ( slope() != 0 ) ) {
-                int x  = Math.round( ( point.y() - y_intercept() ) / slope() );
-                int y = Math.round( slope() * point.x() + y_intercept() );
+            if ( ( Slope() != Float.POSITIVE_INFINITY ) && ( Slope() != 0 ) ) {
+                int x  = Math.round( ( point.y() - y_intercept() ) / Slope() );
+                int y = Math.round( Slope() * point.x() + y_intercept() );
                 return Math.abs( x - point.x() ) <= ERASING_THRESHOLD ||
                         ( Math.abs( y - point.y() ) <= ERASING_THRESHOLD );
             }
@@ -246,8 +246,8 @@ public class Line {
      * @param final Line line_2: The line you want to get the intersecting point with
      */
     public Posn Get_intersecting_point( final Line line_2 ) {
-        final float m1 = slope();
-        final float m2 = line_2.slope();
+        final float m1 = Slope();
+        final float m2 = line_2.Slope();
 
         final float x;
         final float y;
@@ -288,25 +288,25 @@ public class Line {
         p2.Snap_to_levels( levels );
     }
 
-
-    // Private methods
-    //----------------
-
     /*
      * Calculates the slope of the line
      */
-    private float slope() {
+    public float Slope() {
         int dx = p2.x() - p1.x();
         int dy = p2.y() - p1.y();
         return ( dx == 0 ) ? Float.POSITIVE_INFINITY : (float) dy / dx;
     }
+
+
+    // Private methods
+    //----------------
 
     /*
      * Calculates the y intercept of the line
      */
     private float y_intercept() {
         int dx = p2.x() - p1.x();
-        return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( slope() * p1.x() );
+        return ( dx == 0 ) ? Float.POSITIVE_INFINITY : p1.y() - ( Slope() * p1.x() );
     }
 
     // Developer methods

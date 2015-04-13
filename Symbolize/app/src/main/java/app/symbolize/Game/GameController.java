@@ -82,7 +82,7 @@ public class GameController {
 
                 case Request.Drag_start:
                     response.response_line = game_model.Remove_line_via_drag( request.request_point );
-                    success = !response.response_line.Is_dud();
+                    success = response.response_line != null && !response.response_line.Is_dud();
                     break;
 
                 case Request.Drag_end:

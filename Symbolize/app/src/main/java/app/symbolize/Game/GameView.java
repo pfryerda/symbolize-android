@@ -38,6 +38,8 @@ public class GameView {
 
     public static final short SCALING = 10000;
     public static final byte SHADOW = 80;
+    public static final byte DROP_SHADOW = 33;
+    public static final byte SOLID = 100;
 
 
     // Static Fields
@@ -195,12 +197,15 @@ public class GameView {
         paint.setStyle( Paint.Style.STROKE );
 
         // Draw graph lines
-        paint.setStrokeWidth( LINE_WIDTH );
+
+        // line border
         paint.setColor( Color.BLACK );
+        paint.setStrokeWidth( LINE_WIDTH );
         for ( Line line : graph ) {
             render_line( foreground_canvas, line );
         }
 
+        // actual line
         paint.setStrokeWidth( LINE_WIDTH - LINE_BORDER_WIDTH );
         for ( Line line : graph ) {
             Integer color = line.Get_color();
@@ -210,20 +215,28 @@ public class GameView {
         }
 
         // Draw level dots
+        paint.setStyle( Paint.Style.STROKE );
+
         final Session session = Session.Get_instance();
         for ( int i = 0; i < levels.size(); ++i ) {
             if( UnlocksDataAccess.Get_instance().Is_unlocked( session.Get_current_world(), i + 1 ) ) {
                 Posn point = levels.get( i );
                 if ( point != null ) {
+                    // Draw drop shadow
+                    paint.setColor( Color.DKGRAY );
+                    paint.setAlpha( DROP_SHADOW );
+                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
+                    render_point( foreground_canvas, point, true );
+
                     // Draw border
-                    paint.setStrokeWidth( POINT_WIDTH );
-                    paint.setStyle( Paint.Style.STROKE );
+                    paint.setAlpha( SOLID );
                     paint.setColor( Color.BLACK );
-                    render_point( foreground_canvas, point );
+                    paint.setStrokeWidth( POINT_WIDTH );
+
+                    render_point(foreground_canvas, point);
 
                     // Draw Point
-                    paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
-                    paint.setStyle( Paint.Style.STROKE );
+                    paint.setStrokeWidth(POINT_WIDTH - POINT_BORDER_WIDTH);
                     if ( ProgressDataAccess.Get_instance().Is_completed( session.Get_current_world(), i + 1 ) ) {
                         paint.setColor( session.Get_hightlight_color() );
                     } else {
@@ -292,12 +305,25 @@ public class GameView {
      * Unsclaes a line/point and then draws it on the canvas
      */
     private void render_line( final Canvas canvas, final Line line ) {
-        canvas.drawLine( line.Get_p1().Unscale().x(), line.Get_p1().Unscale().y(),
-                         line.Get_p2().Unscale().x(), line.Get_p2().Unscale().y(), paint );
+        render_line( canvas, line, false );
+    }
+
+    private void render_line( final Canvas canvas, final Line line, final boolean offSet ) {
+        final Posn offset_values = new Posn( ( (line.Slope() > 0) ? -1 : 1 ) * ( (offSet) ? LINE_WIDTH / 2 : 0 ),
+                                             (offSet) ? LINE_WIDTH / 2 : 0 );
+
+        canvas.drawLine( line.Get_p1().Unscale().x() + offset_values.x(), line.Get_p1().Unscale().y() + offset_values.y(),
+                         line.Get_p2().Unscale().x() + offset_values.x(), line.Get_p2().Unscale().y() + offset_values.y(), paint );
     }
 
     private void render_point( final Canvas canvas, final Posn point ) {
-        canvas.drawPoint( point.Unscale().x(), point.Unscale().y(), paint );
+        render_point( canvas, point, false );
+    }
+
+    private void render_point( final Canvas canvas, final Posn point, final boolean offSet ) {
+        final byte offset_value = (byte) ( (offSet) ? POINT_WIDTH / 5 : 0 );
+
+        canvas.drawPoint( point.Unscale().x() + offset_value, point.Unscale().y() + offset_value, paint );
     }
 
     private void render_text( final Canvas canvas, final Posn point, final int text ) {
@@ -312,6 +338,8 @@ public class GameView {
      * @param Posn shadow_point: The point you wish to draw a shadow for
      */
     private void render_shadow( final Line shadow_line ) {
+        final Session session = Session.Get_instance();
+
         paint.setStyle( Paint.Style.STROKE );
         Integer color = shadow_line.Get_color();
         color = (color == null) ?  Color.DKGRAY : color;
@@ -319,8 +347,13 @@ public class GameView {
         paint.setAlpha( SHADOW );
         paint.setStrokeWidth( LINE_WIDTH );
 
-        render_line( background_canvas, shadow_line );
-        background.invalidate();
+        if(session.Is_in_world_view()) {
+            render_line( background_canvas, shadow_line );
+            background.invalidate();
+        } else {
+            render_line( foreground_canvas, shadow_line );
+            foreground.invalidate();
+        }
     }
 
     private void render_shadow( final Posn shadow_point ) {
