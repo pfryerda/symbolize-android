@@ -86,7 +86,10 @@ public class GameController {
                     break;
 
                 case Request.Drag_end:
-                    if( !request.request_line.Is_dud() ) game_model.Add_line_via_drag( request.request_line );
+                    if( request.request_line != null ) {
+                        request.request_line.Bound();
+                        game_model.Add_line_via_drag( request.request_line );
+                    }
                     break;
 
                 case Request.Change_color:
@@ -132,7 +135,7 @@ public class GameController {
             if ( request.Require_render() ) {
                 if ( request.Is_animation_action() ) {
                     game_model.Update_view( GameAnimationHandler.Handle_request( request ), request.request_bool );
-                } else if ( request.type == Request.Shadow_line && !request.request_line.Is_dud() ) {
+                } else if ( request.type == Request.Shadow_line && request.request_line != null ) {
                     game_model.Update_view( request.request_line );
                 } else if (request.type == Request.Shadow_point) {
                     game_model.Update_view( request.request_point );

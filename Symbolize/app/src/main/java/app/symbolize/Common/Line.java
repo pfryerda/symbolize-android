@@ -297,6 +297,24 @@ public class Line {
         return ( dx == 0 ) ? Float.POSITIVE_INFINITY : (float) dy / dx;
     }
 
+    /*
+     * Bound posn's
+     */
+    public void Bound() {
+        if( p1.x() < 0 )
+            p1 = Get_intersecting_point( new Line( new Posn( 0, 0 ), new Posn( (short) 0, GameView.SCALING ) ) );
+        else if ( p2.x() > GameView.SCALING )
+            p2 = Get_intersecting_point( new Line( new Posn( GameView.SCALING, (short) 0 ), new Posn( GameView.SCALING, GameView.SCALING ) ) );
+        else if ( p1.y() < 0 )
+            p1 = Get_intersecting_point( new Line( new Posn( 0, 0 ), new Posn( GameView.SCALING, (short) 0 ) ) );
+        else if ( p2.y() < 0 )
+            p2 = Get_intersecting_point( new Line( new Posn( 0, 0 ), new Posn( GameView.SCALING, (short) 0 ) ) );
+        else if ( p1.y() > GameView.SCALING )
+            p1 = Get_intersecting_point( new Line( new Posn( (short) 0, GameView.SCALING ), new Posn( GameView.SCALING, GameView.SCALING ) ) );
+        else if ( p2.y() > GameView.SCALING )
+            p2 = Get_intersecting_point( new Line( new Posn( (short) 0, GameView.SCALING ), new Posn( GameView.SCALING, GameView.SCALING ) ) );
+    }
+
 
     // Private methods
     //----------------
