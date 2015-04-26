@@ -10,7 +10,13 @@
     tools:context="symbolize.app.Home.HomePage"
     android:id="@+id/page">
 
-    <ImageButton
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+
+    <Button
         android:id="@+id/Start"
         android:layout_centerInParent="true"
         android:layout_width="300dp"
@@ -18,7 +24,6 @@
         android:scaleType="fitCenter"
         android:background="@null"
         android:onClick="On_start_button_clicked"
-        android:src="@drawable/symbolize_logo"
         style="@style/image"/>
 
     <ImageView

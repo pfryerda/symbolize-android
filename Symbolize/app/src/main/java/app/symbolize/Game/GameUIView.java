@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
+import app.symbolize.Home.HomePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.MetaDataAccess;
@@ -256,61 +257,67 @@ abstract public class GameUIView {
      * Sets all the game's ui dimensions, note: this is faster than doing it in xml
      */
     public static void Setup_ui() {
-        final Activity activity = GamePage.Get_activity();
-        final Session session = Session.Get_instance();
+        Activity activity;
+        if(Page.Is_Game_page()) {
+            activity = GamePage.Get_activity();
+            final Session session = Session.Get_instance();
 
-        // Reset variable
-        game_page = (RelativeLayout) activity.findViewById( R.id.page );
+            // Reset variable
+            game_page = (RelativeLayout) activity.findViewById(R.id.page);
 
-        top_bar = (RelativeLayout) activity.findViewById( R.id.top_bar );
-        bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
+            top_bar = (RelativeLayout) activity.findViewById(R.id.top_bar);
+            bottom_bar = (LinearLayout) activity.findViewById(R.id.bottom_bar);
 
-        check_button = (ImageButton) activity.findViewById( R.id.Check );
-        undo_button = (ImageButton) activity.findViewById( R.id.Undo );
-        hint_button = (ImageButton) activity.findViewById( R.id.Hint );
-        draw_button = (ImageButton) activity.findViewById( R.id.Draw );
-        erase_button = (ImageButton) activity.findViewById( R.id.Erase );
+            check_button = (ImageButton) activity.findViewById(R.id.Check);
+            undo_button = (ImageButton) activity.findViewById(R.id.Undo);
+            hint_button = (ImageButton) activity.findViewById(R.id.Hint);
+            draw_button = (ImageButton) activity.findViewById(R.id.Draw);
+            erase_button = (ImageButton) activity.findViewById(R.id.Erase);
 
-        left_button = (ImageButton) activity.findViewById( R.id.Left );
-        back_button = (ImageButton) activity.findViewById( R.id.Back );
-        right_button = (ImageButton) activity.findViewById( R.id.Right );
+            left_button = (ImageButton) activity.findViewById(R.id.Left);
+            back_button = (ImageButton) activity.findViewById(R.id.Back);
+            right_button = (ImageButton) activity.findViewById(R.id.Right);
 
-        reset_button = (ImageButton) activity.findViewById( R.id.Reset );
-        settings_button = (ImageButton) activity.findViewById( R.id.Settings );
+            reset_button = (ImageButton) activity.findViewById(R.id.Reset);
+            settings_button = (ImageButton) activity.findViewById(R.id.Settings);
 
-        title = (LinearLayout) activity.findViewById( R.id.Title );
-        title_state = (ImageView) activity.findViewById( R.id.Title_State );
-        title_number = (ImageView) activity.findViewById( R.id.Title_number );
+            title = (LinearLayout) activity.findViewById(R.id.Title);
+            title_state = (ImageView) activity.findViewById(R.id.Title_State);
+            title_number = (ImageView) activity.findViewById(R.id.Title_number);
 
-        // Set the buttons/layout width/height - 'Faster than doing it via xml'
-        top_bar.getLayoutParams().height = BAR_HEIGHT;
-        activity.findViewById( R.id.buttons ).getLayoutParams().height = BAR_HEIGHT;
-        title.getLayoutParams().width = TITLE_SIZE;
+            // Set the buttons/layout width/height - 'Faster than doing it via xml'
+            top_bar.getLayoutParams().height = BAR_HEIGHT;
+            activity.findViewById(R.id.buttons).getLayoutParams().height = BAR_HEIGHT;
+            title.getLayoutParams().width = TITLE_SIZE;
 
-        check_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        hint_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        undo_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        draw_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
-        erase_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+            check_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+            hint_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+            undo_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+            draw_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
+            erase_button.getLayoutParams().width = BOTTOM_BUTTON_WIDTH;
 
-        left_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        back_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        right_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        reset_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
-        settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+            left_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+            back_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+            right_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+            reset_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
+            settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
 
-        Highlight_current_mode();
-        Set_touch_listener_highlight( draw_button, false );
-        Set_touch_listener_highlight( erase_button, false );
-        Set_touch_listener_highlight( left_button );
-        Set_touch_listener_highlight( back_button );
-        Set_touch_listener_highlight( right_button );
-        Set_touch_listener_highlight( reset_button );
-        Set_touch_listener_highlight( settings_button, false );
-        Set_touch_listener_highlight( check_button );
-        Set_touch_listener_highlight( undo_button );
-        Set_touch_listener_highlight( hint_button, false );
-
+            Highlight_current_mode();
+            Set_touch_listener_highlight(draw_button, false);
+            Set_touch_listener_highlight(erase_button, false);
+            Set_touch_listener_highlight(left_button);
+            Set_touch_listener_highlight(back_button);
+            Set_touch_listener_highlight(right_button);
+            Set_touch_listener_highlight(reset_button);
+            Set_touch_listener_highlight(settings_button, false);
+            Set_touch_listener_highlight(check_button);
+            Set_touch_listener_highlight(undo_button);
+            Set_touch_listener_highlight(hint_button, false);
+        } else {
+            activity = HomePage.Get_activity();
+            Set_touch_listener_highlight((ImageButton) activity.findViewById(R.id.Mute));
+            Set_touch_listener_highlight((ImageButton) activity.findViewById(R.id.Settings), false);
+        }
     }
 
     /*
@@ -465,7 +472,7 @@ abstract public class GameUIView {
                         button.getHitRect( bounds );
                         if( !bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY()) ) {
                             button.setColorFilter( null );
-                            Highlight_current_mode();
+                            if( Page.Is_Game_page() ) Highlight_current_mode();
                         }
                         break;
                 }
