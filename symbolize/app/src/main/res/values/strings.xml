@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Version number -->
+    <string name="version_number">v. 0.8</string>
 
     <!-- System strings -->
     <string name="app_name">Symbolize</string>

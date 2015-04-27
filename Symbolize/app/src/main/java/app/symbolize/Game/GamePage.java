@@ -113,7 +113,7 @@ public class GamePage extends Page
             Session session = Session.Get_instance();
 
             if ( session.Is_in_world_view() ) {
-                Router.Direct_route( getApplicationContext(), HomePage.class );
+                Router.Route( getApplicationContext(), HomePage.class );
             } else {
                 load_world( Request.Load_world_via_level );
             }

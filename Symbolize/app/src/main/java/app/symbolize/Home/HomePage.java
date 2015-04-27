@@ -1,6 +1,7 @@
 package app.symbolize.Home;
 
 import android.content.res.AssetFileDescriptor;
+import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import java.io.IOException;
@@ -27,9 +31,16 @@ import app.symbolize.Routing.Router;
  * The main class in charge of setting up the home page as well as responding to client interactions on the home page
  */
 public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener {
+    // Constants
+    //----------
+
+    private static final short FADE_IN_LENGTH = 500;
+
+
     // Fields
     //-------
 
+    private FrameLayout placeholder;
     private MediaPlayer mp = null;
     private SurfaceView surface_view = null;
     private SurfaceHolder holder = null;
@@ -46,10 +57,13 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         Page.Set_not_game_page();
         GameUIView.Setup_ui();
 
+        placeholder = (FrameLayout) findViewById( R.id.home_placeholder );
+        placeholder.setVisibility( View.VISIBLE );
+
         surface_view = (SurfaceView) findViewById( R.id.surface );
         holder = surface_view.getHolder();
-        holder.addCallback(this);
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        holder.addCallback( this );
+        holder.setType( SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS );
         mp = new MediaPlayer();
 
         Set_sound_image();
@@ -59,7 +73,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     //----------------
 
     public void On_start_button_clicked(final View view) {
-        Router.Route(getApplicationContext(), GamePage.class);
+        Router.Route( getApplicationContext(), GamePage.class );
     }
 
     public void On_mute_button_clicked(final View view) {
@@ -125,6 +139,28 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     @Override
     public void onPrepared( MediaPlayer player ) {
         prepared = true;
+
+        final AlphaAnimation alpha_animation = new AlphaAnimation( 1.0f, 0.0f ); // From Visible in Gone
+        alpha_animation.setDuration( FADE_IN_LENGTH );
+        alpha_animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) { placeholder.setVisibility( View.GONE ); }
+        } );
+
+        player.setOnInfoListener( new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo( MediaPlayer player, int type, int extra ) {
+                if ( type == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START ) {
+                    placeholder.startAnimation( alpha_animation );
+                    return true;
+                }
+                return false;
+            }
+        } );
         player.start();
     }
 

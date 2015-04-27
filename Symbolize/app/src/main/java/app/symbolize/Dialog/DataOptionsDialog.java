@@ -87,7 +87,7 @@ public class DataOptionsDialog extends OptionDialog {
                         Session.Get_instance().Reset();
                         Context context =
                                 ( Page.Is_Game_page() ) ? GamePage.Get_context() : HomePage.Get_context();
-                        Router.Direct_route( context, HomePage.class );
+                        Router.Route( context, HomePage.class );
                     }
 
                     @Override
