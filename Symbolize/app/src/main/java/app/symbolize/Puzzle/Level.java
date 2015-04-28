@@ -37,11 +37,11 @@ public class Level extends Puzzle {
     //-------------
 
 
-    public Level( final String hint, final byte draw_restriction, final byte erase_restriction, final byte drag_restriction,
+    public Level( final String hint, final boolean force_border, final byte draw_restriction, final byte erase_restriction, final byte drag_restriction,
                   final byte special_type, final boolean rotate_enabled, final boolean flip_enabled, final boolean colour_enabled,
                   final ArrayList<LinkedList<Line>> boards, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, solutions, unlocks );
+        super( hint, force_border, rotate_enabled, flip_enabled, solutions, unlocks );
         this.colour_enabled = colour_enabled;
         this.draw_restriction = draw_restriction;
         this.erase_restriction = erase_restriction;

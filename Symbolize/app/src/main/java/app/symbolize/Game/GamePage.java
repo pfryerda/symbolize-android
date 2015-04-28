@@ -12,6 +12,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class GamePage extends Page
     //-----------
 
     public final static String Luke = "AWESOME";
+    private final static short ad_animation_duration = 750;
 
 
     // Static block
@@ -75,8 +78,20 @@ public class GamePage extends Page
         Set_game_page();
 
         // Ad setup
-        AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
+        final AdView adView = ( AdView ) this.findViewById( R.id.game_adspace );
         adView.loadAd( Ad_request );
+        adView.setAdListener( new AdListener() {
+             @Override
+             public void onAdLoaded() {
+                 super.onAdLoaded();
+                 final TranslateAnimation animation = new TranslateAnimation(
+                         Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                         Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f );
+                 animation.setDuration( ad_animation_duration );
+                 adView.startAnimation( animation );
+                 adView.setVisibility( View.VISIBLE );
+             }
+         } );
 
         // Set ui dimensions - faster than xml
         GameUIView.Setup_ui();

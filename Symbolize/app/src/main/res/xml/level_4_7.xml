@@ -2,6 +2,7 @@
 
 <Level>
     <unlocks></unlocks>
+	<force_border>true</force_border>
     <draw_restriction>1</draw_restriction>
     <erase_restriction>4</erase_restriction>
     <drag_restriction>0</drag_restriction>

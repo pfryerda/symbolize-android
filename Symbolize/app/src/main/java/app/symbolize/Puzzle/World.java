@@ -30,10 +30,10 @@ public class World extends Puzzle {
     // Constructor
     //-------------
 
-    public World( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
+    public World( final String hint, final boolean force_border, final boolean rotate_enabled, final boolean flip_enabled,
                   final ArrayList<Posn> levels, final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
-        super( hint, rotate_enabled, flip_enabled, solutions, unlocks );
+        super( hint, force_border, rotate_enabled, flip_enabled, solutions, unlocks );
         this.levels = levels;
     }
 

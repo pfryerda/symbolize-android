@@ -4,6 +4,7 @@
     <unlocks>
 		<unlock>4</unlock>
 	</unlocks>
+	<force_border>true</force_border>
     <draw_restriction>0</draw_restriction>
     <erase_restriction>2</erase_restriction>
     <drag_restriction>0</drag_restriction>
@@ -59,12 +60,8 @@
             <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 6000</x><y> 5000</y></p2></Line>
             <Line><p1><x> 6000</x><y> 3000</y></p1><p2><x> 6000</x><y> 5000</y></p2></Line>
             <Line><p1><x> 4000</x><y> 8000</y></p1><p2><x> 4000</x><y>10000</y></p2></Line>
-            <Line><p1><x>    0</x><y>    0</y></p1><p2><x>10000</x><y>    0</y></p2></Line>
-            <Line><p1><x>    0</x><y>    0</y></p1><p2><x>    0</x><y>10000</y></p2></Line>
             <Line><p1><x> 6000</x><y> 7000</y></p1><p2><x> 9000</x><y> 7000</y></p2></Line>
             <Line><p1><x>    0</x><y> 8000</y></p1><p2><x> 4000</x><y> 8000</y></p2></Line>
-            <Line><p1><x>    0</x><y>10000</y></p1><p2><x>10000</x><y>10000</y></p2></Line>
-            <Line><p1><x>10000</x><y>    0</y></p1><p2><x>10000</x><y>10000</y></p2></Line>
         </graph>
     </boards>
     <solutions>
@@ -113,10 +110,6 @@
             <Line><p1><x> 5000</x><y> 4000</y></p1><p2><x> 5000</x><y> 5000</y></p2></Line>
             <Line><p1><x> 5000</x><y> 4000</y></p1><p2><x> 3000</x><y> 4000</y></p2></Line>
             <Line><p1><x>10000</x><y> 6000</y></p1><p2><x> 8000</x><y> 6000</y></p2></Line>
-            <Line><p1><x>    0</x><y>    0</y></p1><p2><x>    0</x><y>10000</y></p2></Line>
-            <Line><p1><x>10000</x><y>10000</y></p1><p2><x>    0</x><y>10000</y></p2></Line>
-            <Line><p1><x>10000</x><y>    0</y></p1><p2><x>10000</x><y>10000</y></p2></Line>
-            <Line><p1><x>10000</x><y>    0</y></p1><p2><x>    0</x><y>    0</y></p2></Line>
             <Line><p1><x> 7000</x><y> 1000</y></p1><p2><x> 7000</x><y> 4000</y></p2></Line>
             <Line><p1><x> 8000</x><y> 6000</y></p1><p2><x> 8000</x><y>10000</y></p2></Line>
         </graph>

@@ -167,6 +167,7 @@
                 android:id="@+id/game_adspace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 ads:adUnitId="ca-app-pub-1155399458000973/5500786240"
                 ads:adSize="BANNER"/>
     </LinearLayout>

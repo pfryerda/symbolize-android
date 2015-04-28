@@ -98,6 +98,7 @@ abstract public class PuzzleDB {
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
                 hint_map[world_num] )[level_num];
+        boolean force_border = false;
         byte draw_restriction = 0;
         byte erase_restriction = 0;
         byte drag_restriction = 0;
@@ -142,7 +143,8 @@ abstract public class PuzzleDB {
                 xpp.next();
             }
 
-            draw_restriction = (byte) Integer.parseInt( parse_preamble("draw_restriction").trim());
+            force_border = Boolean.parseBoolean( parse_preamble( "force_border" ).trim() );
+            draw_restriction = (byte) Integer.parseInt( parse_preamble("draw_restriction").trim() );
             erase_restriction = (byte) Integer.parseInt( parse_preamble( "erase_restriction" ).trim() );
             drag_restriction = (byte) Integer.parseInt( parse_preamble( "drag_restriction" ).trim() );
             rotate_enabled = Boolean.valueOf( parse_preamble("rotate_enabled"));
@@ -276,7 +278,7 @@ abstract public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new Level( hint, draw_restriction, erase_restriction, drag_restriction, special_type,
+        return new Level( hint, force_border, draw_restriction, erase_restriction, drag_restriction, special_type,
                           rotate_enabled, flip_enabled, colour_enabled, boards, solutions, unlocks );
     }
 
@@ -293,6 +295,7 @@ abstract public class PuzzleDB {
         // Set up level variables
         String hint = Page.Get_context().getResources().getStringArray(
                 hint_map[world_num] )[0];
+        boolean force_border = false;
         boolean rotate_enabled = false;
         boolean flip_enabled = false;
         ArrayList<Posn> levels = null;
@@ -332,6 +335,7 @@ abstract public class PuzzleDB {
                 xpp.next();
             }
 
+            force_border = Boolean.parseBoolean( parse_preamble( "force_border" ).trim() );
             rotate_enabled = Boolean.valueOf( parse_preamble( "rotate_enabled" ) );
             flip_enabled = Boolean.valueOf( parse_preamble( "flip_enabled" ) );
 
@@ -479,7 +483,7 @@ abstract public class PuzzleDB {
             e.printStackTrace();
         }
 
-        return new World( hint,rotate_enabled, flip_enabled, levels, solutions, unlocks );
+        return new World( hint, force_border, rotate_enabled, flip_enabled, levels, solutions, unlocks );
     }
 
 

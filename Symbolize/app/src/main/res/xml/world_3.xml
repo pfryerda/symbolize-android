@@ -4,6 +4,7 @@
     <unlocks>
         <unlock>4</unlock>
     </unlocks>
+	<force_border>false</force_border>
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <levels>

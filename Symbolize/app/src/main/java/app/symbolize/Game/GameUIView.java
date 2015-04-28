@@ -226,11 +226,13 @@ abstract public class GameUIView {
         title_state.setLayoutParams( state_params );
         title_number.setLayoutParams( number_params );
 
+        final boolean draw_border = OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ||
+                                    Session.Get_instance().Get_current_puzzle().Is_border_forced();
+
         // Draw main color gradient
         final int[] colors = new int[2];
         colors[0] = session.Get_world_color();
-        colors[1] = ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) )
-                ? Color.WHITE : Color.TRANSPARENT;
+        colors[1] = ( draw_border ) ? session.Get_world_color() : Color.TRANSPARENT;
 
         GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
         gradient.setCornerRadius( 0f );
@@ -239,6 +241,7 @@ abstract public class GameUIView {
         } else {
             top_bar.setBackground( gradient );
         }
+        top_bar.getBackground().setAlpha( draw_border ? 170 : 225 );
 
         gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
         gradient.setCornerRadius( 0f );
@@ -247,6 +250,7 @@ abstract public class GameUIView {
         } else {
             bottom_bar.setBackground( gradient );
         }
+        bottom_bar.getBackground().setAlpha( draw_border ? 170 : 255 );
     }
 
 

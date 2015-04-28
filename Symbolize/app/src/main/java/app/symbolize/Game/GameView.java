@@ -258,7 +258,7 @@ public class GameView {
      */
     private void render_background() {
         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
-        final boolean draw_border = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER );
+        final boolean draw_border = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) || Session.Get_instance().Get_current_puzzle().Is_border_forced();
         clear_background();
         paint.setStyle( Paint.Style.STROKE );
 
@@ -289,11 +289,20 @@ public class GameView {
         }
 
         if ( draw_border ) {
+            short left_top = (short) ( -1 * BORDER_WIDTH / 2 );
+            short right_bottom = (short) ( SCALING + BORDER_WIDTH / 2 );
+
             paint.setColor( Color.BLACK );
             paint.setStrokeWidth( BORDER_WIDTH );
 
-            short left_top = (short) ( -1 * BORDER_WIDTH / 2 );
-            short right_bottom = (short) ( SCALING + BORDER_WIDTH / 2 );
+            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
+            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
+            render_line( background_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
+            render_line( background_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
+
+            paint.setColor( Color.DKGRAY );
+            paint.setStrokeWidth( BORDER_WIDTH - LINE_BORDER_WIDTH );
+
             render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
             render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
             render_line( background_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );

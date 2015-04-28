@@ -15,6 +15,7 @@ abstract public class Puzzle {
     //--------
 
     private final String hint;
+    private final boolean force_border;
     private final boolean rotate_enabled;
     private final boolean flip_enabled;
     private final ArrayList<LinkedList<Line>> solutions;
@@ -25,10 +26,11 @@ abstract public class Puzzle {
     //-------------
 
 
-    public Puzzle( final String hint, final boolean rotate_enabled, final boolean flip_enabled,
+    public Puzzle( final String hint, final boolean force_border, final boolean rotate_enabled, final boolean flip_enabled,
                    final ArrayList<LinkedList<Line>> solutions, final ArrayList<Byte> unlocks )
     {
         this.hint = hint;
+        this.force_border = force_border;
         this.rotate_enabled = rotate_enabled;
         this.flip_enabled = flip_enabled;
         this.solutions = solutions;
@@ -42,6 +44,8 @@ abstract public class Puzzle {
     public String Get_hint() {
         return hint;
     }
+
+    public boolean Is_border_forced() { return force_border; }
 
     public ArrayList<Byte> Get_unlocks() {
         return unlocks;

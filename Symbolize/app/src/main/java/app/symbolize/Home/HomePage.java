@@ -34,7 +34,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     // Constants
     //----------
 
-    private static final short FADE_IN_LENGTH = 500;
+    private static final short FADE_IN_LENGTH = 600;
 
 
     // Fields
