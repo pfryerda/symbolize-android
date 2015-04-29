@@ -93,8 +93,10 @@ public class GameView {
     //--------
 
     private final LinearLayout foreground;
+    private final LinearLayout midground;
     private final LinearLayout background;
     private final Canvas foreground_canvas;
+    private final Canvas midground_canvas;
     private final Canvas background_canvas;
     private final Paint paint;
 
@@ -103,23 +105,28 @@ public class GameView {
     //-------------
 
     public GameView() {
-        this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
         this.foreground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.foreground );
+        this.midground = (LinearLayout) GamePage.Get_activity().findViewById( R.id.midground );
+        this.background = (LinearLayout) GamePage.Get_activity().findViewById( R.id.background );
 
         // Set up bitmap's
-        final Bitmap background_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
         final Bitmap foreground_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
+        final Bitmap midground_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
+        final Bitmap background_bitmap = Bitmap.createBitmap( GameUIView.SCREEN_SIZE.x, GameUIView.SCREEN_SIZE.y, Bitmap.Config.ARGB_8888 );
 
         // Setup canvas's
         this.foreground_canvas = new Canvas( foreground_bitmap );
+        this.midground_canvas = new Canvas( midground_bitmap );
         this.background_canvas = new Canvas( background_bitmap );
 
         // Add bitmap's to linearlayout
         if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN ) {
             foreground.setBackgroundDrawable( new BitmapDrawable( foreground_bitmap ) );
+            midground.setBackgroundDrawable( new BitmapDrawable( midground_bitmap ) );
             background.setBackgroundDrawable( new BitmapDrawable( background_bitmap ) );
         } else {
             foreground.setBackground( new BitmapDrawable( GamePage.Get_context().getResources(), foreground_bitmap ) );
+            midground.setBackground( new BitmapDrawable( GamePage.Get_context().getResources(), midground_bitmap ) );
             background.setBackground( new BitmapDrawable( GamePage.Get_context().getResources(), background_bitmap ) );
         }
 
@@ -134,6 +141,7 @@ public class GameView {
         paint.setTextAlign( Paint.Align.CENTER );
 
         render_background();
+        render_foreground();
     }
 
 
@@ -146,7 +154,8 @@ public class GameView {
      */
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         render_background();
-        render_foreground( graph, levels );
+        render_midground( graph, levels );
+        render_foreground();
     }
 
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels,
@@ -155,11 +164,11 @@ public class GameView {
         animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
             @Override
             public void onSymbolizeAnimationClear() {
-                foreground.clearAnimation();
+                midground.clearAnimation();
             }
             @Override
             public void onSymbolizeAnimationMiddle() {
-                render_foreground( graph, levels );
+                render_midground( graph, levels );
             }
             @Override
             public void onSymbolizeAnimationEnd() {
@@ -172,7 +181,7 @@ public class GameView {
                 }
             }
         } );
-        animation.Animate( foreground );
+        animation.Animate( midground );
     }
 
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels, final Line shadow_line ) {
@@ -190,10 +199,40 @@ public class GameView {
     //----------------
 
     /*
+     * Simple method used to draw the border
+     */
+    private void render_foreground() {
+        final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
+        paint.setStyle( Paint.Style.STROKE );
+
+        clear_foreground();
+        if ( options_dao.Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) || Session.Get_instance().Get_current_puzzle().Is_border_forced() ) {
+            short left_top = (short) ( -1 * BORDER_WIDTH / 2 );
+            short right_bottom = (short) ( SCALING + BORDER_WIDTH / 2 );
+
+            paint.setColor( Color.BLACK );
+            paint.setStrokeWidth( BORDER_WIDTH );
+
+            render_line( foreground_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
+            render_line( foreground_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
+            render_line( foreground_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
+            render_line( background_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
+
+            paint.setColor( Color.DKGRAY );
+            paint.setStrokeWidth( BORDER_WIDTH - LINE_BORDER_WIDTH );
+
+            render_line( foreground_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
+            render_line( foreground_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
+            render_line( foreground_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
+            render_line( foreground_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
+        }
+    }
+
+    /*
      * Update the view with the current board in the model
      */
-    private void render_foreground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
-        clear_foreground();
+    private void render_midground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
+        clear_midground();
         paint.setStyle( Paint.Style.STROKE );
 
         // Draw graph lines
@@ -202,7 +241,7 @@ public class GameView {
         paint.setColor( Color.BLACK );
         paint.setStrokeWidth( LINE_WIDTH );
         for ( Line line : graph ) {
-            render_line( foreground_canvas, line );
+            render_line( midground_canvas, line );
         }
 
         // actual line
@@ -211,7 +250,7 @@ public class GameView {
             Integer color = line.Get_color();
             color = (color == null) ? Color.DKGRAY : color;
             paint.setColor( color );
-            render_line( foreground_canvas, line );
+            render_line( midground_canvas, line );
         }
 
         // Draw level dots
@@ -226,14 +265,14 @@ public class GameView {
                     paint.setColor( Color.DKGRAY );
                     paint.setAlpha( DROP_SHADOW );
                     paint.setStrokeWidth( POINT_WIDTH - POINT_BORDER_WIDTH  );
-                    render_point( foreground_canvas, point, true );
+                    render_point( midground_canvas, point, true );
 
                     // Draw border
                     paint.setAlpha( SOLID );
                     paint.setColor( Color.BLACK );
                     paint.setStrokeWidth( POINT_WIDTH );
 
-                    render_point(foreground_canvas, point);
+                    render_point(midground_canvas, point);
 
                     // Draw Point
                     paint.setStrokeWidth(POINT_WIDTH - POINT_BORDER_WIDTH);
@@ -242,15 +281,15 @@ public class GameView {
                     } else {
                         paint.setColor( Page.Get_context().getResources().getColor( R.color.gray ) );
                     }
-                    render_point( foreground_canvas, point );
+                    render_point( midground_canvas, point );
 
                     // Draw Number
-                    render_text( foreground_canvas, point, i );
+                    render_text( midground_canvas, point, i );
                 }
             }
         }
 
-        foreground.invalidate();
+        midground.invalidate();
     }
 
     /*
@@ -286,27 +325,6 @@ public class GameView {
             }
 
             paint.setShader( null );
-        }
-
-        if ( draw_border ) {
-            short left_top = (short) ( -1 * BORDER_WIDTH / 2 );
-            short right_bottom = (short) ( SCALING + BORDER_WIDTH / 2 );
-
-            paint.setColor( Color.BLACK );
-            paint.setStrokeWidth( BORDER_WIDTH );
-
-            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
-            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
-            render_line( background_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
-            render_line( background_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
-
-            paint.setColor( Color.DKGRAY );
-            paint.setStrokeWidth( BORDER_WIDTH - LINE_BORDER_WIDTH );
-
-            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( left_top, right_bottom ) ) );
-            render_line( background_canvas, new Line( new Posn( left_top, left_top ), new Posn( right_bottom, left_top ) ) );
-            render_line( background_canvas, new Line( new Posn( left_top, right_bottom ), new Posn( right_bottom, right_bottom ) ) );
-            render_line( background_canvas, new Line( new Posn( right_bottom, left_top ), new Posn( right_bottom, right_bottom ) ) );
         }
     }
 
@@ -360,8 +378,8 @@ public class GameView {
             render_line( background_canvas, shadow_line );
             background.invalidate();
         } else {
-            render_line( foreground_canvas, shadow_line );
-            foreground.invalidate();
+            render_line( midground_canvas, shadow_line );
+            midground.invalidate();
         }
     }
 
@@ -376,14 +394,21 @@ public class GameView {
     }
 
     /*
-     * Methods used to clear all lines in the foreground
+     * Method used to clear the border on foreground
      */
     private void clear_foreground() {
         foreground_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
     }
 
     /*
-     * Methods used to clear all lines in the foreground
+     * Methods used to clear all lines in the midground
+     */
+    private void clear_midground() {
+        midground_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );
+    }
+
+    /*
+     * Methods used to clear grid on background
      */
     private void clear_background() {
         background_canvas.drawColor( 0, PorterDuff.Mode.CLEAR );

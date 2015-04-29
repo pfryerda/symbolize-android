@@ -229,10 +229,12 @@ abstract public class GameUIView {
         final boolean draw_border = OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_BORDER ) ||
                                     Session.Get_instance().Get_current_puzzle().Is_border_forced();
 
+
         // Draw main color gradient
         final int[] colors = new int[2];
-        colors[0] = session.Get_world_color();
-        colors[1] = ( draw_border ) ? session.Get_world_color() : Color.TRANSPARENT;
+        int world_color = ( draw_border ) ? lighter( session.Get_world_color(), 0.55f ) : session.Get_world_color();
+        colors[0] = world_color;
+        colors[1] = ( draw_border ) ? world_color : Color.TRANSPARENT;
 
         GradientDrawable gradient = new GradientDrawable( GradientDrawable.Orientation.TOP_BOTTOM, colors );
         gradient.setCornerRadius( 0f );
@@ -241,7 +243,6 @@ abstract public class GameUIView {
         } else {
             top_bar.setBackground( gradient );
         }
-        top_bar.getBackground().setAlpha( draw_border ? 170 : 225 );
 
         gradient = new GradientDrawable( GradientDrawable.Orientation.BOTTOM_TOP, colors );
         gradient.setCornerRadius( 0f );
@@ -250,7 +251,6 @@ abstract public class GameUIView {
         } else {
             bottom_bar.setBackground( gradient );
         }
-        bottom_bar.getBackground().setAlpha( draw_border ? 170 : 255 );
     }
 
 
@@ -493,6 +493,16 @@ abstract public class GameUIView {
 
     // Private methods
     //-----------------
+
+    /*
+     * Lighten the color
+     */
+    public static int lighter( int color, float factor ) {
+        int red = (int) ( ( Color.red( color ) * ( 1 - factor ) / 255 + factor ) * 255 );
+        int green = (int) ( ( Color.green( color ) * ( 1 - factor ) / 255 + factor ) * 255 );
+        int blue = (int) ( ( Color.blue( color ) * ( 1 - factor ) / 255 + factor ) * 255 );
+        return Color.argb( Color.alpha( color ), red, green, blue );
+    }
 
     /*
      * Methods use to temporarily show a small message at the bottom of the screen

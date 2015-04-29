@@ -104,7 +104,7 @@ public class GamePage extends Page
 
         GameTouchHandler.Get_instance().Set_listener( this );
         GameShakeHandler.Get_instance().Set_listener( this );
-        findViewById( R.id.foreground ).setOnTouchListener( this );
+        findViewById( R.id.midground ).setOnTouchListener( this );
     }
 
 

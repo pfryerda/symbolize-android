@@ -18,13 +18,24 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_alignParentTop="true">
-        <LinearLayout
-            android:id="@+id/foreground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/midground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true">
     </LinearLayout>
 
     <RelativeLayout
