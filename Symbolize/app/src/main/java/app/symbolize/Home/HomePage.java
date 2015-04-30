@@ -5,6 +5,8 @@ import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -12,11 +14,20 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
-import java.io.IOException;
+import com.google.android.gms.ads.AdRequest;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import app.symbolize.Common.Session;
 import app.symbolize.Game.GameUIView;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
@@ -34,11 +45,21 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     // Constants
     //----------
 
-    private static final short FADE_IN_LENGTH = 600;
+    private static final short INTRO_DURATION = 1250;
+    private static final short FADE_IN_LENGTH_SHORT = 600;
+    private static final short FADE_IN_LENGTH_LONG = 1250;
+    private static final int[] INTRO_RES_IDS = new int[] {
+            R.drawable.intro_text_1,
+            R.drawable.intro_text_2,
+            R.drawable.intro_text_3 };
+
 
 
     // Fields
     //-------
+
+    private boolean is_intro_done = false;
+    private Animation current_animation = null;
 
     private FrameLayout placeholder;
     private MediaPlayer mp = null;
@@ -67,36 +88,6 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         mp = new MediaPlayer();
 
         Set_sound_image();
-    }
-
-    // Button methods
-    //----------------
-
-    public void On_start_button_clicked(final View view) {
-        Router.Route( getApplicationContext(), GamePage.class );
-    }
-
-    public void On_mute_button_clicked(final View view) {
-        OptionsDataAccess.Get_instance().Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
-        Set_sound_image();
-    }
-
-    public void On_settings_button_clicked(final View view) {
-        OptionsDialog options_dialog = new OptionsDialog();
-        options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
-        options_dialog.Show();
-    }
-
-
-    // Static methods
-    //----------------
-
-    public static void Set_sound_image() {
-        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED ) ) {
-            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.mute );
-        } else {
-            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.sound );
-        }
     }
 
     // Interface methods
@@ -140,15 +131,19 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     public void onPrepared( MediaPlayer player ) {
         prepared = true;
 
-        final AlphaAnimation alpha_animation = new AlphaAnimation( 1.0f, 0.0f ); // From Visible in Gone
-        alpha_animation.setDuration( FADE_IN_LENGTH );
+        final AlphaAnimation alpha_animation = new AlphaAnimation( 1.0f, 0.0f );
+        alpha_animation.setDuration( FADE_IN_LENGTH_SHORT );
         alpha_animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
             @Override
             public void onAnimationRepeat(Animation animation) {}
             @Override
-            public void onAnimationEnd(Animation animation) { placeholder.setVisibility( View.GONE ); }
+            public void onAnimationEnd(Animation animation) {
+                placeholder.setVisibility( View.GONE );
+                if( Session.Get_instance().Is_game_loaded() ) animate_buttons();
+                else                                          intro_credits();
+            }
         } );
 
         player.setOnInfoListener( new MediaPlayer.OnInfoListener() {
@@ -162,6 +157,165 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
             }
         } );
         player.start();
+    }
+
+
+    // Private methods
+    //-----------------
+
+    private void intro_credits() {
+        final ImageButton icon = (ImageButton) findViewById( R.id.Start );
+        final Timer timer = new Timer();
+
+        final ArrayList<Animation> animations = new ArrayList<>();
+        for( final int id : INTRO_RES_IDS ) {
+            AlphaAnimation fade_in = new AlphaAnimation( 0.0f, 1.0f );
+            fade_in.setDuration( FADE_IN_LENGTH_LONG );
+            animations.add( fade_in );
+        }
+
+        for( int i = 0; i < INTRO_RES_IDS.length; ++i ) {
+            final int id = INTRO_RES_IDS[i];
+            final int index = i;
+            final AlphaAnimation fade_out = new AlphaAnimation( 1.0f, 0.0f );
+            fade_out.setDuration( FADE_IN_LENGTH_LONG );
+
+            animations.get( i ).setAnimationListener( new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    current_animation = animation;
+                    icon.setImageResource( id );
+                    //icon.setVisibility( View.VISIBLE );
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    new Handler().postDelayed(
+                        new Runnable() {
+                              @Override
+                              public void run() {
+                                  icon.startAnimation(fade_out);
+                              }
+                        }, INTRO_DURATION );
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            } );
+
+            fade_out.setAnimationListener( new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    current_animation = animation;
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    //icon.setVisibility( View.INVISIBLE );
+                    if(index == animations.size() - 1) animate_buttons();
+                    else icon.startAnimation( animations.get( index + 1 ) );
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            } );
+        }
+
+        icon.setVisibility( View.VISIBLE );
+        icon.startAnimation( animations.get( 0 ) );
+    }
+
+    private void animate_buttons() {
+        is_intro_done = true;
+
+        AnimationSet animation_set = new AnimationSet( true );
+        animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
+        animation_set.addAnimation( new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, -0.125f, Animation.RELATIVE_TO_SELF, 0 ) );
+        animation_set.setDuration( FADE_IN_LENGTH_LONG );
+
+        AnimationSet main_animation_set = new AnimationSet( true );
+        main_animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
+        main_animation_set.addAnimation( new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0 ) );
+        main_animation_set.setDuration( FADE_IN_LENGTH_LONG );
+
+        main_animation_set.setAnimationListener( new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart( Animation animation ) {
+                ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon );
+                findViewById( R.id.Start ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Settings_bubble ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Mute ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Settings ).setVisibility( View.VISIBLE );
+            }
+            @Override
+            public void onAnimationRepeat( Animation animation ) {}
+
+            @Override
+            public void onAnimationEnd( Animation animation ) {
+                intro_over();
+            }
+        } );
+
+        findViewById( R.id.Start ).startAnimation( main_animation_set );
+        findViewById( R.id.Mute_bubble ).startAnimation( animation_set );
+        findViewById( R.id.Settings_bubble ).startAnimation( animation_set );
+        findViewById( R.id.Mute ).startAnimation( animation_set );
+        findViewById( R.id.Settings ).startAnimation( animation_set );
+    }
+
+    public void intro_over() {
+        if( current_animation != null ) {
+            current_animation.setAnimationListener( null );
+            current_animation.cancel();
+        }
+        final ImageButton icon = (ImageButton) findViewById( R.id.Start );
+        icon.clearAnimation();
+        icon.setImageResource( R.drawable.icon );
+        icon.setVisibility( View.VISIBLE );
+
+        findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );
+        findViewById( R.id.Settings_bubble ).setVisibility( View.VISIBLE );
+        findViewById( R.id.Mute ).setVisibility( View.VISIBLE );
+        findViewById( R.id.Settings ).setVisibility( View.VISIBLE );
+
+        is_intro_done = true;
+        Session.Get_instance().Game_loaded();
+    }
+
+    // Button methods
+    //----------------
+
+    public void On_start_button_clicked(final View view) {
+        if( is_intro_done ) Router.Route( getApplicationContext(), GamePage.class );
+        else                intro_over();
+    }
+
+    public void On_mute_button_clicked(final View view) {
+        OptionsDataAccess.Get_instance().Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
+        Set_sound_image();
+    }
+
+    public void On_settings_button_clicked(final View view) {
+        OptionsDialog options_dialog = new OptionsDialog();
+        options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
+        options_dialog.Show();
+    }
+
+
+    // Static methods
+    //----------------
+
+    public static void Set_sound_image() {
+        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED ) ) {
+            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.mute );
+        } else {
+            ( (ImageButton) HomePage.Get_activity().findViewById( R.id.Mute ) ).setImageResource( R.drawable.sound );
+        }
     }
 
 

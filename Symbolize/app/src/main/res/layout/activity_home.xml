@@ -16,22 +16,24 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/Start"
         android:layout_centerInParent="true"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="On_start_button_clicked"
+        android:src="@drawable/icon"
+        android:visibility="invisible"
         style="@style/image"/>
 
     <ImageView
+        android:id="@+id/Mute_bubble"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginLeft="25dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/dot"
+        android:visibility="invisible"
         style="@style/image"/>
     <ImageButton
         android:id="@+id/Mute"
@@ -42,15 +44,18 @@
         android:onClick="On_mute_button_clicked"
         android:src="@drawable/sound"
         android:layout_alignParentBottom="true"
+        android:visibility="invisible"
         style="@style/image"/>
 
     <ImageView
+        android:id="@+id/Settings_bubble"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginRight="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/dot"
+        android:visibility="invisible"
         style="@style/image"/>
     <ImageButton
         android:id="@+id/Settings"
@@ -62,6 +67,7 @@
         android:src="@drawable/gear"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:visibility="invisible"
         style="@style/image"/>
 
     <TextView
@@ -79,6 +85,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"/>
-
-
 </RelativeLayout>
