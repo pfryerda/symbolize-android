@@ -34,20 +34,20 @@ public class MetaDataAccess {
 
     private static final byte ANIMATION_DECREASE_THRESHOLD = 1;
 
-    private static final short ROTATE_DURATION_MAX = 500;
-    private static final short ROTATE_DURATION_MIN = 340;
+    private static final short ROTATE_DURATION_MAX = 450;
+    private static final short ROTATE_DURATION_MIN = 290;
 
-    private static final short FLIP_DURATION_MAX = 500;
-    private static final short FLIP_DURATION_MIN = 340;
+    private static final short FLIP_DURATION_MAX = 450;
+    private static final short FLIP_DURATION_MIN = 290;
 
-    private static final short SHIFT_DURATION_MAX = 626;
-    private static final short SHIFT_DURATION_MIN = 464;
+    private static final short SHIFT_DURATION_MAX = 576;
+    private static final short SHIFT_DURATION_MIN = 414;
 
-    private static final short ZOOM_DURATION_MAX = 630;
-    private static final short ZOOM_DURATION_MIN = 470;
+    private static final short ZOOM_DURATION_MAX = 580;
+    private static final short ZOOM_DURATION_MIN = 420;
 
-    private static final short TRANSLATE_DURATION_MAX = 774;
-    private static final short TRANSLATE_DURATION_MIN = 616;
+    private static final short TRANSLATE_DURATION_MAX = 724;
+    private static final short TRANSLATE_DURATION_MIN = 566;
 
 
     // Static fields
