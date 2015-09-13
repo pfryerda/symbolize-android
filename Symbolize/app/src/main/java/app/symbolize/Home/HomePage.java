@@ -16,6 +16,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -45,14 +46,11 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     // Constants
     //----------
 
-    private static final short INTRO_DURATION = 1250;
     private static final short FADE_IN_LENGTH_SHORT = 600;
-    private static final short FADE_IN_LENGTH_LONG = 1250;
-    private static final int[] INTRO_RES_IDS = new int[] {
-            R.drawable.intro_text_1,
-            R.drawable.intro_text_2,
-            R.drawable.intro_text_3 };
+    private static final short FADE_IN_LENGTH_LONG = 1100;
 
+    private static final short PULSE_DELAY = 7000;
+    private static final short PULSE_LENGTH = 1150;
 
 
     // Fields
@@ -141,8 +139,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
             @Override
             public void onAnimationEnd(Animation animation) {
                 placeholder.setVisibility( View.GONE );
-                if( Session.Get_instance().Is_game_loaded() ) animate_buttons();
-                else                                          intro_credits();
+                animate_buttons();
             }
         } );
 
@@ -163,109 +160,90 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     // Private methods
     //-----------------
 
-    private void intro_credits() {
-        final ImageButton icon = (ImageButton) findViewById( R.id.Start );
-        final Timer timer = new Timer();
-
-        final ArrayList<Animation> animations = new ArrayList<>();
-        for( final int id : INTRO_RES_IDS ) {
-            AlphaAnimation fade_in = new AlphaAnimation( 0.0f, 1.0f );
-            fade_in.setDuration( FADE_IN_LENGTH_LONG );
-            animations.add( fade_in );
-        }
-
-        for( int i = 0; i < INTRO_RES_IDS.length; ++i ) {
-            final int id = INTRO_RES_IDS[i];
-            final int index = i;
-            final AlphaAnimation fade_out = new AlphaAnimation( 1.0f, 0.0f );
-            fade_out.setDuration( FADE_IN_LENGTH_LONG );
-
-            animations.get( i ).setAnimationListener( new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    current_animation = animation;
-                    icon.setImageResource( id );
-                    //icon.setVisibility( View.VISIBLE );
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    new Handler().postDelayed(
-                        new Runnable() {
-                              @Override
-                              public void run() {
-                                  icon.startAnimation(fade_out);
-                              }
-                        }, INTRO_DURATION );
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-            } );
-
-            fade_out.setAnimationListener( new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    current_animation = animation;
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    //icon.setVisibility( View.INVISIBLE );
-                    if(index == animations.size() - 1) animate_buttons();
-                    else icon.startAnimation( animations.get( index + 1 ) );
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-            } );
-        }
-
-        icon.setVisibility( View.VISIBLE );
-        icon.startAnimation( animations.get( 0 ) );
-    }
-
     private void animate_buttons() {
         is_intro_done = true;
 
         AnimationSet animation_set = new AnimationSet( true );
-        animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
-        animation_set.addAnimation( new TranslateAnimation(
+        animation_set.addAnimation(new AlphaAnimation(0.0f, 1.0f));
+        animation_set.addAnimation(new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -0.125f, Animation.RELATIVE_TO_SELF, 0 ) );
-        animation_set.setDuration( FADE_IN_LENGTH_LONG );
+                Animation.RELATIVE_TO_SELF, -0.125f, Animation.RELATIVE_TO_SELF, 0));
+        animation_set.setDuration(FADE_IN_LENGTH_LONG);
 
         AnimationSet main_animation_set = new AnimationSet( true );
-        main_animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
-        main_animation_set.addAnimation( new TranslateAnimation(
+        main_animation_set.addAnimation(new AlphaAnimation(0.0f, 1.0f));
+        main_animation_set.addAnimation(new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0 ) );
-        main_animation_set.setDuration( FADE_IN_LENGTH_LONG );
+                Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0));
+        main_animation_set.setDuration(FADE_IN_LENGTH_LONG);
 
-        main_animation_set.setAnimationListener( new Animation.AnimationListener() {
+        main_animation_set.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart( Animation animation ) {
-                ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon );
-                findViewById( R.id.Start ).setVisibility( View.VISIBLE );
-                findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );
-                findViewById( R.id.Settings_bubble ).setVisibility( View.VISIBLE );
-                findViewById( R.id.Mute ).setVisibility( View.VISIBLE );
-                findViewById( R.id.Settings ).setVisibility( View.VISIBLE );
+            public void onAnimationStart(Animation animation) {
+                ((ImageButton) findViewById(R.id.Start)).setImageResource(R.drawable.icon);
+                findViewById(R.id.Start).setVisibility(View.VISIBLE);
+                findViewById(R.id.Mute_bubble).setVisibility(View.VISIBLE);
+                findViewById(R.id.Settings_bubble).setVisibility(View.VISIBLE);
+                findViewById(R.id.Mute).setVisibility(View.VISIBLE);
+                findViewById(R.id.Settings).setVisibility(View.VISIBLE);
             }
-            @Override
-            public void onAnimationRepeat( Animation animation ) {}
 
             @Override
-            public void onAnimationEnd( Animation animation ) {
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 intro_over();
             }
-        } );
+        });
 
-        findViewById( R.id.Start ).startAnimation( main_animation_set );
+        findViewById( R.id.Start ).startAnimation(main_animation_set);
         findViewById( R.id.Mute_bubble ).startAnimation( animation_set );
         findViewById( R.id.Settings_bubble ).startAnimation( animation_set );
         findViewById( R.id.Mute ).startAnimation( animation_set );
-        findViewById( R.id.Settings ).startAnimation( animation_set );
+        findViewById( R.id.Settings ).startAnimation(animation_set);
+
+        // Pulsing animation
+        final ScaleAnimation pulse_out_animation = new ScaleAnimation(1.0f, 1.08f, 1.0f, 1.08f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        pulse_out_animation.setDuration( PULSE_LENGTH );
+        final ScaleAnimation pulse_in_animation = new ScaleAnimation(1.08f, 1.0f, 1.08f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        pulse_in_animation.setDuration(PULSE_LENGTH);
+
+        pulse_out_animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                findViewById( R.id.Start ).startAnimation( pulse_in_animation );
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        pulse_in_animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                findViewById( R.id.Start ).startAnimation( pulse_out_animation );
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        final Timer timer = new Timer();
+        timer.schedule( new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        findViewById(R.id.Start).startAnimation( pulse_out_animation );
+                    }
+                });
+            }
+        }, PULSE_DELAY );
     }
 
     public void intro_over() {
@@ -284,7 +262,6 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         findViewById( R.id.Settings ).setVisibility( View.VISIBLE );
 
         is_intro_done = true;
-        Session.Get_instance().Game_loaded();
     }
 
     // Button methods

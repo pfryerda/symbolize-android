@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import app.symbolize.Common.Session;
 import app.symbolize.Common.SoftKeyboard;
+import app.symbolize.Game.GameUIView;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.R;
@@ -97,7 +98,9 @@ abstract public class SymbolizeDialog extends DialogFragment {
      */
     public void Show() {
         show( dialog_manager, get_dialog_string_id());
-        if( button != null ) button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
+        if( button != null ) {
+            GameUIView.activate_button(button);
+        }
     }
 
     /*
@@ -112,7 +115,9 @@ abstract public class SymbolizeDialog extends DialogFragment {
      */
     @Override
     public void onDismiss( DialogInterface dialog ) {
-        if( button != null ) button.setColorFilter(null);
+        if( button != null ) {
+            GameUIView.deactivate_button( button );
+        }
     }
 
     @Override

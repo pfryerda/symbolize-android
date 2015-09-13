@@ -4,7 +4,7 @@
     <color name="white">#ffffffff</color>
 
     <!-- world colors -->
-    <color name="green">#589E00</color><!--68A017-->
+    <color name="green">#589E00</color> <!--68A017-->
     <color name="blue">#037CE0</color>
     <color name="orange">#F26100</color>
     <color name="red">#B30400</color>

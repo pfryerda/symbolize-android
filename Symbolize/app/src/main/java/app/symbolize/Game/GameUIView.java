@@ -267,27 +267,27 @@ abstract public class GameUIView {
             final Session session = Session.Get_instance();
 
             // Reset variable
-            game_page = (RelativeLayout) activity.findViewById(R.id.page);
+            game_page = (RelativeLayout) activity.findViewById( R.id.page );
 
-            top_bar = (RelativeLayout) activity.findViewById(R.id.top_bar);
-            bottom_bar = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+            top_bar = (RelativeLayout) activity.findViewById( R.id.top_bar );
+            bottom_bar = (LinearLayout) activity.findViewById( R.id.bottom_bar );
 
-            check_button = (ImageButton) activity.findViewById(R.id.Check);
-            undo_button = (ImageButton) activity.findViewById(R.id.Undo);
-            hint_button = (ImageButton) activity.findViewById(R.id.Hint);
-            draw_button = (ImageButton) activity.findViewById(R.id.Draw);
-            erase_button = (ImageButton) activity.findViewById(R.id.Erase);
+            check_button = (ImageButton) activity.findViewById( R.id.Check );
+            undo_button = (ImageButton) activity.findViewById( R.id.Undo );
+            hint_button = (ImageButton) activity.findViewById( R.id.Hint );
+            draw_button = (ImageButton) activity.findViewById( R.id.Draw );
+            erase_button = (ImageButton) activity.findViewById( R.id.Erase );
 
-            left_button = (ImageButton) activity.findViewById(R.id.Left);
-            back_button = (ImageButton) activity.findViewById(R.id.Back);
-            right_button = (ImageButton) activity.findViewById(R.id.Right);
+            left_button = (ImageButton) activity.findViewById( R.id.Left );
+            back_button = (ImageButton) activity.findViewById( R.id.Back );
+            right_button = (ImageButton) activity.findViewById( R.id.Right );
 
-            reset_button = (ImageButton) activity.findViewById(R.id.Reset);
-            settings_button = (ImageButton) activity.findViewById(R.id.Settings);
+            reset_button = (ImageButton) activity.findViewById( R.id.Reset );
+            settings_button = (ImageButton) activity.findViewById( R.id.Settings );
 
-            title = (LinearLayout) activity.findViewById(R.id.Title);
-            title_state = (ImageView) activity.findViewById(R.id.Title_State);
-            title_number = (ImageView) activity.findViewById(R.id.Title_number);
+            title = (LinearLayout) activity.findViewById( R.id.Title );
+            title_state = (ImageView) activity.findViewById( R.id.Title_State );
+            title_number = (ImageView) activity.findViewById( R.id.Title_number );
 
             // Set the buttons/layout width/height - 'Faster than doing it via xml'
             top_bar.getLayoutParams().height = BAR_HEIGHT;
@@ -307,20 +307,21 @@ abstract public class GameUIView {
             settings_button.getLayoutParams().width = TOP_BUTTON_WIDTH;
 
             Highlight_current_mode();
-            Set_touch_listener_highlight(draw_button, false);
-            Set_touch_listener_highlight(erase_button, false);
-            Set_touch_listener_highlight(left_button);
-            Set_touch_listener_highlight(back_button);
-            Set_touch_listener_highlight(right_button);
-            Set_touch_listener_highlight(reset_button);
-            Set_touch_listener_highlight(settings_button, false);
-            Set_touch_listener_highlight(check_button);
-            Set_touch_listener_highlight(undo_button);
-            Set_touch_listener_highlight(hint_button, false);
+            Set_touch_listener_highlight( draw_button, false );
+            Set_touch_listener_highlight( erase_button, false );
+            Set_touch_listener_highlight( left_button );
+            Set_touch_listener_highlight( back_button );
+            Set_touch_listener_highlight( right_button );
+            Set_touch_listener_highlight( reset_button );
+            Set_touch_listener_highlight( settings_button, false );
+            Set_touch_listener_highlight( check_button );
+            Set_touch_listener_highlight( undo_button );
+            Set_touch_listener_highlight( hint_button, false );
         } else {
             activity = HomePage.Get_activity();
-            Set_touch_listener_highlight((ImageButton) activity.findViewById(R.id.Mute));
-            Set_touch_listener_highlight((ImageButton) activity.findViewById(R.id.Settings), false);
+            Set_touch_listener_highlight( (ImageButton) activity.findViewById( R.id.Start ), false, false );
+            Set_touch_listener_highlight( (ImageButton) activity.findViewById( R.id.Mute ) );
+            Set_touch_listener_highlight( (ImageButton) activity.findViewById( R.id.Settings ), false );
         }
     }
 
@@ -328,15 +329,12 @@ abstract public class GameUIView {
      * Updates the draw and erase button accordingly
      */
     public static void Highlight_current_mode() {
-        Session session = Session.Get_instance();
-        int color = session.Get_hightlight_color();
-
         if ( Session.Get_instance().In_draw_mode() ) {
-            draw_button.setColorFilter( color, PorterDuff.Mode.MULTIPLY );
-            erase_button.setColorFilter( null );
+            activate_button(draw_button);
+            deactivate_button(erase_button);
         } else {
-            draw_button.setColorFilter( null );
-            erase_button.setColorFilter( color, PorterDuff.Mode.MULTIPLY );
+            deactivate_button(draw_button);
+            activate_button(erase_button);
         }
     }
 
@@ -349,17 +347,17 @@ abstract public class GameUIView {
         Window window = Page.Get_window();
         WindowManager.LayoutParams layout_params = Page.Get_attributes();
 
-        if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS ) ) {
+        if ( OptionsDataAccess.Get_instance().Get_boolean_option(OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS) ) {
             layout_params.screenBrightness = -1;
         } else {
             layout_params.screenBrightness = (float) Math.max( OptionsDataAccess.MIN_BRIGHTNESS, brightness ) / OptionsDataAccess.BRIGHTNESS_SCALING;
         }
-        window.setAttributes( layout_params );
+        window.setAttributes(layout_params);
     }
 
     public static void Set_brightness() {
         Set_brightness(
-                OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_BRIGHTNESS ));
+                OptionsDataAccess.Get_instance().Get_short_option(OptionsDataAccess.OPTION_BRIGHTNESS));
     }
 
     /*
@@ -441,16 +439,14 @@ abstract public class GameUIView {
      * Resets all buttons so they are not highlighted (not including draw/erase)
      */
     public static void Reset_highlights() {
-        left_button.setColorFilter( null );
-        back_button.setColorFilter( null );
-        right_button.setColorFilter( null );
-
-        reset_button.setColorFilter( null );
-        settings_button.setColorFilter( null );
-
-        check_button.setColorFilter( null );
-        undo_button.setColorFilter( null );
-        hint_button.setColorFilter( null );
+        deactivate_button( left_button );
+        deactivate_button( back_button );
+        deactivate_button( right_button );
+        deactivate_button( reset_button );
+        deactivate_button( settings_button );
+        deactivate_button( check_button );
+        deactivate_button( undo_button );
+        deactivate_button( hint_button );
     }
 
     /*
@@ -458,36 +454,58 @@ abstract public class GameUIView {
      *
      * @param final ImageButton button: Button of interest
      */
-    public static void Set_touch_listener_highlight( final ImageButton button, final boolean revert ) {
-        button.setOnTouchListener( new View.OnTouchListener() {
+    public static void Set_touch_listener_highlight( final ImageButton button, final boolean revert, final boolean useFilter ) {
+        button.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch( View v, MotionEvent event ) {
-                switch( event.getAction() ) {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
+                        activate_button(button, useFilter);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        if( revert ) button.setColorFilter( null );
+                        if (revert) {
+                            deactivate_button(button);
+                        }
                         break;
 
                     case MotionEvent.ACTION_MOVE:
                         final Rect bounds = new Rect();
-                        button.getHitRect( bounds );
-                        if( !bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY()) ) {
-                            button.setColorFilter( null );
-                            if( Page.Is_Game_page() ) Highlight_current_mode();
+                        button.getHitRect(bounds);
+                        if (!bounds.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())) {
+                            deactivate_button(button);
+                            if (Page.Is_Game_page()) Highlight_current_mode();
                         }
                         break;
                 }
 
                 return false; // propagate listener to click
             }
-        } );
+        });
+    }
+
+    public static void Set_touch_listener_highlight( final ImageButton button, final boolean revert ) {
+        Set_touch_listener_highlight(button, revert, true);
     }
 
     public static void Set_touch_listener_highlight( final ImageButton button ) {
-        Set_touch_listener_highlight( button, true );
+        Set_touch_listener_highlight(button, true, true);
+    }
+
+    public static void activate_button( final ImageButton button ) {
+        activate_button( button, true );
+    }
+
+    public static void activate_button( final ImageButton button, final boolean useFilter ) {
+        if( useFilter ) button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
+        button.setScaleX( 1.13f );
+        button.setScaleY( 1.13f );
+    }
+
+    public static void deactivate_button( final ImageButton button ) {
+        button.setColorFilter( null );
+        button.setScaleX( 1.0f );
+        button.setScaleY( 1.0f );
     }
 
 

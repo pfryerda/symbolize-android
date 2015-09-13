@@ -27,13 +27,11 @@ public class Session {
     //---------------
 
     public static final byte VERSION = VERSION_BETA;
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
     //--------
-
-    private boolean game_loaded = false;
 
     private byte current_world;
     private byte current_level;
@@ -77,8 +75,6 @@ public class Session {
 
     // Getter methods
     //----------------
-
-    public boolean Is_game_loaded() { return game_loaded; }
 
     public int Get_world_color() { return world_color; }
 
@@ -139,8 +135,6 @@ public class Session {
 
     // Setter method
     //--------------
-
-    public void Game_loaded() { game_loaded = true; }
 
     public void Update_puzzle() {
         current_puzzle = PuzzleDB.Fetch_puzzle();
