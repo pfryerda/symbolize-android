@@ -39,6 +39,7 @@ public class Request {
     public static final byte SPECIAL_NONE         = 100;
     public static final byte SPECIAL_SLOPE_ZERO   = 101;
     public static final byte SPECIAL_SLOPE_INF    = 102;
+    public static final byte SPECIAL_INVERT_SELF  = 103;
 
 
     // Static methods
@@ -83,8 +84,7 @@ public class Request {
      * @return boolean: true if the request requires an render after updating the model
      */
     public boolean Require_render() {
-        return ( Undo <= type && type <= Load_puzzle_start )
-            || ( SPECIAL_NONE <= type && type <= SPECIAL_SLOPE_INF );
+        return ( Undo <= type && type <= Load_puzzle_start ) || ( SPECIAL_NONE <= type );
     }
 
     /*
@@ -92,7 +92,7 @@ public class Request {
      */
     public boolean Require_undo() {
         return ( Change_color <= type && type <= Shift )
-            || ( SPECIAL_SLOPE_ZERO <= type && type <= SPECIAL_SLOPE_INF )
+            || ( SPECIAL_SLOPE_ZERO <= type )
             || type == Drag_start;
     }
 
@@ -117,6 +117,6 @@ public class Request {
      * @returns whether the request is not one of the flags defined above
      */
     public boolean Is_invalid_type() {
-        return type < -1 || ( type > 22 && type < 100 ) || type > 102;
+        return type < -1 || ( type > 22 && type < 100 );
     }
 }

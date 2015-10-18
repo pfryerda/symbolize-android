@@ -13,7 +13,7 @@
         <item>@color/orange</item>
         <item>@color/red</item>
         <item>@color/purple</item>
-        <item>@color/gray</item>
+        <item>@color/black</item>
     </integer-array>
 
     <integer-array name="bright_color_array">
@@ -22,7 +22,7 @@
         <item>@color/bright_orange</item>
         <item>@color/bright_red</item>
         <item>@color/magenta</item>
-        <item>@color/black</item>
+        <item>@color/gray</item>
     </integer-array>
 
     <integer-array name="light_color_array">

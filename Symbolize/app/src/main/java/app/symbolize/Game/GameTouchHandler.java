@@ -20,7 +20,7 @@ public class GameTouchHandler {
     public static final short TAPTHRESHOLD = 325;
     public static final short DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
     public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
-    public static final int MINLINESIZESQR = 10 * GameView.SCALING;
+    public static final int MINLINESIZESQR = (int) (17.5 * GameView.SCALING);
     public static final short ERASEDELAY = 250;
     public static final short DRAGDELAY = 500;
 
@@ -348,30 +348,30 @@ public class GameTouchHandler {
             if ( in_drag_mode ) {
                 listener.onDragEnd( drag_line );
             } else {
-                Line line;
-                if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) && !Session.Get_instance().Is_in_world_view()) {
-                    line = new Line( point_one.Snap( true ), point_one_end.Snap( false ), Line.User_drawn );
-                } else {
-                    line = new Line( point_one, point_one_end, Line.User_drawn );
-                }
+                Line line = new Line( point_one, point_one_end, Line.User_drawn );
                 if ( line.Distance_squared() >= MINLINESIZESQR ) {
+                    if ( OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING ) && !Session.Get_instance().Is_in_world_view()) {
+                        line = new Line( point_one.Snap( true ), point_one_end.Snap( false ), Line.User_drawn );
+                    }
                     listener.onDraw( line );
-                } else if ( single_tap_complete ) {
-                    listener.onDoubleTap( point_one_end );
-                    single_tap_complete = false;
-                    double_tap_timer.cancel();
-                    double_tap_timer = new Timer();
                 } else if ( ( end_time - start_time) <= TAPTHRESHOLD ) {
-                    listener.onTap( point_one_end );
-                    single_tap_complete = true;
-                    double_tap_timer.cancel();
-                    double_tap_timer = new Timer();
-                    double_tap_timer.schedule( new TimerTask() {
-                        @Override
-                        public void run() {
-                            single_tap_complete = false;
-                        }
-                    }, DOUBLETAPTHRESHOLD );
+                    if ( single_tap_complete ) {
+                        listener.onDoubleTap( point_one_end );
+                        single_tap_complete = false;
+                        double_tap_timer.cancel();
+                        double_tap_timer = new Timer();
+                    } else {
+                        listener.onTap( point_one_end );
+                        single_tap_complete = true;
+                        double_tap_timer.cancel();
+                        double_tap_timer = new Timer();
+                        double_tap_timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                single_tap_complete = false;
+                            }
+                        }, DOUBLETAPTHRESHOLD);
+                    }
                 }
             }
             start_time = end_time;

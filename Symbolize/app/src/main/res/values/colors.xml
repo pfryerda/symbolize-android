@@ -17,7 +17,7 @@
     <color name="bright_orange">#FF8800</color>
     <color name="bright_red">#FA463C</color>
     <color name="magenta">#A100F5</color> <!--7800B7-->
-    <color name="gray">#777777</color>
+    <color name="gray">#444444</color>
 
     <!-- dialog colors -->
     <color name="light_green">#EFFFEF</color>
@@ -26,5 +26,4 @@
     <color name="light_red">#FFEFEF</color>
     <color name="light_purple">#F6EFFF</color>
     <color name="light_gray">#D7D7D7</color>
-
 </resources>

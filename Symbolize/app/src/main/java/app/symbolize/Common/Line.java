@@ -128,8 +128,12 @@ public class Line {
             p2.Set_y( mid_point.y() );
         } else if ( request_type == Request.SPECIAL_SLOPE_INF ) {
             Posn mid_point = Mid_point();
-            p1.Set_x( mid_point.x() );
+            p1.Set_x( mid_point.x( ));
             p2.Set_x( mid_point.x() );
+        } else if ( request_type == Request.SPECIAL_INVERT_SELF ) {
+            final short temp = p1.y();
+            p1.Set_y(p2.y());
+            p2.Set_y( temp );
         } else {
             p1.Edit( request_type );
             p2.Edit( request_type );

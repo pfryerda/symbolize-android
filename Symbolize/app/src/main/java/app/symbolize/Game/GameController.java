@@ -106,6 +106,7 @@ public class GameController {
                 case Request.Flip_vertically:
                 case Request.SPECIAL_SLOPE_ZERO:
                 case Request.SPECIAL_SLOPE_INF:
+                case Request.SPECIAL_INVERT_SELF:
                     game_model.Edit( request.type );
                     break;
 

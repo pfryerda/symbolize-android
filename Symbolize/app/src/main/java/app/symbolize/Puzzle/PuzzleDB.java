@@ -202,7 +202,7 @@ abstract public class PuzzleDB {
                                 if ( tmpArray == null || tmpList == null || tmpLine == null || tmpColor != null || tmpX != null || tmpY != null ) {
                                     bail_invalid_tag( topTag );
                                 }
-                                tmpColor = Integer.valueOf( xpp.getText() );
+                                tmpColor = Integer.valueOf( xpp.getText().trim() );
                             } else {
                                 bail_invalid_tag( topTag );
                             }

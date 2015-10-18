@@ -11,7 +11,7 @@
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
-    <special>0</special>
+    <special>3</special>
     <boards>
         <graph>
         </graph>

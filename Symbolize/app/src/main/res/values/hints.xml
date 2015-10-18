@@ -33,15 +33,15 @@
 
     <string-array name="world_3_hints">
         <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
-        <item></item>                                                       <!-- Level: 3-1  - '' -->
-        <item></item>                                                       <!-- Level: 3-2  - '' -->
-        <item></item>                                                       <!-- Level: 3-3  - '' -->
-        <item></item>                                                       <!-- Level: 3-4  - '' -->
-        <item></item>                                                       <!-- Level: 3-5  - '' -->
-        <item></item>                                                       <!-- Level: 3-6  - '' -->
+        <item></item>                                                       <!-- Level: 3-1  - '1' -->
+        <item></item>                                                       <!-- Level: 3-2  - '7:45 o'clock -->
+        <item></item>                                                       <!-- Level: 3-3  - 'Stop sign' -->
+        <item></item>                                                       <!-- Level: 3-4  - 'Lizard' -->
+        <item></item>                                                       <!-- Level: 3-5  - 'Σ' -->
+        <item>51.521000, -0.073630</item>                                   <!-- Level: 3-6  - 'Google Map' -->
         <item></item>                                                       <!-- Level: 3-7  - '' -->
         <item></item>                                                       <!-- Level: 3-8  - '' -->
-        <item></item>                                                       <!-- Level: 3-9  - '' -->
+        <item>..-. .-. --- --.</item>                                       <!-- Level: 3-9  - 'Frog' -->
         <item>Make some music</item>                                        <!-- Level: 3-10 - '♫' -->
     </string-array>
 
@@ -63,11 +63,12 @@
 
     <string-array name="world_5_hints">
         <item></item>                                                       <!-- World: 5    - '' -->
-        <item></item>                                                       <!-- Level: 5-1  - '' -->
+        <item></item>                                                       <!-- Level: 5-1  - 'BowTie' -->
         <item></item>                                                       <!-- Level: 5-2  - '' -->
         <item>Remove the piece necessary to make a bottom
             row disappear</item>                                            <!-- Level: 5-3  - 'Tetris' -->
-        <item></item>                                                       <!-- Level: 5-4  - '' -->
+        <item>Build a path for the left line to go
+            through the tunnel.</item>                                      <!-- Level: 5-4  - 'Path' -->
         <item>Increase a number by 1</item>                                 <!-- Level: 5-5  - '3' -->
         <item></item>                                                       <!-- Level: 5-6  - '' -->
         <item></item>                                                       <!-- Level: 5-7  - '' -->

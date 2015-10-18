@@ -105,18 +105,18 @@ abstract public class GameUIView {
             COLOR_ARRAY.add( color );
         }
 
-        SparseIntArray color_map = new SparseIntArray();
-        for ( int i = 0; i < COLOR_ARRAY.size(); ++i ) {
-            color_map.put( COLOR_ARRAY.get(i), i );
-        }
-        COLOR_MAP = color_map;
-
         BRIGHT_COLOR_ARRAY = new ArrayList<Integer>();
         color_array = Page.Get_context().getResources().getIntArray( R.array.bright_color_array );
 
         for ( int color : color_array ) {
             BRIGHT_COLOR_ARRAY.add( color );
         }
+
+        SparseIntArray color_map = new SparseIntArray();
+        for ( int i = 0; i < BRIGHT_COLOR_ARRAY.size(); ++i ) {
+            color_map.put( BRIGHT_COLOR_ARRAY.get(i), i );
+        }
+        COLOR_MAP = color_map;
 
         LIGHT_COLOR_ARRAY = new ArrayList<Integer>();
         color_array = Page.Get_context().getResources().getIntArray( R.array.light_color_array );
@@ -369,7 +369,7 @@ abstract public class GameUIView {
      */
     public static int Get_next_color( Integer color ) {
         if( color == null ) color = Color.DKGRAY;
-        return COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
+        return BRIGHT_COLOR_ARRAY.get( ( COLOR_MAP.get( color ) + 1 ) % COLOR_ARRAY.size() );
     }
 
     /*

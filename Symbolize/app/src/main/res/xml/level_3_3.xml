@@ -3,7 +3,6 @@
 <Level>
     <unlocks>
         <unlock>4</unlock>
-        <unlock>6</unlock>
 	</unlocks>
 	<force_border>false</force_border>
     <draw_restriction>0</draw_restriction>
@@ -11,14 +10,30 @@
     <drag_restriction>0</drag_restriction>
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
-    <colour_enabled>false</colour_enabled>
+    <colour_enabled>true</colour_enabled>
     <special>0</special>
     <boards>
         <graph>
+            <Line><p1><x> 3000</x><y> 1000</y></p1><p2><x> 7000</x><y> 1000</y></p2><color>-16666654</color></Line>
+            <Line><p1><x> 7000</x><y> 1000</y></p1><p2><x> 9000</x><y> 3000</y></p2><color>   -30720</color></Line>
+            <Line><p1><x> 9000</x><y> 3000</y></p1><p2><x> 9000</x><y> 7000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 7000</x><y> 9000</y></p1><p2><x> 9000</x><y> 7000</y></p2><color> -6225675</color></Line>
+            <Line><p1><x> 3000</x><y> 9000</y></p1><p2><x> 7000</x><y> 9000</y></p2><color>-16666654</color></Line>
+            <Line><p1><x> 1000</x><y> 7000</y></p1><p2><x> 3000</x><y> 9000</y></p2><color>   -30720</color></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 3000</x><y> 1000</y></p2><color> -6225675</color></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 1000</x><y> 7000</y></p2><color>  -375236</color></Line>
         </graph>
     </boards>
     <solutions>
         <graph>
+            <Line><p1><x> 3000</x><y> 1000</y></p1><p2><x> 7000</x><y> 1000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 7000</x><y> 1000</y></p1><p2><x> 9000</x><y> 3000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 9000</x><y> 3000</y></p1><p2><x> 9000</x><y> 7000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 7000</x><y> 9000</y></p1><p2><x> 9000</x><y> 7000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 3000</x><y> 9000</y></p1><p2><x> 7000</x><y> 9000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 1000</x><y> 7000</y></p1><p2><x> 3000</x><y> 9000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 3000</x><y> 1000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 1000</x><y> 7000</y></p2><color>  -375236</color></Line>
         </graph>
     </solutions>
 </Level>
