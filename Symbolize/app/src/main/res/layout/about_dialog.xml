@@ -18,12 +18,56 @@
         android:id="@+id/about_scrollview"
         android:layout_width="match_parent"
         android:layout_height="240dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/about_dialog_message"
-            style="@style/text"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/about_luke_title"
+                style="@style/credits_title"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_luke"
+                style="@style/credits"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_peter_title"
+                style="@style/credits_title"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_peter"
+                style="@style/credits"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_jagger_title"
+                style="@style/credits_title"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_jagger"
+                style="@style/credits"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_testers_title"
+                style="@style/credits_title"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_testers"
+                style="@style/credits"/>
+
+        </LinearLayout>
     </ScrollView>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>

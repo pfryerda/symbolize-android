@@ -151,6 +151,7 @@ public class GameModel {
         }
         lines_drawn = 0;
         lines_erased = 0;
+        lines_dragged = 0;
         past_state = null;
     }
 
@@ -298,6 +299,7 @@ public class GameModel {
         }
         lines_drawn = 0;
         lines_erased = 0;
+        lines_dragged = 0;
     }
 
     /*
@@ -313,6 +315,8 @@ public class GameModel {
         for ( Posn posn : levels ) {
             posn.Edit( request_type );
         }
+
+        if( request_type >= Request.SPECIAL_NONE ) this.graph = this.Get_simplified_graph();
     }
 
     /*

@@ -40,6 +40,8 @@ public class Request {
     public static final byte SPECIAL_SLOPE_ZERO   = 101;
     public static final byte SPECIAL_SLOPE_INF    = 102;
     public static final byte SPECIAL_INVERT_SELF  = 103;
+    public static final byte SPECIAL_COMPRESS     = 104;
+    public static final byte SPECIAL_WEIRD        = 105;
 
 
     // Static methods
@@ -118,5 +120,12 @@ public class Request {
      */
     public boolean Is_invalid_type() {
         return type < -1 || ( type > 22 && type < 100 );
+    }
+
+    /*
+     * @returns whether the request is to one of the special operations
+     */
+    public boolean Is_special() {
+        return type >= Request.SPECIAL_NONE;
     }
 }

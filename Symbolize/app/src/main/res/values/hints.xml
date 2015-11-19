@@ -12,7 +12,7 @@
                 <item>Change this side of a rubik cube into another
             well known game</item>                                          <!-- Level: 1-8  - '#' -->
         <item>3D</item>                                                     <!-- Level: 1-9  - Cube -->
-        <item></item>                                                       <!-- Level: 1-10 - '' -->
+        <item>This items appears once in the options menu.</item>           <!-- Level: 1-10 - 'Trash can' -->
     </string-array>
 
     <string-array name="world_2_hints">
@@ -33,13 +33,13 @@
 
     <string-array name="world_3_hints">
         <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
-        <item></item>                                                       <!-- Level: 3-1  - '1' -->
-        <item></item>                                                       <!-- Level: 3-2  - '7:45 o'clock -->
-        <item></item>                                                       <!-- Level: 3-3  - 'Stop sign' -->
-        <item></item>                                                       <!-- Level: 3-4  - 'Lizard' -->
-        <item></item>                                                       <!-- Level: 3-5  - 'Σ' -->
+        <item>00110001</item>                                               <!-- Level: 3-1  - '1' -->
+        <item>DCCXLV</item>                                                 <!-- Level: 3-2  - '7:45 o'clock -->
+        <item>Pots</item>                                                   <!-- Level: 3-3  - 'Stop sign' -->
+        <item>Hide the chameleon!</item>                                    <!-- Level: 3-4  - 'Lizard' -->
+        <item>Just sum symbol.</item>                                       <!-- Level: 3-5  - 'Σ' -->
         <item>51.521000, -0.073630</item>                                   <!-- Level: 3-6  - 'Google Map' -->
-        <item></item>                                                       <!-- Level: 3-7  - '' -->
+        <item>Make me a sail boat painting</item>                           <!-- Level: 3-7  - 'Sail boat' -->
         <item></item>                                                       <!-- Level: 3-8  - '' -->
         <item>..-. .-. --- --.</item>                                       <!-- Level: 3-9  - 'Frog' -->
         <item>Make some music</item>                                        <!-- Level: 3-10 - '♫' -->
@@ -48,8 +48,8 @@
     <string-array name="world_4_hints">
         <item>On your phone go into settings and then wireless and network,
         you should find the symbol there</item>                             <!-- World: 4    - 'Blue tooth' -->
-        <item></item>                                                       <!-- Level: 4-1  - '' -->
-        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-2  - 'gender symbol' -->
+        <item>Give her a body</item>                                        <!-- Level: 4-1  - 'gender symbol' -->
+        <item></item>                                                       <!-- Level: 4-2  - '' -->
         <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-3  - 'Chess' -->
         <item></item>                                                       <!-- Level: 4-4  - '' -->
         <item>Increase a letter by 1</item>                                 <!-- Level: 4-5  - 'D' -->
@@ -57,21 +57,21 @@
             correct statement</item>                                        <!-- Level: 4-6  - '11' -->
         <item>I hope this puzzle makes you smile</item>                     <!-- Level: 4-7  - '=]' (dice) -->
         <item>Suspension ______</item>                                      <!-- Level: 4-8  - 'Suspension bridge' -->
-        <item></item>                                                       <!-- Level: 4-9  - '' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-9  - 'Brisk' -->
         <item>Make the last suite</item>                                    <!-- Level: 4-10 - '♥' -->
     </string-array>
 
     <string-array name="world_5_hints">
-        <item></item>                                                       <!-- World: 5    - '' -->
-        <item></item>                                                       <!-- Level: 5-1  - 'BowTie' -->
-        <item></item>                                                       <!-- Level: 5-2  - '' -->
+        <item>:D</item>                                                     <!-- World: 5    - ':D' -->
+        <item>A vertical or inclined set of steps</item>                    <!-- Level: 5-1  - 'Ladder' -->
+        <item>Decode: af154860239babd541012802a0761ee1</item>               <!-- Level: 5-2  - 'Bowtie' -->
         <item>Remove the piece necessary to make a bottom
             row disappear</item>                                            <!-- Level: 5-3  - 'Tetris' -->
         <item>Build a path for the left line to go
             through the tunnel.</item>                                      <!-- Level: 5-4  - 'Path' -->
         <item>Increase a number by 1</item>                                 <!-- Level: 5-5  - '3' -->
-        <item></item>                                                       <!-- Level: 5-6  - '' -->
-        <item></item>                                                       <!-- Level: 5-7  - '' -->
+        <item>One of the main card suites</item>                           <!-- Level: 5-6  - '♢' -->
+        <item>Use the solutions from 2-2, 4-5, and 1-2</item>               <!-- Level: 5-7  - '☼ - DAY' -->
         <item></item>                                                       <!-- Level: 5-8  - '' -->
         <item></item>                                                       <!-- Level: 5-9  - '' -->
         <item></item>                                                       <!-- Level: 5-10 - '' -->

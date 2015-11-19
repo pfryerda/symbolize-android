@@ -287,6 +287,30 @@ public class Posn {
             case Request.Flip_vertically:
                 second = (short) ( GameView.SCALING - second );
                 break;
+
+            case Request.SPECIAL_COMPRESS:
+                if( first <= GameView.SCALING / 2 ) {
+                    first = (short) ( first + ( GameView.SCALING / 10 ) );
+                    if( first >= GameView.SCALING / 2 ) first = GameView.SCALING / 2;
+                } else {
+                    first = (short) ( first - ( GameView.SCALING / 10 ) );
+                    if( first <= GameView.SCALING / 2 ) first = GameView.SCALING / 2;
+                }
+
+                if( second <= GameView.SCALING / 2 ) {
+                    second = (short) ( second + ( GameView.SCALING / 10 ) );
+                    if( second >= GameView.SCALING / 2 ) second = GameView.SCALING / 2;
+                } else {
+                    second = (short) ( second - ( GameView.SCALING / 10 ) );
+                    if( second <= GameView.SCALING / 2 ) second = GameView.SCALING / 2;
+                }
+                break;
+
+            case Request.SPECIAL_WEIRD:
+                short temp = first;
+                first  = (short) ( ( Math.max( first, second ) - Math.min( first, second ) ) * 2 );
+                second = (short) ( Math.min( temp + second, GameView.SCALING ) / 2 );
+                break;
         }
     }
 

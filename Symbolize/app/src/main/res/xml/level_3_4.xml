@@ -3,6 +3,7 @@
 <Level>
     <unlocks>
         <unlock>5</unlock>
+        <unlock>7</unlock>
 	</unlocks>
 	<force_border>false</force_border>
     <draw_restriction>0</draw_restriction>

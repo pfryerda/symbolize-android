@@ -231,9 +231,10 @@ public class GameView {
     /*
      * Update the view with the current board in the model
      */
-    private void render_midground( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
+    private void render_midground( LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         clear_midground();
         paint.setStyle( Paint.Style.STROKE );
+        graph = (LinkedList<Line>) graph.clone(); // Clone to avoid rendering while editing errors (java.util.ConcurrentModificationException)
 
         // Draw graph lines
 

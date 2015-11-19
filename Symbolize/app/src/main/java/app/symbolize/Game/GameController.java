@@ -104,9 +104,6 @@ public class GameController {
                 case Request.Rotate_right:
                 case Request.Flip_horizontally:
                 case Request.Flip_vertically:
-                case Request.SPECIAL_SLOPE_ZERO:
-                case Request.SPECIAL_SLOPE_INF:
-                case Request.SPECIAL_INVERT_SELF:
                     game_model.Edit( request.type );
                     break;
 
@@ -128,6 +125,7 @@ public class GameController {
                     break;
 
                 default:
+                    if( request.Is_special() ) game_model.Edit( request.type );
                     break;
             }
 
@@ -174,13 +172,14 @@ public class GameController {
                     request.type = Request.None; // If not actually intersecting a line then suppress the error toast
                     return false;
                 }
+
                 return ( game_model.Get_lines_erased() < current_puzzle.Get_erase_restriction() )
                     || ( line.Get_owner() == Line.User_drawn )
                     || ( line.Get_owner() == Line.User_dragged );
 
             case Request.Drag_end:
                 line = request.request_line;
-                return ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() )
+                return ( game_model.Get_lines_dragged() < current_puzzle.Get_drag_restriction() + 1)
                     || ( line.Get_owner() == Line.User_drawn )
                     || ( line.Get_owner() == Line.User_dragged );
 

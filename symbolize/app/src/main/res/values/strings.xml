@@ -127,9 +127,14 @@
     <string name="levels_complete">Levels:</string>
     <string name="world_complete">World complete:</string>
 
-    <string name="about_dialog_message">Designed and developed by Luke Brown, with art from Peter Fryer Davis.
-        Created in Waterloo Canada.\n</string>
-    <string name="about_dialog_note">Note: This app cannot be used without our exclusive permission.</string>
+    <string name="about_luke_title">Creator, Developer, Designer, and Artist</string>
+    <string name="about_luke">Luke Brown</string>
+    <string name="about_peter_title">Designer and Artist</string>
+    <string name="about_peter">Peter Fryer Davis</string>
+    <string name="about_jagger_title">Composers</string>
+    <string name="about_jagger">Jagger Cleeves and Josh Papa</string>
+    <string name="about_testers_title">Quality Assurance</string>
+    <string name="about_testers">TODO</string>
 
     <!-- Revert settings dialog text -->
     <string name="revert_to_default_title">Revert to default</string>
@@ -143,9 +148,9 @@
 
     <!-- Level complete dialog text -->
     <string name="puzzle_complete_dialog_title">Congratulations</string>
-    <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
-    <string name="level_complete_one_unlock_dialog_msg">You are correct! Would you like to be sent back to the next level, or back to the level select view</string>
-    <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world</string>
+    <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view?</string>
+    <string name="level_complete_one_unlock_dialog_msg">You are correct! Would you like to be sent back to the next level, or back to the level select view?</string>
+    <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world?</string>
     <string name="game_complete_dialog_msg">You are correct!
         Congratulations you have finished Symbolize</string>
     <string name="alpha_game_complete_dialog_msg">You are correct!

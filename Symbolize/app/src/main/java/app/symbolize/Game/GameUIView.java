@@ -498,8 +498,8 @@ abstract public class GameUIView {
 
     public static void activate_button( final ImageButton button, final boolean useFilter ) {
         if( useFilter ) button.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.MULTIPLY );
-        button.setScaleX( 1.13f );
-        button.setScaleY( 1.13f );
+        button.setScaleX( 1.1125f );
+        button.setScaleY( 1.1125f );
     }
 
     public static void deactivate_button( final ImageButton button ) {

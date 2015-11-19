@@ -4,14 +4,14 @@
     <unlocks>
 		<unlock>10</unlock>
 	</unlocks>
-	<force_border>false</force_border>
-	<draw_restriction>0</draw_restriction>
+    <force_border>false</force_border>
+    <draw_restriction>0</draw_restriction>
     <erase_restriction>0</erase_restriction>
     <drag_restriction>0</drag_restriction>
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
-    <special>0</special>
+    <special>5</special>
     <boards>
         <graph>
         </graph>

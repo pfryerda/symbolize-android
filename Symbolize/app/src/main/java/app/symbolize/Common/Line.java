@@ -218,7 +218,7 @@ public class Line {
     public boolean Approximately_equals( final Line soln ) {
         return ( ( p1.Approximately_equals( soln.Get_p1() ) && p2.Approximately_equals( soln.Get_p2() ) )   ||
                  ( p1.Approximately_equals( soln.Get_p2() ) && p2.Approximately_equals( soln.Get_p1() ) ) ) &&
-                 ( soln.Get_color() == null || color == soln.Get_color() );
+                 ( soln.Get_color() == null || color.equals( soln.Get_color() ) );
     }
 
     /*

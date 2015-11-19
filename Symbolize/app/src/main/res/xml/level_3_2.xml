@@ -8,7 +8,7 @@
     <draw_restriction>0</draw_restriction>
     <erase_restriction>2</erase_restriction>
     <drag_restriction>1</drag_restriction>
-    <rotate_enabled>false</rotate_enabled>
+    <rotate_enabled>true</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
     <special>0</special>
@@ -39,7 +39,7 @@
             <Line><p1><x> 2000</x><y> 3000</y></p1><p2><x> 4000</x><y> 1000</y></p2></Line>
             <Line><p1><x> 2000</x><y> 3000</y></p1><p2><x> 2000</x><y> 7000</y></p2></Line>
             <Line><p1><x> 4000</x><y> 8000</y></p1><p2><x> 6000</x><y> 5000</y></p2></Line>
-            <Line><p1><x> 6099</x><y> 4987</y></p1><p2><x> 8099</x><y> 4987</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 5000</y></p1><p2><x> 6000</x><y> 5000</y></p2></Line>
         </graph>
     </solutions>
 </Level>

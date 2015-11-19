@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
-    <unlocks>
-		<unlock>11</unlock>
-	</unlocks>
+    <unlocks></unlocks>
 	<force_border>false</force_border>
 	<draw_restriction>0</draw_restriction>
     <erase_restriction>0</erase_restriction>
