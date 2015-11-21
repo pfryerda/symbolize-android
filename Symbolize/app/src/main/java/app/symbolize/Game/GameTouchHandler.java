@@ -1,5 +1,6 @@
 package app.symbolize.Game;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.Timer;
@@ -22,7 +23,7 @@ public class GameTouchHandler {
     public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
     public static final int MINLINESIZESQR = (int) (17.5 * GameView.SCALING);
     public static final short ERASEDELAY = 250;
-    public static final short DRAGDELAY = 500;
+    public static final short DRAGDELAY = 375;
 
 
     // Fields

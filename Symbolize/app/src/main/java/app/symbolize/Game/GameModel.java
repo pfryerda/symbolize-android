@@ -21,7 +21,7 @@ public class GameModel {
     // Constants
     //-----------
 
-    public static final int TAPING_THRESHOLD = GameView.SCALING * 4;
+    public static final int TAPING_THRESHOLD = (int) ( GameView.SCALING * 4.67 );
 
 
     // Fields
@@ -244,6 +244,7 @@ public class GameModel {
                 break;
 
             case Line.User_dragged:
+                ++lines_erased;
                 --lines_dragged;
                 break;
         }
@@ -252,8 +253,11 @@ public class GameModel {
 
     /*
      * Simply adds a line to the graph, since the increase drag count was accounted for when the line was removed
+     *
+     * @param Line line: The line to add
      */
     public void Add_line_via_drag( Line line ) {
+        line.Set_owner( Line.User_dragged );
         graph.addLast( line );
     }
 
@@ -266,12 +270,22 @@ public class GameModel {
     public Line Remove_line_via_drag( Posn point ) {
         Line line = Get_intersecting_line( point );
         if( line != null ) {
-            graph.remove( line );
+            graph.remove(line);
             if ( line.Get_owner() == Line.App_drawn ) {
                 ++lines_dragged;
             }
         }
         return line;
+    }
+
+    /*
+     * Simply adds a line to the graph and removed the drag count increase since it was canceled.
+     *
+     * @param Line line: The line to add
+     */
+    public void Reset_line_via_drag( Line line ) {
+        graph.addLast( line );
+        --lines_dragged;
     }
 
     /*

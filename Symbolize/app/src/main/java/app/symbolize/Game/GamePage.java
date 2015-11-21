@@ -182,44 +182,47 @@ public class GamePage extends Page
                 ProgressDataAccess.Get_instance().Complete( session.Get_current_world(), session.Get_current_level() );
                 MetaDataAccess.Get_instance().Update_mechanics_seen();
 
-                if ( ( Session.VERSION == Session.VERSION_ALPHA ) && session.Is_in_world_view() ) {
+                if ( session.Is_in_world_view() && session.Get_current_world() == PuzzleDB.NUMBER_OF_WORLDS ) {
                     InfoDialog info_dialog = new InfoDialog();
                     info_dialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title),
-                            getString( R.string.alpha_game_complete_dialog_msg ) );
+                            getString(R.string.alpha_game_complete_dialog_msg));
                     info_dialog.Show();
-                } else if ( session.Is_in_world_view() && session.Get_current_world() <= PuzzleDB.NUMBER_OF_WORLDS ) {
+                } else if ( session.Is_in_world_view() ) {
                     for ( byte unlock : current_puzzle.Get_unlocks() ) {
                         UnlocksDataAccess.Get_instance().Unlock( unlock );
+                        GameUIView.Update_ui(null);
                     }
-
 
                     confirmDialog = new ConfirmDialog();
                     confirmDialog.Set_dominant_button( ConfirmDialog.DominantButton.POSITIVE );
                     confirmDialog.Set_Button_Text( Get_resource_string( R.string.next_world ), Get_resource_string( R.string.cancel) );
                     confirmDialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ), getString( R.string.world_complete_dialog_msg ) );
                     confirmDialog.Set_Button( (ImageButton) findViewById( R.id.Check ) );
-                    confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
+                    confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
                         @Override
                         public void OnDialogSuccess() {
                             session.Increase_world();
-                            load_world( Request.Load_puzzle_right );
+                            load_world(Request.Load_puzzle_right);
                         }
 
                         @Override
-                        public void onDialogNeutral() {}
+                        public void onDialogNeutral() {
+                        }
 
                         @Override
-                        public void OnDialogFail() {}
+                        public void OnDialogFail() {
+                        }
                     });
                     confirmDialog.Show();
                 } else if ( session.Is_in_world_view() && session.Get_current_world() > PuzzleDB.NUMBER_OF_WORLDS ) {
                     InfoDialog info_dialog = new InfoDialog();
-                    info_dialog.Set_attrs( getString( R.string.puzzle_complete_dialog_title ),
-                            getString( R.string.game_complete_dialog_msg ) );
+                    info_dialog.Set_attrs(getString(R.string.puzzle_complete_dialog_title),
+                            getString(R.string.game_complete_dialog_msg));
                     info_dialog.Show();
                 } else if ( !session.Is_in_world_view() ) {
                     for ( byte unlock : current_puzzle.Get_unlocks() ) {
                         UnlocksDataAccess.Get_instance().Unlock( session.Get_current_world(), unlock );
+                        GameUIView.Update_ui(null);
                     }
 
                     if(current_puzzle.Get_unlocks().size() == 1) {

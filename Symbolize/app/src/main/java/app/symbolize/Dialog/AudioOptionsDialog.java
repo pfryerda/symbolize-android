@@ -153,10 +153,6 @@ public class AudioOptionsDialog extends OptionDialog {
         final EditText volume_text = (EditText) dialog_view.findViewById( R.id.options_volume_seekbar_text );
         volume_text.setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_VOLUME ) + "" );
         volume_text.setEnabled( !is_muted );
-
-        if ( Session.VERSION != Session.VERSION_ALPHA ) {
-            dialog_view.findViewById( R.id.alpha_audio_note ).setVisibility( View.GONE );
-        }
     }
 
     /*

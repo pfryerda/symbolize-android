@@ -16,6 +16,7 @@ public class GameController {
     //--------
 
     private GameModel game_model;
+    private Line past_drag_line;
 
 
     // Singleton setup
@@ -33,6 +34,7 @@ public class GameController {
 
     private GameController() {
         game_model = new GameModel();
+        past_drag_line = null;
     }
 
 
@@ -83,12 +85,13 @@ public class GameController {
                 case Request.Drag_start:
                     response.response_line = game_model.Remove_line_via_drag( request.request_point );
                     success = response.response_line != null && !response.response_line.Is_dud();
+                    if( success ) past_drag_line = response.response_line.clone();
                     break;
 
                 case Request.Drag_end:
                     if( request.request_line != null ) {
-                        request.request_line.Bound();
-                        game_model.Add_line_via_drag( request.request_line );
+                        if( request.request_line.Is_dud() ) game_model.Reset_line_via_drag( past_drag_line );
+                        else                                game_model.Add_line_via_drag(request.request_line);
                     }
                     break;
 

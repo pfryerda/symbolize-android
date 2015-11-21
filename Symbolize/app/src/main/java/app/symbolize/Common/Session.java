@@ -15,18 +15,9 @@ import app.symbolize.Routing.Page;
  * A singleton class that keeps track of the game's current state.
  */
 public class Session {
-    // Flags
-    //-------
-
-    public static final byte VERSION_ALPHA = 0;
-    public static final byte VERSION_BETA  = 1;
-    public static final byte VERSION_PROD  = 2;
-
-
     // Static fields
     //---------------
 
-    public static final byte VERSION = VERSION_BETA;
     public static final boolean DEV_MODE = false;
 
 
