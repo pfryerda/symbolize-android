@@ -18,7 +18,7 @@ public class Session {
     // Static fields
     //---------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields

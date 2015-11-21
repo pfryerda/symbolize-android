@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
@@ -40,6 +42,7 @@ public class GameView {
     public static final byte SHADOW = 80;
     public static final byte DROP_SHADOW = 33;
     public static final byte SOLID = 100;
+    public static final short HINT_DELAY = 350;
 
 
     // Static Fields
@@ -154,7 +157,7 @@ public class GameView {
      */
     public void Render( final LinkedList<Line> graph, final ArrayList<Posn> levels ) {
         render_background();
-        render_midground( graph, levels );
+        render_midground(graph, levels);
         render_foreground();
     }
 
@@ -163,9 +166,7 @@ public class GameView {
     {
         animation.SetSymbolizeAnimationListener( new SymbolizeAnimation.SymbolizeAnimationListener() {
             @Override
-            public void onSymbolizeAnimationClear() {
-                midground.clearAnimation();
-            }
+            public void onSymbolizeAnimationClear() { midground.clearAnimation(); }
             @Override
             public void onSymbolizeAnimationMiddle() {
                 render_midground( graph, levels );
@@ -175,9 +176,20 @@ public class GameView {
                 Render( graph, levels );
                 GameUIView.Reset_highlights();
                 if( requires_hint_box ) {
-                    HintDialog hint_dialog = new HintDialog();
+                    final HintDialog hint_dialog = new HintDialog();
                     hint_dialog.Set_Button( (ImageButton) GamePage.Get_activity().findViewById( R.id.Hint ) );
-                    hint_dialog.Show();
+                    final Timer timer = new Timer();
+                    timer.schedule( new TimerTask() {
+                        @Override
+                        public void run() {
+                            Page.Get_activity().runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    hint_dialog.Show();
+                                }
+                            } );
+                        }
+                    }, HINT_DELAY );
                 }
             }
         } );

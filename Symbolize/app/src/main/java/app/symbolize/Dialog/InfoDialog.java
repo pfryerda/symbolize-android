@@ -52,7 +52,7 @@ public class InfoDialog extends SymbolizeDialog {
      */
     @Override
     protected int get_dialog_background_id() {
-        return R.id.about_dialog;
+        return R.id.info_dialog;
     }
 
     /*

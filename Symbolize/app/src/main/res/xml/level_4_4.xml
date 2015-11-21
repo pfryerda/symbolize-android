@@ -5,12 +5,12 @@
 		<unlock>8</unlock>
 	</unlocks>
 	<force_border>false</force_border>
-    <draw_restriction>0</draw_restriction>
+    <draw_restriction>4</draw_restriction>
     <erase_restriction>0</erase_restriction>
     <drag_restriction>0</drag_restriction>
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
-    <colour_enabled>false</colour_enabled>
+    <colour_enabled>true</colour_enabled>
     <special>0</special>
     <boards>
         <graph>
@@ -18,6 +18,15 @@
     </boards>
     <solutions>
         <graph>
+            <Line><p1><x>    0</x><y> 1000</y></p1><p2><x>10000</x><y> 1000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x>    0</x><y> 1000</y></p1><p2><x>    0</x><y>10000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x>10000</x><y> 1000</y></p1><p2><x>10000</x><y>10000</y></p2><color>  -375236</color></Line>
+        </graph>
+        <graph>
+            <Line><p1><x>    0</x><y> 1000</y></p1><p2><x>10000</x><y> 1000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x>    0</x><y> 1000</y></p1><p2><x>    0</x><y>10000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x>10000</x><y> 1000</y></p1><p2><x>10000</x><y>10000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x>    0</x><y>10000</y></p1><p2><x>10000</x><y>10000</y></p2><color>  -375236</color></Line>
         </graph>
     </solutions>
 </Level>
