@@ -1,6 +1,7 @@
 <resources>
     <!-- Android color -->
     <color name="black_overlay">#66000000</color>
+<<<<<<< HEAD
 
     <!-- Main colors -->
     <color name="green">#8BC63F</color>
@@ -17,4 +18,31 @@
     <color name="bright_red">#FA463C</color> <!-- Used for level complete outlines -->
     <color name="bright_green">#8BFF3F</color> <!-- Used for level complete outlines -->
 
+=======
+    <color name="white">#ffffffff</color>
+
+    <!-- world colors -->
+    <color name="green">#589E00</color> <!--68A017-->
+    <color name="blue">#037CE0</color>
+    <color name="orange">#F26100</color>
+    <color name="red">#B30400</color>
+    <color name="purple">#8900AA</color>
+    <color name="black">#000000</color>
+
+    <!-- button colors -->
+    <color name="bright_green">#5CE800</color>
+    <color name="cyan">#01AFE2</color>
+    <color name="bright_orange">#FF8800</color>
+    <color name="bright_red">#FA463C</color>
+    <color name="magenta">#A100F5</color> <!--7800B7-->
+    <color name="gray">#444444</color>
+
+    <!-- dialog colors -->
+    <color name="light_green">#EFFFEF</color>
+    <color name="light_blue">#EFF1FF</color>
+    <color name="light_orange">#FFF9EF</color>
+    <color name="light_red">#FFEFEF</color>
+    <color name="light_purple">#F6EFFF</color>
+    <color name="light_gray">#D7D7D7</color>
+>>>>>>> develop
 </resources>

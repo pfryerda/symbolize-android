@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
+<<<<<<< HEAD
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
@@ -59,6 +60,42 @@
             <Line><p1><x> 8250</x><y> 6000</y></p1><p2><x> 9500</x><y> 7500</y></p2><color>-16777216</color></Line>
             <Line><p1><x> 1500</x><y> 6500</y></p1><p2><x> 4000</x><y> 4000</y></p2><color>-16777216</color></Line>
             <Line><p1><x> 5000</x><y> 6500</y></p1><p2><x> 9500</x><y> 7500</y></p2><color>-16777216</color></Line>
+=======
+    <unlocks>
+        <unlock>3</unlock>
+    </unlocks>
+	<force_border>false</force_border>
+    <rotate_enabled>false</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
+    <levels>
+        <p><x> 5000</x><y> 1000</y></p> <!-- 2-1  -->
+        <p><x> 1000</x><y> 3000</y></p> <!-- 2-2  -->
+        <p><x> 5000</x><y> 5000</y></p> <!-- 2-3  -->
+        <p><x> 9000</x><y> 3000</y></p> <!-- 2-4  -->
+        <p><x> 1500</x><y> 6000</y></p> <!-- 2-5  -->
+        <p><x> 5000</x><y> 7000</y></p> <!-- 2-6  -->
+        <p><x> 8500</x><y> 6000</y></p> <!-- 2-7  -->
+        <p><x> 2000</x><y> 8000</y></p> <!-- 2-8  -->
+        <p><x> 5000</x><y> 9000</y></p> <!-- 2-9  -->
+        <p><x> 8000</x><y> 8000</y></p> <!-- 2-10 -->
+    </levels>
+    <solutions>
+        <graph>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
+        </graph>
+        <graph>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 1000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 8000</x><y> 8000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 5000</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 3000</y></p1><p2><x> 9000</x><y> 3000</y></p2></Line>
+>>>>>>> develop
         </graph>
     </solutions>
 </World>

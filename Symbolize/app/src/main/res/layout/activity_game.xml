@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+=======
+    xmlns:tools="http://schemas.android.com/tools"
+>>>>>>> develop
     android:orientation="vertical"
     android:background="#FFFFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+<<<<<<< HEAD
+=======
+    android:isScrollContainer="false"
+    tools:context="symbolize.app.Game.GamePage"
+>>>>>>> develop
     android:id="@+id/page">
 
     <LinearLayout
@@ -15,6 +24,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_alignParentTop="true">
+<<<<<<< HEAD
         <LinearLayout
             android:id="@+id/foreground"
             android:layout_width="match_parent"
@@ -25,12 +35,36 @@
     </LinearLayout>
 
     <LinearLayout
+=======
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/midground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true">
+    </LinearLayout>
+
+    <RelativeLayout
+>>>>>>> develop
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true">
 
+<<<<<<< HEAD
         <Button
             android:id="@+id/Left"
             android:layout_width="0dp"
@@ -105,6 +139,84 @@
             android:src="@drawable/gear"/>
 
     </LinearLayout>
+=======
+        <LinearLayout
+            android:id="@+id/top_left_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true">
+            <ImageButton
+                android:id="@+id/Left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_left_button_clicked"
+                android:src="@drawable/arrow"
+                style="@style/image"/>
+            <ImageButton
+                android:id="@+id/Back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_back_button_clicked"
+                android:src="@drawable/home"
+                style="@style/image"/>
+            <ImageButton
+                android:id="@+id/Right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_right_button_clicked"
+                android:src="@drawable/arrow_reflected"
+                style="@style/image"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/Title_State"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="27"
+                android:src="@drawable/world"
+                style="@style/image" />
+            <ImageView
+                android:id="@+id/Title_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="73"
+                android:src="@drawable/image_1"
+                style="@style/image"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_right_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+            <ImageButton
+                android:id="@+id/Reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_reset_button_clicked"
+                android:src="@drawable/reset"
+                style="@style/image"/>
+
+            <ImageButton
+                android:id="@+id/Settings"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="On_settings_button_clicked"
+                android:src="@drawable/gear"
+                style="@style/image"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+>>>>>>> develop
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,47 +235,77 @@
                     android:id="@+id/Check"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+<<<<<<< HEAD
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
                     android:onClick="On_check_button_clicked"
                     android:src="@drawable/check"/>
+=======
+                    android:onClick="On_check_button_clicked"
+                    android:src="@drawable/check"
+                    style="@style/bottom_toolbar_button"/>
+>>>>>>> develop
                 <ImageButton
                     android:id="@+id/Undo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+<<<<<<< HEAD
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
                     android:onClick="On_undo_button_clicked"
                     android:src="@drawable/undo"/>
+=======
+                    android:onClick="On_undo_button_clicked"
+                    android:src="@drawable/undo"
+                    style="@style/bottom_toolbar_button"/>
+>>>>>>> develop
                 <ImageButton
                     android:id="@+id/Hint"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+<<<<<<< HEAD
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
                     android:onClick="On_hint_button_clicked"
                     android:src="@drawable/hint"/>
+=======
+                    android:onClick="On_hint_button_clicked"
+                    android:src="@drawable/hint"
+                    style="@style/bottom_toolbar_button"/>
+>>>>>>> develop
                 <ImageButton
                     android:id="@+id/Draw"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+<<<<<<< HEAD
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
                     android:onClick="On_draw_button_clicked"
                     android:src="@drawable/pencil"/>
+=======
+                    android:onClick="On_draw_button_clicked"
+                    android:src="@drawable/pencil"
+                    style="@style/bottom_toolbar_button"/>
+>>>>>>> develop
                 <ImageButton
                     android:id="@+id/Erase"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+<<<<<<< HEAD
                     android:scaleType="fitCenter"
                     android:background="@null"
                     android:padding="5dp"
                     android:onClick="On_erase_button_clicked"
                     android:src="@drawable/eraser"/>
+=======
+                    android:onClick="On_erase_button_clicked"
+                    android:src="@drawable/eraser"
+                    style="@style/bottom_toolbar_button"/>
+>>>>>>> develop
             </LinearLayout>
 
             <com.google.android.gms.ads.AdView
@@ -171,6 +313,10 @@
                 android:id="@+id/game_adspace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+                android:visibility="invisible"
+>>>>>>> develop
                 ads:adUnitId="ca-app-pub-1155399458000973/5500786240"
                 ads:adSize="BANNER"/>
     </LinearLayout>

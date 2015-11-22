@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
+<<<<<<< HEAD
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
@@ -28,6 +29,53 @@
         <graph>
         </graph>
         <graph>
+=======
+    <unlocks>
+        <unlock>4</unlock>
+    </unlocks>
+	<force_border>false</force_border>
+    <rotate_enabled>true</rotate_enabled>
+    <flip_enabled>true</flip_enabled>
+    <levels>
+        <p><x> 500</x><y>2000</y></p> <!-- 3-1  -->
+        <p><x>2500</x><y>2500</y></p> <!-- 3-2  -->
+        <p><x>3500</x><y>3500</y></p> <!-- 3-3  -->
+        <p><x>4500</x><y>4500</y></p> <!-- 3-4  -->
+        <p><x>7500</x><y>5000</y></p> <!-- 3-5  -->
+        <p><x>9500</x><y>6000</y></p> <!-- 3-6  -->
+        <p><x>4000</x><y>6000</y></p> <!-- 3-7  -->
+        <p><x>6500</x><y>6500</y></p> <!-- 3-8  -->
+        <p><x>8500</x><y>7000</y></p> <!-- 3-9  -->
+        <p><x>3000</x><y>8000</y></p> <!-- 3-10 -->
+    </levels>
+    <solutions>
+        <graph>
+            <Line><p1><x>  500</x><y> 2000</y></p1><p2><x> 2500</x><y> 2500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 6500</x><y> 6500</y></p2></Line>
+            <Line><p1><x> 6500</x><y> 6500</y></p1><p2><x> 7500</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 4500</x><y> 4500</y></p1><p2><x> 7500</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 2500</x><y> 2500</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+        </graph>
+        <graph>
+            <Line><p1><x>  500</x><y> 2000</y></p1><p2><x> 2500</x><y> 2500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 6500</x><y> 6500</y></p2></Line>
+            <Line><p1><x> 6500</x><y> 6500</y></p1><p2><x> 7500</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 2500</x><y> 2500</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+        </graph>
+        <graph>
+            <Line><p1><x>  500</x><y> 2000</y></p1><p2><x> 2500</x><y> 2500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+            <Line><p1><x> 4000</x><y> 6000</y></p1><p2><x> 6500</x><y> 6500</y></p2></Line>
+            <Line><p1><x> 6500</x><y> 6500</y></p1><p2><x> 7500</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 3000</x><y> 8000</y></p1><p2><x> 4000</x><y> 6000</y></p2></Line>
+            <Line><p1><x> 4500</x><y> 4500</y></p1><p2><x> 7500</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 7500</x><y> 5000</y></p1><p2><x> 9500</x><y> 6000</y></p2></Line>
+            <Line><p1><x> 6500</x><y> 6500</y></p1><p2><x> 8500</x><y> 7000</y></p2></Line>
+            <Line><p1><x> 8500</x><y> 7000</y></p1><p2><x> 9500</x><y> 6000</y></p2></Line>
+            <Line><p1><x> 2500</x><y> 2500</y></p1><p2><x> 4500</x><y> 4500</y></p2></Line>
+>>>>>>> develop
         </graph>
     </solutions>
 </World>

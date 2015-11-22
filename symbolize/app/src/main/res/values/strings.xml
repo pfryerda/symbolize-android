@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Version number -->
+    <string name="version_number">v. 0.8.1</string>
 
     <!-- System strings -->
     <string name="app_name">Symbolize</string>
@@ -31,6 +33,10 @@
     <string name="info_dialog_id">info_dialog</string>
     <string name="hint_dialog_id">hint_dialog</string>
     <string name="confirmation_dialog_id">confirmation_dialog</string>
+<<<<<<< HEAD
+=======
+    <string name="choice_dialog_id">choice_dialog</string>
+>>>>>>> develop
     <string name="last_world">last_world</string>
     <string name="last_draw">last_draw</string>
     <string name="seen_world">seen_world</string>
@@ -55,15 +61,25 @@
     <string name="ok">Ok</string>
     <string name="OK">OK</string>
     <string name="yes">Yes</string>
+<<<<<<< HEAD
     <string name="no">No</string>
     <string name="close">close</string>
+=======
+    <string name="maybe">Maybe</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+>>>>>>> develop
     <string name="back">back</string>
 
     <string name="loading">Loading...</string>
 
+<<<<<<< HEAD
     <string name="left_arrow">\u21E6</string>
     <string name="right_arrow">\u21E8</string>
 
+=======
+>>>>>>> develop
 
     <!-- Alpha warnings -->
     <string name="splash_alpha_1">Note: This version of Symbolize is only for testing and does
@@ -79,12 +95,28 @@
     <string name="nothing_to_undo">There is nothing to undo</string>
     <string name="incorrect">You are incorrect</string>
 
+<<<<<<< HEAD
     <!-- Options dialog text -->
     <string name="options_dialog_title">Options</string>
     <string name="game_dialog_title">Game Options</string>
     <string name="video_dialog_title">Video Options</string>
     <string name="audio_dialog_title">Audio Options</string>
     <string name="data_dialog_title">Data</string>
+=======
+    <!-- dialog text -->
+    <string name="revert">Revert</string>
+    <string name="delete">Delete</string>
+    <string name="next_level">Next level</string>
+    <string name="next_world">Next world</string>
+    <string name="previous_world">Back to world</string>
+
+    <!-- Options dialog text -->
+    <string name="options_dialog_title">Options</string>
+    <string name="game_dialog_title">Game</string>
+    <string name="video_dialog_title">Video</string>
+    <string name="audio_dialog_title">Audio</string>
+    <string name="data_dialog_title">Stats</string>
+>>>>>>> develop
     <string name="about_dialog_title">About</string>
 
     <string name="options_show_grid">Show grid</string>
@@ -96,7 +128,11 @@
     <string name="use_device_brightness">Use device brightness</string>
     <string name="options_size">Game size</string>
 
+<<<<<<< HEAD
     <string name="options_audio_output">Output</string>
+=======
+    <string name="options_audio_output">Audio output</string>
+>>>>>>> develop
     <string name="auto">Auto</string>
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>
@@ -106,7 +142,11 @@
 
     <string name="options_delete_all_data">Delete all data</string>
 
+<<<<<<< HEAD
     <string name="options_revert_to_default">Revert to default</string>
+=======
+    <string name="options_revert_to_default">Reset to default</string>
+>>>>>>> develop
 
     <string name="world_1">World 1</string>
     <string name="world_2">World 2</string>
@@ -115,12 +155,26 @@
     <string name="world_5">World 5</string>
     <string name="world_6">World 6</string>
     <string name="world_7">World 7</string>
+<<<<<<< HEAD
     <string name="levels_complete">Levels complete:</string>
     <string name="world_complete">World complete:</string>
 
     <string name="about_dialog_message">Designed and developed by Luke Brown, with art from Peter Fryer Davis.
         Created in Waterloo Canada.\n</string>
     <string name="about_dialog_note">Note: This app cannot be used without our exclusive permission.</string>
+=======
+    <string name="levels_complete">Levels:</string>
+    <string name="world_complete">World complete:</string>
+
+    <string name="about_luke_title">Creator, Developer, Designer, and Artist</string>
+    <string name="about_luke">Luke Brown</string>
+    <string name="about_peter_title">Designer and Artist</string>
+    <string name="about_peter">Peter Fryer Davis</string>
+    <string name="about_jagger_title">Composers</string>
+    <string name="about_jagger">Jagger Cleeves and Josh Papa</string>
+    <string name="about_testers_title">Quality Assurance</string>
+    <string name="about_testers">TODO</string>
+>>>>>>> develop
 
     <!-- Revert settings dialog text -->
     <string name="revert_to_default_title">Revert to default</string>
@@ -134,8 +188,14 @@
 
     <!-- Level complete dialog text -->
     <string name="puzzle_complete_dialog_title">Congratulations</string>
+<<<<<<< HEAD
     <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view</string>
     <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world</string>
+=======
+    <string name="level_complete_dialog_msg">You are correct! Would you like to be sent back to the level select view?</string>
+    <string name="level_complete_one_unlock_dialog_msg">You are correct! Would you like to be sent back to the next level, or back to the level select view?</string>
+    <string name="world_complete_dialog_msg">You are correct! Would you like to be sent to the next world?</string>
+>>>>>>> develop
     <string name="game_complete_dialog_msg">You are correct!
         Congratulations you have finished Symbolize</string>
     <string name="alpha_game_complete_dialog_msg">You are correct!
@@ -145,7 +205,11 @@
     <string name="draws_allowed">Draws allowed: </string>
     <string name="drags_allowed">Moves allowed: </string>
     <string name="erase_allowed">Erase allowed: </string>
+<<<<<<< HEAD
     <string name="mechanics_allowed">Transformations allowed</string>
+=======
+    <string name="mechanics_allowed">Transformations</string>
+>>>>>>> develop
     <string name="rotate">rotate</string>
     <string name="flip">flip</string>
     <string name="shift">shift</string>
@@ -156,12 +220,20 @@
     <string name="world_tutorial">Connect the dots to solve the puzzle</string>
     <string name="draw_tutorial">Push your finger down to start the draw,
         let go in order to end the draw</string>
+<<<<<<< HEAD
     <string name="rotate_tutorial">Using two fingers one on either side rotate your
         finger in the direction you wish to roate</string>
     <string name="erase_tutorial">Hit the erase button in the bottom right corner to
         enter erase mode and drag your finger over the desired line you wish to erase</string>
     <string name="flip_tutorial">Using two finger start on one of the screen and drag them to the
         other side to flip the graph horizontal. Do the same going down or up to flip vertically</string>
+=======
+    <string name="rotate_tutorial">Using two fingers rotate your
+        fingers in the direction you wish to rotate</string>
+    <string name="erase_tutorial">Drag your finger over the desired line you wish to erase</string>
+    <string name="flip_tutorial">Using two finger start on one of the screen and drag them to the
+        other side to flip.</string>
+>>>>>>> develop
     <string name="shift_tutorial">Do one hard shake of your device to shift the current graph to the next graph</string>
     <string name="drag_tutorial">Tap and hold to select a line to move</string>
     <string name="change_color_tutorial">Tap one of the lines in the graph to cycle through possible colors</string>

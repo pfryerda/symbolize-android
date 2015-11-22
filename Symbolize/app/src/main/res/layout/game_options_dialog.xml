@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+=======
+    android:id="@+id/game_options_dialog"
+>>>>>>> develop
     android:orientation="vertical" android:layout_width="250dp"
     android:layout_height="400dp"
     style="@style/dialog">
@@ -9,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/game_dialog_title"
+<<<<<<< HEAD
         android:textSize="27dp"
         android:textColor="@color/black"
         style="@style/title"/>
@@ -62,5 +67,79 @@
             android:layout_weight="1"
             android:text="@string/back"/>
     </LinearLayout>
+=======
+        style="@style/options_title"/>
+
+    <View style="@style/title_separator"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_show_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            style="@style/options_check"/>/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_show_grid"
+            style="@style/text"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_show_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            style="@style/options_check"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_show_border"
+            style="@style/text"/>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_snap_drawing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            style="@style/options_check"/>/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_snap_drawing"
+            style="@style/text"/>
+        </LinearLayout>
+
+
+    <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageButton
+            android:id="@+id/Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/back_button"/>
+        <ImageButton
+            android:id="@+id/options_reset_to_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/reset_button">
+        </ImageButton>
+    </RelativeLayout>
+>>>>>>> develop
 
 </LinearLayout>

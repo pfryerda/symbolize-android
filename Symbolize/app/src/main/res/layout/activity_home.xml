@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -14,10 +15,24 @@
     android:id="@+id/page">
 
     <Button
+=======
+    android:isScrollContainer="false"
+    tools:context="symbolize.app.Home.HomePage"
+    android:id="@+id/page">
+
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+
+    <ImageButton
+>>>>>>> develop
         android:id="@+id/Start"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:scaleType="fitCenter"
         android:background="@null"
         android:textSize="30dp"
@@ -48,4 +63,70 @@
         android:layout_alignParentRight="true"/>
 
 
+=======
+        android:onClick="On_start_button_clicked"
+        android:src="@drawable/icon"
+        android:visibility="invisible"
+        style="@style/image"/>
+
+    <ImageView
+        android:id="@+id/Mute_bubble"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="25dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/dot"
+        android:visibility="invisible"
+        style="@style/image"/>
+    <ImageButton
+        android:id="@+id/Mute"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="25dp"
+        android:onClick="On_mute_button_clicked"
+        android:src="@drawable/sound"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        style="@style/image"/>
+
+    <ImageView
+        android:id="@+id/Settings_bubble"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/dot"
+        android:visibility="invisible"
+        style="@style/image"/>
+    <ImageButton
+        android:id="@+id/Settings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="25dp"
+        android:onClick="On_settings_button_clicked"
+        android:src="@drawable/gear"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        style="@style/image"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="2dp"
+        android:text="@string/version_number"
+        style="@style/sub_text"/>
+
+    <FrameLayout
+        android:id="@+id/home_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
+>>>>>>> develop
 </RelativeLayout>

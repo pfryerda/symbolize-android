@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+=======
+    android:id="@+id/audio_options_dialog"
+>>>>>>> develop
     android:orientation="vertical" android:layout_width="250dp"
     android:layout_height="400dp"
     style="@style/dialog">
@@ -9,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/audio_dialog_title"
+<<<<<<< HEAD
         android:textSize="27dp"
         android:textColor="@color/black"
         style="@style/title"/>
@@ -34,10 +39,57 @@
         android:text="@string/options_volume"
         android:textSize="20dp"
         android:textColor="@color/black"/>
+=======
+        style="@style/options_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/options_audio_output"
+            style="@style/text"/>
+        <Spinner
+            android:id="@+id/options_audio_output_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/audio_output_options"
+            style="@style/dropdown"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/options_volume"
+            android:layout_marginRight="5dp"
+            style="@style/text"/>
+        <EditText
+            android:id="@+id/options_volume_seekbar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="100"
+            android:layout_gravity="center_vertical"
+            style="@style/input_text"/>
+    </LinearLayout>
+>>>>>>> develop
     <SeekBar
         android:id="@+id/options_volume_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_gravity="center"
         android:progress="100"/>
     <CheckedTextView
@@ -58,6 +110,27 @@
         android:text="@string/options_revert_to_default"
         android:layout_gravity="center">
     </Button>
+=======
+        android:progress="100"
+        style="@style/options_spinner"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/options_mute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            style="@style/options_check"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_mute"
+            style="@style/sub_text"/>
+    </LinearLayout>
+>>>>>>> develop
 
     <TextView
         android:id="@+id/alpha_audio_note"
@@ -67,6 +140,7 @@
         android:text="@string/alpha_audio_note"/>
 
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
+<<<<<<< HEAD
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -77,5 +151,22 @@
             android:layout_weight="1"
             android:text="@string/back"/>
     </LinearLayout>
+=======
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageButton
+            android:id="@+id/Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/back_button"/>
+        <ImageButton
+            android:id="@+id/options_reset_to_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/reset_button">
+        </ImageButton>
+    </RelativeLayout>
+>>>>>>> develop
 
 </LinearLayout>

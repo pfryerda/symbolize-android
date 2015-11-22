@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+=======
+    android:id="@+id/hint_dialog"
+>>>>>>> develop
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="250dp"
@@ -11,8 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder title"
+<<<<<<< HEAD
         android:textSize="27dp"
         android:textColor="@color/black"
+=======
+>>>>>>> develop
         style="@style/title"/>
 
     <TextView
@@ -20,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place-holder text"
+<<<<<<< HEAD
         android:textSize="20dp"
         android:textColor="@color/black"
         android:gravity="center"/>
@@ -46,6 +54,85 @@
             android:textSize="20dp"
             android:text="Place-holder text"
             android:textColor="@color/black"/>
+=======
+        android:textIsSelectable="true"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:gravity="center"
+        style="@style/text"/>
+
+    <LinearLayout
+        android:id="@+id/mechanics_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/Mechanics_allowed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/mechanics_allowed"
+            android:textIsSelectable="true"
+            android:linksClickable="true"
+            android:autoLink="web"
+            android:gravity="center"
+            style="@style/sub_title"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="70dp"
+           android:orientation="horizontal"
+           android:gravity="center">
+           <WebView
+               android:id="@+id/rotate_tutorial_image"
+               android:layout_width="70dp"
+               android:layout_height="match_parent"
+               style="@style/image"/>
+           <WebView
+               android:id="@+id/flip_tutorial_image"
+               android:layout_width="70dp"
+               android:layout_height="match_parent"
+               style="@style/image"/>
+           <WebView
+               android:id="@+id/change_color_tutorial_image"
+               android:layout_width="70dp"
+               android:layout_height="match_parent"
+               style="@style/image"/>
+           <WebView
+               android:id="@+id/shift_tutorial_image"
+               android:layout_width="70dp"
+               android:layout_height="match_parent"
+               style="@style/image"/>
+           <WebView
+               android:id="@+id/special_tutorial_image"
+               android:layout_width="70dp"
+               android:layout_height="match_parent"
+               style="@style/image"/>
+           </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Tutorial_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="Place-holder text"
+            style="@style/text"/>
+        <WebView
+            android:id="@+id/Tutorial_image"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            style="@style/image"/>
+>>>>>>> develop
         </LinearLayout>
 
     <LinearLayout
@@ -55,7 +142,12 @@
             android:id="@+id/Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:text="@string/close"/>
+=======
+            android:textColor="@color/bright_red"
+            style="@style/close_button"/>
+>>>>>>> develop
     </LinearLayout>
 
 </LinearLayout>

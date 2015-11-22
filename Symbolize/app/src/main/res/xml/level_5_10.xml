@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
+<<<<<<< HEAD
     <draw_restriction>0</draw_restriction>
+=======
+    <unlocks></unlocks>
+	<force_border>false</force_border>
+	<draw_restriction>0</draw_restriction>
+>>>>>>> develop
     <erase_restriction>0</erase_restriction>
     <drag_restriction>0</drag_restriction>
     <rotate_enabled>false</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>
     <special>0</special>
+<<<<<<< HEAD
     <unlocks>
         <unlock>11</unlock>
     </unlocks>
+=======
+>>>>>>> develop
     <boards>
         <graph>
         </graph>

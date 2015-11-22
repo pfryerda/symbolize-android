@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Level>
+<<<<<<< HEAD
     <draw_restriction>0</draw_restriction>
     <erase_restriction>1</erase_restriction>
     <drag_restriction>0</drag_restriction>
@@ -17,12 +18,37 @@
             <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 5000</x><y> 8000</y></p2><color>-16777216</color></Line>
             <Line><p1><x> 2000</x><y> 8000</y></p1><p2><x> 5000</x><y> 8000</y></p2><color>-16777216</color></Line>
             <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 8000</x><y> 2000</y></p2><color>-16777216</color></Line>
+=======
+    <unlocks>
+		<unlock>2</unlock>
+        <unlock>3</unlock>
+        <unlock>4</unlock>
+	</unlocks>
+	<force_border>false</force_border>
+    <draw_restriction>1</draw_restriction>
+    <erase_restriction>0</erase_restriction>
+    <drag_restriction>0</drag_restriction>
+    <rotate_enabled>true</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
+    <colour_enabled>false</colour_enabled>
+    <special>0</special>
+    <boards>
+        <graph>
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 9000</x><y> 1000</y></p2></Line>
+            <Line><p1><x> 1000</x><y> 1000</y></p1><p2><x> 5000</x><y> 5000</y></p2></Line>
+>>>>>>> develop
         </graph>
     </boards>
     <solutions>
         <graph>
+<<<<<<< HEAD
             <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 5000</x><y> 8000</y></p2><color>-16777216</color></Line>
             <Line><p1><x> 8000</x><y> 8000</y></p1><p2><x> 5000</x><y> 8000</y></p2><color>-16777216</color></Line>
+=======
+            <Line><p1><x> 5000</x><y> 5000</y></p1><p2><x> 9000</x><y> 9000</y></p2></Line>
+            <Line><p1><x> 9000</x><y> 1000</y></p1><p2><x> 5000</x><y> 5000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 5000</x><y> 9000</y></p2></Line>
+>>>>>>> develop
         </graph>
     </solutions>
 </Level>

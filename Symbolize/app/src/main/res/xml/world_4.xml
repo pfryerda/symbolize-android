@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <World>
+<<<<<<< HEAD
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>true</flip_enabled>
     <colour_enabled>true</colour_enabled>
@@ -28,6 +29,33 @@
         <graph>
         </graph>
         <graph>
+=======
+    <unlocks>
+        <unlock>5</unlock>
+    </unlocks>
+	<force_border>false</force_border>
+    <rotate_enabled>true</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
+    <levels>
+        <p><x>1000</x><y>5000</y></p> <!-- 4-1  -->
+        <p><x>9000</x><y>5000</y></p> <!-- 4-2  -->
+        <p><x>1000</x><y>2000</y></p> <!-- 4-3  -->
+        <p><x>1000</x><y>8000</y></p> <!-- 4-4  -->
+        <p><x>9000</x><y>2000</y></p> <!-- 4-5  -->
+        <p><x>9000</x><y>8000</y></p> <!-- 4-6  -->
+        <p><x>7000</x><y>7000</y></p> <!-- 4-7  -->
+        <p><x>3000</x><y>7000</y></p> <!-- 4-8  -->
+        <p><x>3000</x><y>3000</y></p> <!-- 4-9  -->
+        <p><x>7000</x><y>3000</y></p> <!-- 4-10 -->
+    </levels>
+    <solutions>
+        <graph>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 5000</x><y> 9000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 1000</y></p1><p2><x> 7000</x><y> 3000</y></p2></Line>
+            <Line><p1><x> 3000</x><y> 7000</y></p1><p2><x> 7000</x><y> 3000</y></p2></Line>
+            <Line><p1><x> 3000</x><y> 3000</y></p1><p2><x> 7000</x><y> 7000</y></p2></Line>
+            <Line><p1><x> 5000</x><y> 9000</y></p1><p2><x> 7000</x><y> 7000</y></p2></Line>
+>>>>>>> develop
         </graph>
     </solutions>
 </World>
