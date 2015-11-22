@@ -19,15 +19,15 @@
         <item>Twinkle twinkle</item>                                        <!-- World: 2    - '★' -->
         <item>The 11th letter of the alphabet</item>                        <!-- Level: 2-1  - 'K' -->
         <item>Change this T into your favourite grade</item>                <!-- Level: 2-2  - 'A' -->
-        <item>He_ _o wor_d</item>                                           <!-- Level: 2-3  - 'L' -->
-        <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 2-4  - 'M' -->
-        <item>Winter wonderland</item>                                      <!-- Level: 2-5  - '❄' -->
-        <item>Transform this S into a &amp;</item>                          <!-- Level: 2-6  - '&' -->
-        <item>How many unrelated options are in the options menu?</item>    <!-- Level: 2-7  - '8' -->
-        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 2-8  - 'S' -->
-        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-9  - 'Music #2' -->
         <item>The answer can be found at example.com, examine the difference
-            in the number of the words between the 2 sentences.</item>      <!-- Level: 2-10 - '2' -->
+            in the number of the words between the 2 sentences.</item>      <!-- Level: 2-3 - '2' -->
+        <item>He_ _o wor_d</item>                                           <!-- Level: 2-4  - 'L' -->
+        <item>Winter wonderland</item>                                      <!-- Level: 2-5  - '❄' -->
+        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 2-6  - 'S' -->
+        <item>Transform this S into a &amp;</item>                          <!-- Level: 2-7  - '&' -->
+        <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 2-8  - 'M' -->
+        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-9  - 'Music #2' -->
+        <item>How many unrelated options are in the options menu?</item>    <!-- Level: 2-10  - '8' -->
 
     </string-array>
 
@@ -66,16 +66,16 @@
 
     <string-array name="world_5_hints">
         <item>:D</item>                                                     <!-- World: 5    - ':D' -->
-        <item>A vertical or inclined set of steps</item>                    <!-- Level: 5-1  - 'Ladder' -->
-        <item>Decode: af154860239babd541012802a0761ee1</item>               <!-- Level: 5-2  - 'Bowtie' -->
+        <item>Build a path for the left line to go
+            through the tunnel.</item>                                      <!-- Level: 5-1  - 'Path' -->
+        <item>A vertical or inclined set of steps</item>                    <!-- Level: 5-2  - 'Ladder' -->
         <item>Remove the piece necessary to make a bottom
             row disappear</item>                                            <!-- Level: 5-3  - 'Tetris' -->
-        <item>Build a path for the left line to go
-            through the tunnel.</item>                                      <!-- Level: 5-4  - 'Path' -->
+        <item>Decode: af154860239babd541012802a0761ee1</item>               <!-- Level: 5-4  - 'Bowtie' -->
         <item>Increase a number by 1</item>                                 <!-- Level: 5-5  - '3' -->
         <item>One of the main card suites</item>                            <!-- Level: 5-6  - '♢' -->
-        <item>Use the solutions from 2-2, 4-5, and 1-2</item>               <!-- Level: 5-7  - '☼ - DAY' -->
-        <item>Make a correct sudoku solution.</item>                        <!-- Level: 5-8  - '' -->
+        <item>Make a correct sudoku solution.</item>                        <!-- Level: 5-7  - 'Sudoku' -->
+        <item>Use the solutions from 2-2, 4-5, and 1-2</item>               <!-- Level: 5-8  - '☼ - DAY' -->
         <item></item>                                                       <!-- Level: 5-9  - '' -->
         <item></item>                                                       <!-- Level: 5-10 - '' -->
     </string-array>

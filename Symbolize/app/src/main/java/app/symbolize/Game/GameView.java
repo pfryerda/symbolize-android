@@ -42,7 +42,7 @@ public class GameView {
     public static final byte SHADOW = 80;
     public static final byte DROP_SHADOW = 33;
     public static final byte SOLID = 100;
-    public static final short HINT_DELAY = 350;
+    public static final short HINT_DELAY = 325;
 
 
     // Static Fields
