@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="world_1_hints">
+        <item>War and -----</item>                                          <!-- World: 1    - Peace symbol -->
+        <item>Lucky number</item>                                           <!-- Level: 1-1  - '7' -->
+        <item>A confused vowel</item>                                       <!-- Level: 1-2  - 'Y' -->
+        <item>Ta Ti-Ti Ta</item>                                            <!-- Level: 1-3  - 'Music #1' -->
+        <item>You got mail</item>                                           <!-- Level: 1-4  - '✉' -->
+        <item>One of the main math operators</item>                         <!-- Level: 1-5  - '÷' -->
+        <item>Bow and  _ _ _ _ _</item>                                     <!-- Level: 1-6  - '➹' -->
+        <item>The answer is zed</item>                                      <!-- Level: 1-7  - 'Z' -->
+                <item>Change this side of a rubik cube into another
+            well known game</item>                                          <!-- Level: 1-8  - '#' -->
+        <item>3D</item>                                                     <!-- Level: 1-9  - Cube -->
+        <item>This items appears once in the options menu.</item>           <!-- Level: 1-10 - 'Trash can' -->
+    </string-array>
+
+    <string-array name="world_2_hints">
+        <item>Twinkle twinkle</item>                                        <!-- World: 2    - '★' -->
+        <item>The 11th letter of the alphabet</item>                        <!-- Level: 2-1  - 'K' -->
+        <item>Change this T into your favourite grade</item>                <!-- Level: 2-2  - 'A' -->
+        <item>The answer can be found at example.com, examine the difference
+            in the number of the words between the 2 sentences.</item>      <!-- Level: 2-3 - '2' -->
+        <item>He_ _o wor_d</item>                                           <!-- Level: 2-4  - 'L' -->
+        <item>Winter wonderland</item>                                      <!-- Level: 2-5  - '❄' -->
+        <item>_ally _ell_ _ea_hells by the _ea_hore.  </item>               <!-- Level: 2-6  - 'S' -->
+        <item>Transform this S into a &amp;</item>                          <!-- Level: 2-7  - '&' -->
+        <item>Maybe the answer is the largest letter in this hint</item>    <!-- Level: 2-8  - 'M' -->
+        <item>Ti-Ti-Ti Ta Ti-Ti</item>                                      <!-- Level: 2-9  - 'Music #2' -->
+        <item>How many unrelated options are in the options menu?</item>    <!-- Level: 2-10  - '8' -->
+
+    </string-array>
+
+    <string-array name="world_3_hints">
+        <item>A major constellation</item>                                  <!-- World: 3    - Big Dipper/Ursa Major -->
+        <item>00110001</item>                                               <!-- Level: 3-1  - '1' -->
+        <item>DCCXLV</item>                                                 <!-- Level: 3-2  - '7:45 o'clock -->
+        <item>Pots</item>                                                   <!-- Level: 3-3  - 'Stop sign' -->
+        <item>Hide the chameleon!</item>                                    <!-- Level: 3-4  - 'Lizard' -->
+        <item>Just sum symbol.</item>                                       <!-- Level: 3-5  - 'Σ' -->
+        <item>51.521000, -0.073630</item>                                   <!-- Level: 3-6  - 'Google Map' -->
+        <item>Make me a sail boat painting</item>                           <!-- Level: 3-7  - 'Sail boat' -->
+        <item></item>                                                       <!-- Level: 3-8  - '' -->
+        <item>..-. .-. --- --.</item>                                       <!-- Level: 3-9  - 'Frog' -->
+        <item>Make some music</item>                                        <!-- Level: 3-10 - '♫' -->
+    </string-array>
+
+    <string-array name="world_4_hints">
+        <item>On your phone go into settings and then wireless and network,
+        you should find the symbol there</item>                             <!-- World: 4    - 'Blue tooth' -->
+        <item>Give her a body</item>                                        <!-- Level: 4-1  - 'gender symbol' -->
+        <item>You need to defuse the bomb by cutting three wires.
+            There will be no doubles when you are done.
+            There should be an equal number of warm and cool colours at the end.
+            Finally you must cut both 3 and 4 or 3 and 7.</item>            <!-- Level: 4-2  - 'Defuse the bomb' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-3  - 'Chess' -->
+        <item>Draw the hint box a border to match the world.</item>         <!-- Level: 4-4  - 'Red border' -->
+        <item>Increase a letter by 1</item>                                 <!-- Level: 4-5  - 'D' -->
+        <item>Change this correct math statement into another
+            correct statement</item>                                        <!-- Level: 4-6  - '11' -->
+        <item>I hope this puzzle makes you smile</item>                     <!-- Level: 4-7  - '=]' (dice) -->
+        <item>Suspension ______</item>                                      <!-- Level: 4-8  - 'Suspension bridge' -->
+        <item>TODO: NEED SOLN FOR THIS</item>                               <!-- Level: 4-9  - 'Brisk' -->
+        <item>Make the last suite</item>                                    <!-- Level: 4-10 - '♥' -->
+    </string-array>
+
+    <string-array name="world_5_hints">
+        <item>:D</item>                                                     <!-- World: 5    - ':D' -->
+        <item>Build a path for the left line to go
+            through the tunnel.</item>                                      <!-- Level: 5-1  - 'Path' -->
+        <item>A vertical or inclined set of steps</item>                    <!-- Level: 5-2  - 'Ladder' -->
+        <item>Remove the piece necessary to make a bottom
+            row disappear</item>                                            <!-- Level: 5-3  - 'Tetris' -->
+        <item>Decode: af154860239babd541012802a0761ee1</item>               <!-- Level: 5-4  - 'Bowtie' -->
+        <item>Increase a number by 1</item>                                 <!-- Level: 5-5  - '3' -->
+        <item>One of the main card suites</item>                            <!-- Level: 5-6  - '♢' -->
+        <item>Make a correct sudoku solution.</item>                        <!-- Level: 5-7  - 'Sudoku' -->
+        <item>Use the solutions from 2-2, 4-5, and 1-2</item>               <!-- Level: 5-8  - '☼ - DAY' -->
+        <item></item>                                                       <!-- Level: 5-9  - '' -->
+        <item></item>                                                       <!-- Level: 5-10 - '' -->
+    </string-array>
+</resources>
