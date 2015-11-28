@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.DataAccess.MetaDataAccess;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.DataAccess.ProgressDataAccess;
@@ -28,6 +29,12 @@ abstract public class Page extends FragmentActivity {
 
     private static Context context;
     private static boolean current_page_is_game = false;
+
+
+    // Feilds
+    //--------
+
+    public boolean continue_music;
 
 
     // Static methods
@@ -117,6 +124,14 @@ abstract public class Page extends FragmentActivity {
     //---------------------------------------
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        continue_music = false;
+        MusicController.Start( this );
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -128,5 +143,7 @@ abstract public class Page extends FragmentActivity {
         OptionsDataAccess.Commit();
         ProgressDataAccess.Commit();
         UnlocksDataAccess.Commit();
+
+        if( !continue_music ) MusicController.Pause();
     }
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.Common.Session;
 import app.symbolize.Game.GameUIView;
 import app.symbolize.Routing.Page;
@@ -268,13 +269,14 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     //----------------
 
     public void On_start_button_clicked(final View view) {
-        if( is_intro_done ) Router.Route( getApplicationContext(), GamePage.class );
+        if( is_intro_done ) Router.Route( this, GamePage.class );
         else                intro_over();
     }
 
     public void On_mute_button_clicked(final View view) {
         OptionsDataAccess.Get_instance().Toggle_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
         Set_sound_image();
+        MusicController.Set_volume();
     }
 
     public void On_settings_button_clicked(final View view) {

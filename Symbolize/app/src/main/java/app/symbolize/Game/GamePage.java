@@ -23,6 +23,7 @@ import java.util.TimerTask;
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
 import app.symbolize.Common.Communication.Response;
+import app.symbolize.Common.MusicController;
 import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.MetaDataAccess;
 import app.symbolize.Common.Posn;
@@ -128,7 +129,7 @@ public class GamePage extends Page
             Session session = Session.Get_instance();
 
             if ( session.Is_in_world_view() ) {
-                Router.Route( getApplicationContext(), HomePage.class );
+                Router.Route( this, HomePage.class );
             } else {
                 load_world( Request.Load_world_via_level );
             }

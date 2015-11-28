@@ -18,7 +18,7 @@ public class Session {
     // Static fields
     //---------------
 
-    public static final boolean DEV_MODE = false;
+    public static final boolean DEV_MODE = true;
 
 
     // Fields
@@ -173,6 +173,8 @@ public class Session {
     public void Decrease_world() {
         current_world = Get_previous_world();
         current_puzzle = PuzzleDB.Fetch_puzzle();
+        MusicController.Reset();
+        MusicController.Start( Page.Get_context() );
     }
 
     /*
@@ -181,6 +183,8 @@ public class Session {
     public void Increase_world() {
         current_world = Get_next_world();
         current_puzzle = PuzzleDB.Fetch_puzzle();
+        MusicController.Reset();
+        MusicController.Start( Page.Get_context() );
     }
 
     /*

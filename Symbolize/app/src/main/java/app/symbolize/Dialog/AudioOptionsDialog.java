@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.Home.HomePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.Common.Session;
@@ -42,6 +43,7 @@ public class AudioOptionsDialog extends OptionDialog {
             @Override
             public void onItemSelected( AdapterView<?> parent, View view, int pos, long id ) {
                 options_dao.Set_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT, (short) pos);
+                MusicController.Set_output();
             }
 
             @Override
@@ -56,6 +58,7 @@ public class AudioOptionsDialog extends OptionDialog {
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_IS_MUTED);
                 init_dialog_view(dialog_view);
                 if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
+                MusicController.Set_volume();
             }
         });
 
@@ -94,8 +97,9 @@ public class AudioOptionsDialog extends OptionDialog {
                  String new_text = s.toString();
                  if( !new_text.equals("") ) {
                      short new_volume = (short) Math.min( 100, Math.max( 0, Short.parseShort( new_text ) ) );
-                     options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME, new_volume );
-                     volume_bar.setProgress( Short.parseShort( new_text ) );
+                     options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME, new_volume);
+                     volume_bar.setProgress(Short.parseShort(new_text));
+                     MusicController.Set_volume();
                  }
              }
          } );
