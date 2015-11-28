@@ -39,9 +39,9 @@
         <item level="3-5" solution="Sigma">Just sum symbol.</item>
         <item level="3-6" solution="Google Map">51.521000, -0.073630</item>
         <item level="3-7" solution="Sail boat">Make me a sail boat painting</item>
-        <item level="3-8" solution=""/>
+        <item level="3-8" solution="" />
         <item level="3-9" solution="Frog">..-. .-. --- --.</item>
-        <item level="3-10" solution="♫">Make some music</item>
+        <item level="3-10" solution="Music note">Make some music</item>
     </string-array>
 
     <string-array name="world_4_hints">
@@ -75,7 +75,7 @@
         <item level="5-6" solution="Diamond">One of the main card suites</item>
         <item level="5-7" solution="Sudoku">Make a correct sudoku solution.</item>
         <item level="5-8" solution="Sun (DAY)">Use the solutions from 2-2, 4-5, and 1-2</item>
-        <item level="5-9" solution=""/>
-        <item level="5-10" solution=""/>
+        <item level="5-9" solution="" />
+        <item level="5-10" solution="" />
     </string-array>
 </resources>
