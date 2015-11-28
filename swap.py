@@ -3,10 +3,9 @@ import sys
 import re
 import xml.etree.ElementTree
 
-# Variable definitions
-# --------------------
 
-XML_BASE_URL = './test_1/'
+XML_BASE_URL = './Symbolize/app/src/main/res/xml/'
+HINTS_FILE = './Symbolize/app/src/main/res/values/hints.xml'
 argc = len(sys.argv) - 1
 
 
@@ -29,14 +28,17 @@ if sys.argv[1] == sys.argv[2]:
 	print ('swap.py expects two differnt arguments.')
 	sys.exit(1)
 
-
-# Swap xml contents
-# -----------------
+# Parse command line args
+# -----------------------
 
 world_1, level_1 = sys.argv[1].split('-')
 world_2, level_2 = sys.argv[2].split('-')
-file_1 = XML_BASE_URL + 'level_' + str(world_1) + '_' + str(level_1) + '.xml'
-file_2 = XML_BASE_URL + 'level_' + str(world_2) + '_' + str(level_2) + '.xml'
+file_1 = XML_BASE_URL + 'level_' + world_1 + '_' + level_1 + '.xml'
+file_2 = XML_BASE_URL + 'level_' + world_2 + '_' + level_2 + '.xml'
+
+
+# Swap level (xml) contents
+# -------------------------
 
 tree_1 = xml.etree.ElementTree.parse(file_1)
 tree_2 = xml.etree.ElementTree.parse(file_2)
@@ -51,3 +53,23 @@ print ('Writing to ' + file_1)
 tree_2.write(file_1)
 print ('Writing to ' + file_2)
 tree_1.write(file_2)
+
+
+# Edit hints.xml
+# --------------
+
+world_1, level_1, world_2, level_2 = int(world_1), int(level_1), int(world_2), int(level_2)
+
+hints_tree = xml.etree.ElementTree.parse(HINTS_FILE)
+hints_root = hints_tree.getroot()
+
+temp = hints_root[world_1 - 1][level_1]
+hints_root[world_1 - 1][level_1] = hints_root[world_2 - 1][level_2]
+hints_root[world_2 - 1][level_2] = temp
+
+temp = hints_root[world_1 - 1][level_1].attrib['level']
+hints_root[world_1 - 1][level_1].attrib['level'] = hints_root[world_2 - 1][level_2].attrib['level']
+hints_root[world_2 - 1][level_2].attrib['level'] = temp
+
+print ('Writing to ' + HINTS_FILE)
+hints_tree.write(HINTS_FILE)
