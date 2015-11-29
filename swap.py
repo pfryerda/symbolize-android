@@ -3,6 +3,9 @@ import sys
 import re
 import xml.etree.ElementTree
 
+def write_xml(tree, file):
+	 tree.write(file, xml_declaration=True, encoding='utf-8', method="xml")
+	 print ('Wrote to ' + file)
 
 XML_BASE_URL = './Symbolize/app/src/main/res/xml/'
 HINTS_FILE = './Symbolize/app/src/main/res/values/hints.xml'
@@ -49,10 +52,8 @@ temp = root_1[0]
 root_1[0] = root_2[0]
 root_2[0] = temp
 
-print ('Writing to ' + file_1)
-tree_2.write(file_1)
-print ('Writing to ' + file_2)
-tree_1.write(file_2)
+write_xml(tree_2, file_1)
+write_xml(tree_1, file_2)
 
 
 # Edit hints.xml
@@ -71,5 +72,4 @@ temp = hints_root[world_1 - 1][level_1].attrib['level']
 hints_root[world_1 - 1][level_1].attrib['level'] = hints_root[world_2 - 1][level_2].attrib['level']
 hints_root[world_2 - 1][level_2].attrib['level'] = temp
 
-print ('Writing to ' + HINTS_FILE)
-hints_tree.write(HINTS_FILE)
+write_xml(hints_tree, HINTS_FILE)
