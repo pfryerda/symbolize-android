@@ -78,13 +78,6 @@
             style="@style/sub_text"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/alpha_audio_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="@string/alpha_audio_note"/>
-
     <View android:layout_height="0dp" android:layout_width="0dp" android:layout_weight="1"/>
     <RelativeLayout
         android:layout_width="match_parent"

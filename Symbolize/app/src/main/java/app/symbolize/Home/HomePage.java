@@ -269,7 +269,10 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     //----------------
 
     public void On_start_button_clicked(final View view) {
-        if( is_intro_done ) Router.Route( this, GamePage.class );
+        if( is_intro_done ) {
+            MusicController.Reset();
+            Router.Route(this, GamePage.class);
+        }
         else                intro_over();
     }
 
@@ -306,6 +309,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         super.onPause();
 
         if( mp != null && mp.isPlaying() ) mp.pause();
+        if( !continue_music ) MusicController.Pause();
     }
 
     @Override
@@ -313,5 +317,6 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         super.onResume();
 
         if( mp != null && prepared ) mp.start();
+        MusicController.Start( this, MusicController.MENU_MUSIC );
     }
 }

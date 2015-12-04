@@ -3,11 +3,9 @@ package app.symbolize.Common;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.R;
@@ -17,9 +15,13 @@ public class MusicController {
     // Constants
     //----------
 
-    public static final int MUSIC_PREVIOUS = 0;
+    public static final int MUSIC_PREVIOUS = -1;
+    public static final int MENU_MUSIC = 0;
     public static final int WORLD_1 = 1;
     public static final int WORLD_2 = 2;
+    public static final int WORLD_3 = 3;
+    public static final int WORLD_4 = 4;
+    public static final int WORLD_5 = 5;
 
 
     // Private fields
@@ -33,25 +35,12 @@ public class MusicController {
     // Public methods
     //---------------
 
-
-    /*
-     * Method for starting to play a certain song.
-     *
-     * @param Context context: The current context of your current activity
-     * @param int music: The song you wish to play.
-     * @param boolean force: Weather or not you want to force a song to restart.
-     */
-    public static void Start( Context context ) {
-        Start( context, false );
-    }
-
-    public static void Start( Context context, boolean force ) {
-        if ( !force && currentMusic > MUSIC_PREVIOUS ) {
+    public static void Start( Context context, int music ) {
+        if ( currentMusic > -1 ) {
             // already playing some music and not forced to change
             return;
         }
 
-        int music = ( ( Session.Get_instance().Get_current_world() - 1 ) % 2 ) + 1;
         if ( music == MUSIC_PREVIOUS ) {
             music = previousMusic;
         }
@@ -72,12 +61,12 @@ public class MusicController {
             }
         } else {
             switch ( music ) {
-                case WORLD_1:
-                    mp = MediaPlayer.create( context, R.raw.left_blank_two );
+                case WORLD_2:
+                    mp = MediaPlayer.create( context, R.raw.onepointwofive );
                     break;
 
-                case WORLD_2:
-                    mp = MediaPlayer.create( context, R.raw.picross );
+                default:
+                    return; // Nothing to do here.
             }
 
             players.put( music, mp );

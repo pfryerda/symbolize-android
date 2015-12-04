@@ -10,6 +10,10 @@ import android.view.View;
 import com.google.android.gms.ads.AdRequest;
 
 import app.symbolize.Common.MusicController;
+import app.symbolize.DataAccess.MetaDataAccess;
+import app.symbolize.DataAccess.OptionsDataAccess;
+import app.symbolize.DataAccess.ProgressDataAccess;
+import app.symbolize.DataAccess.UnlocksDataAccess;
 import app.symbolize.Game.GamePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.R;
@@ -38,9 +42,6 @@ public class SplashPage extends Page {
                     .build();
         }
 
-        MediaPlayer music_player = MediaPlayer.create( this, R.raw.left_blank_two );
-        music_player.start();
-
         final Page self = this;
         new Handler().postDelayed( new Runnable() {
             @Override
@@ -49,5 +50,21 @@ public class SplashPage extends Page {
                 finish();
             }
         }, SPLASH_TIME );
+    }
+
+
+    // Method for pausing/resuming the game
+    //---------------------------------------
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MusicController.Start( this, MusicController.MENU_MUSIC );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if( !continue_music ) MusicController.Pause();
     }
 }

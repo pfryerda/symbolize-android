@@ -126,9 +126,7 @@ abstract public class Page extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         continue_music = false;
-        MusicController.Start( this );
     }
 
     @Override
@@ -143,7 +141,5 @@ abstract public class Page extends FragmentActivity {
         OptionsDataAccess.Commit();
         ProgressDataAccess.Commit();
         UnlocksDataAccess.Commit();
-
-        if( !continue_music ) MusicController.Pause();
     }
 }

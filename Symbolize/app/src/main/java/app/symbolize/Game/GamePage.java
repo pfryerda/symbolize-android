@@ -129,6 +129,7 @@ public class GamePage extends Page
             Session session = Session.Get_instance();
 
             if ( session.Is_in_world_view() ) {
+                MusicController.Reset();
                 Router.Route( this, HomePage.class );
             } else {
                 load_world( Request.Load_world_via_level );
@@ -480,6 +481,7 @@ public class GamePage extends Page
         sensor_manager.registerListener( this,
                 sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
+        MusicController.Start( this, Session.Get_instance().Get_current_world() );
     }
 
     @Override
@@ -487,5 +489,6 @@ public class GamePage extends Page
         super.onPause();
         SensorManager sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         sensor_manager.unregisterListener( this );
+        if( !continue_music ) MusicController.Pause();
     }
 }
