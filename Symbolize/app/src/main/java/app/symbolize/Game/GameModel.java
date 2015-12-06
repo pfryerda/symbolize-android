@@ -152,6 +152,7 @@ public class GameModel {
         lines_drawn = 0;
         lines_erased = 0;
         lines_dragged = 0;
+        shift_number = 0;
         past_state = null;
     }
 
