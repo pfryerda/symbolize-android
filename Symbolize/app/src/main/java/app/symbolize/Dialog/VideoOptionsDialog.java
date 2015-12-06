@@ -63,7 +63,7 @@ public class VideoOptionsDialog extends OptionDialog {
             }
         });
 
-        final SeekBar game_size_bar = (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar );
+        /*final SeekBar game_size_bar = (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar );
         final EditText game_size_text = (EditText) dialog_view.findViewById( R.id.options_game_size_seekbar_text );
         game_size_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             short progress_change;
@@ -106,7 +106,7 @@ public class VideoOptionsDialog extends OptionDialog {
                    }
                }
            }
-        );
+        );*/
 
         final CheckBox use_device_brightness_button = (CheckBox) dialog_view.findViewById( R.id.options_use_device_brightness );
         use_device_brightness_button.setOnClickListener( new View.OnClickListener() {
@@ -198,11 +198,11 @@ public class VideoOptionsDialog extends OptionDialog {
         ( (CheckBox) dialog_view.findViewById( R.id.options_show_animation ) )
                 .setChecked( options_dao.Get_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS ) );
 
-        ( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
+        /*( (SeekBar) dialog_view.findViewById( R.id.options_game_size_seekbar ) )
                 .setProgress(options_dao.Get_short_option(OptionsDataAccess.OPTION_GAME_SIZE) - OptionsDataAccess.GAME_SIZE_MIN);
 
         ( (EditText) dialog_view.findViewById( R.id.options_game_size_seekbar_text ) )
-                .setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) + "" );
+                .setText( options_dao.Get_short_option( OptionsDataAccess.OPTION_GAME_SIZE ) + "" );*/
 
         final boolean use_device_brightness = options_dao.Get_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
         ( (CheckBox) dialog_view.findViewById( R.id.options_use_device_brightness ) )
