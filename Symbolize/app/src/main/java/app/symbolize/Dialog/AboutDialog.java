@@ -28,14 +28,18 @@ public class AboutDialog extends OptionDialog {
     protected void init_dialog_view( final View dialog_view) {
         // Edit seekbar glow (assume android doesn't change the name of their drawables....)
         final int glowDrawableId = Page.Get_context().getResources().getIdentifier( "overscroll_glow", "drawable", "android" );
-        final Drawable androidGlow = Page.Get_context().getResources().getDrawable( glowDrawableId );
         final int edgeDrawableId = Page.Get_context().getResources().getIdentifier("overscroll_edge", "drawable", "android");
-        final Drawable androidEdge = Page.Get_context().getResources().getDrawable(edgeDrawableId);
-        if( androidGlow != null && androidEdge != null ) {
-            androidGlow.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.SRC_IN );
-            androidEdge.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.SRC_IN );
-        } else {
-            dialog_view.findViewById( R.id.about_scrollview ).setOverScrollMode( View.OVER_SCROLL_NEVER );
+
+        if( glowDrawableId > 0 && edgeDrawableId > 0 ) {
+            final Drawable androidGlow = Page.Get_context().getResources().getDrawable( glowDrawableId );
+            final Drawable androidEdge = Page.Get_context().getResources().getDrawable( edgeDrawableId );
+
+            if ( androidGlow != null && androidEdge != null ) {
+                androidGlow.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.SRC_IN );
+                androidEdge.setColorFilter( Session.Get_instance().Get_hightlight_color(), PorterDuff.Mode.SRC_IN );
+            } else {
+                dialog_view.findViewById( R.id.about_scrollview ).setOverScrollMode( View.OVER_SCROLL_NEVER );
+            }
         }
     }
 

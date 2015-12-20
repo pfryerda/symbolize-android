@@ -207,15 +207,15 @@ abstract public class GameUIView {
         LinearLayout.LayoutParams number_params = (LinearLayout.LayoutParams) title_number.getLayoutParams();
 
         if( session.Is_in_world_view() ) {
-            if( session.Get_current_world() >= 10 ) state_params.weight = 52f;
-            else                                    state_params.weight = 40; // 25.66
+            if( session.Get_current_world() >= 10 ) state_params.weight = 60;
+            else                                    state_params.weight = 40;
 
             title_state.setImageResource( R.drawable.world );
             title_number.setImageResource( Get_number_image_resource( session.Get_current_world() ) );
             back_button.setImageResource( R.drawable.home );
         } else {
-            if( session.Get_current_world() >= 10 ) state_params.weight = 56f;
-            else                                    state_params.weight = 44;
+            if( session.Get_current_world() >= 10 ) state_params.weight = 60;
+            else                                    state_params.weight = 40;
 
             title_state.setImageResource( R.drawable.level );
             title_number.setImageResource( Get_number_image_resource( session.Get_current_level() ) );
