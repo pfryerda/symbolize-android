@@ -12,7 +12,7 @@ public class GameShakeHandler {
     // Constants
     //-----------
 
-    public static final byte SHAKE_THRESHOLD = 28;
+    public static final byte SHAKE_THRESHOLD = 23;
     public static final double SHAKE_IDLE_THRESHOLD = 0.55f;
     public static final short SHAKE_SEPARATION_TIME = 2000;
 
@@ -71,7 +71,7 @@ public class GameShakeHandler {
             //float acceleration_square_root = ( ( x * x + y * y + z * z ) /
             //        ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH ) );
             long current_time = event.timestamp;
-            
+
             if ( Math.abs( x ) >= SHAKE_THRESHOLD && !shaking ) {
                 if ((current_time - last_update) < SHAKE_SEPARATION_TIME) {
                     return;
