@@ -4,14 +4,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
+
+import java.util.Map;
 
 public class GameShakeHandler {
     // Constants
     //-----------
 
-    public static final byte SHAKE_THRESHOLD = 5;
-    public static final double SHAKE_IDLE_THRESHOLD = 1.15;
-    public static final short SHAKE_SEPARATION_TIME = 550;
+    public static final byte SHAKE_THRESHOLD = 28;
+    public static final double SHAKE_IDLE_THRESHOLD = 0.55f;
+    public static final short SHAKE_SEPARATION_TIME = 2000;
 
 
     // Fields
@@ -64,19 +67,18 @@ public class GameShakeHandler {
             float[] values = event.values;
             float x = values[0];
             float y = values[1];
-            float z = values[2];
-
-            float acceleration_square_root = ((x * x + y * y + z * z) /
-                    (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH));
+            //float z = values[2];
+            //float acceleration_square_root = ( ( x * x + y * y + z * z ) /
+            //        ( SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH ) );
             long current_time = event.timestamp;
-
-            if ((acceleration_square_root >= SHAKE_THRESHOLD) && !shaking) {
+            
+            if ( Math.abs( x ) >= SHAKE_THRESHOLD && !shaking ) {
                 if ((current_time - last_update) < SHAKE_SEPARATION_TIME) {
                     return;
                 }
                 shaking = true;
                 last_update = current_time;
-            } else if ((acceleration_square_root <= SHAKE_IDLE_THRESHOLD) && shaking) {
+            } else if ( ( Math.abs( x ) <= SHAKE_IDLE_THRESHOLD ) && shaking ) {
                 shaking = false;
                 shake_listener.onShake();
             }
