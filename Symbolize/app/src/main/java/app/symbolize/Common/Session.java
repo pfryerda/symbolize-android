@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import app.symbolize.DataAccess.MetaDataAccess;
 import app.symbolize.DataAccess.UnlocksDataAccess;
 import app.symbolize.Game.GameUIView;
+import app.symbolize.Puzzle.Level;
 import app.symbolize.Puzzle.Puzzle;
 import app.symbolize.Puzzle.PuzzleDB;
+import app.symbolize.Puzzle.World;
 import app.symbolize.R;
 import app.symbolize.Routing.Page;
 
@@ -18,7 +20,7 @@ public class Session {
     // Static fields
     //---------------
 
-    public static final boolean DEV_MODE = true;
+    public static final boolean DEV_MODE = false;
 
 
     // Fields
@@ -30,6 +32,7 @@ public class Session {
     private int highlight_color;
     private int dialog_color;
     private int world_color;
+    private World current_world_puzzle;
     private Puzzle current_puzzle;
 
     private boolean draw_enabled;
@@ -57,6 +60,7 @@ public class Session {
         this.highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
         this.dialog_color = GameUIView.LIGHT_COLOR_ARRAY.get( current_world - 1 );
         this.world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
+        this.current_world_puzzle = null;
         this.current_puzzle = null;
 
         this.draw_enabled = MetaDataAccess.Get_last_draw_enabled();
@@ -127,12 +131,16 @@ public class Session {
     // Setter method
     //--------------
 
-    public void Update_puzzle() {
-        current_puzzle = PuzzleDB.Fetch_puzzle();
-        world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
-        highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
-        dialog_color = GameUIView.LIGHT_COLOR_ARRAY.get( current_world - 1 );
-        GameUIView.Highlight_current_mode();
+    public void Update_world() {
+        update_puzzle();
+        current_world_puzzle = (World) current_puzzle;
+    }
+
+    public void Update_level() {
+        update_puzzle();
+        if( current_level > 0 ) {
+            current_pivot = current_world_puzzle.Get_levels().get( current_level - 1 );
+        }
     }
 
     public void Set_draw_mode() {
@@ -146,10 +154,6 @@ public class Session {
 
     public void Set_current_level( byte new_level ) {
         current_level = new_level;
-    }
-
-    public void Set_pivot( Posn pivot ) {
-        this.current_pivot = pivot;
     }
 
 
@@ -207,5 +211,17 @@ public class Session {
 
         this.draw_enabled = true;
         this.current_pivot = null;
+    }
+
+
+    // Private methods
+    //-----------------
+
+    private void update_puzzle() {
+        current_puzzle = PuzzleDB.Fetch_puzzle();
+        world_color = GameUIView.COLOR_ARRAY.get( current_world - 1 );
+        highlight_color = GameUIView.BRIGHT_COLOR_ARRAY.get( current_world - 1 );
+        dialog_color = GameUIView.LIGHT_COLOR_ARRAY.get( current_world - 1 );
+        GameUIView.Highlight_current_mode();
     }
 }

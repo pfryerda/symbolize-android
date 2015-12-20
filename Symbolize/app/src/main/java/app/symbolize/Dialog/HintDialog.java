@@ -41,7 +41,7 @@ public class HintDialog extends InfoDialog {
         final MetaDataAccess meta_dao = MetaDataAccess.Get_instance();
         String message = puzzle.Get_hint();
 
-        if ( !session.Is_in_world_view() ) {
+        if ( !session.Is_in_world_view() && ( puzzle.Get_draw_restriction() > 0 || puzzle.Get_drag_restriction() > 0 || puzzle.Get_erase_restriction() > 0 ) ) {
             message += "\n";
             message += "\n" + context.getString( R.string.draws_allowed ) + puzzle.Get_draw_restriction();
 

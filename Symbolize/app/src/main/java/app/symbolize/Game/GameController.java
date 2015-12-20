@@ -115,7 +115,7 @@ public class GameController {
                 case Request.Load_puzzle_left:
                 case Request.Load_puzzle_right:
                 case Request.Reset:
-                    game_model.Set_puzzle( session.Get_current_puzzle() );
+                    game_model.Set_puzzle( session.Get_current_puzzle());
                     break;
 
                 case Request.Shadow_line:
@@ -123,7 +123,7 @@ public class GameController {
                     break;
 
                 case Request.Load_puzzle_start:
-                    game_model.Set_puzzle( session.Get_current_puzzle() );
+                    game_model.Set_puzzle( session.Get_current_puzzle());
                     game_model.Refresh_view_object();
                     break;
 

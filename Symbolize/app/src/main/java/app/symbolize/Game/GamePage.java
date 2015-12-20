@@ -98,7 +98,7 @@ public class GamePage extends Page
         GameUIView.Setup_ui();
 
         // Load las world used or '1' is none was last used
-        Session.Get_instance().Update_puzzle();
+        Session.Get_instance().Update_world();
 
         Request request = new Request( Request.Load_puzzle_start );
         GameController.Get_instance().Handle_request( request, new Response() );
@@ -455,15 +455,15 @@ public class GamePage extends Page
     private void load_world( byte request_type ) {
         Session session = Session.Get_instance();
         session.Set_to_world();
-        session.Update_puzzle();
+        session.Update_world();
 
         GameController.Get_instance().Handle_request( new Request( request_type ), new Response() );
     }
 
     private void load_level( byte level, byte request_type ) {
         Session session = Session.Get_instance();
-        session.Set_current_level( level );
-        session.Update_puzzle();
+        session.Set_current_level(level);
+        session.Update_level();
 
         Request request = new Request( request_type );
         request.request_bool = true;

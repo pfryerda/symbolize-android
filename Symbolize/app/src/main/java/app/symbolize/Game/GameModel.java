@@ -147,7 +147,7 @@ public class GameModel {
             graph.addLast( line.clone() );
         }
         for ( Posn point : puzzle.Get_levels() ) {
-            levels.add( point.clone() );
+            levels.add(point.clone());
         }
         lines_drawn = 0;
         lines_erased = 0;
@@ -181,7 +181,6 @@ public class GameModel {
         }
 
         if( dist_squared != 0 ) {
-            session.Set_pivot( point );
             return level_found;
         }
         return null;

@@ -15,6 +15,8 @@ public class MusicController {
     // Constants
     //----------
 
+    public static final boolean music_disabled = true;
+
     public static final int MUSIC_PREVIOUS = -1;
     public static final int MENU_MUSIC = 0;
     public static final int WORLD_1 = 1;
@@ -36,6 +38,7 @@ public class MusicController {
     //---------------
 
     public static void Start( Context context, int music ) {
+        if( music_disabled ) return;
         if ( currentMusic > -1 ) {
             // already playing some music and not forced to change
             return;
@@ -84,6 +87,7 @@ public class MusicController {
      * Simple method for pausing the current music.
      */
     public static void Pause() {
+        if( music_disabled ) return;
         Collection<MediaPlayer> mps = players.values();
         for ( MediaPlayer mp : mps ) {
             if ( mp.isPlaying() ) {
@@ -101,6 +105,7 @@ public class MusicController {
      * Simple method for pausing the current music and resting back to start.
      */
     public static void Reset() {
+        if( music_disabled ) return;
         Collection<MediaPlayer> mps = players.values();
         for ( MediaPlayer mp : mps ) {
             if ( mp.isPlaying() ) {
@@ -119,6 +124,7 @@ public class MusicController {
      * Simple method for adjusting the volume.
      */
     public static void Set_volume() {
+        if( music_disabled ) return;
         MediaPlayer mp = (MediaPlayer) players.get( currentMusic );
 
         final  boolean mute = OptionsDataAccess.Get_instance().Get_boolean_option( OptionsDataAccess.OPTION_IS_MUTED );
@@ -134,6 +140,7 @@ public class MusicController {
      * Simple method for setting the audio output method.
      */
     public static void Set_output() {
+        if( music_disabled ) return;
         final short output = OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT );
         AudioManager audio_manager = (AudioManager) Page.Get_context().getSystemService( Context.AUDIO_SERVICE );
 

@@ -57,8 +57,8 @@
         <item level="4-2" solution="Defuse the bomb">You need to defuse the bomb by cutting three wires.
             There will be no doubles when you are done.
             There should be an equal number of warm and cool colours at the end.
-            Finally you must cut both 3 and 4 or 3 and 7.</item>
-        <item level="4-3" solution="Chess">TODO: NEED SOLN FOR THIS</item>
+            Finally you must cut both 3 and either 5 or 7.</item>
+        <item level="4-3" solution="Chess - eyes">Help a piece see.</item>
         <item level="4-4" solution="Red border">Draw the hint box a border to match the world.</item>
         <item level="4-5" solution="D">Increase a letter by 1</item>
         <item level="4-6" solution="11 (math)">Change this correct math statement into another
@@ -80,7 +80,7 @@
         <item level="5-5" solution="3">Increase a number by 1</item>
         <item level="5-6" solution="Diamond">One of the main card suites</item>
         <item level="5-7" solution="Sudoku">Make a correct sudoku solution.</item>
-        <item level="5-8" solution="Sun (DAY)">Use the solutions from 2-2, 4-5, and 1-2</item>
+        <item level="5-8" solution="Sun (DAY)">Use the solutions from 2&#8211;2, 4&#8211;5, and 1&#8211;2</item>
         <item level="5-9" solution="" />
         <item level="5-10" solution="" />
     </string-array>

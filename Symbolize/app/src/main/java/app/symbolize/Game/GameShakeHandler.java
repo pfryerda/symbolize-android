@@ -9,7 +9,7 @@ public class GameShakeHandler {
     // Constants
     //-----------
 
-    public static final byte SHAKE_THRESHOLD = 4;
+    public static final byte SHAKE_THRESHOLD = 5;
     public static final double SHAKE_IDLE_THRESHOLD = 1.15;
     public static final short SHAKE_SEPARATION_TIME = 550;
 
