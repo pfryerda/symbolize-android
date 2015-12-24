@@ -29,6 +29,7 @@ public class MusicController {
     // Private fields
     //-----------------
 
+    private static AudioManager audio_manager = (AudioManager) Page.Get_context().getSystemService( Context.AUDIO_SERVICE );
     private static HashMap players = new HashMap();
     private static int currentMusic = -1;
     private static int previousMusic = -1;
@@ -142,7 +143,6 @@ public class MusicController {
     public static void Set_output() {
         if( music_disabled ) return;
         final short output = OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT );
-        AudioManager audio_manager = (AudioManager) Page.Get_context().getSystemService( Context.AUDIO_SERVICE );
 
         switch ( output ) {
             case OptionsDataAccess.AUDIO_SPEAKERS:
@@ -151,8 +151,7 @@ public class MusicController {
                 break;
 
             case OptionsDataAccess.AUDIO_HEADPHONES:
-                audio_manager.setMode( AudioManager.MODE_IN_CALL );
-                audio_manager.setSpeakerphoneOn( false );
+                // ?
                 break;
 
             default:

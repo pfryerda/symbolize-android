@@ -4,7 +4,6 @@
     <string-array name="audio_output_options">
         <item>@string/auto</item>
         <item>@string/speakers</item>
-        <item>@string/headphones</item>
     </string-array>
 
     <integer-array name="color_array">

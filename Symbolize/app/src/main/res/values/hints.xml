@@ -51,8 +51,7 @@
     </string-array>
 
     <string-array name="world_4_hints">
-        <item level="4-0" solution="Blue tooth">On your phone go into settings and then wireless and network,
-        you should find the symbol there</item>
+        <item level="4-0" solution="Blue tooth">You should find this image around your network settings.</item>
         <item level="4-1" solution="Person">Give her a body</item>
         <item level="4-2" solution="Defuse the bomb">You need to defuse the bomb by cutting three wires.
             There will be no doubles when you are done.

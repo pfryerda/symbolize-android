@@ -5,8 +5,8 @@
         <unlock>4</unlock>
     </unlocks>
 	<force_border>false</force_border>
-    <rotate_enabled>true</rotate_enabled>
-    <flip_enabled>true</flip_enabled>
+    <rotate_enabled>false</rotate_enabled>
+    <flip_enabled>false</flip_enabled>
     <levels>
         <p><x> 500</x><y>2000</y></p> <!-- 3-1  -->
         <p><x>2500</x><y>2500</y></p> <!-- 3-2  -->
