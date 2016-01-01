@@ -23,7 +23,7 @@ public class SplashPage extends Page {
     // Constants
     //-----------
 
-    private static final short SPLASH_TIME = 2000;
+    private static final short SPLASH_TIME = 3333;
 
 
     // Main method

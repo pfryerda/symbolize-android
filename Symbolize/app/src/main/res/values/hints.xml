@@ -5,14 +5,14 @@
         <item level="1-1" solution="7">Lucky number</item>
         <item level="1-2" solution="Y">A confused vowel</item>
         <item level="1-3" solution="Music #1">Ta Ti-Ti Ta</item>
-        <item level="1-4" solution="Mail">You got mail</item>
+        <item level="1-4" solution="Mail">You\'ve got mail</item>
         <item level="1-5" solution="division">One of the main math operators</item>
         <item level="1-6" solution="Arrow">Bow and  _ _ _ _ _</item>
         <item level="1-7" solution="Z">The answer is zed</item>
         <item level="1-8" solution="#">Change this side of a rubik cube into another
             well known game</item>
         <item level="1-9" solution="Cube">3D</item>
-        <item level="1-10" solution="Trash can">This items appears once in the options menu.</item>
+        <item level="1-10" solution="Trash can">This items appears only once in the options menu.</item>
     </string-array>
 
     <string-array name="world_2_hints">
@@ -23,7 +23,7 @@
             in the number of the words between the 2 sentences.</item>
         <item level="2-4" solution="L">He_ _o wor_d</item>
         <item level="2-5" solution="Snowflak">Winter wonderland</item>
-        <item level="2-6" solution="S">_ally _ell_ _ea_hells by the _ea_hore.</item>
+        <item level="2-6" solution="S">-ally -ell- -ea-hells by the -ea-hore.</item>
         <item level="2-7" solution="&amp;">Transform this S into a &amp;</item>
         <item level="2-8" solution="M">Maybe the answer is the largest letter in this hint</item>
         <item level="2-9" solution="Music #2">Ti-Ti-Ti Ta Ti-Ti</item>
@@ -32,7 +32,7 @@
 
     <string-array name="world_3_hints">
         <item level="3-0" solution="Big dipper/Ursa Major">A major constellation</item>
-        <item level="3-1" solution="1">00110001</item>
+        <item level="3-1" solution="1">You are number 00110001</item>
         <item level="3-2" solution="7:45">DCCXLV</item>
         <item level="3-3" solution="Stop sign">Pots</item>
         <item level="3-4" solution="Lizard">Hide the chameleon!</item>
