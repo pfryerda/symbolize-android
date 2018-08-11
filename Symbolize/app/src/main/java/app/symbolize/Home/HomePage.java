@@ -132,7 +132,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
 
         final AlphaAnimation alpha_animation = new AlphaAnimation( 1.0f, 0.0f );
         alpha_animation.setDuration( FADE_IN_LENGTH_SHORT );
-        alpha_animation.setAnimationListener(new Animation.AnimationListener() {
+        alpha_animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
             @Override
@@ -155,6 +155,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
             }
         } );
         player.start();
+        prepared = true;
     }
 
 
@@ -165,51 +166,51 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         is_intro_done = true;
 
         AnimationSet animation_set = new AnimationSet( true );
-        animation_set.addAnimation(new AlphaAnimation(0.0f, 1.0f));
-        animation_set.addAnimation(new TranslateAnimation(
+        animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
+        animation_set.addAnimation( new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -0.125f, Animation.RELATIVE_TO_SELF, 0));
-        animation_set.setDuration(FADE_IN_LENGTH_LONG);
+                Animation.RELATIVE_TO_SELF, -0.125f, Animation.RELATIVE_TO_SELF, 0) );
+        animation_set.setDuration( FADE_IN_LENGTH_LONG );
 
         AnimationSet main_animation_set = new AnimationSet( true );
-        main_animation_set.addAnimation(new AlphaAnimation(0.0f, 1.0f));
-        main_animation_set.addAnimation(new TranslateAnimation(
+        main_animation_set.addAnimation( new AlphaAnimation( 0.0f, 1.0f ) );
+        main_animation_set.addAnimation( new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0));
-        main_animation_set.setDuration(FADE_IN_LENGTH_LONG);
+                Animation.RELATIVE_TO_SELF, -0.1f, Animation.RELATIVE_TO_SELF, 0 ) );
+        main_animation_set.setDuration( FADE_IN_LENGTH_LONG );
 
-        main_animation_set.setAnimationListener(new Animation.AnimationListener() {
+        main_animation_set.setAnimationListener( new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-                ((ImageButton) findViewById(R.id.Start)).setImageResource(R.drawable.icon);
-                findViewById(R.id.Start).setVisibility(View.VISIBLE);
-                findViewById(R.id.Mute_bubble).setVisibility(View.VISIBLE);
-                findViewById(R.id.Settings_bubble).setVisibility(View.VISIBLE);
-                findViewById(R.id.Mute).setVisibility(View.VISIBLE);
-                findViewById(R.id.Settings).setVisibility(View.VISIBLE);
+            public void onAnimationStart( Animation animation ) {
+                ((ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon );
+                findViewById( R.id.Start ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Settings_bubble ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Mute ).setVisibility( View.VISIBLE );
+                findViewById( R.id.Settings ).setVisibility( View.VISIBLE );
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationRepeat( Animation animation ) {
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd( Animation animation ) {
                 intro_over();
             }
         });
 
-        findViewById( R.id.Start ).startAnimation(main_animation_set);
+        findViewById( R.id.Start ).startAnimation( main_animation_set );
         findViewById( R.id.Mute_bubble ).startAnimation( animation_set );
         findViewById( R.id.Settings_bubble ).startAnimation( animation_set );
         findViewById( R.id.Mute ).startAnimation( animation_set );
-        findViewById( R.id.Settings ).startAnimation(animation_set);
+        findViewById( R.id.Settings ).startAnimation( animation_set );
 
         // Pulsing animation
-        final ScaleAnimation pulse_out_animation = new ScaleAnimation(1.0f, 1.08f, 1.0f, 1.08f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        final ScaleAnimation pulse_out_animation = new ScaleAnimation( 1.0f, 1.08f, 1.0f, 1.08f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
         pulse_out_animation.setDuration( PULSE_LENGTH );
-        final ScaleAnimation pulse_in_animation = new ScaleAnimation(1.08f, 1.0f, 1.08f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        pulse_in_animation.setDuration(PULSE_LENGTH);
+        final ScaleAnimation pulse_in_animation = new ScaleAnimation( 1.08f, 1.0f, 1.08f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f );
+        pulse_in_animation.setDuration( PULSE_LENGTH );
 
         pulse_out_animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -240,7 +241,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        findViewById(R.id.Start).startAnimation( pulse_out_animation );
+                        findViewById( R.id.Start ).startAnimation( pulse_out_animation );
                     }
                 });
             }
@@ -307,6 +308,22 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     @Override
     public void onPause() {
         super.onPause();
+
+        // Clear items so they can animate back in
+        findViewById( R.id.Start ).setAnimation( null );
+        findViewById( R.id.Start ).setVisibility( View.INVISIBLE );
+
+        findViewById( R.id.Mute_bubble ).setAnimation( null );
+        findViewById( R.id.Mute_bubble ).setVisibility( View.INVISIBLE );
+
+        findViewById( R.id.Settings_bubble ).setAnimation( null );
+        findViewById( R.id.Settings_bubble ).setVisibility( View.INVISIBLE );
+
+        findViewById( R.id.Mute ).setAnimation( null );
+        findViewById( R.id.Mute ).setVisibility( View.INVISIBLE );
+
+        findViewById( R.id.Settings ).setAnimation( null );
+        findViewById( R.id.Settings ).setVisibility( View.INVISIBLE );
 
         if( mp != null && mp.isPlaying() ) mp.pause();
         if( !continue_music ) MusicController.Pause();

@@ -19,68 +19,63 @@
         <item level="2-0" solution="Star">Twinkle twinkle</item>
         <item level="2-1" solution="K">The 11th letter of the alphabet</item>
         <item level="2-2" solution="A">Change this T into your favourite grade</item>
-        <item level="2-3" solution="2">The answer can be found at example.com, examine the difference
-            in the number of the words between the 2 sentences.</item>
+        <item level="2-3" solution="2">Adding this number to it self is equal to multiplying it by itself</item>
         <item level="2-4" solution="L">He_ _o wor_d</item>
         <item level="2-5" solution="Snowflak">Winter wonderland</item>
         <item level="2-6" solution="S">-ally -ell- -ea-hells by the -ea-hore.</item>
         <item level="2-7" solution="&amp;">Transform this S into a &amp;</item>
         <item level="2-8" solution="M">Maybe the answer is the largest letter in this hint</item>
         <item level="2-9" solution="Music #2">Ti-Ti-Ti Ta Ti-Ti</item>
-        <item level="2-10" solution="8">How many unrelated options are in the options menu?</item>
+        <item level="2-10" solution="8">Find ?: 1, 1, 2, 3, 5, ?, 13, 21, &#8230;</item>
     </string-array>
 
     <string-array name="world_3_hints">
         <item level="3-0" solution="Big dipper/Ursa Major">A major constellation</item>
-        <item level="3-1" solution="1">You are number 00110001</item>
-        <item level="3-2" solution="7:45">DCCXLV</item>
-        <item level="3-3" solution="Stop sign">Pots</item>
+        <item level="3-1" solution="1">Decrease the shown number by one less than it</item>
+        <item level="3-2" solution="3:00">Oh no! You are late for your 3:00 meeting</item>
+        <item level="3-3" solution="golden gate">Paint this bridge the right color</item>
         <item level="3-4" solution="Lizard">Hide the chameleon!</item>
         <item level="3-5" solution="Sigma">Just sum symbol.</item>
-        <item level="3-6" solution="Google Map">51.521000, -0.073630</item>
-        <item level="3-7" solution="Sail boat">Make me a sail boat painting</item>
+        <item level="3-6" solution="Tetris">Remove the piece necessary to make a bottom
+            row disappear</item>
+        <item level="3-7" solution="Italy">The land of the pizza</item>
         <item level="3-8" solution="Color puzzle">You must color every line.
-            They\'re 6 green and 6 blue each make a staircase.
-            They\'re 2 purple and 2 orange 1 is vertical and 1 horizontal.
-            They\'re 8 red, 4 at opposite corners.
+            They\'re 6 green and 6 blue each making a staircase.
+            They\'re 2 purple and 2 orange 1 is vertical and 1 horizontal for each.
+            They\'re 8 red, they are only on the edges, 4 at opposite corners.
             The vertical orange is above the horizontal.
             Bottom line on right side is green.
             All color\'s must touch all other color\'s.</item>
-        <item level="3-9" solution="Frog">..-. .-. --- --.</item>
+        <item level="3-9" solution="Sudoku">Make a correct sudoku solution.</item>
         <item level="3-10" solution="Music note">Make some music</item>
     </string-array>
 
     <string-array name="world_4_hints">
-        <item level="4-0" solution="Blue tooth">You should find this image around your network settings.</item>
-        <item level="4-1" solution="Person">Give her a body</item>
+        <item level="4-0" solution="$">Payment</item>
+        <item level="4-1" solution="Person">Help her walk</item>
         <item level="4-2" solution="Defuse the bomb">You need to defuse the bomb by cutting three wires.
             There will be no doubles when you are done.
-            There should be an equal number of warm and cool colours at the end.
-            Finally you must cut both 3 and either 5 or 7.</item>
+            There should be three cool colors in a row.
+            There should be no gaps of two wires.</item>
         <item level="4-3" solution="Chess - eyes">Help a piece see.</item>
-        <item level="4-4" solution="Red border">Draw the hint box a border to match the world.</item>
+        <item level="4-4" solution="3">Increase a number by 1</item>
         <item level="4-5" solution="D">Increase a letter by 1</item>
         <item level="4-6" solution="11 (math)">Change this correct math statement into another
             correct statement</item>
         <item level="4-7" solution="=] (dice)">I hope this puzzle makes you smile</item>
         <item level="4-8" solution="Suspension bridge">Suspension ______</item>
-        <item level="4-9" solution="Rocket ship">Shoot to the stars</item>
+
+        <item level="4-9" solution="Sun (DAY)">Use the solutions from 2&#8211;2, 4&#8211;5, and 1&#8211;2</item>
         <item level="4-10" solution="Hear">Make the last suite</item>
     </string-array>
 
     <string-array name="world_5_hints">
-        <item level="5-0" solution=":D">:D</item>
-        <item level="5-1" solution="Path">Build a path for the left line to go
-            through the tunnel.</item>
-        <item level="5-2" solution="Ladder">A vertical or inclined set of steps</item>
-        <item level="5-3" solution="Tetris">Remove the piece necessary to make a bottom
-            row disappear</item>
-        <item level="5-4" solution="Bowtie">Decode: af154860239babd541012802a0761ee1</item>
-        <item level="5-5" solution="3">Increase a number by 1</item>
-        <item level="5-6" solution="Diamond">One of the main card suites</item>
-        <item level="5-7" solution="Sudoku">Make a correct sudoku solution.</item>
-        <item level="5-8" solution="Sun (DAY)">Use the solutions from 2&#8211;2, 4&#8211;5, and 1&#8211;2</item>
-        <item level="5-9" solution="" />
-        <item level="5-10" solution="" />
+        <item level="5-0" solution=":D">Go to the end</item>
+        <item level="5-1" solution="Path">Build a closed tunnel for the left line to go
+            through.</item>
+        <item level="5-2" solution="Ladder">This will help you climb</item>
+        <item level="5-3" solution="Bowtie">___ tie</item>
+        <item level="5-4" solution="">TODO</item>
+        <item level="5-5" solution="Diamond">One of the main card suites</item>
     </string-array>
 </resources>

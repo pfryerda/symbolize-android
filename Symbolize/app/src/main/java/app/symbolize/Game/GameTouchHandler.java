@@ -22,7 +22,7 @@ public class GameTouchHandler {
     public static final short DOUBLETAPTHRESHOLD = 5 * TAPTHRESHOLD / 8;
     public static final short FLIPPINGTHRESHOLD = GameView.SCALING / 7;
     public static final int MINLINESIZESQR = (int) (17.5 * GameView.SCALING);
-    public static final short ERASEDELAY = 250;
+    public static final short ERASEDELAY = 100;
     public static final short DRAGDELAY = 375;
 
 

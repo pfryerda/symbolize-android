@@ -2,8 +2,8 @@
 
 <Level>
     <unlocks>
-		<unlock>5</unlock>
-        <unlock>6</unlock>
+		<unlock>3</unlock>
+        <unlock>4</unlock>
 	</unlocks>
     <force_border>false</force_border>
     <draw_restriction>0</draw_restriction>
@@ -15,12 +15,12 @@
     <special>0</special>
     <boards>
         <graph>
-            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 2000</x><y> 5000</y></p2><color>  -375236</color></Line>
-            <Line><p1><x> 8000</x><y> 2000</y></p1><p2><x> 8000</x><y> 5000</y></p2><color>-16666654</color></Line>
-            <Line><p1><x> 3000</x><y> 2000</y></p1><p2><x> 3000</x><y> 5000</y></p2><color>-10688512</color></Line>
+            <Line><p1><x> 2000</x><y> 2000</y></p1><p2><x> 2000</x><y> 5000</y></p2><color>-16666654</color></Line>
+            <Line><p1><x> 8000</x><y> 2000</y></p1><p2><x> 8000</x><y> 5000</y></p2><color>   -30720</color></Line>
+            <Line><p1><x> 3000</x><y> 2000</y></p1><p2><x> 3000</x><y> 5000</y></p2><color>  -375236</color></Line>
             <Line><p1><x> 4000</x><y> 2000</y></p1><p2><x> 4000</x><y> 5000</y></p2><color>-16666654</color></Line>
-            <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 5000</x><y> 5000</y></p2><color>   -30720</color></Line>
-            <Line><p1><x> 6000</x><y> 2000</y></p1><p2><x> 6000</x><y> 5000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 5000</x><y> 5000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 6000</x><y> 2000</y></p1><p2><x> 6000</x><y> 5000</y></p2><color>-10688512</color></Line>
             <Line><p1><x> 7000</x><y> 2000</y></p1><p2><x> 7000</x><y> 5000</y></p2><color> -6225675</color></Line>
             <Line><p1><x> 3000</x><y>    0</y></p1><p2><x> 3000</x><y> 1000</y></p2></Line>
             <Line><p1><x> 7000</x><y>    0</y></p1><p2><x> 7000</x><y> 1000</y></p2></Line>
@@ -52,9 +52,9 @@
     </boards>
     <solutions>
         <graph>
-            <Line><p1><x> 3000</x><y> 2000</y></p1><p2><x> 3000</x><y> 5000</y></p2><color>-10688512</color></Line>
-            <Line><p1><x> 5000</x><y> 2000</y></p1><p2><x> 5000</x><y> 5000</y></p2><color>   -30720</color></Line>
-            <Line><p1><x> 6000</x><y> 2000</y></p1><p2><x> 6000</x><y> 5000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 3000</x><y> 2000</y></p1><p2><x> 3000</x><y> 5000</y></p2><color>  -375236</color></Line>
+            <Line><p1><x> 4000</x><y> 2000</y></p1><p2><x> 4000</x><y> 5000</y></p2><color>-16666654</color></Line>
+            <Line><p1><x> 6000</x><y> 2000</y></p1><p2><x> 6000</x><y> 5000</y></p2><color>-10688512</color></Line>
             <Line><p1><x> 7000</x><y> 2000</y></p1><p2><x> 7000</x><y> 5000</y></p2><color> -6225675</color></Line>
             <Line><p1><x> 3000</x><y>    0</y></p1><p2><x> 3000</x><y> 1000</y></p2></Line>
             <Line><p1><x> 7000</x><y>    0</y></p1><p2><x> 7000</x><y> 1000</y></p2></Line>

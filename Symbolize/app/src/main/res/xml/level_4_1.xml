@@ -3,8 +3,6 @@
 <Level>
     <unlocks>
 		<unlock>2</unlock>
-        <unlock>3</unlock>
-        <unlock>4</unlock>
 	</unlocks>
     <force_border>false</force_border>
     <draw_restriction>2</draw_restriction>

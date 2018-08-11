@@ -60,8 +60,7 @@ abstract public class PuzzleDB {
         R.xml.level_4_4, R.xml.level_4_5, R.xml.level_4_6, R.xml.level_4_7,
         R.xml.level_4_8, R.xml.level_4_9, R.xml.level_4_10,
         R.xml.world_5, R.xml.level_5_1, R.xml.level_5_2, R.xml.level_5_3,
-        R.xml.level_5_4, R.xml.level_5_5, R.xml.level_5_6, R.xml.level_5_7,
-        R.xml.level_5_8, R.xml.level_5_9, R.xml.level_5_10 };
+        R.xml.level_5_4, R.xml.level_5_5 };
 
     private static final Resources res = Page.Get_context().getResources();
 
