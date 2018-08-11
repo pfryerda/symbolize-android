@@ -54,20 +54,4 @@ public class SplashPage extends Page {
             }
         }, SPLASH_TIME );
     }
-
-
-    // Method for pausing/resuming the game
-    //---------------------------------------
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MusicController.Start( this, MusicController.MENU_MUSIC );
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if( !continue_music ) MusicController.Pause();
-    }
 }

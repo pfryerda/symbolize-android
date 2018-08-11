@@ -177,8 +177,6 @@ public class Session {
     public void Decrease_world() {
         current_world = Get_previous_world();
         current_puzzle = PuzzleDB.Fetch_puzzle();
-        MusicController.Reset();
-        MusicController.Start( Page.Get_context(), current_world );
     }
 
     /*
@@ -187,8 +185,6 @@ public class Session {
     public void Increase_world() {
         current_world = Get_next_world();
         current_puzzle = PuzzleDB.Fetch_puzzle();
-        MusicController.Reset();
-        MusicController.Start( Page.Get_context(), current_world );
     }
 
     /*

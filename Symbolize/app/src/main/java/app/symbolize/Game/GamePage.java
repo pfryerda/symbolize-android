@@ -481,7 +481,7 @@ public class GamePage extends Page
         sensor_manager.registerListener( this,
                 sensor_manager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER ),
                 SensorManager.SENSOR_DELAY_NORMAL );
-        MusicController.Start( this, Session.Get_instance().Get_current_world() );
+        MusicController.Start( this, MusicController.GAME_MUSIC );
     }
 
     @Override
@@ -489,6 +489,6 @@ public class GamePage extends Page
         super.onPause();
         SensorManager sensor_manager = ( SensorManager ) getSystemService( SENSOR_SERVICE );
         sensor_manager.unregisterListener( this );
-        if( !continue_music ) MusicController.Pause();
+        MusicController.Pause();
     }
 }

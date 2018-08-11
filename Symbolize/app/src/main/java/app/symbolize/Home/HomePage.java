@@ -87,6 +87,8 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         mp = new MediaPlayer();
 
         Set_sound_image();
+
+        animate_buttons();
     }
 
     // Interface methods
@@ -140,7 +142,6 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
             @Override
             public void onAnimationEnd(Animation animation) {
                 placeholder.setVisibility( View.GONE );
-                animate_buttons();
             }
         } );
 
@@ -309,24 +310,8 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
     public void onPause() {
         super.onPause();
 
-        // Clear items so they can animate back in
-        findViewById( R.id.Start ).setAnimation( null );
-        findViewById( R.id.Start ).setVisibility( View.INVISIBLE );
-
-        findViewById( R.id.Mute_bubble ).setAnimation( null );
-        findViewById( R.id.Mute_bubble ).setVisibility( View.INVISIBLE );
-
-        findViewById( R.id.Settings_bubble ).setAnimation( null );
-        findViewById( R.id.Settings_bubble ).setVisibility( View.INVISIBLE );
-
-        findViewById( R.id.Mute ).setAnimation( null );
-        findViewById( R.id.Mute ).setVisibility( View.INVISIBLE );
-
-        findViewById( R.id.Settings ).setAnimation( null );
-        findViewById( R.id.Settings ).setVisibility( View.INVISIBLE );
-
         if( mp != null && mp.isPlaying() ) mp.pause();
-        if( !continue_music ) MusicController.Pause();
+        MusicController.Pause();
     }
 
     @Override

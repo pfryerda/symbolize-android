@@ -17,7 +17,7 @@
     <ScrollView
         android:id="@+id/about_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="250dp">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -48,23 +48,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_jagger_title"
+                android:text="@string/about_music_title"
                 style="@style/credits_title"/>
             <TextView
+                android:id="@+id/about_music"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_jagger"
+                android:text="@string/about_music"
                 style="@style/credits"/>
-
             <TextView
+                android:id="@+id/about_music_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_testers_title"
-                style="@style/credits_title"/>
+                android:text="@string/about_music_source"
+                style="@style/credits"/>
             <TextView
+                android:id="@+id/about_music_licence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about_testers"
+                android:text="@string/about_music_licence"
                 style="@style/credits"/>
 
         </LinearLayout>

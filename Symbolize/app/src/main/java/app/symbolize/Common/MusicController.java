@@ -15,15 +15,10 @@ public class MusicController {
     // Constants
     //----------
 
-    public static final boolean music_disabled = true;
+    public static final boolean music_disabled = false;
 
-    public static final int MUSIC_PREVIOUS = -1;
     public static final int MENU_MUSIC = 0;
-    public static final int WORLD_1 = 1;
-    public static final int WORLD_2 = 2;
-    public static final int WORLD_3 = 3;
-    public static final int WORLD_4 = 4;
-    public static final int WORLD_5 = 5;
+    public static final int GAME_MUSIC = 1;
 
 
     // Private fields
@@ -32,7 +27,6 @@ public class MusicController {
     private static AudioManager audio_manager = (AudioManager) Page.Get_context().getSystemService( Context.AUDIO_SERVICE );
     private static HashMap players = new HashMap();
     private static int currentMusic = -1;
-    private static int previousMusic = -1;
 
 
     // Public methods
@@ -45,18 +39,11 @@ public class MusicController {
             return;
         }
 
-        if ( music == MUSIC_PREVIOUS ) {
-            music = previousMusic;
-        }
         if ( currentMusic == music ) {
             // already playing this music
             return;
         }
-        if ( currentMusic != -1 ) {
-            previousMusic = currentMusic;
-            // playing some other music, pause it and change
-            Pause();
-        }
+
         currentMusic = music;
         MediaPlayer mp = (MediaPlayer) players.get( music );
         if ( mp != null ) {
@@ -65,23 +52,29 @@ public class MusicController {
             }
         } else {
             switch ( music ) {
-                case WORLD_2:
-                    mp = MediaPlayer.create( context, R.raw.onepointwofive );
+                case MENU_MUSIC:
+                    mp = MediaPlayer.create( context, R.raw.puzzlepieces );
+                    break;
+
+                case GAME_MUSIC:
+                    mp = MediaPlayer.create( context, R.raw.andsothen );
                     break;
 
                 default:
-                    return; // Nothing to do here.
+                    return;
             }
 
             players.put( music, mp );
-            Set_output();
-            Set_volume();
+
             if ( mp != null ) {
                 mp.setLooping( true );
                 mp.start();
             }
 
         }
+
+        Set_output();
+        Set_volume();
     }
 
     /*
@@ -95,10 +88,7 @@ public class MusicController {
                 mp.pause();
             }
         }
-        // previousMusic should always be something valid
-        if ( currentMusic != -1 ) {
-            previousMusic = currentMusic;
-        }
+
         currentMusic = -1;
     }
 
@@ -114,10 +104,7 @@ public class MusicController {
                 mp.seekTo( 0 );
             }
         }
-        // previousMusic should always be something valid
-        if ( currentMusic != -1 ) {
-            previousMusic = currentMusic;
-        }
+
         currentMusic = -1;
     }
 

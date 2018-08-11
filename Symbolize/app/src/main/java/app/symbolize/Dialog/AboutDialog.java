@@ -2,7 +2,9 @@ package app.symbolize.Dialog;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.TextView;
 
 import app.symbolize.Common.Session;
 import app.symbolize.Routing.Page;
@@ -41,6 +43,16 @@ public class AboutDialog extends OptionDialog {
                 dialog_view.findViewById( R.id.about_scrollview ).setOverScrollMode( View.OVER_SCROLL_NEVER );
             }
         }
+
+        // This is needed for links to work
+        TextView textWithLink = (TextView) dialog_view.findViewById(R.id.about_music);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textWithLink = (TextView) dialog_view.findViewById(R.id.about_music_source);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textWithLink = (TextView) dialog_view.findViewById(R.id.about_music_licence);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /*
