@@ -44,32 +44,32 @@
 
        <LinearLayout
            android:layout_width="match_parent"
-           android:layout_height="70dp"
+           android:layout_height="65dp"
            android:orientation="horizontal"
            android:gravity="center">
            <WebView
                android:id="@+id/rotate_tutorial_image"
-               android:layout_width="70dp"
+               android:layout_width="65dp"
                android:layout_height="match_parent"
                style="@style/image"/>
            <WebView
                android:id="@+id/flip_tutorial_image"
-               android:layout_width="70dp"
+               android:layout_width="65dp"
                android:layout_height="match_parent"
                style="@style/image"/>
            <WebView
                android:id="@+id/change_color_tutorial_image"
-               android:layout_width="70dp"
+               android:layout_width="65dp"
                android:layout_height="match_parent"
                style="@style/image"/>
            <WebView
                android:id="@+id/shift_tutorial_image"
-               android:layout_width="70dp"
+               android:layout_width="65dp"
                android:layout_height="match_parent"
                style="@style/image"/>
            <WebView
                android:id="@+id/special_tutorial_image"
-               android:layout_width="70dp"
+               android:layout_width="65dp"
                android:layout_height="match_parent"
                style="@style/image"/>
            </LinearLayout>
