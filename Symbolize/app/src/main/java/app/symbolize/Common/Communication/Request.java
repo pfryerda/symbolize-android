@@ -41,7 +41,7 @@ public class Request {
     public static final byte SPECIAL_SLOPE_INF    = 102;
     public static final byte SPECIAL_INVERT_SELF  = 103;
     public static final byte SPECIAL_COMPRESS     = 104;
-    public static final byte SPECIAL_WEIRD        = 105;
+    public static final byte SPECIAL_REFLECT      = 105;
 
 
     // Static methods

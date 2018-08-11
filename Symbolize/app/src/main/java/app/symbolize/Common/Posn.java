@@ -305,12 +305,6 @@ public class Posn {
                     if( second <= GameView.SCALING / 2 ) second = GameView.SCALING / 2;
                 }
                 break;
-
-            case Request.SPECIAL_WEIRD:
-                short temp = first;
-                first  = (short) ( ( Math.max( first, second ) - Math.min( first, second ) ) * 2 );
-                second = (short) ( Math.min( temp + second, GameView.SCALING ) / 2 );
-                break;
         }
     }
 

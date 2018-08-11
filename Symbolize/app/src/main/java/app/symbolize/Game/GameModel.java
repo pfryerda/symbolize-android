@@ -322,12 +322,22 @@ public class GameModel {
      * @param int request_type: The type of request that will be given to all the edit methods
      */
     public void Edit( int request_type ) {
-        for ( Line line : graph ) {
-            line.Edit( request_type );
-        }
+        if (request_type == Request.SPECIAL_REFLECT ) {
+            LinkedList<Line> old_graph = new LinkedList<Line>();
+            for ( Line line : graph ) {
+                old_graph.add( line.clone() );
+                line.Edit( Request.Flip_vertically );
+            }
 
-        for ( Posn posn : levels ) {
-            posn.Edit( request_type );
+            graph.addAll( old_graph );
+        } else {
+            for ( Line line : graph ) {
+                line.Edit( request_type );
+            }
+
+            for ( Posn posn : levels ) {
+                posn.Edit( request_type );
+            }
         }
 
         if( request_type >= Request.SPECIAL_NONE ) this.graph = this.Get_simplified_graph();

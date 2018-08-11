@@ -75,7 +75,7 @@
             through.</item>
         <item level="5-2" solution="Ladder">This will help you climb</item>
         <item level="5-3" solution="Bowtie">___ tie</item>
-        <item level="5-4" solution="">TODO</item>
+        <item level="5-4" solution="Infinity">&#x221e; + 1</item>
         <item level="5-5" solution="Diamond">One of the main card suites</item>
     </string-array>
 </resources>
