@@ -21,7 +21,7 @@ public class GameModel {
     // Constants
     //-----------
 
-    public static final int TAPING_THRESHOLD = (int) ( GameView.SCALING * 4.7 );
+    public static final int TAPING_THRESHOLD = (int) ( GameView.SCALING * 5 );
 
 
     // Fields

@@ -43,7 +43,7 @@ public class MetaDataAccess {
     private static final short SHIFT_DURATION_MAX = 576;
     private static final short SHIFT_DURATION_MIN = 414;
 
-    private static final short ZOOM_DURATION_MAX = 580;
+    private static final short ZOOM_DURATION_MAX = 550;
     private static final short ZOOM_DURATION_MIN = 420;
 
     private static final short TRANSLATE_DURATION_MAX = 724;

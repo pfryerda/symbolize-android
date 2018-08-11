@@ -19,14 +19,14 @@
         <item level="2-0" solution="Star">Twinkle twinkle</item>
         <item level="2-1" solution="K">The 11th letter of the alphabet</item>
         <item level="2-2" solution="A">Change this T into your favourite grade</item>
-        <item level="2-3" solution="2">Adding this number to it self is equal to multiplying it by itself</item>
+        <item level="2-3" solution="S">-ally -ell- -ea-hells by the -ea-hore.</item>
         <item level="2-4" solution="L">He_ _o wor_d</item>
         <item level="2-5" solution="Snowflak">Winter wonderland</item>
-        <item level="2-6" solution="S">-ally -ell- -ea-hells by the -ea-hore.</item>
-        <item level="2-7" solution="&amp;">Transform this S into a &amp;</item>
+        <item level="2-6" solution="2">Adding this number to it self is equal to multiplying it by itself</item>
+        <item level="2-7" solution="8">Find ?: 1, 1, 2, 3, 5, ?, 13, 21, &#8230;</item>
         <item level="2-8" solution="M">Maybe the answer is the largest letter in this hint</item>
         <item level="2-9" solution="Music #2">Ti-Ti-Ti Ta Ti-Ti</item>
-        <item level="2-10" solution="8">Find ?: 1, 1, 2, 3, 5, ?, 13, 21, &#8230;</item>
+        <item level="2-10" solution="&amp;">Transform this S into a &amp;</item>
     </string-array>
 
     <string-array name="world_3_hints">
@@ -34,20 +34,21 @@
         <item level="3-1" solution="1">Decrease the shown number by one less than it</item>
         <item level="3-2" solution="3:00">Oh no! You are late for your 3:00 meeting</item>
         <item level="3-3" solution="golden gate">Paint this bridge the right color</item>
-        <item level="3-4" solution="Lizard">Hide the chameleon!</item>
+        <item level="3-4" solution="Italy">The land of the pizza</item>
         <item level="3-5" solution="Sigma">Just sum symbol.</item>
         <item level="3-6" solution="Tetris">Remove the piece necessary to make a bottom
             row disappear</item>
-        <item level="3-7" solution="Italy">The land of the pizza</item>
-        <item level="3-8" solution="Color puzzle">You must color every line.
+        <item level="3-7" solution="Sudoku">Make a correct sudoku solution.</item>
+        <item level="3-8" solution="11 (math)">Change this correct math statement into another
+            correct statement</item>
+        <item level="3-9" solution="Lizard">Hide the lizard!</item>
+        <item level="3-10" solution="Color puzzle">You must color every line.
             They\'re 6 green and 6 blue each making a staircase.
             They\'re 2 purple and 2 orange 1 is vertical and 1 horizontal for each.
             They\'re 8 red, they are only on the edges, 4 at opposite corners.
             The vertical orange is above the horizontal.
             Bottom line on right side is green.
             All color\'s must touch all other color\'s.</item>
-        <item level="3-9" solution="Sudoku">Make a correct sudoku solution.</item>
-        <item level="3-10" solution="Music note">Make some music</item>
     </string-array>
 
     <string-array name="world_4_hints">
@@ -57,11 +58,10 @@
             There will be no doubles when you are done.
             There should be three cool colors in a row.
             There should be no gaps of two wires.</item>
-        <item level="4-3" solution="Chess - eyes">Help a piece see.</item>
+        <item level="4-3" solution="Bishop">Promotion</item>
         <item level="4-4" solution="3">Increase a number by 1</item>
         <item level="4-5" solution="D">Increase a letter by 1</item>
-        <item level="4-6" solution="11 (math)">Change this correct math statement into another
-            correct statement</item>
+        <item level="4-6" solution="Music note">Make some music</item>
         <item level="4-7" solution="=] (dice)">I hope this puzzle makes you smile</item>
         <item level="4-8" solution="Suspension bridge">Suspension ______</item>
 
