@@ -53,6 +53,15 @@ public class AboutDialog extends OptionDialog {
 
         textWithLink = (TextView) dialog_view.findViewById(R.id.about_music_licence);
         textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textWithLink = (TextView) dialog_view.findViewById(R.id.about_sound);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textWithLink = (TextView) dialog_view.findViewById(R.id.about_sound_source);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textWithLink = (TextView) dialog_view.findViewById(R.id.about_sound_licence);
+        textWithLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /*

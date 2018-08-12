@@ -69,6 +69,30 @@
                 android:text="@string/about_music_licence"
                 style="@style/credits"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_sound_title"
+                style="@style/credits_title"/>
+            <TextView
+                android:id="@+id/about_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_sound"
+                style="@style/credits"/>
+            <TextView
+                android:id="@+id/about_sound_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_sound_source"
+                style="@style/credits"/>
+            <TextView
+                android:id="@+id/about_sound_licence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_sound_licence"
+                style="@style/credits"/>
+
         </LinearLayout>
     </ScrollView>
 

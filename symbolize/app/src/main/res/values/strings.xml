@@ -131,6 +131,7 @@
     <string name="about_luke">Luke Brown</string>
     <string name="about_peter_title">Designer and Artist</string>
     <string name="about_peter">Peter Fryer Davis</string>
+
     <string name="about_music_title">Music</string>
     <string name="about_music">
         <a href="http://freemusicarchive.org/music/Lee_Rosevere/Music_For_Podcasts_2/Lee_Rosevere_-_Music_for_Podcasts_2_-_10_Puzzle_Pieces">"Puzzle Pieces"</a> &#38;
@@ -141,6 +142,23 @@
         From the <a href="http://freemusicarchive.org/">Free Music Archive</a>
     </string>
     <string name="about_music_licence">
+        <a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY NC</a>
+    </string>
+
+    <string name="about_sound_title">Sounds</string>
+    <string name="about_sound">
+        <a href="https://freesound.org/people/daalvinz/sounds/367217/">"Bubble pop"</a>,
+        <a href="https://freesound.org/people/daalvinz/sounds/367218/">"wind swish swoosh"</a>,
+        <a href="https://freesound.org/people/daalvinz/sounds/367219/">"wind swish swoosh 2"</a>,
+        <a href="https://freesound.org/people/daalvinz/sounds/364215/">"Sniffing"</a> by
+        <a href="https://freesound.org/people/daalvinz/">"daalvinz"</a>\n
+        <a href="https://freesound.org/people/beskhu/sounds/273891/">"Windchime C4 a"</a> by
+        <a href="https://freesound.org/people/beskhu/">beskhu</a>
+    </string>
+    <string name="about_sound_source">
+        From the <a href="https://freesound.org/">freesound.org</a>
+    </string>
+    <string name="about_sound_licence">
         <a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY NC</a>
     </string>
 

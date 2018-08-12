@@ -272,10 +272,13 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
 
     public void On_start_button_clicked(final View view) {
         if( is_intro_done ) {
+            MusicController.PlaySound( this, MusicController.POP_SOUND );
             MusicController.Reset();
             Router.Route(this, GamePage.class);
         }
-        else                intro_over();
+        else  {
+            intro_over();
+        }
     }
 
     public void On_mute_button_clicked(final View view) {
@@ -288,6 +291,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
         options_dialog.Show();
+        MusicController.PlaySound( this, MusicController.POP_SOUND );
     }
 
 

@@ -3,6 +3,7 @@ package app.symbolize.Game;
 import android.util.Log;
 import app.symbolize.Animation.GameAnimationHandler;
 import app.symbolize.Common.Line;
+import app.symbolize.Common.MusicController;
 import app.symbolize.Common.Session;
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
@@ -133,6 +134,42 @@ public class GameController {
             }
 
             if( !success && game_model.Get_past_state() != null ) game_model = game_model.Get_past_state();
+
+            if ( success ) {
+                switch ( request.type ) {
+                    case Request.Check_correctness:
+                        MusicController.PlaySound( GamePage.Get_context(), MusicController.CORRECT_SOUND );
+                        break;
+
+                    case Request.Draw:
+                    case Request.Change_color:
+                    case Request.Drag_start:
+                    case Request.Drag_end:
+                        MusicController.PlaySound( GamePage.Get_context(), MusicController.POP_SOUND );
+                        break;
+
+                    case Request.Rotate_right:
+                    case Request.Rotate_left:
+                    case Request.Shift:
+                    case Request.Load_world_via_level:
+                        MusicController.PlaySound( GamePage.Get_context(), MusicController.SWIWSH_SOUND );
+                        break;
+
+                    case Request.Flip_horizontally:
+                    case Request.Flip_vertically:
+                    case Request.Load_puzzle_left:
+                    case Request.Load_puzzle_right:
+                    case Request.Load_level_via_world:
+                        MusicController.PlaySound( GamePage.Get_context(), MusicController.SWISH2_SOUND );
+                        break;
+
+                    case Request.Erase:
+                    case Request.Undo:
+                    case Request.Reset:
+                        MusicController.PlaySound( GamePage.Get_context(), MusicController.ERASE_SOUND );
+                        break;
+                }
+            }
 
             if ( request.Require_render() ) {
                 if ( request.Is_animation_action() ) {

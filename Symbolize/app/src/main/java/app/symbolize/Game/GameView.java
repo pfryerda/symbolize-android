@@ -21,6 +21,7 @@ import java.util.TimerTask;
 
 import app.symbolize.Animation.SymbolizeAnimation;
 import app.symbolize.Common.Line;
+import app.symbolize.Common.MusicController;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.Common.Session;
