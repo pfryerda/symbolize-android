@@ -20,9 +20,9 @@
     <string name="animation_settings">settings_animation</string>
     <string name="mute_settings">mute_settings</string>
     <string name="use_device_brightness_settings">use_device_brightness_settings</string>
-    <string name="volume_settings">settings_volume</string>
+    <string name="music_volume_settings">music_settings_volume</string>
+    <string name="sound_volume_settings">sound_settings_volume</string>
     <string name="brightness_settings">brightness_settings</string>
-    <string name="audio_output_settings">audio_output_settings</string>
     <string name="game_size_settings">game_size_settings</string>
     <string name="options_dialog_id">options_dialog</string>
     <string name="game_options_dialog_id">game_options_dialog</string>
@@ -105,13 +105,13 @@
     <string name="use_device_brightness">Use device brightness</string>
     <string name="options_size">Game size</string>
 
-    <string name="options_audio_output">Audio output</string>
     <string name="auto">Auto</string>
     <string name="speakers">Speakers</string>
     <string name="headphones">Headphones</string>
 
-    <string name="options_mute">Mute</string>
-    <string name="options_volume">Volume</string>
+    <string name="options_mute">Mute All</string>
+    <string name="options_music_volume">Music Volume</string>
+    <string name="options_sound_volume">Sounds Volume</string>
 
     <string name="options_delete_all_data">Delete all data</string>
 

@@ -22,15 +22,10 @@ public class OptionsDataAccess {
     public static final byte OPTION_IS_MUTED              = 4;
     public static final byte OPTION_USE_DEVICE_BRIGHTNESS = 5;
 
-    public static final byte OPTION_VOLUME          = 6;
+    public static final byte OPTION_VOLUME_MUSIC    = 6;
     public static final byte OPTION_GAME_SIZE       = 7;
     public static final byte OPTION_BRIGHTNESS      = 8;
-    public static final byte OPTION_AUDIO_OUTPUT    = 9;
-
-
-    public static final byte AUDIO_AUTO       = 0;
-    public static final byte AUDIO_SPEAKERS   = 1;
-    public static final byte AUDIO_HEADPHONES = 2;
+    public static final byte OPTION_VOLUME_SOUND    = 9;
 
 
     // Constants
@@ -41,7 +36,6 @@ public class OptionsDataAccess {
     public static final short BRIGHTNESS_SCALING = 10000;
     public static final byte MIN_BRIGHTNESS = 100;
 
-    public static final short DEFAULT_AUDIO_OUTPUT = AUDIO_AUTO;
     public static final byte DEFAULT_VOLUME = 100;
     public static final short DEFAULT_BRIGHTNESS = (short) ( BRIGHTNESS_SCALING / 2 );
     public static final short DEFAULT_GAME_SIZE = (short) 100;
@@ -64,10 +58,10 @@ public class OptionsDataAccess {
         option_id_map[OPTION_IS_MUTED] = R.string.mute_settings;
         option_id_map[OPTION_USE_DEVICE_BRIGHTNESS] = R.string.use_device_brightness_settings;
 
-        option_id_map[OPTION_VOLUME] = R.string.volume_settings;
+        option_id_map[OPTION_VOLUME_MUSIC] = R.string.music_volume_settings;
         option_id_map[OPTION_GAME_SIZE] = R.string.game_size_settings;
         option_id_map[OPTION_BRIGHTNESS] = R.string.brightness_settings;
-        option_id_map[OPTION_AUDIO_OUTPUT] = R.string.audio_output_settings;
+        option_id_map[OPTION_VOLUME_SOUND] = R.string.sound_volume_settings;
     }
 
 
@@ -119,14 +113,14 @@ public class OptionsDataAccess {
                 Page.Get_resource_string( R.string.use_device_brightness_settings ), true );
 
         SHORT_OFFSET = (byte) boolean_options.length;
-        short_options[OPTION_VOLUME - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_resource_string( R.string.volume_settings ), DEFAULT_VOLUME );
+        short_options[OPTION_VOLUME_MUSIC - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_resource_string( R.string.music_volume_settings ), DEFAULT_VOLUME );
         short_options[OPTION_GAME_SIZE - SHORT_OFFSET] = (short) dao.Get_property(
                 Page.Get_resource_string( R.string.game_size_settings ), DEFAULT_GAME_SIZE );
         short_options[OPTION_BRIGHTNESS - SHORT_OFFSET] = (short) dao.Get_property(
                 Page.Get_resource_string( R.string.brightness_settings ), DEFAULT_BRIGHTNESS );
-        short_options[OPTION_AUDIO_OUTPUT - SHORT_OFFSET] = (short) dao.Get_property(
-                Page.Get_resource_string( R.string.audio_output_settings ), DEFAULT_AUDIO_OUTPUT );
+        short_options[OPTION_VOLUME_SOUND - SHORT_OFFSET] = (short) dao.Get_property(
+                Page.Get_resource_string( R.string.sound_volume_settings ), DEFAULT_VOLUME );
     }
 
 
@@ -197,7 +191,7 @@ public class OptionsDataAccess {
 
     public void Reset_audio_options() {
         Set_boolean_option( OPTION_IS_MUTED, false );
-        Set_short_option( OPTION_VOLUME, DEFAULT_VOLUME );
-        Set_short_option( OPTION_AUDIO_OUTPUT, DEFAULT_AUDIO_OUTPUT );
+        Set_short_option( OPTION_VOLUME_MUSIC, DEFAULT_VOLUME );
+        Set_short_option( OPTION_VOLUME_SOUND, DEFAULT_VOLUME );
     }
 }

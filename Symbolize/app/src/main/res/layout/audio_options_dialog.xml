@@ -19,21 +19,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp"
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/options_audio_output"
+            android:layout_gravity="center_vertical"
+            android:text="@string/options_music_volume"
+            android:layout_marginRight="5dp"
             style="@style/text"/>
-        <Spinner
-            android:id="@+id/options_audio_output_spinner"
+        <EditText
+            android:id="@+id/options_music_volume_seekbar_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/audio_output_options"
-            style="@style/dropdown"/>
+            android:layout_height="match_parent"
+            android:text="100"
+            android:layout_gravity="center_vertical"
+            style="@style/input_text"/>
     </LinearLayout>
-
+    <SeekBar
+        android:id="@+id/options_music_volume_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="100"
+        style="@style/options_spinner"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,11 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/options_volume"
+            android:text="@string/options_sound_volume"
             android:layout_marginRight="5dp"
             style="@style/text"/>
         <EditText
-            android:id="@+id/options_volume_seekbar_text"
+            android:id="@+id/options_sound_volume_seekbar_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="100"
@@ -55,7 +63,7 @@
             style="@style/input_text"/>
     </LinearLayout>
     <SeekBar
-        android:id="@+id/options_volume_seekbar"
+        android:id="@+id/options_sound_volume_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:progress="100"

@@ -81,7 +81,7 @@ public class MusicController {
         if( mute ) {
             mp.setVolume( 0, 0 );
         } else {
-            final float volume = (float) OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME ) / 1000;
+            final float volume = (float) OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME_SOUND ) / 1000;
             mp.setVolume( volume, volume );
         }
 
@@ -164,7 +164,7 @@ public class MusicController {
     }
 
     /*
-     * Simple method for adjusting the volume.
+     * Simple method for adjusting the music volume.
      */
     public static void Set_volume() {
         if( music_disabled ) return;
@@ -174,32 +174,8 @@ public class MusicController {
         if( mute ) {
             mp.setVolume( 0, 0 );
         } else {
-            final float volume = (float) OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME ) / 1000;
+            final float volume = (float) OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_VOLUME_MUSIC ) / 1000;
             mp.setVolume( volume, volume );
-        }
-    }
-
-    /*
-     * Simple method for setting the audio output method.
-     */
-    public static void Set_output() {
-        if( music_disabled ) return;
-        final short output = OptionsDataAccess.Get_instance().Get_short_option( OptionsDataAccess.OPTION_AUDIO_OUTPUT );
-
-        switch ( output ) {
-            case OptionsDataAccess.AUDIO_SPEAKERS:
-                audio_manager.setMode( AudioManager.MODE_IN_CALL );
-                audio_manager.setSpeakerphoneOn( true );
-                break;
-
-            case OptionsDataAccess.AUDIO_HEADPHONES:
-                // ?
-                break;
-
-            default:
-                audio_manager.setMode( AudioManager.MODE_NORMAL );
-                audio_manager.setSpeakerphoneOn( true );
-                break;
         }
     }
 }
