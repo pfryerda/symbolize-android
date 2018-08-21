@@ -71,9 +71,8 @@
 
     <string-array name="world_5_hints">
         <item level="5-0" solution=":D">Go to the end</item>
-        <item level="5-1" solution="Path">Build a closed tunnel for the left line to go
-            through.</item>
-        <item level="5-2" solution="Ladder">This will help you climb</item>
+        <item level="5-1" solution="Ladder">This will help you climb</item>
+        <item level="5-2" solution="Piano">Used to make music</item>
         <item level="5-3" solution="Bowtie">___ tie</item>
         <item level="5-4" solution="Infinity">&#x221e; + 1</item>
         <item level="5-5" solution="Diamond">One of the main card suites</item>
