@@ -30,6 +30,7 @@ import java.util.TimerTask;
 
 import app.symbolize.Common.MusicController;
 import app.symbolize.Common.Session;
+import app.symbolize.DataAccess.MetaDataAccess;
 import app.symbolize.Game.GameUIView;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
@@ -183,7 +184,19 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         main_animation_set.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart( Animation animation ) {
-                ((ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon );
+                byte currentWorld = MetaDataAccess.Get_instance().Get_last_world();
+                if ( currentWorld == 2 ) {
+                    ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon_2 );
+                } else if ( currentWorld == 3 ) {
+                    ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon_3 );
+                } else if ( currentWorld == 4 ) {
+                    ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon_4 );
+                } else if ( currentWorld == 5 ) {
+                    ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon_5 );
+                } else {
+                    ( (ImageButton) findViewById( R.id.Start ) ).setImageResource( R.drawable.icon_1 );
+                }
+
                 findViewById( R.id.Start ).setVisibility( View.VISIBLE );
                 findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );
                 findViewById( R.id.Settings_bubble ).setVisibility( View.VISIBLE );
@@ -256,7 +269,6 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         }
         final ImageButton icon = (ImageButton) findViewById( R.id.Start );
         icon.clearAnimation();
-        icon.setImageResource( R.drawable.icon );
         icon.setVisibility( View.VISIBLE );
 
         findViewById( R.id.Mute_bubble ).setVisibility( View.VISIBLE );

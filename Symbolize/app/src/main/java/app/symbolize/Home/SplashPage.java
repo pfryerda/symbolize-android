@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
@@ -34,6 +35,7 @@ public class SplashPage extends Page {
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
+
         Fabric.with(this, new Crashlytics());
         setContentView( R.layout.activity_splash );
         Page.Set_not_game_page();
