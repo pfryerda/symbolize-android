@@ -25,6 +25,7 @@ public class MusicController {
     public static final int SWIWSH_SOUND = 12;
     public static final int SWISH2_SOUND = 13;
     public static final int CORRECT_SOUND = 14;
+    public static final int CLICK_SOUND = 15;
 
     // Private fields
     //-----------------
@@ -62,6 +63,10 @@ public class MusicController {
 
                 case CORRECT_SOUND:
                     mp = MediaPlayer.create( context, R.raw.complete );
+                    break;
+
+                case CLICK_SOUND:
+                    mp = MediaPlayer.create( context, R.raw.click );
                     break;
 
                 default:

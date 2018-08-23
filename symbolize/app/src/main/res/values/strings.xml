@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Version number -->
-    <string name="version_number">v. 0.8.2</string>
+    <string name="version_number">v. 0.9.0</string>
 
     <!-- System strings -->
     <string name="app_name">Symbolize</string>
@@ -153,6 +153,7 @@
         <a href="https://freesound.org/people/daalvinz/sounds/364215/">"Sniffing"</a> by
         <a href="https://freesound.org/people/daalvinz/">"daalvinz"</a>\n
         <a href="https://freesound.org/people/beskhu/sounds/273891/">"Windchime C4 a"</a> by
+        <a href="https://freesound.org/people/beskhu/sounds/149716/">"Goutte 1 a"</a>
         <a href="https://freesound.org/people/beskhu/">beskhu</a>
     </string>
     <string name="about_sound_source">

@@ -129,7 +129,7 @@ public class GamePage extends Page
             Session session = Session.Get_instance();
 
             if ( session.Is_in_world_view() ) {
-                MusicController.PlaySound( this, MusicController.POP_SOUND );
+                MusicController.PlaySound( this, MusicController.CLICK_SOUND );
                 MusicController.Reset();
                 Router.Route( this, HomePage.class );
             } else {
@@ -155,7 +155,7 @@ public class GamePage extends Page
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
         options_dialog.Show();
-        MusicController.PlaySound( this, MusicController.POP_SOUND );
+        MusicController.PlaySound( this, MusicController.CLICK_SOUND );
     }
 
     public void On_reset_button_clicked( final View view ) {
@@ -215,6 +215,7 @@ public class GamePage extends Page
 
                         @Override
                         public void OnDialogFail() {
+                            MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         }
                     });
                     confirmDialog.Show();
@@ -248,11 +249,14 @@ public class GamePage extends Page
 
                         @Override
                         public void OnDialogFail() {
+                            MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         }
                     });
                     confirmDialog.Show();
                 }
 
+            } else {
+                MusicController.PlaySound( this, MusicController.CLICK_SOUND );
             }
         }
     }
@@ -262,7 +266,7 @@ public class GamePage extends Page
             final HintDialog hint_dialog = new HintDialog();
             hint_dialog.Set_Button( (ImageButton) findViewById( R.id.Hint ) );
             hint_dialog.Show();
-            MusicController.PlaySound( this, MusicController.POP_SOUND );
+            MusicController.PlaySound( this, MusicController.CLICK_SOUND );
         }
     }
 
@@ -276,13 +280,13 @@ public class GamePage extends Page
     public void On_draw_button_clicked( final View view ) {
         Session.Get_instance().Set_draw_mode();
         GameUIView.Highlight_current_mode();
-        MusicController.PlaySound( this, MusicController.POP_SOUND );
+        MusicController.PlaySound( this, MusicController.CLICK_SOUND );
     }
 
     public void On_erase_button_clicked( final View view ) {
         Session.Get_instance().Set_erase_mode();
         GameUIView.Highlight_current_mode();
-        MusicController.PlaySound( this, MusicController.POP_SOUND );
+        MusicController.PlaySound( this, MusicController.CLICK_SOUND );
     }
 
 

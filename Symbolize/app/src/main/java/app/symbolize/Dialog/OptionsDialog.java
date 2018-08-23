@@ -3,6 +3,7 @@ package app.symbolize.Dialog;
 import android.view.View;
 import android.widget.ImageButton;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.Home.HomePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
@@ -31,6 +32,7 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.game_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 GameOptionsDialog game_options_dialog = new GameOptionsDialog();
                 game_options_dialog.Show();
             }
@@ -39,6 +41,7 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.video_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 VideoOptionsDialog video_options_dialog = new VideoOptionsDialog();
                 video_options_dialog.Set_parent_dialog( OptionsDialog.this );
                 video_options_dialog.Show();
@@ -48,6 +51,7 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.audio_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 AudioOptionsDialog audio_options_dialog = new AudioOptionsDialog();
                 audio_options_dialog.Show();
             }
@@ -56,6 +60,7 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.data_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 DataOptionsDialog data_options_dialog = new DataOptionsDialog();
                 data_options_dialog.Show();
             }
@@ -64,6 +69,7 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.about_options_button ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 AboutDialog about_options_dialog = new AboutDialog();
                 about_options_dialog.Show();
             }
@@ -72,12 +78,14 @@ public class OptionsDialog extends InfoDialog {
         dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.revert ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         final OptionsDataAccess options_dao = OptionsDataAccess.Get_instance();
                         options_dao.Reset_game_options();
                         options_dao.Reset_audio_options();
@@ -87,10 +95,14 @@ public class OptionsDialog extends InfoDialog {
                     }
 
                     @Override
-                    public void onDialogNeutral() {}
+                    public void onDialogNeutral() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
 
                     @Override
-                    public void OnDialogFail() {}
+                    public void OnDialogFail() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
                 } );
                 confirmDialog.Show();
             }

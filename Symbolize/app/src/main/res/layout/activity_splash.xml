@@ -10,11 +10,10 @@
     android:id="@+id/page">
 
     <ImageView
-        android:id="@+id/Start"
+        android:id="@+id/Start_Splash"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="On_start_button_clicked"
         android:src="@drawable/icon_splash"
         style="@style/image"/>
 

@@ -11,6 +11,7 @@ import android.widget.SeekBar;
 
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
+import app.symbolize.Common.MusicController;
 import app.symbolize.Common.Session;
 import app.symbolize.Routing.Page;
 import app.symbolize.DataAccess.OptionsDataAccess;
@@ -58,6 +59,7 @@ public class VideoOptionsDialog extends OptionDialog {
         show_animation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Toggle_boolean_option(OptionsDataAccess.OPTION_SHOW_ANIMATIONS);
                 update_animations();
             }
@@ -112,6 +114,7 @@ public class VideoOptionsDialog extends OptionDialog {
         use_device_brightness_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_USE_DEVICE_BRIGHTNESS );
                 init_dialog_view( dialog_view );
                 GameUIView.Set_brightness();
@@ -130,10 +133,13 @@ public class VideoOptionsDialog extends OptionDialog {
             }
 
             @Override
-            public void onStartTrackingTouch( SeekBar seekBar ) {}
+            public void onStartTrackingTouch( SeekBar seekBar ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+            }
 
             @Override
             public void onStopTrackingTouch( SeekBar seekBar ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Set_short_option( OptionsDataAccess.OPTION_BRIGHTNESS, progress_change );
                 brightness_text.setText( progress_change + "" );
             }
@@ -162,22 +168,28 @@ public class VideoOptionsDialog extends OptionDialog {
         dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.revert ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         options_dao.Reset_video_options();
                         init_dialog_view( dialog_view );
                         update_animations();
                     }
 
                     @Override
-                    public void onDialogNeutral() {}
+                    public void onDialogNeutral() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
 
                     @Override
-                    public void OnDialogFail() {}
+                    public void OnDialogFail() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
                 } );
                 confirmDialog.Show();
             }

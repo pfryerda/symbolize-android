@@ -5,9 +5,9 @@
         <unlock>9</unlock>
     </unlocks>
 	<force_border>false</force_border>
-    <draw_restriction>1</draw_restriction>
-    <erase_restriction>1</erase_restriction>
-    <drag_restriction>0</drag_restriction>
+    <draw_restriction>0</draw_restriction>
+    <erase_restriction>0</erase_restriction>
+    <drag_restriction>1</drag_restriction>
     <rotate_enabled>true</rotate_enabled>
     <flip_enabled>false</flip_enabled>
     <colour_enabled>false</colour_enabled>

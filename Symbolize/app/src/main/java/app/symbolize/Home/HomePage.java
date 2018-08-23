@@ -143,6 +143,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
             @Override
             public void onAnimationEnd(Animation animation) {
                 placeholder.setVisibility( View.GONE );
+                placeholder.setVisibility( View.GONE );
             }
         } );
 
@@ -284,7 +285,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
 
     public void On_start_button_clicked(final View view) {
         if( is_intro_done ) {
-            MusicController.PlaySound( this, MusicController.POP_SOUND );
+            MusicController.PlaySound( this, MusicController.CLICK_SOUND );
             MusicController.Reset();
             Router.Route(this, GamePage.class);
         }
@@ -303,7 +304,7 @@ public class HomePage extends Page implements SurfaceHolder.Callback, MediaPlaye
         OptionsDialog options_dialog = new OptionsDialog();
         options_dialog.Set_Button( (ImageButton) findViewById( R.id.Settings ) );
         options_dialog.Show();
-        MusicController.PlaySound( this, MusicController.POP_SOUND );
+        MusicController.PlaySound( this, MusicController.CLICK_SOUND );
     }
 
 

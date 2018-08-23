@@ -10,6 +10,7 @@ import android.widget.CheckedTextView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.Routing.Page;
 import app.symbolize.Common.Session;
 import app.symbolize.DataAccess.MetaDataAccess;
@@ -75,12 +76,14 @@ public class DataOptionsDialog extends OptionDialog {
         dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.delete ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs( getString( R.string.delete_all_data_title ), getString( R.string.delete_all_data_msg ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         UnlocksDataAccess.Get_instance().Remove_all_unlocks();
                         ProgressDataAccess.Get_instance().Remove_all_progress();
                         MetaDataAccess.Get_instance().Reset_meta_data_access();
@@ -91,10 +94,14 @@ public class DataOptionsDialog extends OptionDialog {
                     }
 
                     @Override
-                    public void onDialogNeutral() {}
+                    public void onDialogNeutral() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
 
                     @Override
-                    public void OnDialogFail() {}
+                    public void OnDialogFail() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
                 } );
                 confirmDialog.Show();
             }

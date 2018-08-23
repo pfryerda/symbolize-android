@@ -5,6 +5,7 @@ import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import app.symbolize.Common.Communication.Request;
 import app.symbolize.Common.Communication.Response;
+import app.symbolize.Common.MusicController;
 import app.symbolize.DataAccess.OptionsDataAccess;
 import app.symbolize.Routing.Page;
 import app.symbolize.Game.GameController;
@@ -36,6 +37,7 @@ public class GameOptionsDialog extends OptionDialog {
         show_graph.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_GRID );
                 if ( Page.Is_Game_page() ) {
                     GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
@@ -48,6 +50,7 @@ public class GameOptionsDialog extends OptionDialog {
         show_border.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_BORDER );
                 if ( Page.Is_Game_page() ) {
                     GameController.Get_instance().Handle_request( new Request( Request.Background_change ),
@@ -61,6 +64,7 @@ public class GameOptionsDialog extends OptionDialog {
         snap_drawing.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Toggle_boolean_option( OptionsDataAccess.OPTION_SNAP_DRAWING );
             }
         } );
@@ -68,21 +72,27 @@ public class GameOptionsDialog extends OptionDialog {
         dialog_view.findViewById( R.id.options_reset_to_default ).setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.revert ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs( getString( R.string.revert_to_default_title ), getString( R.string.revert_to_default_message ) );
                 confirmDialog.SetConfirmationListener( new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         options_dao.Reset_game_options();
                         init_dialog_view( dialog_view );
                     }
 
                     @Override
-                    public void onDialogNeutral() {}
+                    public void onDialogNeutral() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
 
                     @Override
-                    public void OnDialogFail() {}
+                    public void OnDialogFail() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
                 } );
                 confirmDialog.Show();
             }

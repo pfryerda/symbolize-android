@@ -63,10 +63,12 @@ public class AudioOptionsDialog extends OptionDialog {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME_MUSIC, progress_change);
                 music_volume_text.setText( progress_change + "" );
             }
@@ -105,10 +107,12 @@ public class AudioOptionsDialog extends OptionDialog {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 options_dao.Set_short_option(OptionsDataAccess.OPTION_VOLUME_SOUND, progress_change);
                 sound_volume_text.setText( progress_change + "" );
             }
@@ -136,22 +140,27 @@ public class AudioOptionsDialog extends OptionDialog {
         dialog_view.findViewById(R.id.options_reset_to_default).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 final ConfirmDialog confirmDialog = new ConfirmDialog();
                 confirmDialog.Set_Button_Text( Page.Get_resource_string( R.string.revert ), Page.Get_resource_string( R.string.cancel ) );
                 confirmDialog.Set_attrs(getString(R.string.revert_to_default_title), getString(R.string.revert_to_default_message));
                 confirmDialog.SetConfirmationListener(new ConfirmDialog.ConfirmDialogListener() {
                     @Override
                     public void OnDialogSuccess() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                         options_dao.Reset_audio_options();
                         init_dialog_view(dialog_view);
                         if ( !Page.Is_Game_page() ) HomePage.Set_sound_image();
                     }
 
                     @Override
-                    public void onDialogNeutral() {}
+                    public void onDialogNeutral() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
+                    }
 
                     @Override
                     public void OnDialogFail() {
+                        MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                     }
                 });
                 confirmDialog.Show();

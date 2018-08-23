@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import app.symbolize.Common.MusicController;
 import app.symbolize.Routing.Page;
 import app.symbolize.R;
 

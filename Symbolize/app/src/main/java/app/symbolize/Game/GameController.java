@@ -145,20 +145,26 @@ public class GameController {
                     case Request.Change_color:
                     case Request.Drag_start:
                     case Request.Drag_end:
+                    case Request.SPECIAL_NONE:
+                    case Request.SPECIAL_SLOPE_ZERO:
+                    case Request.SPECIAL_SLOPE_INF:
+                    case Request.SPECIAL_INVERT_SELF:
+                    case Request.SPECIAL_COMPRESS:
+                    case Request.SPECIAL_REFLECT:
                         MusicController.PlaySound( GamePage.Get_context(), MusicController.POP_SOUND );
                         break;
 
                     case Request.Rotate_right:
                     case Request.Rotate_left:
                     case Request.Shift:
-                    case Request.Load_world_via_level:
+                    case Request.Load_puzzle_left:
+                    case Request.Load_puzzle_right:
                         MusicController.PlaySound( GamePage.Get_context(), MusicController.SWIWSH_SOUND );
                         break;
 
                     case Request.Flip_horizontally:
                     case Request.Flip_vertically:
-                    case Request.Load_puzzle_left:
-                    case Request.Load_puzzle_right:
+                    case Request.Load_world_via_level:
                     case Request.Load_level_via_world:
                         MusicController.PlaySound( GamePage.Get_context(), MusicController.SWISH2_SOUND );
                         break;

@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import app.symbolize.Common.MusicController;
+import app.symbolize.Game.GamePage;
 import app.symbolize.Routing.Page;
 import app.symbolize.R;
 
@@ -33,6 +35,7 @@ public class InfoDialog extends SymbolizeDialog {
         close_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                MusicController.PlaySound( Page.Get_context(), MusicController.CLICK_SOUND );
                 Dismiss();
             }
         } );
